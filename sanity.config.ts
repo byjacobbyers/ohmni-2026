@@ -9,6 +9,8 @@ import {defineConfig} from 'sanity'
 import {structureTool} from 'sanity/structure'
 import {codeInput} from '@sanity/code-input'
 import {presentationTool} from 'sanity/presentation'
+import {muxInput} from 'sanity-plugin-mux-input'
+import {media} from 'sanity-plugin-media'
 
 import {apiVersion, dataset, projectId} from './sanity/env'
 import {schema} from './sanity/schemas'
@@ -26,6 +28,8 @@ export default defineConfig({
   plugins: [
     structureTool({structure}),
     codeInput(),
+    media(),
+    muxInput(),
     presentationTool({
       previewUrl: {
         origin: process.env.SANITY_STUDIO_PREVIEW_ORIGIN || baseUrl,
@@ -51,4 +55,12 @@ export default defineConfig({
     }),
     visionTool({defaultApiVersion: apiVersion}),
   ],
+  document: {
+    newDocumentOptions: (prev, { creationContext }) => {
+      if (creationContext.type === 'global') {
+        return prev.filter((template) => template.templateId !== 'mux.videoAsset')
+      }
+      return prev
+    },
+  },
 })

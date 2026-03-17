@@ -7,7 +7,7 @@ import Route from '@/components/route'
 import MenuButton from '@/components/header/menu-button'
 import MobileNav from '@/components/navigation/mobile'
 import { BaseRouteType } from '@/types/objects/route-type'
-import { m } from 'framer-motion'
+import { motion } from 'framer-motion'
 
 type HeaderProps = {
   navigation?: { items?: BaseRouteType[] } | null
@@ -40,27 +40,34 @@ export default function Header({ navigation }: HeaderProps) {
     }
   }, [isOpen])
 
+  const closeMenu = () => {
+    toggleDropdown()
+  }
+
   return (
     <>
       <header
         ref={headerRef}
-        className="sticky top-0 z-50 w-full border-b-4 border-black bg-background px-5"
+        className="sticky top-0 z-50 w-full border-b-4 border-primary bg-background px-5"
       >
         <div className="flex h-16 items-center justify-between">
-          <Link href="/">
+          <Link href="/" className='flex items-end gap-2'>
             <h1
-              className="text-2xl font-bold tracking-[-0.25rem] leading-none p-0 lg:text-3xl"
+              className="text-2xl font-bold leading-none p-0 lg:text-3xl"
               title="Wiggelrhum"
             >
               Wiggelrhum
             </h1>
+            <span className='text-sm uppercase'>
+              At the baker house
+            </span>
           </Link>
-          <nav className="hidden lg:flex items-center gap-6">
+          <nav className="hidden lg:flex items-center gap-6 text-lg 2xl:text-2xl">
             {navigation?.items?.map((item, i) => (
               <Route
                 key={i}
                 data={item}
-                className="text-sm font-medium hover:opacity-80"
+                className="font-bold uppercase hover:underline"
               >
                 {item.title || 'Link'}
               </Route>
@@ -76,25 +83,27 @@ export default function Header({ navigation }: HeaderProps) {
         </div>
       </header>
 
-      <m.div
-        className={`fixed inset-0 z-40 xl:hidden bg-background ${!isOpen ? 'pointer-events-none' : ''}`}
-        style={{ paddingTop: dimensions.height }}
-        initial={false}
-        animate={
-          isOpen
-            ? { opacity: 1, visibility: 'visible' }
-            : { opacity: 0, visibility: 'hidden' }
-        }
-        transition={{ duration: 0.2 }}
+      <motion.div
+        initial={'closed'}
+        animate={isOpen ? 'open' : 'closed'}
+        transition={{ duration: 1, ease: [0.83, 0, 0.17, 1] }}
+        variants={{
+          closed: {
+            y: '-100%',
+            opacity: 0,
+          },
+          open: {
+            y: 0,
+            opacity: 1,
+          },
+        }}
+        style={{
+          paddingTop: dimensions.height,
+        }}
+        className='fixed left-0 top-0 z-40 flex h-screen w-screen flex-col items-center overflow-scroll bg-background px-5 text-center xl:hidden'
       >
-        {isOpen && (
-          <div className="flex flex-col items-center justify-start pt-8 px-5">
-            {navigation ? (
-              <MobileNav data={navigation} closeMenu={() => toggleDropdown()} />
-            ) : null}
-          </div>
-        )}
-      </m.div>
+        {navigation && <MobileNav data={navigation} closeMenu={closeMenu} />}
+      </motion.div>
     </>
   )
 }

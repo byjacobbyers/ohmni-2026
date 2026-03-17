@@ -7,7 +7,7 @@ export default defineType({
   title: 'Navigation',
   icon: LinkIcon,
   fields: [
-    defineField({ type: 'string', name: 'title' }),
+    defineField({ type: 'string', name: 'title', hidden: true }),
     defineField({
       type: 'array',
       name: 'items',

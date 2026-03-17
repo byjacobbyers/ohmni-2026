@@ -3,7 +3,6 @@
 # dependencies
 /node_modules
 /.pnp
-/.pnpm-store
 .pnp.*
 .yarn/*
 !.yarn/patches
@@ -17,6 +16,13 @@
 # next.js
 /.next/
 /out/
+
+# cursor
+/.cursor/
+
+# pnpm store
+/.pnpm-store/
+
 
 # production
 /build

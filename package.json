@@ -9,12 +9,17 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@mux/mux-player-react": "^3.11.5",
     "@portabletext/react": "^6.0.3",
+    "@radix-ui/react-accordion": "^1.2.12",
+    "@radix-ui/react-label": "^2.1.8",
     "@radix-ui/react-navigation-menu": "^1.2.14",
     "@radix-ui/react-slot": "^1.2.4",
+    "@radix-ui/react-switch": "^1.2.6",
     "@sanity/code-input": "^7.0.11",
     "@sanity/icons": "^3.7.4",
     "@sanity/image-url": "^1.2.0",
+    "@sanity/ui": "^3.1.13",
     "@sanity/vision": "^4.22.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -27,7 +32,10 @@
     "next-sanity": "^11.6.12",
     "react": "19.2.3",
     "react-dom": "19.2.3",
+    "resend": "^6.9.3",
     "sanity": "^4.22.0",
+    "sanity-plugin-media": "^4.1.1",
+    "sanity-plugin-mux-input": "^2.17.0",
     "styled-components": "^6.3.11",
     "tailwind-merge": "^3.5.0"
   },

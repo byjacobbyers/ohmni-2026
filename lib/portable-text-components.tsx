@@ -8,6 +8,11 @@ type LinkWithRouteValue = {
 }
 
 export const portableTextComponents = {
+  block: {
+    small: ({ children }: { children?: React.ReactNode }) => (
+      <p className="text-sm">{children}</p>
+    ),
+  },
   types: {
     defaultImage: ({
       value,

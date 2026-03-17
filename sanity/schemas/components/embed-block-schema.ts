@@ -33,6 +33,12 @@ export default defineType({
       type: 'string',
     }),
     defineField({
+      title: 'Title',
+      name: 'title',
+      type: 'string',
+      description: 'Optional heading displayed above the embed',
+    }),
+    defineField({
       title: 'Embed Code',
       name: 'embedCode',
       type: 'code',

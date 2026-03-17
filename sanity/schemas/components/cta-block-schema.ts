@@ -15,6 +15,18 @@ export default defineType({
     }),
     defineField({ title: 'Anchor', name: 'anchor', type: 'string' }),
     defineField({
+      title: 'Background Color',
+      name: 'backgroundColor',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Primary', value: 'primary' },
+          { title: 'Secondary', value: 'secondary' },
+        ],
+      },
+      initialValue: 'primary',
+    }),
+    defineField({
       title: 'Alignment',
       name: 'alignment',
       type: 'string',
@@ -29,8 +41,9 @@ export default defineType({
     }),
     defineField({
       name: 'content',
-      type: 'array',
-      of: [{ type: 'block' }],
+      title: 'Content',
+      type: 'simpleText',
+      description: 'Text displayed above the button',
     }),
     defineField({ title: 'CTA', name: 'cta', type: 'cta' }),
   ],

@@ -28,6 +28,7 @@ type EmbedBlockProps = {
   active?: boolean
   componentIndex?: number
   anchor?: string
+  title?: string | null
   embedCode?: EmbedCodeValue
   maxWidth?: string
 }
@@ -36,6 +37,7 @@ export default function EmbedBlock({
   active = true,
   componentIndex = 0,
   anchor,
+  title,
   embedCode,
   maxWidth = 'max-w-2xl',
 }: EmbedBlockProps) {
@@ -50,7 +52,7 @@ export default function EmbedBlock({
   return (
     <section
       id={anchor || `embed-block-${componentIndex}`}
-      className="embed-block w-full flex justify-center px-5 py-12"
+      className="embed-block w-full flex justify-center px-5"
     >
       <motion.div
         className={`w-full ${maxWidth} mx-auto`}
@@ -58,6 +60,9 @@ export default function EmbedBlock({
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
       >
+        {title ? (
+          <h2 className="text-center mb-6">{title}</h2>
+        ) : null}
         <div className="relative w-full aspect-4/3 min-h-[300px] rounded-lg overflow-hidden border border-border">
           <iframe
             src={iframeSrc}

@@ -15,6 +15,18 @@ export default defineType({
     }),
     defineField({ title: 'Anchor', name: 'anchor', type: 'string' }),
     defineField({
+      title: 'Background Color',
+      name: 'backgroundColor',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Primary', value: 'primary' },
+          { title: 'Secondary', value: 'secondary' },
+        ],
+      },
+      initialValue: 'primary',
+    }),
+    defineField({
       title: 'Content Alignment',
       name: 'contentAlignment',
       type: 'string',

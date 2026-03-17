@@ -14,6 +14,36 @@ const portableTextWithLinks = `content[] {
 export const sectionsQuery = groq`
   sections[] {
     ...,
+    _type == 'coverBlock' => {
+      ...,
+      image { ${imageQuery} },
+      imageMobile { ${imageQuery} },
+      content[] {
+        ...,
+        markDefs[] {
+          ...,
+          _type == 'linkWithRoute' => { route { ${routeQuery} } }
+        }
+      },
+      cta { ..., route { ${routeQuery} } }
+    },
+    _type == 'coverVideo' => {
+      ...,
+      muxUrl {
+        asset-> { playbackId }
+      },
+      muxUrlMobile {
+        asset-> { playbackId }
+      },
+      content[] {
+        ...,
+        markDefs[] {
+          ...,
+          _type == 'linkWithRoute' => { route { ${routeQuery} } }
+        }
+      },
+      cta { ..., route { ${routeQuery} } }
+    },
     _type == 'heroBlock' => {
       ...,
       image { ${imageQuery} },
@@ -24,16 +54,45 @@ export const sectionsQuery = groq`
     _type == 'ctaBlock' => {
       ...,
       cta { ..., route { ${routeQuery} } },
-      image { ${imageQuery} }
+      ${portableTextWithLinks}
     },
     _type == 'textBlock' => {
       ...,
       ${portableTextWithLinks}
     },
     _type == 'embedBlock' => { ... },
+    _type == 'formBlock' => {
+      ...,
+      ${portableTextWithLinks}
+    },
     _type == 'imageBlock' => {
       ...,
-      image { ${imageQuery} }
+      image { ${imageQuery} },
+      imageMobile { ${imageQuery} }
+    },
+    _type == 'columnBlock' => {
+      ...,
+      columns[] {
+        ...,
+        content[] {
+          ...,
+          markDefs[] {
+            ...,
+            _type == 'linkWithRoute' => { route { ${routeQuery} } }
+          }
+        },
+        image { ${imageQuery} },
+        cta { ..., route { ${routeQuery} } }
+      }
+    },
+    _type == 'galleryBlock' => {
+      ...,
+      images[] { ${imageQuery} }
+    },
+    _type == 'videoBlock' => {
+      ...,
+      muxUrl { asset-> { playbackId } },
+      muxUrlMobile { asset-> { playbackId } }
     },
     _type == 'faqBlock' => {
       ...,

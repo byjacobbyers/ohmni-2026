@@ -8,6 +8,8 @@ type ImageBlockProps = {
   componentIndex?: number
   anchor?: string
   image?: { asset?: { url?: string }; alt?: string; crop?: unknown; hotspot?: unknown } | null
+  imageMobile?: { asset?: { url?: string }; alt?: string; crop?: unknown; hotspot?: unknown } | null
+  maxWidth?: string
 }
 
 export default function ImageBlock({
@@ -15,8 +17,12 @@ export default function ImageBlock({
   componentIndex = 0,
   anchor,
   image,
+  imageMobile,
+  maxWidth = 'max-w-2xl',
 }: ImageBlockProps) {
   if (!active) return null
+
+  const mobileImage = imageMobile ?? image
 
   return (
     <section
@@ -24,18 +30,35 @@ export default function ImageBlock({
       className="image-block w-full flex justify-center px-5 py-12"
     >
       <div className="container flex flex-col items-center gap-6">
-        {image ? (
+        {image || mobileImage ? (
           <motion.div
-            className="relative w-full aspect-video"
+            className={`relative w-full ${maxWidth} mx-auto`}
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
           >
-            <SanityImage
-              image={image}
-              alt={image.alt || 'Image'}
-              className="object-cover rounded-lg"
-            />
+            {image ? (
+              <div className="hidden md:block relative w-full">
+                <SanityImage
+                  image={image}
+                  fill={false}
+                  alt={image.alt || 'Hero'}
+                  className="w-full h-auto object-cover"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                />
+              </div>
+            ) : null}
+            {mobileImage ? (
+              <div className="md:hidden relative w-full">
+                <SanityImage
+                  image={mobileImage}
+                  fill={false}
+                  alt={(mobileImage as { alt?: string }).alt || 'Hero'}
+                  className="w-full h-auto object-cover"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                />
+              </div>
+            ) : null}
           </motion.div>
         ) : null}
       </div>

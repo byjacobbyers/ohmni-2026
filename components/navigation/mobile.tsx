@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -21,10 +22,23 @@ export default function MobileNav({ data, closeMenu }: MobileNavProps) {
   return (
     <NavigationMenu viewport={false} className="w-full max-w-none">
       <NavigationMenuList className="flex w-full flex-col gap-y-5 p-0">
+        <NavigationMenuItem
+          key={'header-0'}
+          id={'header-0'}
+          className="w-full"
+          onClick={handleItemClick}
+        >
+          <Link
+            href="/"
+            className="flex w-full justify-center text-2xl"
+          >
+            Home
+          </Link>
+        </NavigationMenuItem>
         {data.items?.map((item, index) => (
           <NavigationMenuItem
-            key={'header' + index}
-            id={'header' + index}
+            key={'header' + index + 1}
+            id={'header' + index + 1}
             className="w-full"
             onClick={handleItemClick}
           >
