@@ -1,22 +1,15 @@
-import { Merriweather_Sans, Merriweather, JetBrains_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 
-export const sans = Merriweather_Sans({
-  subsets: ['latin'],
-  display: 'swap',
+// `globals.css` defines the font stacks via CSS variables (e.g. `--font-sans: Inter, ...`).
+// Here we load Inter so the `--font-sans` variable points to the actual webfont.
+export const sans = Inter({
+  subsets: ["latin"],
+  display: "swap",
   variable: "--font-sans",
-  weight: ['300', '400', '500', '600', '700'],
+  weight: ["300", "400", "500", "600", "700"],
 });
 
-export const serif = Merriweather({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: "--font-serif",
-  weight: ['300', '400', '700'],
-});
-
-export const mono = JetBrains_Mono({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: "--font-mono",
-  weight: ['400', '500', '600', '700'],
-});
+// For serif/mono, `globals.css` uses system stacks (`ui-serif`, `ui-monospace`).
+// Avoid overriding them here so the styling stays consistent with `globals.css`.
+export const serif = { variable: "" } as const;
+export const mono = { variable: "" } as const;
