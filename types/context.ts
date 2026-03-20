@@ -10,6 +10,8 @@ export type CookieConsent = {
   ad_storage: boolean
   analytics_storage: boolean
   functionality_storage: boolean
+  ad_user_data: boolean
+  ad_personalization: boolean
 }
 
 export type AppContextType = {

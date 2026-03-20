@@ -1,17 +1,7 @@
 'use client'
 
-import { useEffect } from 'react'
-import { initializeGTM, setDefaultConsent } from '@/lib/gtm'
-
+// Deprecated: GTM loads via @next/third-parties/google and consent bootstrap in app/(site)/layout.tsx.
+// Kept as a no-op to avoid breaking imports.
 export function GTMInit() {
-  useEffect(() => {
-    const gtmId = process.env.NEXT_PUBLIC_GTM_ID
-
-    if (gtmId && typeof window !== 'undefined') {
-      initializeGTM(gtmId)
-      setDefaultConsent()
-    }
-  }, [])
-
   return null
 }

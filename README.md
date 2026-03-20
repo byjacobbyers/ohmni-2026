@@ -18,6 +18,12 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
+## Analytics (Google Tag Manager)
+
+- Set **`NEXT_PUBLIC_GTM_ID`** to your container ID (e.g. `GTM-XXXX`) to load GTM via `@next/third-parties/google`. Consent Mode is bootstrapped in `app/(site)/layout.tsx` before GTM loads.
+- Configure **Google Analytics 4 and other tags inside GTM**; do not set a separate GA measurement ID in app code.
+- Optional: **`NEXT_PUBLIC_ENABLE_GEOLOCATION=true`** to call `/api/geolocation` and push a `geolocation_detected` event to the data layer when analytics consent is granted.
+
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
 ## Learn More

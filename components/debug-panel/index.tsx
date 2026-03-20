@@ -1,19 +1,26 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useSyncExternalStore } from 'react'
 import { useApp } from '@/context/app'
 import { Button } from '@/components/ui/button'
 
+function subscribeToWindow() {
+  return () => {}
+}
+
+function getGtmAvailableSnapshot() {
+  if (typeof window === 'undefined') return false
+  return typeof (window as Window & { gtag?: unknown }).gtag === 'function'
+}
+
 export function DebugPanel() {
   const [isOpen, setIsOpen] = useState(false)
-  const [gtmAvailable, setGtmAvailable] = useState(false)
+  const gtmAvailable = useSyncExternalStore(
+    subscribeToWindow,
+    getGtmAvailableSnapshot,
+    () => false
+  )
   const { geolocation, cookieConsent, hasAcceptedCookies } = useApp()
-
-  useEffect(() => {
-    setGtmAvailable(
-      typeof (window as Window & { gtag?: unknown }).gtag === 'function'
-    )
-  }, [])
 
   if (process.env.NODE_ENV !== 'development') {
     return null
@@ -145,6 +152,30 @@ export function DebugPanel() {
                     {cookieConsent.functionality_storage
                       ? 'Granted'
                       : 'Denied'}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Ad user data:</span>
+                  <span
+                    className={
+                      cookieConsent.ad_user_data
+                        ? 'text-green-600'
+                        : 'text-red-600'
+                    }
+                  >
+                    {cookieConsent.ad_user_data ? 'Granted' : 'Denied'}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Ad personalization:</span>
+                  <span
+                    className={
+                      cookieConsent.ad_personalization
+                        ? 'text-green-600'
+                        : 'text-red-600'
+                    }
+                  >
+                    {cookieConsent.ad_personalization ? 'Granted' : 'Denied'}
                   </span>
                 </div>
               </div>

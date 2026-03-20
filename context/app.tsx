@@ -13,7 +13,27 @@ import {
   GeolocationData,
   CookieConsent,
 } from '@/types/context'
-import { trackGeolocation } from '@/lib/gtm'
+import { trackGeolocation, updateConsentMode } from '@/lib/gtm'
+
+function normalizeParsedConsent(raw: Partial<CookieConsent> & Record<string, unknown>): CookieConsent {
+  return {
+    ad_storage: !!raw.ad_storage,
+    analytics_storage: !!raw.analytics_storage,
+    functionality_storage: raw.functionality_storage !== false,
+    ad_user_data: !!raw.ad_user_data,
+    ad_personalization: !!raw.ad_personalization,
+  }
+}
+
+function mapConsentToMode(consent: CookieConsent) {
+  return {
+    ad_storage: consent.ad_storage ? ('granted' as const) : ('denied' as const),
+    analytics_storage: consent.analytics_storage ? ('granted' as const) : ('denied' as const),
+    functionality_storage: consent.functionality_storage ? ('granted' as const) : ('denied' as const),
+    ad_user_data: consent.ad_user_data ? ('granted' as const) : ('denied' as const),
+    ad_personalization: consent.ad_personalization ? ('granted' as const) : ('denied' as const),
+  }
+}
 
 type AppReducerState = Omit<
   AppContextType,
@@ -33,6 +53,8 @@ const initialState: AppReducerState = {
     ad_storage: false,
     analytics_storage: false,
     functionality_storage: true,
+    ad_user_data: false,
+    ad_personalization: false,
   },
   updateCookieConsent: () => {},
   hasAcceptedCookies: false,
@@ -76,20 +98,12 @@ export function AppProvider({ children }: { children: ReactNode }) {
   }
 
   const updateCookieConsent = (consent: Partial<CookieConsent>) => {
-    const newConsent = { ...state.cookieConsent, ...consent }
+    const newConsent: CookieConsent = { ...state.cookieConsent, ...consent }
     dispatch({ type: 'UPDATE_COOKIE_CONSENT', payload: consent })
     dispatch({ type: 'SET_HAS_ACCEPTED_COOKIES', payload: true })
     if (typeof window !== 'undefined') {
       localStorage.setItem('cookieConsent', JSON.stringify(newConsent))
-    }
-    if (typeof window !== 'undefined' && window.gtag) {
-      window.gtag('consent', 'update', {
-        ad_storage: newConsent.ad_storage ? 'granted' : 'denied',
-        analytics_storage: newConsent.analytics_storage ? 'granted' : 'denied',
-        functionality_storage: newConsent.functionality_storage
-          ? 'granted'
-          : 'denied',
-      })
+      updateConsentMode(mapConsentToMode(newConsent), 'update')
     }
   }
 
@@ -98,18 +112,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
     const savedConsent = localStorage.getItem('cookieConsent')
     if (savedConsent) {
       try {
-        const consent = JSON.parse(savedConsent) as CookieConsent
+        const parsed = JSON.parse(savedConsent) as Partial<CookieConsent> & Record<string, unknown>
+        const consent = normalizeParsedConsent(parsed)
         dispatch({ type: 'UPDATE_COOKIE_CONSENT', payload: consent })
         dispatch({ type: 'SET_HAS_ACCEPTED_COOKIES', payload: true })
-        if (window.gtag) {
-          window.gtag('consent', 'update', {
-            ad_storage: consent.ad_storage ? 'granted' : 'denied',
-            analytics_storage: consent.analytics_storage ? 'granted' : 'denied',
-            functionality_storage: consent.functionality_storage
-              ? 'granted'
-              : 'denied',
-          })
-        }
+        updateConsentMode(mapConsentToMode(consent), 'update')
       } catch {
         // ignore
       }
