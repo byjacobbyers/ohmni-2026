@@ -8,6 +8,7 @@ import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 import { Switch } from '@/components/ui/switch'
+import { trackEvent } from '@/lib/gtm'
 
 interface FormData {
   name: string
@@ -90,6 +91,7 @@ export default function FormBlock({
 
       if (response.ok) {
         setSubmitStatus('success')
+        trackEvent('form_submit', { form_name: 'contact', form_type: 'contact' })
         setFormData({
           name: '',
           email: '',
