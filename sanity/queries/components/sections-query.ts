@@ -3,11 +3,17 @@ import { imageQuery } from '../objects/image-query'
 import { routeQuery } from '../objects/route-query'
 import { videoQuery } from '../objects/video-query'
 
+/** Inline link (new) or nested `route` object (legacy portable text). */
+const linkWithRouteMarkDef = `_type == 'linkWithRoute' => select(
+  defined(linkType) => { ${routeQuery} },
+  route { ${routeQuery} }
+)`
+
 const portableTextWithLinks = `content[] {
   ...,
   markDefs[] {
     ...,
-    _type == 'linkWithRoute' => { route { ${routeQuery} } }
+    ${linkWithRouteMarkDef}
   }
 }`
 
@@ -22,7 +28,7 @@ export const sectionsQuery = groq`
         ...,
         markDefs[] {
           ...,
-          _type == 'linkWithRoute' => { route { ${routeQuery} } }
+          ${linkWithRouteMarkDef}
         }
       },
       cta { ..., route { ${routeQuery} } }
@@ -39,7 +45,7 @@ export const sectionsQuery = groq`
         ...,
         markDefs[] {
           ...,
-          _type == 'linkWithRoute' => { route { ${routeQuery} } }
+          ${linkWithRouteMarkDef}
         }
       },
       cta { ..., route { ${routeQuery} } }
@@ -78,7 +84,7 @@ export const sectionsQuery = groq`
           ...,
           markDefs[] {
             ...,
-            _type == 'linkWithRoute' => { route { ${routeQuery} } }
+            ${linkWithRouteMarkDef}
           }
         },
         image { ${imageQuery} },
@@ -102,7 +108,7 @@ export const sectionsQuery = groq`
           ...,
           markDefs[] {
             ...,
-            _type == 'linkWithRoute' => { route { ${routeQuery} } }
+            ${linkWithRouteMarkDef}
           }
         }
       }

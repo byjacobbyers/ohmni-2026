@@ -14,6 +14,7 @@ import GalleryBlock from '@/components/gallery-block'
 import VideoBlock from '@/components/video-block'
 import SpacerBlock from '@/components/spacer-block'
 import DividerBlock from '@/components/divider-block'
+import { CtaLocationProvider } from '@/context'
 
 const blockMap: Record<string, React.FC<Record<string, unknown>>> = {
   heroBlock: HeroBlock as React.FC<Record<string, unknown>>,
@@ -45,12 +46,11 @@ export default function Sections({
         const key = block._key || `block-${i}`
         const Component = block._type ? blockMap[block._type] : null
         if (!Component) return null
+        const location = block._type || 'section'
         return (
-          <Component
-            key={key}
-            componentIndex={i}
-            {...block}
-          />
+          <CtaLocationProvider key={key} value={location}>
+            <Component componentIndex={i} {...block} />
+          </CtaLocationProvider>
         )
       })}
     </>

@@ -1,15 +1,62 @@
+'use client'
+
+import type { MouseEvent, ReactNode } from 'react'
 import { buildRouteProps } from '@/lib/route-resolver'
 import type { BaseRouteType } from '@/types/objects/route-type'
 import SanityImage from '@/components/sanity-image'
+import { useCtaLocation } from '@/context'
 
-type LinkWithRouteValue = {
+type LinkWithRouteMarkValue = BaseRouteType & {
   _type?: string
+  /** Legacy portable text: link lived under `route`. */
   route?: BaseRouteType
+}
+
+function LinkWithRouteMark({
+  value,
+  children,
+}: {
+  value?: LinkWithRouteMarkValue
+  children?: ReactNode
+}) {
+  const ctaLocation = useCtaLocation()
+  const resolved: BaseRouteType | undefined = value?.linkType
+    ? value
+    : value?.route?.linkType
+      ? value.route
+      : undefined
+  if (!resolved?.linkType) return <>{children}</>
+
+  const routeData: BaseRouteType = {
+    ...resolved,
+    _type: resolved._type || 'linkWithRoute',
+  }
+
+  const { onClick: routeOnClick, ...routeProps } = buildRouteProps(routeData, {
+    ctaLocation: ctaLocation || undefined,
+  })
+
+  const dataAttrs = Object.fromEntries(
+    (resolved.dataAttributes ?? [])
+      .filter((d) => d?.key)
+      .map(({ key, value: attrVal }) => [`data-${key}`, attrVal ?? ''] as const),
+  )
+
+  return (
+    <a
+      {...routeProps}
+      {...dataAttrs}
+      onClick={(e: MouseEvent<HTMLAnchorElement>) => routeOnClick?.(e)}
+      className="text-primary underline underline-offset-2 hover:opacity-90"
+    >
+      {children}
+    </a>
+  )
 }
 
 export const portableTextComponents = {
   block: {
-    small: ({ children }: { children?: React.ReactNode }) => (
+    small: ({ children }: { children?: ReactNode }) => (
       <p className="text-sm">{children}</p>
     ),
   },
@@ -37,23 +84,6 @@ export const portableTextComponents = {
     },
   },
   marks: {
-    linkWithRoute: ({
-      value,
-      children,
-    }: {
-      value?: LinkWithRouteValue
-      children?: React.ReactNode
-    }) => {
-      if (!value?.route) return <>{children}</>
-      const props = buildRouteProps(value.route)
-      return (
-        <a
-          {...props}
-          className="text-primary underline underline-offset-2 hover:opacity-90"
-        >
-          {children}
-        </a>
-      )
-    },
+    linkWithRoute: LinkWithRouteMark,
   },
 }

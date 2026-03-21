@@ -1,6 +1,20 @@
 import { PageType } from '../documents/page-type'
 import { EventType } from '../documents/event-type'
 
+export type UtmParametersType = {
+  source?: string
+  medium?: string
+  campaign?: string
+  term?: string
+  content?: string
+}
+
+export type DataAttributeType = {
+  key: string
+  value: string
+  _key?: string
+}
+
 export type BaseRouteType = {
   _type: string
   title?: string
@@ -21,4 +35,8 @@ export type BaseRouteType = {
   blank?: boolean
   titleAttr?: string
   ariaLabel?: string
+  utm?: UtmParametersType
+  trackingId?: string
+  relAttributes?: string[]
+  dataAttributes?: DataAttributeType[]
 }

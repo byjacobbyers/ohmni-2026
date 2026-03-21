@@ -14,5 +14,19 @@ export const routeQuery = groq`
   telephone,
   blank,
   titleAttr,
-  ariaLabel
+  ariaLabel,
+  utm {
+    source,
+    medium,
+    campaign,
+    term,
+    content
+  },
+  trackingId,
+  relAttributes,
+  dataAttributes[] {
+    key,
+    value,
+    _key
+  }
 `

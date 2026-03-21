@@ -4,8 +4,9 @@ import { forwardRef } from 'react'
 import Link from 'next/link'
 import { BaseRouteType } from '@/types/objects/route-type'
 import { buildRouteProps } from '@/lib/route-resolver'
-import { ReactNode } from 'react'
+import { ReactNode, type MouseEvent } from 'react'
 import { cn } from '@/lib/utils'
+import { useCtaLocation } from '@/context'
 
 interface RouteProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
   data: BaseRouteType
@@ -15,11 +16,23 @@ interface RouteProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
 
 const Route = forwardRef<HTMLAnchorElement, RouteProps>(
   ({ data, children, className, ...rest }, ref) => {
+    const ctaLocation = useCtaLocation()
     if (!data || !data.linkType) {
       return <>{children}</>
     }
 
-    const routeProps = buildRouteProps(data)
+    const { onClick: onClickFromRest, ...restWithoutOnClick } = rest
+    const routeProps = buildRouteProps(data, {
+      ctaLocation: ctaLocation || undefined,
+    })
+    const { onClick: routeOnClick, ...routePropsWithoutOnClick } = routeProps
+    const mergedOnClick =
+      routeOnClick || onClickFromRest
+        ? (e: MouseEvent<HTMLAnchorElement>) => {
+            routeOnClick?.(e)
+            onClickFromRest?.(e)
+          }
+        : undefined
     const isExternal =
       data.linkType === 'external' ||
       data.linkType === 'email' ||
@@ -27,14 +40,22 @@ const Route = forwardRef<HTMLAnchorElement, RouteProps>(
     const isFileDownload = data.linkType === 'file'
     const isAnchor = data.linkType === 'anchor'
 
+    const dataAttrs = Object.fromEntries(
+      (data.dataAttributes ?? [])
+        .filter((d) => d?.key)
+        .map(({ key, value }) => [`data-${key}`, value ?? ''] as const),
+    )
+
     const mergedClassName = cn(className)
 
     if (isExternal || isFileDownload || data.blank) {
       return (
         <a
           ref={ref}
-          {...routeProps}
-          {...rest}
+          {...routePropsWithoutOnClick}
+          {...dataAttrs}
+          {...restWithoutOnClick}
+          onClick={mergedOnClick}
           className={mergedClassName}
         >
           {children}
@@ -46,8 +67,10 @@ const Route = forwardRef<HTMLAnchorElement, RouteProps>(
       return (
         <a
           ref={ref}
-          {...routeProps}
-          {...rest}
+          {...routePropsWithoutOnClick}
+          {...dataAttrs}
+          {...restWithoutOnClick}
+          onClick={mergedOnClick}
           className={mergedClassName}
         >
           {children}
@@ -56,7 +79,14 @@ const Route = forwardRef<HTMLAnchorElement, RouteProps>(
     }
 
     return (
-      <Link ref={ref} {...routeProps} {...rest} className={mergedClassName}>
+      <Link
+        ref={ref}
+        {...routePropsWithoutOnClick}
+        {...dataAttrs}
+        {...restWithoutOnClick}
+        onClick={mergedOnClick}
+        className={mergedClassName}
+      >
         {children}
       </Link>
     )
