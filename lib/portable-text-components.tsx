@@ -5,6 +5,11 @@ import { buildRouteProps } from '@/lib/route-resolver'
 import type { BaseRouteType } from '@/types/objects/route-type'
 import SanityImage from '@/components/sanity-image'
 import { useCtaLocation } from '@/context'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
 
 type LinkWithRouteMarkValue = BaseRouteType & {
   _type?: string
@@ -32,9 +37,10 @@ function LinkWithRouteMark({
     _type: resolved._type || 'linkWithRoute',
   }
 
-  const { onClick: routeOnClick, ...routeProps } = buildRouteProps(routeData, {
-    ctaLocation: ctaLocation || undefined,
-  })
+  const { onClick: routeOnClick, title: titleTooltip, ...routePropsForAnchor } =
+    buildRouteProps(routeData, {
+      ctaLocation: ctaLocation || undefined,
+    })
 
   const dataAttrs = Object.fromEntries(
     (resolved.dataAttributes ?? [])
@@ -42,9 +48,9 @@ function LinkWithRouteMark({
       .map(({ key, value: attrVal }) => [`data-${key}`, attrVal ?? ''] as const),
   )
 
-  return (
+  const anchor = (
     <a
-      {...routeProps}
+      {...routePropsForAnchor}
       {...dataAttrs}
       onClick={(e: MouseEvent<HTMLAnchorElement>) => routeOnClick?.(e)}
       className="text-primary underline underline-offset-2 hover:opacity-90"
@@ -52,6 +58,19 @@ function LinkWithRouteMark({
       {children}
     </a>
   )
+
+  if (titleTooltip) {
+    return (
+      <Tooltip>
+        <TooltipTrigger asChild>{anchor}</TooltipTrigger>
+        <TooltipContent>
+          <p className="max-w-xs text-balance">{titleTooltip}</p>
+        </TooltipContent>
+      </Tooltip>
+    )
+  }
+
+  return anchor
 }
 
 export const portableTextComponents = {

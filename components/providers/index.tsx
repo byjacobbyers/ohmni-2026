@@ -2,12 +2,15 @@
 
 import { AppProvider } from '@/context/app'
 import { DebugPanel } from '@/components/debug-panel'
+import { TooltipProvider } from '@/components/ui/tooltip'
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <AppProvider>
-      {children}
-      <DebugPanel />
+      <TooltipProvider delayDuration={200}>
+        {children}
+        <DebugPanel />
+      </TooltipProvider>
     </AppProvider>
   )
 }
