@@ -54,7 +54,7 @@ export async function POST(request: Request) {
       []
     const fromEmail =
       process.env.CONTACT_FORM_FROM_EMAIL ??
-      'Wiggelrhum <no-reply@example.com>'
+      'Ohmni <no-reply@example.com>'
     const replyToDefault =
       process.env.CONTACT_FORM_REPLY_TO ?? 'no-reply@example.com'
     const replyTo = isAnonymous ? replyToDefault : email
@@ -72,8 +72,8 @@ export async function POST(request: Request) {
       to: recipientEmail,
       replyTo,
       subject: isAnonymous
-        ? 'Wiggelrhum - Anonymous Contact Form Submission'
-        : `Wiggelrhum - Contact Form Submission from ${name}`,
+        ? 'Ohmni - Anonymous Contact Form Submission'
+        : `Ohmni - Contact Form Submission from ${name}`,
       react: EmailTemplate({
         name: isAnonymous ? undefined : name,
         email: isAnonymous ? undefined : email,

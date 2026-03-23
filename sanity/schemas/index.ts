@@ -8,6 +8,7 @@ import navigation from './documents/navigation-schema'
 
 import seo from './components/seo-schema'
 import sections from './components/page-builder-schema'
+import bannerBlock from './components/banner-block-schema'
 import heroBlock from './components/hero-block-schema'
 import coverBlock from './components/cover-block-schema'
 import coverVideo from './components/cover-video-schema'
@@ -40,6 +41,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     navigation,
     seo,
     sections,
+    bannerBlock,
     heroBlock,
     coverBlock,
     coverVideo,

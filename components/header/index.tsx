@@ -54,9 +54,9 @@ export default function Header({ navigation }: HeaderProps) {
           <Link href="/" className='flex items-end gap-2'>
             <h1
               className="text-2xl font-bold leading-none p-0 lg:text-3xl"
-              title="Wiggelrhum"
+              title="Ohmni"
             >
-              Wiggelrhum
+              Ohmni
             </h1>
             <span className='text-sm uppercase'>
               At the baker house

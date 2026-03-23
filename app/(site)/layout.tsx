@@ -20,8 +20,8 @@ import OrganizationJsonLd from "@/components/organization-jsonld"
 export const revalidate = 60
 
 export const metadata: Metadata = {
-  title: "Wiggelrhum",
-  description: "Wiggelrhum",
+  title: "Ohmni",
+  description: "Ohmni",
 }
 
 export default async function SiteLayout({

@@ -43,7 +43,7 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
 
     return generateSeoMetadata(page?.seo, global?.seo, page?.title, undefined, {
       url: `/${resolved.slug}`,
-      titleSuffix: ' :: Wiggelrhum',
+      titleSuffix: ' :: Ohmni',
     })
   } catch {
     return generateSeoMetadata()

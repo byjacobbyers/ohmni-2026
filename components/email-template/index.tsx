@@ -102,7 +102,7 @@ export const EmailTemplate: React.FC<EmailTemplateProps> = ({
         color: '#666',
       }}
     >
-      <p>This message was sent from the Wiggelrhum website contact form.</p>
+      <p>This message was sent from the Ohmni website contact form.</p>
       <p>Timestamp: {new Date().toLocaleString()}</p>
     </div>
   </div>

@@ -5,7 +5,7 @@ export default defineField({
   name: 'sections',
   type: 'array',
   of: [
-    
+    { type: 'bannerBlock' },
     { type: 'coverBlock' },
     { type: 'coverVideo' },
     { type: 'heroBlock' },

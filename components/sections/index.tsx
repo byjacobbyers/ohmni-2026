@@ -1,5 +1,6 @@
 'use client'
 
+import BannerBlock from '@/components/banner-block'
 import HeroBlock from '@/components/hero-block'
 import CoverBlock from '@/components/cover-block'
 import CoverVideo from '@/components/cover-video'
@@ -17,6 +18,7 @@ import DividerBlock from '@/components/divider-block'
 import { CtaLocationProvider } from '@/context'
 
 const blockMap: Record<string, React.FC<Record<string, unknown>>> = {
+  bannerBlock: BannerBlock as React.FC<Record<string, unknown>>,
   heroBlock: HeroBlock as React.FC<Record<string, unknown>>,
   coverBlock: CoverBlock as React.FC<Record<string, unknown>>,
   coverVideo: CoverVideo as React.FC<Record<string, unknown>>,

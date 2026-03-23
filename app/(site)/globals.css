@@ -165,7 +165,7 @@
 
 @theme {
   /* Type scale (backing text-display, text-h1, text-body, etc.) */
-  --text-display: 4rem;
+  --text-display: 6rem;
   --text-display--line-height: 1.05;
   --text-display--letter-spacing: -0.03em;
   --text-display--font-weight: 700;
@@ -185,7 +185,7 @@
   --text-h3--letter-spacing: -0.015em;
   --text-h3--font-weight: 600;
 
-  --text-body-lg: 1.125rem;
+  --text-body-lg: 2rem;
   --text-body-lg--line-height: 1.65;
   --text-body-lg--font-weight: 400;
 
@@ -209,7 +209,7 @@
 
 @layer base {
   .rich-text {
-    @apply text-body text-foreground;
+    @apply text-body text-foreground flex flex-col gap-2;
   }
 
   .rich-text .display {

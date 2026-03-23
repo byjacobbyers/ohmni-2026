@@ -14,8 +14,8 @@ export function buildUrl(path?: string): string {
   return `${baseUrl}${slash}${path}`
 }
 
-const defaultTitle = 'Wiggelrhum'
-const defaultDescription = 'Wiggelrhum'
+const defaultTitle = 'Ohmni'
+const defaultDescription = 'Ohmni'
 const defaultOgImage = `${baseUrl}/opengraph-image.png`
 
 type SeoType = {
@@ -146,7 +146,7 @@ export function generateOrganizationJsonLd(site: SiteType | null) {
     return {
       '@context': 'https://schema.org',
       '@type': 'Organization',
-      name: 'Wiggelrhum',
+      name: 'Ohmni',
       url: baseUrl,
     }
   }
@@ -154,7 +154,7 @@ export function generateOrganizationJsonLd(site: SiteType | null) {
   const logoUrl = org?.logo?.asset?.url
     ? (urlFor(org.logo.asset as Parameters<typeof urlFor>[0]).width(600).height(60).url())
     : undefined
-  const name = org?.name || site.title || 'Wiggelrhum'
+  const name = org?.name || site.title || 'Ohmni'
   const siteUrl = org?.url || baseUrl
   const email = site.email || org?.email
 
@@ -199,7 +199,7 @@ export function generateOrganizationJsonLd(site: SiteType | null) {
 }
 
 export function generateWebSiteJsonLd(site: SiteType | null) {
-  const name = site?.organizationJsonLd?.name || site?.title || 'Wiggelrhum'
+  const name = site?.organizationJsonLd?.name || site?.title || 'Ohmni'
   return {
     '@context': 'https://schema.org',
     '@type': 'WebSite',

@@ -19,6 +19,11 @@ export default defineType({
         { title: 'Quote', value: 'blockquote' },
       ],
       marks: {
+        decorators: [
+          { title: 'Strong', value: 'strong' },
+          { title: 'Emphasis', value: 'em' },
+          { title: 'Highlight', value: 'highlight' },
+        ],
         annotations: [{ type: 'linkWithRoute' }],
       },
     },

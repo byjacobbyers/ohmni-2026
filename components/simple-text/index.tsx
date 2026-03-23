@@ -11,9 +11,11 @@ export default function SimpleText({ content }: SimpleTextProps) {
   if (!content || !Array.isArray(content) || content.length === 0) return null
 
   return (
-    <PortableText
-      value={content as Parameters<typeof PortableText>[0]['value']}
-      components={portableTextComponents}
-    />
+    <div className="rich-text">
+      <PortableText
+        value={content as Parameters<typeof PortableText>[0]['value']}
+        components={portableTextComponents}
+      />
+    </div>
   )
 }

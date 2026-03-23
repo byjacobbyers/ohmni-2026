@@ -13,7 +13,7 @@ export default function Footer({ navigation }: FooterProps) {
     <footer className="border-t-4 border-primary bg-background px-4 py-6">
       <div className="flex items-center justify-between flex-wrap gap-4">
         <small className="text-sm">
-          © {year} Wiggelrhum. All rights reserved.
+          © {year} Ohmni. All rights reserved.
         </small>
         <nav className="flex items-center gap-6">
           {navigation?.items?.map((item, i) => (

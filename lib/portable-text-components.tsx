@@ -104,5 +104,8 @@ export const portableTextComponents = {
   },
   marks: {
     linkWithRoute: LinkWithRouteMark,
+    highlight: ({ children }: { children?: ReactNode }) => (
+      <mark className="text-primary bg-transparent">{children}</mark>
+    ),
   },
 }
