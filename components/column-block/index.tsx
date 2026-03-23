@@ -87,7 +87,7 @@ export default function ColumnBlock({
                   )}
                   {(column.content && Array.isArray(column.content)) ? (
                     <CardContent className="flex-1 text-center text-balance">
-                      <div className="rich-text">
+                      <div className="content">
                         <SimpleText content={column.content} />
                       </div>
                     </CardContent>

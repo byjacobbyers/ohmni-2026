@@ -217,121 +217,121 @@
 }
 
 @layer base {
-  .rich-text {
+  .content {
     @apply text-body text-foreground flex flex-col;
   }
  
-  .rich-text > * + * {
+  .content > * + * {
     margin-top: var(--space-4);
   }
 
-  .rich-text > p + p,
-  .rich-text > h3 + p,
-  .rich-text > h4 + p {
+  .content > p + p,
+  .content > h3 + p,
+  .content > h4 + p {
     margin-top: var(--space-2);
   }
 
-  .rich-text > h1 + *,
-  .rich-text > h2 + *,
-  .rich-text > .display + * {
+  .content > h1 + *,
+  .content > h2 + *,
+  .content > .display + * {
     margin-top: var(--space-4);
   }
 
-  .rich-text > * + h1,
-  .rich-text > * + h2,
-  .rich-text > * + .display {
+  .content > * + h1,
+  .content > * + h2,
+  .content > * + .display {
     margin-top: var(--space-8);
   }
 
-  .rich-text > * + h3 {
+  .content > * + h3 {
     margin-top: var(--space-6);
   }
 
   /* Small text (labels, kickers) above headings — no extra margin.
      Use ~ (general sibling) not + so it works when Portable Text or
      React inserts text nodes between blocks. */
-  .rich-text > small ~ h1,
-  .rich-text > small ~ h2,
-  .rich-text > small ~ h3,
-  .rich-text > small ~ .display,
-  .rich-text > p.text-sm ~ h1,
-  .rich-text > p.text-sm ~ h2,
-  .rich-text > p.text-sm ~ h3,
-  .rich-text > p.text-sm ~ .display {
+  .content > small ~ h1,
+  .content > small ~ h2,
+  .content > small ~ h3,
+  .content > small ~ .display,
+  .content > p.text-sm ~ h1,
+  .content > p.text-sm ~ h2,
+  .content > p.text-sm ~ h3,
+  .content > p.text-sm ~ .display {
     margin-top: 0;
   }
 
-  .rich-text > li + li {
+  .content > li + li {
     margin-top: var(--space-1);
   }
 
-  .rich-text .display {
+  .content .display {
     @apply text-display;
   }
 
-  .rich-text h1 {
+  .content h1 {
     @apply text-h1;
   }
 
-  .rich-text h2 {
+  .content h2 {
     @apply text-h2;
   }
 
-  .rich-text h3 {
+  .content h3 {
     @apply text-h3;
   }
 
-  .rich-text p {
+  .content p {
     @apply text-body;
   }
 
   /* Deck / intro under a display headline (portable text can mirror this class) */
-  .rich-text p.lead {
+  .content p.lead {
     @apply text-body-lg max-w-2xl;
   }
 
-  .rich-text strong {
+  .content strong {
     @apply font-semibold;
   }
 
-  .rich-text small {
+  .content small {
     @apply text-small;
   }
 
-  .rich-text code {
+  .content code {
     @apply text-body font-mono;
   }
 
   /* Highlight decorator from portable text — primary color from theme */
-  .rich-text mark {
+  .content mark {
     @apply text-primary bg-transparent;
   }
 
-  .rich-text a {
+  .content a {
     @apply text-body text-primary underline underline-offset-4;
   }
 
-  .rich-text ul {
+  .content ul {
     @apply text-body list-disc pl-6;
   }
 
-  .rich-text ol {
+  .content ol {
     @apply text-body list-decimal pl-6;
   }
 
-  .rich-text li {
+  .content li {
     @apply text-body;
   }
 
-  .rich-text blockquote {
+  .content blockquote {
     @apply border-l-2 pl-4 italic opacity-90;
   }
 
-  .rich-text hr {
+  .content hr {
     @apply border-border;
   }
 
-  .rich-text.compact > * + * {
+  .content.compact > * + * {
     margin-top: var(--space-2);
   }
 }

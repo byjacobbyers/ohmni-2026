@@ -144,7 +144,7 @@ export default function FormBlock({
           }}
         >
           {content ? (
-            <div className="rich-text">
+            <div className="content">
               <SimpleText content={content} />
             </div>
           ) : null}

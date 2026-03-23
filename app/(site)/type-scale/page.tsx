@@ -110,16 +110,16 @@ export default function TypeScalePage() {
         <p className="text-sm text-muted-foreground mb-10 ">
           Use this block to eyeball type changes after editing <code className="text-xs">@theme</code> in{" "}
           <code className="text-xs">globals.css</code>. The sample below uses no Tailwind utilities—only a{" "}
-          <code className="text-xs">rich-text</code> wrapper plus <code className="text-xs">.display</code> and{" "}
+          <code className="text-xs">content</code> wrapper plus <code className="text-xs">.display</code> and{" "}
           <code className="text-xs">.lead</code> hooks (same as you’d wire from Portable Text)—so typography comes
           entirely from <code className="text-xs">globals.css</code>.
         </p>
 
-        {/* No Tailwind on children — same shape as PortableText blocks inside NormalText (rich-text + .display / .lead hooks only). */}
-        <div className="rich-text">
+        {/* No Tailwind on children — same shape as PortableText blocks inside NormalText (content + .display / .lead hooks only). */}
+        <div className="content">
           <h1>Type Scale Preview</h1>
           <p>
-            This example shows how your rich-text styles render in context. The hero below uses the <code>.display</code>{" "}
+            This example shows how your content styles render in context. The hero below uses the <code>.display</code>{" "}
             class for large headlines; this section uses a standard <code>h1</code>.
           </p>
 
