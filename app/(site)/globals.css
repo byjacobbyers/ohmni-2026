@@ -213,32 +213,40 @@
   }
 
   .rich-text .display {
-    @apply text-display mt-12 mb-6;
+    @apply text-display;
   }
 
   .rich-text h1 {
-    @apply text-h1 mt-12 mb-6;
+    @apply text-h1;
   }
 
   .rich-text h2 {
-    @apply text-h2 mt-10 mb-5;
+    @apply text-h2;
   }
 
   .rich-text h3 {
-    @apply text-h3 mt-8 mb-4;
+    @apply text-h3;
   }
 
   .rich-text p {
-    @apply text-body mb-6;
+    @apply text-body;
   }
 
   /* Deck / intro under a display headline (portable text can mirror this class) */
   .rich-text p.lead {
-    @apply text-body-lg mb-6 max-w-2xl;
+    @apply text-body-lg max-w-2xl;
   }
 
   .rich-text strong {
     @apply font-semibold;
+  }
+
+  .rich-text small {
+    @apply text-small;
+  }
+
+  .rich-text code {
+    @apply text-body font-mono;
   }
 
   /* Highlight decorator from portable text — primary color from theme */
@@ -251,23 +259,23 @@
   }
 
   .rich-text ul {
-    @apply text-body list-disc pl-6 mb-6;
+    @apply text-body list-disc pl-6;
   }
 
   .rich-text ol {
-    @apply text-body list-decimal pl-6 mb-6;
+    @apply text-body list-decimal pl-6;
   }
 
   .rich-text li {
-    @apply text-body mb-2;
+    @apply text-body;
   }
 
   .rich-text blockquote {
-    @apply border-l-2 pl-4 italic opacity-90 my-6;
+    @apply border-l-2 pl-4 italic opacity-90;
   }
 
   .rich-text hr {
-    @apply my-10 border-border;
+    @apply border-border;
   }
 }
 

@@ -117,6 +117,12 @@ export default function TypeScalePage() {
 
         {/* No Tailwind on children — same shape as PortableText blocks inside NormalText (rich-text + .display / .lead hooks only). */}
         <div className="rich-text">
+          <h1>Type Scale Preview</h1>
+          <p>
+            This example shows how your rich-text styles render in context. The hero below uses the <code>.display</code>{" "}
+            class for large headlines; this section uses a standard <code>h1</code>.
+          </p>
+
           <h1 className="display">Marketing Moves Fast. Your Website Should Too.</h1>
           <p className="lead">
             High-performance websites that help B2B marketing teams launch campaigns, landing pages, and experiments
@@ -135,6 +141,12 @@ export default function TypeScalePage() {
             <li>Performance and SEO issues begin to accumulate.</li>
           </ul>
           <p>What started as a simple website becomes a barrier to moving fast.</p>
+
+          <blockquote>
+            The website should never slow marketing down. That’s the principle we design around.
+          </blockquote>
+
+          <hr />
 
           <h2>The Technical Partner for Marketing Teams</h2>
           <h3>Built for Marketing Velocity</h3>
@@ -160,6 +172,8 @@ export default function TypeScalePage() {
           <p>Modern marketing website architecture delivered in under a month.</p>
           <h3>Parcion Private Wealth</h3>
           <p>High-performance website supporting marketing and content growth.</p>
+
+          <small>Case studies and testimonials available upon request.</small>
 
           <h2>A Simple Way to Get Started</h2>
           <p>
@@ -197,6 +211,9 @@ export default function TypeScalePage() {
           <p>If it’s not a fit, you’ll still walk away with a clearer understanding of your options.</p>
           <p>
             <strong>Schedule an Intro Call</strong>
+          </p>
+          <p>
+            You can use <code>text-display</code> for hero headlines and <mark>highlight</mark> for emphasis.
           </p>
         </div>
       </section>

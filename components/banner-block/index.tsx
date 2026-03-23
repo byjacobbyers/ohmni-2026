@@ -77,7 +77,7 @@ export default function BannerBlock({
           transition={{ delay: componentIndex !== 0 ? 0.5 : 0 }}
         >
           {content ? (
-            <div className="content text-body-lg [&_h1]:text-display [&_h1]:text-foreground [&_h1]:m-0 [&_p]:text-body-lg [&_p]:mb-0 [&_p]:mt-4">
+            <div className="rich-text [&_h1]:text-display [&_p]:text-body-lg">
               <SimpleText content={content} />
             </div>
           ) : null}
