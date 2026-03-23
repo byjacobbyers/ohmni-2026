@@ -173,29 +173,21 @@ export default function TypeScalePage() {
           <h3>Parcion Private Wealth</h3>
           <p>High-performance website supporting marketing and content growth.</p>
 
-          <small>Case studies and testimonials available upon request.</small>
-
           <h2>A Simple Way to Get Started</h2>
-          <p>
-            <strong>Step 1</strong>
-          </p>
+          <small>Step 1</small>
           <h3>Discovery &amp; Assessment</h3>
           <p>
             Every engagement starts with understanding the current website, marketing goals, and technical constraints.
           </p>
           <p>This ensures the right improvements are prioritized from the beginning.</p>
-          <p>
-            <strong>Step 2</strong>
-          </p>
+          <small>Step 2</small>
           <h3>Design &amp; Implementation</h3>
           <p>
             Ohmni designs or improves the web infrastructure needed to support marketing campaigns, landing pages, and
             growth initiatives.
           </p>
           <p>This may include rebuilding parts of the site, improving performance, or modernizing the CMS.</p>
-          <p>
-            <strong>Step 3</strong>
-          </p>
+          <small>Step 3</small>
           <h3>Ongoing Technical Partnership</h3>
           <p>
             Marketing teams continue working with Ohmni to support new campaigns, performance improvements, and evolving
