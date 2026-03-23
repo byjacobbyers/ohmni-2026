@@ -264,3 +264,33 @@
 .content {
   @apply flex flex-col gap-4;
 }
+
+/* Banner block pattern overlay - uses theme colors */
+.futuristic-pattern {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    145deg,
+    color-mix(in srgb, var(--chart-4) 95%, transparent),
+    color-mix(in srgb, var(--primary) 95%, transparent),
+    color-mix(in srgb, var(--chart-3) 95%, transparent)
+  );
+  filter: url(#advanced-texture);
+  pointer-events: none;
+}
+
+.futuristic-pattern .texture-filter {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.futuristic-pattern .ripple-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  /* Optional: add radial gradient or animation for ripple effect */
+}
