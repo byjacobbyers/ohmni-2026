@@ -230,6 +230,14 @@
   .content p.lead { font-size: 1.5rem; }
 }
 
+/* iPad portrait: display 5rem (768px–1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+  :root {
+    --text-display: 5rem;
+  }
+  .content .display { font-size: 5rem; }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
