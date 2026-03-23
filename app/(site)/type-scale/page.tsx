@@ -194,7 +194,6 @@ export default function TypeScalePage() {
             marketing needs.
           </p>
           <p>The goal is simple: ensure the website never slows marketing down.</p>
-
           <h2>Start with a Short Conversation</h2>
           <p>If your website is slowing down marketing initiatives, let’s talk.</p>
           <p>
