@@ -46,7 +46,7 @@ export default function CtaBlock({
           transition={{ delay: componentIndex !== 0 ? 0.5 : 0 }}
         >
           {content ? (
-            <div className="content">
+            <div className="rich-text">
               <SimpleText content={content} />
             </div>
           ) : null}

@@ -143,7 +143,11 @@ export default function FormBlock({
             duration: 1.5,
           }}
         >
-          {content ? <SimpleText content={content} /> : null}
+          {content ? (
+            <div className="rich-text">
+              <SimpleText content={content} />
+            </div>
+          ) : null}
 
           <div className="bg-background text-foreground shadow-lg p-6 mt-8">
             <form onSubmit={handleSubmit} className="space-y-6">

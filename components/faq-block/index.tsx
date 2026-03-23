@@ -48,7 +48,7 @@ export default function FaqBlock({
                 </AccordionTrigger>
                 <AccordionContent className="text-left text-balance">
                   {faq.answer && Array.isArray(faq.answer) ? (
-                    <div className="content">
+                    <div className="rich-text">
                       <SimpleText content={faq.answer} />
                     </div>
                   ) : null}

@@ -87,7 +87,9 @@ export default function ColumnBlock({
                   )}
                   {(column.content && Array.isArray(column.content)) ? (
                     <CardContent className="flex-1 text-center text-balance">
-                      <SimpleText content={column.content} />
+                      <div className="rich-text">
+                        <SimpleText content={column.content} />
+                      </div>
                     </CardContent>
                   ) : null}
                   {column.cta && column.cta.active && column.cta.route && (

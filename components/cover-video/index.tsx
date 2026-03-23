@@ -175,7 +175,7 @@ export default function CoverVideo({
       <div className="relative z-20 w-full container mx-auto">
         <div className={`transition-all duration-300 ${contentHalfWidth ? 'md:max-w-[50%]' : ''}`}>
           {content && Array.isArray(content) && content.length > 0 ? (
-            <div className={`content ${contentTextClass}`}>
+            <div className={`rich-text ${contentTextClass}`}>
               <SimpleText content={content} />
             </div>
           ) : null}
