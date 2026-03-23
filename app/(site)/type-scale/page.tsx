@@ -17,7 +17,7 @@ type FontSizeConfig = {
 const TYPE_SCALE: Record<string, FontSizeConfig> = {
   display: {
     fontSize: "6rem",
-    lineHeight: "1.05",
+    lineHeight: "1.06",
     letterSpacing: "-0.03em",
     fontWeight: 700,
   },
@@ -41,7 +41,7 @@ const TYPE_SCALE: Record<string, FontSizeConfig> = {
   },
   "body-lg": {
     fontSize: "2rem",
-    lineHeight: "1.65",
+    lineHeight: "1.5",
     fontWeight: 400,
   },
   body: {

@@ -166,7 +166,7 @@
 @theme {
   /* Type scale (backing text-display, text-h1, text-body, etc.) */
   --text-display: 6rem;
-  --text-display--line-height: 1.05;
+  --text-display--line-height: 1.06;
   --text-display--letter-spacing: -0.03em;
   --text-display--font-weight: 700;
 
@@ -186,7 +186,7 @@
   --text-h3--font-weight: 600;
 
   --text-body-lg: 2rem;
-  --text-body-lg--line-height: 1.65;
+  --text-body-lg--line-height: 1.5;
   --text-body-lg--font-weight: 400;
 
   --text-body: 1rem;
