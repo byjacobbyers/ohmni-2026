@@ -1,5 +1,9 @@
+import React from 'react'
 import { defineType } from 'sanity'
-import { TextIcon } from '@sanity/icons'
+import { HighlightIcon, TextIcon } from '@sanity/icons'
+
+const HighlightDecorator = (props: { children?: React.ReactNode }) =>
+  React.createElement('span', { style: { color: 'var(--primary, #3265fd)' } }, props.children)
 
 export default defineType({
   title: 'Text',
@@ -22,7 +26,7 @@ export default defineType({
         decorators: [
           { title: 'Strong', value: 'strong' },
           { title: 'Emphasis', value: 'em' },
-          { title: 'Highlight', value: 'highlight' },
+          { title: 'Highlight', value: 'highlight', icon: HighlightIcon, component: HighlightDecorator },
         ],
         annotations: [{ type: 'linkWithRoute' }],
       },

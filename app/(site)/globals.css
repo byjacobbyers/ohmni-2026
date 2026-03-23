@@ -213,7 +213,7 @@
   }
 
   .rich-text .display {
-    @apply text-display text-primary mt-12 mb-6;
+    @apply text-display mt-12 mb-6;
   }
 
   .rich-text h1 {
@@ -232,8 +232,18 @@
     @apply text-body mb-6;
   }
 
+  /* Deck / intro under a display headline (portable text can mirror this class) */
+  .rich-text p.lead {
+    @apply text-body-lg mb-6 max-w-2xl;
+  }
+
   .rich-text strong {
     @apply font-semibold;
+  }
+
+  /* Highlight decorator from portable text — primary color from theme */
+  .rich-text mark {
+    @apply text-primary bg-transparent;
   }
 
   .rich-text a {

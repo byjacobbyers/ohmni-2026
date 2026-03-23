@@ -16,7 +16,7 @@ type FontSizeConfig = {
 
 const TYPE_SCALE: Record<string, FontSizeConfig> = {
   display: {
-    fontSize: "4rem",
+    fontSize: "6rem",
     lineHeight: "1.05",
     letterSpacing: "-0.03em",
     fontWeight: 700,
@@ -40,7 +40,7 @@ const TYPE_SCALE: Record<string, FontSizeConfig> = {
     fontWeight: 600,
   },
   "body-lg": {
-    fontSize: "1.125rem",
+    fontSize: "2rem",
     lineHeight: "1.65",
     fontWeight: 400,
   },
@@ -104,6 +104,102 @@ export default function TypeScalePage() {
           )
         })}
       </div>
+
+      <section className="mt-16 pt-16 border-t border-border">
+        <h2 className="text-2xl font-bold mb-2">Example copy</h2>
+        <p className="text-sm text-muted-foreground mb-10 ">
+          Use this block to eyeball type changes after editing <code className="text-xs">@theme</code> in{" "}
+          <code className="text-xs">globals.css</code>. The sample below uses no Tailwind utilities—only a{" "}
+          <code className="text-xs">rich-text</code> wrapper plus <code className="text-xs">.display</code> and{" "}
+          <code className="text-xs">.lead</code> hooks (same as you’d wire from Portable Text)—so typography comes
+          entirely from <code className="text-xs">globals.css</code>.
+        </p>
+
+        {/* No Tailwind on children — same shape as PortableText blocks inside NormalText (rich-text + .display / .lead hooks only). */}
+        <div className="rich-text">
+          <h1 className="display">Marketing Moves Fast. Your Website Should Too.</h1>
+          <p className="lead">
+            High-performance websites that help B2B marketing teams launch campaigns, landing pages, and experiments
+            without technical bottlenecks.
+          </p>
+          <p>
+            <strong>Book an Intro Call</strong>
+          </p>
+
+          <h2>When the Website Becomes the Bottleneck</h2>
+          <p>Marketing teams rely on their website to launch campaigns, publish content, and support growth.</p>
+          <p>But as the site grows, the underlying website infrastructure often struggles to keep up.</p>
+          <ul>
+            <li>Landing pages take longer to launch.</li>
+            <li>Simple updates require developer time.</li>
+            <li>Performance and SEO issues begin to accumulate.</li>
+          </ul>
+          <p>What started as a simple website becomes a barrier to moving fast.</p>
+
+          <h2>The Technical Partner for Marketing Teams</h2>
+          <h3>Built for Marketing Velocity</h3>
+          <p>
+            Marketing teams need to launch campaigns, landing pages, and experiments quickly. Ohmni designs and maintains
+            web systems that allow marketing teams to ship quickly without technical bottlenecks.
+          </p>
+          <h3>Designed to Scale with Marketing</h3>
+          <p>
+            Modern websites must support performance, SEO, analytics, and evolving marketing needs. Ohmni builds composable
+            systems using frameworks like Next.js and Sanity so the website can scale alongside marketing strategy.
+          </p>
+          <h3>Without a Full-Time Engineering Hire</h3>
+          <p>
+            Most companies don’t need a dedicated web engineering team for marketing. Ohmni partners with CMOs and
+            marketing directors to provide senior technical support for the web layer when it matters most.
+          </p>
+
+          <h2>Trusted by Marketing Teams</h2>
+          <h3>TerraTrue</h3>
+          <p>Campaign development and website infrastructure for a fast-moving B2B team.</p>
+          <h3>Unified</h3>
+          <p>Modern marketing website architecture delivered in under a month.</p>
+          <h3>Parcion Private Wealth</h3>
+          <p>High-performance website supporting marketing and content growth.</p>
+
+          <h2>A Simple Way to Get Started</h2>
+          <p>
+            <strong>Step 1</strong>
+          </p>
+          <h3>Discovery &amp; Assessment</h3>
+          <p>
+            Every engagement starts with understanding the current website, marketing goals, and technical constraints.
+          </p>
+          <p>This ensures the right improvements are prioritized from the beginning.</p>
+          <p>
+            <strong>Step 2</strong>
+          </p>
+          <h3>Design &amp; Implementation</h3>
+          <p>
+            Ohmni designs or improves the web infrastructure needed to support marketing campaigns, landing pages, and
+            growth initiatives.
+          </p>
+          <p>This may include rebuilding parts of the site, improving performance, or modernizing the CMS.</p>
+          <p>
+            <strong>Step 3</strong>
+          </p>
+          <h3>Ongoing Technical Partnership</h3>
+          <p>
+            Marketing teams continue working with Ohmni to support new campaigns, performance improvements, and evolving
+            marketing needs.
+          </p>
+          <p>The goal is simple: ensure the website never slows marketing down.</p>
+
+          <h2>Start with a Short Conversation</h2>
+          <p>If your website is slowing down marketing initiatives, let’s talk.</p>
+          <p>
+            We’ll review your current setup, identify bottlenecks, and see whether working together makes sense.
+          </p>
+          <p>If it’s not a fit, you’ll still walk away with a clearer understanding of your options.</p>
+          <p>
+            <strong>Schedule an Intro Call</strong>
+          </p>
+        </div>
+      </section>
     </main>
   )
 }

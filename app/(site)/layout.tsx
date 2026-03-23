@@ -36,6 +36,18 @@ export default async function SiteLayout({
 
   return (
     <div className={cn(sans.variable, mono.variable, serif.variable, "min-h-screen antialiased bg-background text-foreground font-sans", isEnabled && "body-preview-mode")}>
+      <svg aria-hidden className="absolute w-0 h-0 overflow-hidden">
+        <defs>
+          <filter id="advanced-texture">
+            <feTurbulence result="noise" numOctaves="3" baseFrequency="0.7" type="fractalNoise" />
+            <feSpecularLighting result="specular" lightingColor="white" specularExponent="20" specularConstant="0.8" surfaceScale="2" in="noise">
+              <fePointLight z="100" y="50" x="50" />
+            </feSpecularLighting>
+            <feComposite result="litNoise" operator="in" in2="SourceGraphic" in="specular" />
+            <feBlend mode="overlay" in2="litNoise" in="SourceGraphic" />
+          </filter>
+        </defs>
+      </svg>
       {process.env.NEXT_PUBLIC_GTM_ID && (
         <>
           <Script

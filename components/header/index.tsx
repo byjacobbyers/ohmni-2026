@@ -56,10 +56,10 @@ export default function Header({ navigation }: HeaderProps) {
               className="text-2xl font-bold leading-none p-0 lg:text-3xl"
               title="Ohmni"
             >
-              Ohmni
+              OHMNI
             </h1>
             <span className='text-sm uppercase'>
-              At the baker house
+              Web Technologies
             </span>
           </Link>
           <nav className="hidden lg:flex items-center gap-6 text-lg 2xl:text-2xl">
