@@ -76,7 +76,7 @@ function LinkWithRouteMark({
 export const portableTextComponents = {
   block: {
     small: ({ children }: { children?: ReactNode }) => (
-      <p className="text-sm">{children}</p>
+      <small>{children}</small>
     ),
   },
   types: {
