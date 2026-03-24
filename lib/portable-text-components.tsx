@@ -75,6 +75,9 @@ function LinkWithRouteMark({
 
 export const portableTextComponents = {
   block: {
+    large: ({ children }: { children?: ReactNode }) => (
+      <p className="text-body-lg">{children}</p>
+    ),
     small: ({ children }: { children?: ReactNode }) => (
       <small>{children}</small>
     ),
