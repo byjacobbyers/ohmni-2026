@@ -112,6 +112,27 @@ export const sectionsQuery = groq`
           }
         }
       }
+    },
+    _type == 'splitScrollBlock' => {
+      ...,
+      title[] {
+        ...,
+        markDefs[] {
+          ...,
+          ${linkWithRouteMarkDef}
+        }
+      },
+      items[] {
+        ...,
+        image { ${imageQuery} },
+        content[] {
+          ...,
+          markDefs[] {
+            ...,
+            ${linkWithRouteMarkDef}
+          }
+        }
+      }
     }
   }
 `

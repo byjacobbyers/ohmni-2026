@@ -15,6 +15,7 @@ export default defineField({
     { type: 'videoBlock' },
     { type: 'galleryBlock' },
     { type: 'faqBlock' },
+    { type: 'splitScrollBlock' },
     { type: 'columnBlock' },
     { type: 'formBlock' },
     { type: 'embedBlock' },
