@@ -41,11 +41,11 @@ export default function SplitScrollBlock({
               </div>
             ) : null}
           </div>
-          <div className="flex flex-col gap-12 pt-[12.5vh] md:gap-16 lg:pt-[25vh]">
+          <div className="flex flex-col gap-12 pt-0 md:gap-16 lg:pt-[25vh]">
             {items.map((item, i) => (
               <article
                 key={item._key ?? `split-scroll-item-${i}`}
-                className="flex min-h-[25vh] md:min-h-[50vh] flex-col gap-4 md:gap-6"
+                className="flex min-h-[12.5vh] md:min-h-[50vh] flex-col gap-4 md:gap-6"
               >
                 {item.image ? (
                   <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg">
