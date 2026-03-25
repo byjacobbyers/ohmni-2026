@@ -5,7 +5,7 @@ import SimpleText from '@/components/simple-text'
 import SanityImage from '@/components/sanity-image'
 import Route from '@/components/route'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardFooter } from '@/components/ui/card'
 
 type ColumnBlockProps = {
   active?: boolean
@@ -46,54 +46,54 @@ export default function ColumnBlock({
   return (
     <section
       id={anchor || `column-block-${componentIndex}`}
-      className="column-block w-full flex justify-center px-5 py-12"
+      className="column-block w-full overflow-x-hidden py-12"
     >
-      <div className="container relative z-10 w-full">
+      <div className="relative z-10 mx-auto w-full max-w-none">
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          className="w-full flex flex-col items-center justify-center"
+          className="flex w-full flex-col items-center justify-center"
         >
           {title && (
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-wider text-center mb-8 md:mb-12">
+            <h2 className="mb-8 px-5 text-center text-3xl font-bold tracking-wider md:mb-12 md:text-4xl lg:text-5xl">
               {title}
             </h2>
           )}
           {columns && Array.isArray(columns) && columns.length > 0 && (
-            <div className={`grid ${gridCols} gap-4 md:gap-6 w-full`}>
+            <div
+              className={`relative left-1/2 grid w-screen max-w-[100vw] -translate-x-1/2 gap-px bg-border md:border-t md:border-b md:border-border ${gridCols}`}
+            >
               {columns.map((column, index) => (
                 <Card
                   key={column._key || index}
-                  className="flex flex-col h-full overflow-hidden w-full max-w-xl mx-auto"
+                  className="flex h-full w-full min-w-0 max-w-none py-10 flex-col overflow-hidden rounded-none border-0 bg-background shadow-none max-md:first:border-t max-md:first:border-border max-md:last:border-b max-md:last:border-border"
                 >
                   {column.image && (
-                    <div className="relative w-full aspect-4/3 overflow-hidden shrink-0">
-                      <SanityImage
-                        image={column.image}
-                        width={column.image?.asset?.metadata?.dimensions?.width || 400}
-                        height={column.image?.asset?.metadata?.dimensions?.height || 300}
-                        fill={false}
-                        className="w-full h-full object-cover"
-                      />
+                    <div className="w-full shrink-0 pt-3 px-5 py-5">
+                      <div
+                        className={`relative mx-auto w-full max-w-full overflow-hidden ${
+                          column.title === 'TerraTrue' ? 'h-4' : 'h-6'
+                        }`}
+                      >
+                        <SanityImage
+                          image={column.image}
+                          fill
+                          sizes="(max-width: 768px) 100vw, 400px"
+                          className="object-contain object-center"
+                        />
+                      </div>
                     </div>
                   )}
-                  {column.title && (
-                    <CardHeader className="text-center pb-2">
-                      <CardTitle className="text-xl md:text-2xl font-bold uppercase tracking-wider text-balance">
-                        {column.title}
-                      </CardTitle>
-                    </CardHeader>
-                  )}
                   {(column.content && Array.isArray(column.content)) ? (
-                    <CardContent className="flex-1 text-center text-balance">
+                    <CardContent className="flex-1 px-3 text-center text-balance sm:px-6">
                       <div className="content">
                         <SimpleText content={column.content} />
                       </div>
                     </CardContent>
                   ) : null}
                   {column.cta && column.cta.active && column.cta.route && (
-                    <CardFooter className="justify-center pt-2">
+                    <CardFooter className="shrink-0 justify-center px-3 pb-3 pt-3 sm:px-6">
                       <Route data={column.cta.route as Parameters<typeof Route>[0]['data']}>
                         <Button variant="secondary">
                           {String((column.cta.route as { title?: string }).title || 'Learn More')}
