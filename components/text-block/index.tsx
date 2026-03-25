@@ -29,7 +29,7 @@ export default function TextBlock({
   return (
     <section
       id={anchor || `text-block-${componentIndex}`}
-      className={`text-block w-full flex justify-center px-5 py-12 ${bgClass}`}
+      className={`text-block w-full flex justify-center px-5 py-16 ${bgClass}`}
     >
       <motion.div
         className={`container ${alignClass}`}

@@ -25,7 +25,7 @@ export default function SplitScrollBlock({
   return (
     <section
       id={anchor || `split-scroll-block-${componentIndex}`}
-      className="split-scroll-block w-full flex justify-center px-5 py-12 md:py-24"
+      className="split-scroll-block w-full flex justify-center px-5 py-16 md:py-24"
     >
       <div className="container">
         <motion.div

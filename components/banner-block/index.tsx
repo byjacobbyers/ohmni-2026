@@ -26,7 +26,7 @@ export default function BannerBlock({
   return (
     <section
       id={anchor || `banner-block-${componentIndex}`}
-      className="banner-block relative w-full flex justify-center px-5 py-16 lg:py-24 bg-black"
+      className="banner-block relative w-full flex justify-center px-5 py-16 md:py-24 bg-black"
     >
       <div className="absolute inset-0 w-full h-full pointer-events-none">
         <SoftAurora

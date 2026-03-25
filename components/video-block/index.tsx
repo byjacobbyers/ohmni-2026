@@ -70,7 +70,7 @@ export default function VideoBlock({
   return (
     <section
       id={anchor || `video-block-${componentIndex}`}
-      className="video-block w-full flex justify-center px-5 py-12"
+      className="video-block w-full flex justify-center px-5 py-16"
     >
       <motion.div
         className={`w-full ${maxWidth} mx-auto`}

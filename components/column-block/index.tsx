@@ -46,7 +46,7 @@ export default function ColumnBlock({
   return (
     <section
       id={anchor || `column-block-${componentIndex}`}
-      className="column-block w-full overflow-x-hidden py-12"
+      className="column-block w-full overflow-x-hidden py-16"
     >
       <div className="relative z-10 mx-auto w-full max-w-none">
         <motion.div

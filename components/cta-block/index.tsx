@@ -26,36 +26,33 @@ export default function CtaBlock({
 }: CtaBlockProps) {
   if (!active) return null
 
-  const alignClass =
-    alignment === 'text-left' ? 'items-start' : alignment === 'text-right' ? 'items-end' : 'items-center'
-  const justifyClass =
-    alignment === 'text-left' ? 'justify-start' : alignment === 'text-right' ? 'justify-end' : 'justify-center'
   const bgClass = backgroundColor === 'secondary' ? 'bg-primary text-primary-foreground' : ''
+  const copyAlignClass = alignment ?? 'text-center'
+  const buttonVariant = backgroundColor === 'secondary' ? 'secondary' : 'huge'
 
   return (
     <section
       id={anchor || `cta-block-${componentIndex}`}
-      className={`cta-block w-full flex justify-center px-5 py-12 ${bgClass}`}
+      className={`cta-block w-full flex justify-center px-5 py-16 ${bgClass}`}
     >
-      <div className={`container flex flex-col ${alignClass} justify-center`}>
+      <div className="container">
         <motion.div
-          className={`w-full max-w-4xl ${alignment} flex flex-col ${justifyClass} gap-6 mt-5`}
+          className="mt-5 flex w-full flex-wrap items-center justify-between gap-6 xl:gap-16"
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ delay: componentIndex !== 0 ? 0.5 : 0 }}
         >
           {content ? (
-            <div className="content">
-              <SimpleText content={content} />
+            <div className={` flex-1 ${copyAlignClass}`}>
+              <div className="content">
+                <SimpleText content={content} />
+              </div>
             </div>
           ) : null}
           {cta?.active && cta?.route ? (
-            <div className={`container flex ${justifyClass}`}>
-              <Button
-                asChild
-                variant={backgroundColor === 'secondary' ? 'secondary' : 'default'}
-              >
+            <div className="shrink-0">
+              <Button asChild variant={buttonVariant}>
                 <Route data={cta.route as Parameters<typeof Route>[0]['data']}>
                   {(cta.route as { title?: string }).title || 'Learn More'}
                 </Route>

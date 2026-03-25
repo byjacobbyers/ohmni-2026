@@ -353,7 +353,7 @@
   }
 
   .content blockquote {
-    @apply border-l-2 pl-4 italic opacity-90;
+    @apply border-l-4 border-primary pl-4 italic opacity-90;
   }
 
   .content hr {
