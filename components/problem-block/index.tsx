@@ -51,7 +51,7 @@ export default function ProblemBlock({
   return (
     <section
       id={anchor || `problem-block-${componentIndex}`}
-      className="problem-block w-full px-5 py-12 flex justify-center"
+      className="problem-block w-full px-5 py-16 md:py-24 flex justify-center"
     >
       <div className="container flex justify-center">
         <motion.div
@@ -74,7 +74,7 @@ export default function ProblemBlock({
               >
                 <ProblemColumnVisual column={column} />
                 {column.content && Array.isArray(column.content) ? (
-                  <div className="content flex w-full justify-center">
+                  <div className="content max-w-sm flex w-full justify-center text-balance">
                     <SimpleText content={column.content} />
                   </div>
                 ) : null}

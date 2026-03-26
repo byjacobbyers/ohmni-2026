@@ -33,7 +33,7 @@ export default function CtaBlock({
   return (
     <section
       id={anchor || `cta-block-${componentIndex}`}
-      className={`cta-block w-full flex justify-center px-5 py-16 ${bgClass}`}
+      className={`cta-block w-full flex justify-center px-5 py-16 md:py-24 ${bgClass}`}
     >
       <div className="container">
         <motion.div

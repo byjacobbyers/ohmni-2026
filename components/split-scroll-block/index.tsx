@@ -3,12 +3,14 @@
 import { motion } from 'framer-motion'
 import SimpleText from '@/components/simple-text'
 import SanityImage from '@/components/sanity-image'
+import TextureSectionBackdrop from '@/components/texture-section-backdrop'
 import type { SplitScrollBlockItem } from '@/types/components/split-scroll-block-type'
 
 type SplitScrollBlockProps = {
   active?: boolean
   componentIndex?: number
   anchor?: string
+  backgroundColor?: 'primary' | 'secondary' | 'texture'
   title?: unknown
   items?: SplitScrollBlockItem[]
 }
@@ -17,17 +19,28 @@ export default function SplitScrollBlock({
   active = true,
   componentIndex = 0,
   anchor,
+  backgroundColor = 'primary',
   title,
   items = [],
 }: SplitScrollBlockProps) {
   if (!active || !items?.length) return null
 
+  const bgClass =
+    backgroundColor === 'secondary'
+      ? 'bg-primary text-primary-foreground'
+      : backgroundColor === 'texture'
+        ? 'relative bg-black'
+        : ''
+
   return (
     <section
       id={anchor || `split-scroll-block-${componentIndex}`}
-      className="split-scroll-block w-full flex justify-center px-5 py-16 md:py-24"
+      className={`split-scroll-block w-full flex justify-center px-5 py-16 md:py-24 ${bgClass}`}
     >
-      <div className="container">
+      {backgroundColor === 'texture' ? <TextureSectionBackdrop /> : null}
+      <div
+        className={`container ${backgroundColor === 'texture' ? 'relative z-10 text-foreground' : ''}`}
+      >
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}

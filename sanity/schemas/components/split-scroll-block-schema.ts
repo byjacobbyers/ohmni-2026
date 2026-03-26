@@ -20,6 +20,19 @@ export default defineType({
       description: 'Section id for in-page links. No hash symbols.',
     }),
     defineField({
+      title: 'Background Color',
+      name: 'backgroundColor',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Primary', value: 'primary' },
+          { title: 'Secondary', value: 'secondary' },
+          { title: 'Texture', value: 'texture' },
+        ],
+      },
+      initialValue: 'primary',
+    }),
+    defineField({
       title: 'Title',
       name: 'title',
       type: 'simpleText',

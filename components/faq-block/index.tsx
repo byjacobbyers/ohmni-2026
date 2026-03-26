@@ -32,7 +32,7 @@ export default function FaqBlock({
   return (
     <section
       id={anchor || `faq-block-${componentIndex}`}
-      className="faq-block w-full flex justify-center px-5 py-16"
+      className="faq-block w-full flex justify-center px-5 py-16  md:py-24"
     >
       <div className="container">
         <motion.div

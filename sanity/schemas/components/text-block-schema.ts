@@ -22,6 +22,7 @@ export default defineType({
         list: [
           { title: 'Primary', value: 'primary' },
           { title: 'Secondary', value: 'secondary' },
+          { title: 'Texture', value: 'texture' },
         ],
       },
       initialValue: 'primary',

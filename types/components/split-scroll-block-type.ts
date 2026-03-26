@@ -14,6 +14,7 @@ export type SplitScrollBlockType = {
   _key?: string
   active?: boolean
   anchor?: string
+  backgroundColor?: 'primary' | 'secondary' | 'texture'
   title?: unknown
   items?: SplitScrollBlockItem[]
 }

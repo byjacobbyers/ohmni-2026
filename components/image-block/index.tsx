@@ -27,7 +27,7 @@ export default function ImageBlock({
   return (
     <section
       id={anchor || `image-block-${componentIndex}`}
-      className="image-block w-full flex justify-center px-5 py-16"
+      className="image-block w-full flex justify-center px-5 py-16 md:py-24"
     >
       <div className="container flex flex-col items-center gap-6">
         {image || mobileImage ? (
