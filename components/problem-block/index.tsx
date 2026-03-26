@@ -1,9 +1,33 @@
 'use client'
 
+import type { ComponentType } from 'react'
 import { motion } from 'framer-motion'
+import { LuClock, LuCode, LuLayers } from 'react-icons/lu'
 import SimpleText from '@/components/simple-text'
 import SanityImage from '@/components/sanity-image'
-import type { ProblemBlockColumn } from '@/types/components/problem-block-type'
+import type { ProblemBlockColumn, ProblemBlockIcon } from '@/types/components/problem-block-type'
+
+const PROBLEM_ICONS: Record<ProblemBlockIcon, ComponentType<{ className?: string; 'aria-hidden'?: boolean }>> = {
+  LuClock,
+  LuCode,
+  LuLayers,
+}
+
+function ProblemColumnVisual({ column }: { column: ProblemBlockColumn }) {
+  if (column.image) {
+    return (
+      <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg">
+        <SanityImage image={column.image} fill sizes="48px" className="object-contain" />
+      </div>
+    )
+  }
+  const key = column.icon as ProblemBlockIcon | undefined
+  if (key && PROBLEM_ICONS[key]) {
+    const Icon = PROBLEM_ICONS[key]
+    return <Icon className="h-12 w-12 shrink-0 text-destructive" aria-hidden />
+  }
+  return null
+}
 
 type ProblemBlockProps = {
   active?: boolean
@@ -42,22 +66,13 @@ export default function ProblemBlock({
             </div>
           ) : null}
 
-          <div className="flex w-full flex-wrap justify-center gap-x-6 gap-y-8 py-16 lg:mx-auto lg:max-w-[75vw] lg:flex-nowrap lg:justify-center">
+          <div className="flex w-full flex-wrap justify-center gap-x-6 gap-y-12 py-16 lg:mx-auto lg:max-w-[75vw] lg:flex-nowrap lg:justify-center">
             {columns.map((column, i) => (
               <div
                 key={column._key ?? `problem-column-${i}`}
                 className="mx-auto flex w-full max-w-md flex-col items-center gap-4 text-center sm:mx-0 sm:w-[calc(50%-0.75rem)] lg:mx-0 lg:w-auto lg:min-w-0 lg:max-w-none lg:flex-1 lg:basis-0"
               >
-                {column.image ? (
-                  <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg">
-                    <SanityImage
-                      image={column.image}
-                      fill
-                      sizes="48px"
-                      className="object-contain"
-                    />
-                  </div>
-                ) : null}
+                <ProblemColumnVisual column={column} />
                 {column.content && Array.isArray(column.content) ? (
                   <div className="content flex w-full justify-center">
                     <SimpleText content={column.content} />

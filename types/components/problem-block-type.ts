@@ -1,5 +1,8 @@
+export type ProblemBlockIcon = 'LuClock' | 'LuCode' | 'LuLayers'
+
 export type ProblemBlockColumn = {
   _key?: string
+  icon?: ProblemBlockIcon | string
   image?: {
     asset?: { metadata?: { dimensions?: { width?: number; height?: number } } }
     alt?: string

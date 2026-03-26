@@ -37,7 +37,21 @@ export default defineType({
               title: 'Image',
               name: 'image',
               type: 'defaultImage',
-              description: 'Optional. 48×48px on the site.',
+              description: 'Optional. 48×48px on the site. If set, shown instead of the icon.',
+            }),
+            defineField({
+              title: 'Icon',
+              name: 'icon',
+              type: 'string',
+              description: 'Optional react-icons/lu. Used when no image is set.',
+              options: {
+                list: [
+                  { title: 'Clock', value: 'LuClock' },
+                  { title: 'Code', value: 'LuCode' },
+                  { title: 'Layers', value: 'LuLayers' },
+                ],
+                layout: 'dropdown',
+              },
             }),
             defineField({
               title: 'Content',
@@ -47,12 +61,17 @@ export default defineType({
             }),
           ],
           preview: {
-            select: { image: 'image', content: 'content' },
-            prepare(selection: { image?: { alt?: string }; content?: Array<{ children?: Array<{ text?: string }> }> }) {
-              const { image, content } = selection
+            select: { image: 'image', content: 'content', icon: 'icon' },
+            prepare(selection: {
+              image?: { alt?: string }
+              content?: Array<{ children?: Array<{ text?: string }> }>
+              icon?: string
+            }) {
+              const { image, content, icon } = selection
               const textPreview = content?.[0]?.children?.[0]?.text || ''
+              const iconLabel = icon ? `Icon: ${icon}` : ''
               return {
-                title: image?.alt || textPreview || 'Column',
+                title: image?.alt || iconLabel || textPreview || 'Column',
                 subtitle: textPreview,
               }
             },
