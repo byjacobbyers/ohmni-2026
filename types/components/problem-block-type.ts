@@ -1,0 +1,19 @@
+export type ProblemBlockColumn = {
+  _key?: string
+  image?: {
+    asset?: { metadata?: { dimensions?: { width?: number; height?: number } } }
+    alt?: string
+    [key: string]: unknown
+  } | null
+  content?: unknown
+}
+
+export type ProblemBlockType = {
+  _type: 'problemBlock'
+  _key?: string
+  active?: boolean
+  anchor?: string
+  content?: unknown
+  columns?: ProblemBlockColumn[]
+  excerpt?: unknown
+}

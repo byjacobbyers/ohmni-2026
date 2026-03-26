@@ -16,6 +16,7 @@ import VideoBlock from '@/components/video-block'
 import SpacerBlock from '@/components/spacer-block'
 import DividerBlock from '@/components/divider-block'
 import SplitScrollBlock from '@/components/split-scroll-block'
+import ProblemBlock from '@/components/problem-block'
 import { CtaLocationProvider } from '@/context'
 
 const blockMap: Record<string, React.FC<Record<string, unknown>>> = {
@@ -28,6 +29,7 @@ const blockMap: Record<string, React.FC<Record<string, unknown>>> = {
   imageBlock: ImageBlock as React.FC<Record<string, unknown>>,
   faqBlock: FaqBlock as React.FC<Record<string, unknown>>,
   splitScrollBlock: SplitScrollBlock as React.FC<Record<string, unknown>>,
+  problemBlock: ProblemBlock as React.FC<Record<string, unknown>>,
   embedBlock: EmbedBlock as React.FC<Record<string, unknown>>,
   formBlock: FormBlock as React.FC<Record<string, unknown>>,
   columnBlock: ColumnBlock as React.FC<Record<string, unknown>>,
