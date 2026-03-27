@@ -39,7 +39,7 @@ function usePageScrollProgress() {
 
 /** ViewBox units for the ring (display size comes from `w-7 h-7` = 7×`--spacing`). */
 const LOGO_VB = 28
-const RING_STROKE = 3
+const RING_STROKE = 2.2
 /** Stroke is centered on the path; outer edge flush with logo box in viewBox space. */
 const RING_R = LOGO_VB / 2 - RING_STROKE / 2
 const RING_C = 2 * Math.PI * RING_R

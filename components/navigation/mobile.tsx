@@ -30,19 +30,6 @@ export default function MobileNav({
   return (
     <NavigationMenu viewport={false} className="w-full max-w-none">
       <NavigationMenuList className="flex w-full flex-col gap-y-5 p-0">
-        <NavigationMenuItem
-          key={'header-0'}
-          id={'header-0'}
-          className="w-full"
-          onClick={handleItemClick}
-        >
-          <Link
-            href="/"
-            className="flex w-full justify-center text-2xl"
-          >
-            Home
-          </Link>
-        </NavigationMenuItem>
         {data.items?.map((item, index) => {
           const isBookNow = item.title === BOOK_NOW_TITLE
           return (
@@ -54,7 +41,7 @@ export default function MobileNav({
             >
               <Route
                 data={item}
-                className="flex w-full justify-center text-2xl"
+                className="flex w-full justify-center text-3xl font-bold"
                 onMouseEnter={
                   isBookNow && onBookNowHoverChange
                     ? () => {
