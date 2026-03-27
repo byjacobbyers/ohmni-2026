@@ -66,7 +66,7 @@ export default function ProblemBlock({
             </div>
           ) : null}
 
-          <div className="flex w-full flex-wrap justify-center gap-x-6 gap-y-12 py-16 lg:mx-auto lg:max-w-[75vw] lg:flex-nowrap lg:justify-center">
+          <div className="flex w-full flex-wrap justify-center gap-x-6 gap-y-24 py-16 lg:mx-auto lg:max-w-[75vw] lg:flex-nowrap lg:justify-center">
             {columns.map((column, i) => (
               <div
                 key={column._key ?? `problem-column-${i}`}
