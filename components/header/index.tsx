@@ -14,6 +14,84 @@ import { motion } from 'framer-motion'
 
 const BOOK_NOW_TITLE = 'Book Now'
 
+/** Scroll progress 0–1; past 5% of the page switches logo → ring. */
+function usePageScrollProgress() {
+  const [progress, setProgress] = useState(0)
+
+  useEffect(() => {
+    const update = () => {
+      const el = document.documentElement
+      const maxScroll = Math.max(1, el.scrollHeight - window.innerHeight)
+      const y = window.scrollY ?? el.scrollTop
+      setProgress(Math.min(1, Math.max(0, y / maxScroll)))
+    }
+    update()
+    window.addEventListener('scroll', update, { passive: true })
+    window.addEventListener('resize', update)
+    return () => {
+      window.removeEventListener('scroll', update)
+      window.removeEventListener('resize', update)
+    }
+  }, [])
+
+  return progress
+}
+
+/** ViewBox units for the ring (display size comes from `w-7 h-7` = 7×`--spacing`). */
+const LOGO_VB = 28
+const RING_STROKE = 3
+/** Stroke is centered on the path; outer edge flush with logo box in viewBox space. */
+const RING_R = LOGO_VB / 2 - RING_STROKE / 2
+const RING_C = 2 * Math.PI * RING_R
+
+function HeaderScrollLogoMark() {
+  const progress = usePageScrollProgress()
+  const showRing = progress > 0.05
+  const offset = RING_C * (1 - progress)
+
+  return (
+    <div
+      className="relative flex h-7 w-7 shrink-0 items-center justify-center self-center"
+      aria-hidden
+    >
+      <img
+        src="/ohmni.svg"
+        alt=""
+        className="absolute inset-0 z-0 block h-full w-full object-contain"
+      />
+      <svg
+        viewBox={`0 0 ${LOGO_VB} ${LOGO_VB}`}
+        preserveAspectRatio="xMidYMid meet"
+        className={cn(
+          'pointer-events-none absolute -inset-px z-10 block transition-opacity duration-200 ease-out motion-reduce:transition-none',
+          showRing ? 'opacity-100' : 'opacity-0'
+        )}
+      >
+        <circle
+          cx={LOGO_VB / 2}
+          cy={LOGO_VB / 2}
+          r={RING_R}
+          fill="none"
+          stroke="var(--primary)"
+          strokeWidth={RING_STROKE}
+        />
+        <circle
+          cx={LOGO_VB / 2}
+          cy={LOGO_VB / 2}
+          r={RING_R}
+          fill="none"
+          stroke="var(--foreground)"
+          strokeWidth={RING_STROKE}
+          strokeLinecap="round"
+          strokeDasharray={RING_C}
+          strokeDashoffset={offset}
+          transform={`rotate(-90 ${LOGO_VB / 2} ${LOGO_VB / 2})`}
+        />
+      </svg>
+    </div>
+  )
+}
+
 type HeaderProps = {
   navigation?: { items?: BaseRouteType[] } | null
 }
@@ -84,23 +162,19 @@ export default function Header({ navigation }: HeaderProps) {
           ) : null}
         </div>
         <div className="relative z-10 flex h-16 items-center justify-between">
-          <Link href="/" className="flex items-center gap-2">
-            <img
-              src="/ohmni.svg"
-              alt=""
-              width={28}
-              height={28}
-              className="h-7 w-7 shrink-0 object-contain"
-              aria-hidden
-            />
-            <div className="flex items-end gap-2">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 self-center"
+          >
+            <HeaderScrollLogoMark />
+            <div className="flex items-center gap-2 leading-none">
               <h1
                 className="text-2xl font-bold leading-none p-0 lg:text-3xl"
                 title="Ohmni"
               >
                 OHMNI
               </h1>
-              <span className="text-sm uppercase">
+              <span className="text-sm uppercase leading-none">
                 Web Technologies
               </span>
             </div>
