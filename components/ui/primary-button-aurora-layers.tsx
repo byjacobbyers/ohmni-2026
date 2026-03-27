@@ -5,7 +5,7 @@ import type { ReactNode } from 'react'
 import AuroraBits from '@/components/aurora-bits'
 
 /** Same hues as banner SoftAurora: #f7f7f7 and #3566ff */
-const PRIMARY_AURORA_STOPS = ['#f7f7f7', '#3566ff', '#f7f7f7'] as const
+export const PRIMARY_AURORA_STOPS = ['#f7f7f7', '#3566ff', '#f7f7f7'] as const
 
 type PrimaryButtonAuroraLayersProps = {
   children: ReactNode
