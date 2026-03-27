@@ -84,16 +84,26 @@ export default function Header({ navigation }: HeaderProps) {
           ) : null}
         </div>
         <div className="relative z-10 flex h-16 items-center justify-between">
-          <Link href="/" className='flex items-end gap-2'>
-            <h1
-              className="text-2xl font-bold leading-none p-0 lg:text-3xl"
-              title="Ohmni"
-            >
-              OHMNI
-            </h1>
-            <span className='text-sm uppercase'>
-              Web Technologies
-            </span>
+          <Link href="/" className="flex items-center gap-2">
+            <img
+              src="/ohmni.svg"
+              alt=""
+              width={28}
+              height={28}
+              className="h-7 w-7 shrink-0 object-contain"
+              aria-hidden
+            />
+            <div className="flex items-end gap-2">
+              <h1
+                className="text-2xl font-bold leading-none p-0 lg:text-3xl"
+                title="Ohmni"
+              >
+                OHMNI
+              </h1>
+              <span className="text-sm uppercase">
+                Web Technologies
+              </span>
+            </div>
           </Link>
           <nav className="hidden lg:flex items-center gap-6 text-lg 2xl:text-2xl">
             {navigation?.items?.map((item, i) => {
