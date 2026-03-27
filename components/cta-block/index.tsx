@@ -55,7 +55,7 @@ export default function CtaBlock({
             </div>
           ) : null}
           {cta?.active && cta?.route ? (
-            <div className="shrink-0 pt-5">
+            <div className="w-full flex justify-center md:justify-start pt-5">
               <Button asChild variant={buttonVariant}>
                 <Route data={cta.route as Parameters<typeof Route>[0]['data']}>
                   {(cta.route as { title?: string }).title || 'Learn More'}
