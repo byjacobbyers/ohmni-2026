@@ -54,10 +54,10 @@ export default function ColumnBlock({
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          className="flex w-full flex-col items-center justify-center"
+          className="flex w-full flex-col items-center justify-center content"
         >
           {title && (
-            <h2 className="mb-8 w-full text-center text-3xl font-bold tracking-wider md:mb-12 md:text-4xl lg:text-5xl">
+            <h2 className="mb-8 w-full text-center md:mb-12">
               {title}
             </h2>
           )}

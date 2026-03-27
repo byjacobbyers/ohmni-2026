@@ -55,7 +55,7 @@ export default function EmbedBlock({
       className="embed-block w-full flex justify-center px-5"
     >
       <motion.div
-        className={`w-full ${maxWidth} mx-auto`}
+        className={`w-full ${maxWidth} mx-auto content`}
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}

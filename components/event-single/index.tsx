@@ -34,10 +34,10 @@ export default function EventSingle({ event }: { event: EventType | null }) {
 
   return (
     <article className="flex min-h-screen flex-col items-center gap-y-24 pb-12">
-      <section className="container flex flex-col items-center text-center">
-        <h1 className="lg:text-7xl mb-6">{title || 'Untitled Event'}</h1>
+      <section className="container flex flex-col items-center text-center content">
+        <h1 className="mb-6">{title || 'Untitled Event'}</h1>
         {soldOut && <span className="text-destructive font-semibold mb-6">Sold Out</span>}
-        <div className="flex flex-col gap-2 text-xl text-muted-foreground">
+        <div className="flex flex-col gap-2 text-xl text-muted-foreground content">
           {startDate && (
             <p>
               {format(parseSanityDate(startDate), 'EEEE, MMMM d, yyyy')}
