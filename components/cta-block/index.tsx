@@ -44,9 +44,7 @@ export default function CtaBlock({
       <div className="container">
         <motion.div
           className={`mt-5 flex w-full flex-col gap-6 ${stackItemsClass}`}
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
+        
           transition={{ delay: componentIndex !== 0 ? 0.5 : 0 }}
         >
           {content ? (
