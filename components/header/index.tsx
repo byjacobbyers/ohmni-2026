@@ -67,7 +67,7 @@ export default function Header({ navigation }: HeaderProps) {
               <Route
                 key={i}
                 data={item}
-                className="font-bold uppercase hover:underline"
+                className="font-bold uppercase transition duration-200 ease-out hover:scale-110 motion-reduce:transition-none motion-reduce:hover:scale-100"
               >
                 {item.title || 'Link'}
               </Route>
