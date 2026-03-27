@@ -39,7 +39,7 @@ function usePageScrollProgress() {
 
 /** ViewBox units for the ring (display size comes from `w-7 h-7` = 7×`--spacing`). */
 const LOGO_VB = 28
-const RING_STROKE = 2.2
+const RING_STROKE = 2
 /** Stroke is centered on the path; outer edge flush with logo box in viewBox space. */
 const RING_R = LOGO_VB / 2 - RING_STROKE / 2
 const RING_C = 2 * Math.PI * RING_R
@@ -51,19 +51,19 @@ function HeaderScrollLogoMark() {
 
   return (
     <div
-      className="relative flex h-7 w-7 shrink-0 items-center justify-center self-center"
+      className="relative flex h-7 w-7 items-center justify-center"
       aria-hidden
     >
       <img
         src="/ohmni.svg"
-        alt=""
-        className="absolute inset-0 z-0 block h-full w-full object-contain"
+        alt="Ohmni Web Technologies Logo"
+        className="h-full w-full object-contain"
       />
       <svg
         viewBox={`0 0 ${LOGO_VB} ${LOGO_VB}`}
         preserveAspectRatio="xMidYMid meet"
         className={cn(
-          'pointer-events-none absolute -inset-px z-10 block transition-opacity duration-200 ease-out motion-reduce:transition-none',
+          'pointer-events-none absolute inset-0 w-full h-full z-10 block transition-opacity duration-200 ease-out motion-reduce:transition-none',
           showRing ? 'opacity-100' : 'opacity-0'
         )}
       >
