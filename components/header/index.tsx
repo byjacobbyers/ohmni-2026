@@ -164,17 +164,17 @@ export default function Header({ navigation }: HeaderProps) {
         <div className="relative z-10 flex h-16 items-center justify-between">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 self-center"
+            className="inline-flex items-end gap-2 self-center"
           >
             <HeaderScrollLogoMark />
-            <div className="flex items-center gap-2 leading-none">
+            <div className="flex items-end gap-2 leading-none">
               <h1
                 className="text-2xl font-bold leading-none p-0 lg:text-3xl"
                 title="Ohmni"
               >
                 OHMNI
               </h1>
-              <span className="text-sm uppercase leading-none">
+              <span className="text-sm pb-[3px] uppercase leading-none">
                 Web Technologies
               </span>
             </div>
