@@ -118,10 +118,10 @@ export type AuroraBitsProps = {
 }
 
 export default function AuroraBits({
-  colorStops = ['#5227FF', '#7cff67', '#5227FF'],
+  colorStops = ['#f7f7f7', '#3566ff', '#f7f7f7'],
   amplitude = 1.0,
   blend = 0.5,
-  speed = 1,
+  speed = 0.6,
   className,
 }: AuroraBitsProps) {
   const propsRef = useRef<AuroraBitsProps>({
