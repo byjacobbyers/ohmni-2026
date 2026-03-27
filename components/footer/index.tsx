@@ -22,13 +22,6 @@ export default function Footer({ navigation }: FooterProps) {
             </Route>
           ))}
         </nav>
-        <Link 
-          href="https://www.ohmni.tech/" 
-          target="_blank"
-          className="text-sm hover:opacity-90 transition-opacity"
-        >
-          Website by Ohmni
-        </Link>
       </div>
     </footer>
   )
