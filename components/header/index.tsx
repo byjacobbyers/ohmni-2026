@@ -164,7 +164,7 @@ export default function Header({ navigation }: HeaderProps) {
         <div className="relative z-10 flex h-16 items-center justify-between">
           <Link
             href="/"
-            className="inline-flex items-end gap-2 self-center"
+            className="inline-flex items-center gap-2 self-center"
           >
             <HeaderScrollLogoMark />
             <div className="flex items-end gap-2 leading-none">
@@ -174,7 +174,7 @@ export default function Header({ navigation }: HeaderProps) {
               >
                 OHMNI
               </h1>
-              <span className="text-sm pb-[3px] uppercase leading-none">
+              <span className="text-sm pb-[2px] md:pb-[3px] uppercase leading-none">
                 Web Technologies
               </span>
             </div>
