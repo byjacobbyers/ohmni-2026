@@ -2,18 +2,13 @@
 
 import { motion } from 'framer-motion'
 import { useMemo } from 'react'
+import { cleanStega } from '@/lib/stega'
 
 type EmbedCodeValue =
   | string
   | { code?: string; language?: string }
   | null
   | undefined
-
-function extractIframeSrc(html: string): string | null {
-  if (!html || typeof html !== 'string') return null
-  const match = html.match(/<iframe[^>]+src=["']([^"']+)["']/i)
-  return match ? match[1] : null
-}
 
 function getCodeString(value: EmbedCodeValue): string {
   if (!value) return ''
@@ -41,37 +36,36 @@ export default function EmbedBlock({
   embedCode,
   maxWidth = 'max-w-2xl',
 }: EmbedBlockProps) {
-  const iframeSrc = useMemo(() => {
-    const code = getCodeString(embedCode)
-    return extractIframeSrc(code)
+  const html = useMemo(() => {
+    const raw = getCodeString(embedCode)
+    return cleanStega(raw).trim()
   }, [embedCode])
 
   if (!active) return null
-  if (!iframeSrc) return null
+  if (!html) return null
+
+  const iframeTitle = title?.trim() || 'Embedded content'
 
   return (
     <section
       id={anchor || `embed-block-${componentIndex}`}
-      className="embed-block w-full flex justify-center px-5"
+      className="embed-block w-full flex justify-center px-5 py-16 md:py-24"
+      aria-label={iframeTitle}
     >
-      <motion.div
-        className={`w-full ${maxWidth} mx-auto content`}
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-      >
-        {title ? (
-          <h2 className="text-center mb-6">{title}</h2>
-        ) : null}
-        <div className="relative w-full aspect-4/3 min-h-[300px] rounded-lg overflow-hidden border border-border">
-          <iframe
-            src={iframeSrc}
-            title="Embedded content"
-            className="absolute inset-0 w-full h-full"
-            allowFullScreen
+      <div className="container">
+        <motion.div
+          className={`w-full ${maxWidth} mx-auto content`}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+        >
+          {title ? <h2 className="text-center mb-6">{title}</h2> : null}
+          <div
+            className="embed-block__inner relative w-full min-h-[300px] rounded-lg overflow-hidden border border-border [&_iframe]:block [&_iframe]:min-h-[300px] [&_iframe]:w-full [&_iframe]:max-w-full [&_iframe]:border-0"
+            dangerouslySetInnerHTML={{ __html: html }}
           />
-        </div>
-      </motion.div>
+        </motion.div>
+      </div>
     </section>
   )
 }

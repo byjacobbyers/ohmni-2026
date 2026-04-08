@@ -66,7 +66,15 @@ export const sectionsQuery = groq`
       ...,
       ${portableTextWithLinks}
     },
-    _type == 'embedBlock' => { ... },
+    _type == 'embedBlock' => {
+      ...,
+      embedCode {
+        _type,
+        code,
+        language,
+        filename
+      }
+    },
     _type == 'formBlock' => {
       ...,
       ${portableTextWithLinks}
