@@ -18,6 +18,7 @@ export default defineField({
     { type: 'splitScrollBlock' },
     { type: 'problemBlock' },
     { type: 'columnBlock' },
+    { type: 'projectColumnsBlock' },
     { type: 'formBlock' },
     { type: 'embedBlock' },
     { type: 'spacerBlock' },

@@ -19,6 +19,7 @@ import imageBlock from './components/image-block-schema'
 import embedBlock from './components/embed-block-schema'
 import formBlock from './components/form-block-schema'
 import columnBlock from './components/column-block-schema'
+import projectColumnsBlock from './components/project-columns-block-schema'
 import galleryBlock from './components/gallery-block-schema'
 import videoBlock from './components/video-block-schema'
 import spacerBlock from './components/spacer-block-schema'
@@ -27,6 +28,7 @@ import splitScrollBlock from './components/split-scroll-block-schema'
 import problemBlock from './components/problem-block-schema'
 
 import column from './objects/column-schema'
+import project from './objects/project-schema'
 import defaultImage from './objects/default-img-schema'
 import cta from './objects/cta-schema'
 import route from './objects/route-schema'
@@ -54,6 +56,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     embedBlock,
     formBlock,
     columnBlock,
+    projectColumnsBlock,
     galleryBlock,
     videoBlock,
     spacerBlock,
@@ -61,6 +64,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     splitScrollBlock,
     problemBlock,
     column,
+    project,
     defaultImage,
     cta,
     route,

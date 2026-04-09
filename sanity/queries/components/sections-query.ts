@@ -99,6 +99,21 @@ export const sectionsQuery = groq`
         cta { ..., route { ${routeQuery} } }
       }
     },
+    _type == 'projectColumnsBlock' => {
+      ...,
+      projects[] {
+        ...,
+        content[] {
+          ...,
+          markDefs[] {
+            ...,
+            ${linkWithRouteMarkDef}
+          }
+        },
+        image { ${imageQuery} },
+        cta { ..., route { ${routeQuery} } }
+      }
+    },
     _type == 'galleryBlock' => {
       ...,
       images[] { ${imageQuery} }
