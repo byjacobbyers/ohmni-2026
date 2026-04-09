@@ -255,6 +255,18 @@
     margin-top: var(--space-2);
   }
 
+  /* List after a title line — same tight rhythm as p + p (avoid double “heading gap”) */
+  .content > p + ul,
+  .content > p + ol,
+  .content > p.lead + ul,
+  .content > p.lead + ol,
+  .content > h3 + ul,
+  .content > h3 + ol,
+  .content > h4 + ul,
+  .content > h4 + ol {
+    margin-top: var(--space-2);
+  }
+
   .content > h1 + *,
   .content > h2 + *,
   .content > .display + * {

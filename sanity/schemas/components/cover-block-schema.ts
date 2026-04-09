@@ -52,13 +52,13 @@ export default defineType({
       type: 'string',
       options: {
         list: [
-          { title: 'Black', value: 'black' },
-          { title: 'White', value: 'white' },
           { title: 'Primary', value: 'primary' },
+          { title: 'Secondary', value: 'secondary' },
+          { title: 'Texture', value: 'texture' },
         ],
         layout: 'dropdown',
       },
-      initialValue: 'black',
+      initialValue: 'primary',
       hidden: ({ parent }) => parent?.backgroundType === 'image',
     }),
     defineField({

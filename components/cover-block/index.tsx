@@ -2,9 +2,22 @@
 
 import { useEffect } from 'react'
 import SimpleText from '@/components/simple-text'
+import TextureSectionBackdrop from '@/components/texture-section-backdrop'
 import { Button } from '@/components/ui/button'
 import Route from '@/components/route'
+import { cleanStega } from '@/lib/stega'
 import { urlFor } from '@/sanity/lib/image'
+
+/** Matches text block + schema. Legacy `black` / `white` still render; old `primary` (brand fill) is now `secondary` in Studio—stored `primary` reads as default surface. */
+type CoverColorBg = 'primary' | 'secondary' | 'texture' | 'legacyBlack'
+
+function normalizeCoverBackgroundColor(raw?: string): CoverColorBg {
+  const v = cleanStega(typeof raw === 'string' ? raw : '').toLowerCase()
+  if (v === 'secondary' || v === 'texture') return v
+  if (v === 'black') return 'legacyBlack'
+  if (v === 'white' || v === 'primary' || !v) return 'primary'
+  return 'primary'
+}
 
 type CoverBlockProps = {
   active?: boolean
@@ -13,7 +26,7 @@ type CoverBlockProps = {
   backgroundType?: 'image' | 'color'
   image?: { asset?: { url?: string }; alt?: string; crop?: unknown; hotspot?: { x?: number; y?: number } }
   imageMobile?: { asset?: { url?: string }; hotspot?: { x?: number; y?: number } } | null
-  backgroundColor?: 'black' | 'white' | 'primary'
+  backgroundColor?: string
   height?: 'auto' | 'full' | 'half'
   overlayColor?: 'none' | 'black' | 'white' | 'primary'
   overlayOpacity?: number
@@ -30,7 +43,7 @@ export default function CoverBlock({
   backgroundType = 'image',
   image,
   imageMobile,
-  backgroundColor = 'black',
+  backgroundColor = 'primary',
   height = 'half',
   overlayColor = 'none',
   overlayOpacity = 50,
@@ -41,15 +54,19 @@ export default function CoverBlock({
 }: CoverBlockProps) {
   if (!active) return null
 
+  const colorBg = normalizeCoverBackgroundColor(backgroundColor)
+
   const heightClass =
     height === 'full' ? 'min-h-screen' : height === 'half' ? 'min-h-[50vh]' : 'min-h-[500px]'
 
   const bgClass =
-    backgroundColor === 'black'
+    colorBg === 'legacyBlack'
       ? 'bg-foreground text-background'
-      : backgroundColor === 'primary'
-        ? 'bg-primary text-primary-foreground'
-        : 'bg-background text-foreground'
+      : colorBg === 'primary'
+        ? 'bg-background text-foreground'
+        : colorBg === 'secondary'
+          ? 'bg-primary text-primary-foreground'
+          : 'relative bg-black text-foreground'
 
   const overlayColorValue =
     overlayColor === 'black'
@@ -60,15 +77,27 @@ export default function CoverBlock({
           ? 'var(--background)'
           : undefined
 
-  const effectiveColor =
-    backgroundType === 'image' ? overlayColor : backgroundColor
   const contentTextClass =
-    effectiveColor === 'black'
-      ? 'text-background'
-      : effectiveColor === 'primary'
-        ? 'text-primary-foreground'
-        : 'text-foreground'
-  const buttonVariant = effectiveColor === 'primary' ? 'secondary' : 'default'
+    backgroundType === 'image'
+      ? overlayColor === 'black'
+        ? 'text-background'
+        : overlayColor === 'primary'
+          ? 'text-primary-foreground'
+          : 'text-foreground'
+      : colorBg === 'legacyBlack'
+        ? 'text-background'
+        : colorBg === 'secondary'
+          ? 'text-primary-foreground'
+          : 'text-foreground'
+
+  const buttonVariant =
+    backgroundType === 'image'
+      ? overlayColor === 'primary'
+        ? 'secondary'
+        : 'default'
+      : colorBg === 'secondary'
+        ? 'secondary'
+        : 'default'
 
   const positionClasses: Record<string, string> = {
     'top-left': 'items-start justify-start text-left',
@@ -103,28 +132,6 @@ export default function CoverBlock({
   const backgroundImageUrl =
     backgroundType === 'image' ? getBackgroundImageUrl(image, false) : undefined
 
-  // #region agent log
-  fetch('http://127.0.0.1:7630/ingest/b9616c32-2ae3-4cbd-ae57-3dce0e61bed2', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'X-Debug-Session-Id': '14be99' },
-    body: JSON.stringify({
-      sessionId: '14be99',
-      location: 'cover-block/index.tsx:urls',
-      message: 'Derived image URLs and overlay render decision',
-      data: {
-        backgroundImageUrl: backgroundImageUrl ? 'SET' : 'MISSING',
-        overlayColorValue,
-        willRenderOverlay:
-          backgroundType === 'image' &&
-          !!overlayColor &&
-          overlayColor !== 'none' &&
-          !!overlayColorValue,
-      },
-      timestamp: Date.now(),
-      hypothesisId: 'H2',
-    }),
-  }).catch(() => {})
-  // #endregion
   const mobileBackgroundImageUrl =
     backgroundType === 'image'
       ? getBackgroundImageUrl(imageMobile ?? image ?? undefined, true)
@@ -159,6 +166,11 @@ export default function CoverBlock({
         backgroundRepeat: 'no-repeat',
       }}
     >
+      {backgroundType === 'color' && colorBg === 'texture' ? (
+        <div className="pointer-events-none absolute inset-0 z-1 overflow-hidden">
+          <TextureSectionBackdrop />
+        </div>
+      ) : null}
       {backgroundType === 'image' && mobileBackgroundImageUrl && (
         <div
           className="md:hidden absolute inset-0 bg-cover bg-no-repeat"
