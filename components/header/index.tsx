@@ -10,6 +10,7 @@ import MobileNav from '@/components/navigation/mobile'
 import { PRIMARY_AURORA_STOPS } from '@/components/ui/primary-button-aurora-layers'
 import { cn } from '@/lib/utils'
 import { BaseRouteType } from '@/types/objects/route-type'
+import type { HeaderProps } from '@/types/components/header-type'
 import { motion } from 'framer-motion'
 
 const BOOK_NOW_TITLE = 'Book Now'
@@ -92,10 +93,6 @@ function HeaderScrollLogoMark() {
       </svg>
     </div>
   )
-}
-
-type HeaderProps = {
-  navigation?: { items?: BaseRouteType[] } | null
 }
 
 export default function Header({ navigation }: HeaderProps) {

@@ -2,24 +2,14 @@
 
 import { format } from 'date-fns'
 import Sections from "@/components/sections"
+import type { EventSingleProps } from "@/types/components/event-single-type"
 
 const parseSanityDate = (dateStr: string) => {
   const [year, month, day] = dateStr.split('-').map(Number)
   return new Date(year, month - 1, day)
 }
 
-type EventType = {
-  title?: string
-  image?: unknown
-  startDate?: string
-  endDate?: string
-  location?: string
-  sections?: unknown[]
-  timeString?: string
-  soldOut?: boolean
-}
-
-export default function EventSingle({ event }: { event: EventType | null }) {
+export default function EventSingle({ event }: EventSingleProps) {
   if (!event) {
     return (
       <article className="flex min-h-screen flex-col items-center gap-y-24 pb-12">

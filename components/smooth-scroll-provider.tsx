@@ -1,12 +1,9 @@
 'use client'
 
-import { ReactNode, useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import Lenis from 'lenis'
 import { trackEvent } from '@/lib/gtm'
-
-interface SmoothScrollProviderProps {
-  children: ReactNode
-}
+import type { SmoothScrollProviderProps } from '@/types/components/smooth-scroll-provider-type'
 
 export default function SmoothScrollProvider({ children }: SmoothScrollProviderProps) {
   const fired50 = useRef(false)

@@ -1,32 +1,29 @@
 'use client'
 
+import type { CSSProperties } from 'react'
 import { useEffect, useState } from 'react'
 import MuxPlayer from '@mux/mux-player-react'
 import SimpleText from '@/components/simple-text'
 import { Button } from '@/components/ui/button'
 import Route from '@/components/route'
+import type { CoverVideoProps } from '@/types/components/cover-video-type'
 
-type CoverVideoProps = {
-  active?: boolean
-  componentIndex?: number
-  anchor?: string
-  videoProvider?: 'mux' | 'vimeo'
-  muxUrl?: { asset?: { playbackId?: string } }
-  muxUrlMobile?: { asset?: { playbackId?: string } } | null
-  vimeoUrl?: string | null
-  vimeoUrlMobile?: string | null
-  height?: 'auto' | 'full' | 'half'
-  overlayColor?: 'none' | 'black' | 'white' | 'primary'
-  overlayOpacity?: number
-  contentPosition?: string
-  contentHalfWidth?: boolean
-  content?: unknown
-  cta?: { active?: boolean; route?: unknown } | null
-  autoplay?: boolean
-  loop?: boolean
-  muted?: boolean
-  controls?: boolean
+function aspectRatioToCss(ratio?: string | null): string | undefined {
+  if (!ratio || typeof ratio !== 'string') return undefined
+  const parts = ratio.split(':').map((s) => parseFloat(s.trim()))
+  if (
+    parts.length !== 2 ||
+    !Number.isFinite(parts[0]) ||
+    !Number.isFinite(parts[1]) ||
+    parts[0] <= 0 ||
+    parts[1] <= 0
+  ) {
+    return undefined
+  }
+  return `${parts[0]} / ${parts[1]}`
 }
+
+const DEFAULT_AUTO_ASPECT = '16 / 9'
 
 export default function CoverVideo({
   active = true,
@@ -60,8 +57,15 @@ export default function CoverVideo({
 
   if (!active) return null
 
+  const isAutoHeight = height === 'auto'
   const heightClass =
-    height === 'full' ? 'min-h-screen' : height === 'half' ? 'min-h-[50vh]' : 'min-h-[500px]'
+    height === 'full'
+      ? 'min-h-screen'
+      : height === 'half'
+        ? 'min-h-[50vh]'
+        : isAutoHeight
+          ? ''
+          : 'min-h-[50vh]'
 
   const overlayColorValue =
     overlayColor === 'black'
@@ -110,6 +114,19 @@ export default function CoverVideo({
 
   if (!muxPlaybackId && !vimeoUrlValue) return null
 
+  let sectionAspectStyle: CSSProperties | undefined
+  if (isAutoHeight) {
+    if (videoProvider === 'mux' && muxPlaybackId) {
+      const asset =
+        isMobile && muxUrlMobile?.asset?.playbackId ? muxUrlMobile.asset : muxUrl?.asset
+      sectionAspectStyle = {
+        aspectRatio: aspectRatioToCss(asset?.data?.aspect_ratio) ?? DEFAULT_AUTO_ASPECT,
+      }
+    } else {
+      sectionAspectStyle = { aspectRatio: DEFAULT_AUTO_ASPECT }
+    }
+  }
+
   const getVimeoId = (url: string) => {
     const match = url.match(/vimeo\.com\/(\d+)/)
     return match ? match[1] : null
@@ -119,6 +136,7 @@ export default function CoverVideo({
     <section
       id={anchor || `cover-video-${componentIndex}`}
       className={`cover-video w-full relative px-5 py-24 ${heightClass} flex ${positionClass} overflow-hidden`}
+      style={sectionAspectStyle}
     >
       <div className="absolute inset-0 z-0 overflow-hidden">
         {videoProvider === 'mux' && muxPlaybackId ? (

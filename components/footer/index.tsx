@@ -1,10 +1,6 @@
 import Route from '@/components/route'
 import { CookieSettingsTrigger } from '@/components/cookie-consent-banner/cookie-settings-trigger'
-import { BaseRouteType } from '@/types/objects/route-type'
-
-type FooterProps = {
-  navigation?: { items?: BaseRouteType[] } | null
-}
+import type { FooterProps } from '@/types/components/footer-type'
 
 export default function Footer({ navigation }: FooterProps) {
   const year = new Date().getFullYear()

@@ -1,15 +1,19 @@
 'use client'
 
-import { useEffect } from 'react'
+import type { CSSProperties } from 'react'
+import { useEffect, useState } from 'react'
 import SimpleText from '@/components/simple-text'
 import TextureSectionBackdrop from '@/components/texture-section-backdrop'
 import { Button } from '@/components/ui/button'
 import Route from '@/components/route'
 import { cleanStega } from '@/lib/stega'
 import { urlFor } from '@/sanity/lib/image'
-
-/** Matches text block + schema. Legacy `black` / `white` still render; old `primary` (brand fill) is now `secondary` in Studio—stored `primary` reads as default surface. */
-type CoverColorBg = 'primary' | 'secondary' | 'texture' | 'legacyBlack'
+import type {
+  CoverBlockImage,
+  CoverBlockImageMobile,
+  CoverBlockProps,
+  CoverColorBg,
+} from '@/types/components/cover-block-type'
 
 function normalizeCoverBackgroundColor(raw?: string): CoverColorBg {
   const v = cleanStega(typeof raw === 'string' ? raw : '').toLowerCase()
@@ -19,21 +23,17 @@ function normalizeCoverBackgroundColor(raw?: string): CoverColorBg {
   return 'primary'
 }
 
-type CoverBlockProps = {
-  active?: boolean
-  componentIndex?: number
-  anchor?: string
-  backgroundType?: 'image' | 'color'
-  image?: { asset?: { url?: string }; alt?: string; crop?: unknown; hotspot?: { x?: number; y?: number } }
-  imageMobile?: { asset?: { url?: string }; hotspot?: { x?: number; y?: number } } | null
-  backgroundColor?: string
-  height?: 'auto' | 'full' | 'half'
-  overlayColor?: 'none' | 'black' | 'white' | 'primary'
-  overlayOpacity?: number
-  contentPosition?: string
-  contentHalfWidth?: boolean
-  content?: unknown
-  cta?: { active?: boolean; route?: unknown } | null
+const DEFAULT_AUTO_IMAGE_ASPECT = '16 / 9'
+
+function imageDimensionsToAspectCss(
+  img?: CoverBlockImage | CoverBlockImageMobile | null
+): string | undefined {
+  const dims = img?.asset?.metadata?.dimensions
+  if (!dims) return undefined
+  const w = Number(dims.width)
+  const h = Number(dims.height)
+  if (!Number.isFinite(w) || !Number.isFinite(h) || w <= 0 || h <= 0) return undefined
+  return `${w} / ${h}`
 }
 
 export default function CoverBlock({
@@ -52,12 +52,30 @@ export default function CoverBlock({
   content,
   cta,
 }: CoverBlockProps) {
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768)
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
   if (!active) return null
 
   const colorBg = normalizeCoverBackgroundColor(backgroundColor)
 
+  const isAutoHeight = height === 'auto'
   const heightClass =
-    height === 'full' ? 'min-h-screen' : height === 'half' ? 'min-h-[50vh]' : 'min-h-[500px]'
+    height === 'full'
+      ? 'min-h-screen'
+      : height === 'half'
+        ? 'min-h-[50vh]'
+        : isAutoHeight && backgroundType === 'color'
+          ? 'min-h-[50vh]'
+          : isAutoHeight
+            ? ''
+            : 'min-h-[50vh]'
 
   const bgClass =
     colorBg === 'legacyBlack'
@@ -113,7 +131,7 @@ export default function CoverBlock({
   const positionClass = positionClasses[contentPosition] || 'items-center justify-center text-center'
 
   const getBackgroundImageUrl = (
-    img: CoverBlockProps['image'],
+    img: CoverBlockImage | CoverBlockImageMobile | undefined | null,
     mobile = false
   ): string | undefined => {
     if (!img?.asset?.url) return undefined
@@ -122,7 +140,9 @@ export default function CoverBlock({
     return urlFor(img).width(w).height(h).quality(82).auto('format').fit('scale').url()
   }
 
-  const getBackgroundPosition = (img: CoverBlockProps['image'] | CoverBlockProps['imageMobile']) => {
+  const getBackgroundPosition = (
+    img: CoverBlockImage | CoverBlockImageMobile | undefined | null
+  ) => {
     if (!img?.hotspot || img.hotspot.x == null || img.hotspot.y == null) return 'center'
     const x = img.hotspot.x * 100
     const y = img.hotspot.y * 100
@@ -155,16 +175,29 @@ export default function CoverBlock({
     }
   }, [backgroundType, isFirstBlock, backgroundImageUrl])
 
+  let sectionAspectStyle: CSSProperties | undefined
+  if (isAutoHeight && backgroundType === 'image') {
+    const activeImage =
+      isMobile && imageMobile?.asset?.url ? imageMobile : image
+    sectionAspectStyle = {
+      aspectRatio:
+        imageDimensionsToAspectCss(activeImage) ?? DEFAULT_AUTO_IMAGE_ASPECT,
+    }
+  }
+
+  const sectionStyle: CSSProperties = {
+    backgroundImage: backgroundImageUrl ? `url(${backgroundImageUrl})` : undefined,
+    backgroundSize: 'cover',
+    backgroundPosition,
+    backgroundRepeat: 'no-repeat',
+    ...sectionAspectStyle,
+  }
+
   return (
     <section
       id={anchor || `cover-block-${componentIndex}`}
       className={`cover-block w-full relative px-5 py-24 ${heightClass} flex ${positionClass} ${backgroundType === 'color' ? bgClass : ''}`}
-      style={{
-        backgroundImage: backgroundImageUrl ? `url(${backgroundImageUrl})` : undefined,
-        backgroundSize: 'cover',
-        backgroundPosition,
-        backgroundRepeat: 'no-repeat',
-      }}
+      style={sectionStyle}
     >
       {backgroundType === 'color' && colorBg === 'texture' ? (
         <div className="pointer-events-none absolute inset-0 z-1 overflow-hidden">

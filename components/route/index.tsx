@@ -12,12 +12,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
-
-interface RouteProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
-  data: BaseRouteType
-  children: ReactNode
-  className?: string
-}
+import type { RouteProps } from '@/types/components/route-link-type'
 
 function RouteLinkWithOptionalTooltip({
   tooltipText,

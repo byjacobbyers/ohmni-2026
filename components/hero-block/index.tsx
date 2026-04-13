@@ -5,16 +5,7 @@ import { Button } from '@/components/ui/button'
 import Route from '@/components/route'
 import SanityImage from '@/components/sanity-image'
 import SimpleText from '@/components/simple-text'
-
-type HeroBlockProps = {
-  active?: boolean
-  componentIndex?: number
-  content?: unknown
-  layout?: string
-  anchor?: string
-  image?: { asset?: { url?: string }; alt?: string; crop?: unknown; hotspot?: unknown } | null
-  cta?: { active?: boolean; route?: unknown } | null
-}
+import type { HeroBlockProps } from '@/types/components/hero-block-type'
 
 export default function HeroBlock({
   active = true,

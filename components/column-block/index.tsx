@@ -7,24 +7,7 @@ import Route from '@/components/route'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
-
-type ColumnBlockProps = {
-  active?: boolean
-  componentIndex?: number
-  anchor?: string
-  title?: string
-  columnsPerRow?: number
-  columns?: Array<{
-    _key?: string
-    title?: string
-    content?: unknown
-    image?: {
-      asset?: { metadata?: { dimensions?: { width?: number; height?: number } } }
-      [key: string]: unknown
-    } | null
-    cta?: { active?: boolean; route?: { title?: string; [key: string]: unknown } } | null
-  }>
-}
+import type { ColumnBlockProps } from '@/types/components/column-block-type'
 
 export default function ColumnBlock({
   active = true,

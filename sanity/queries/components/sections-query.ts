@@ -1,7 +1,7 @@
 import { groq } from 'next-sanity'
 import { imageQuery } from '../objects/image-query'
 import { routeQuery } from '../objects/route-query'
-import { videoQuery } from '../objects/video-query'
+import { muxAssetProjection, videoQuery } from '../objects/video-query'
 
 /** Inline link (new) or nested `route` object (legacy portable text). */
 const linkWithRouteMarkDef = `_type == 'linkWithRoute' => select(
@@ -36,10 +36,18 @@ export const sectionsQuery = groq`
     _type == 'coverVideo' => {
       ...,
       muxUrl {
-        asset-> { playbackId }
+        _type,
+        asset-> {
+          ${muxAssetProjection}
+        },
+        thumbTime
       },
       muxUrlMobile {
-        asset-> { playbackId }
+        _type,
+        asset-> {
+          ${muxAssetProjection}
+        },
+        thumbTime
       },
       content[] {
         ...,

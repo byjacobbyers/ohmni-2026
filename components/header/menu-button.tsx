@@ -1,12 +1,7 @@
 'use client'
 
 import { LazyMotion, domAnimation, m } from 'framer-motion'
-
-interface MenuButtonProps {
-  onClick: () => void
-  isOpen: boolean
-  defaultColor: string
-}
+import type { MenuButtonProps } from '@/types/components/menu-button-type'
 
 export default function MenuButton({
   onClick,

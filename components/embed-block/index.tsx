@@ -3,12 +3,7 @@
 import { motion } from 'framer-motion'
 import { useMemo } from 'react'
 import { cleanStega } from '@/lib/stega'
-
-type EmbedCodeValue =
-  | string
-  | { code?: string; language?: string }
-  | null
-  | undefined
+import type { EmbedBlockProps, EmbedCodeValue } from '@/types/components/embed-block-type'
 
 function getCodeString(value: EmbedCodeValue): string {
   if (!value) return ''
@@ -17,15 +12,6 @@ function getCodeString(value: EmbedCodeValue): string {
     return typeof value.code === 'string' ? value.code : ''
   }
   return ''
-}
-
-type EmbedBlockProps = {
-  active?: boolean
-  componentIndex?: number
-  anchor?: string
-  title?: string | null
-  embedCode?: EmbedCodeValue
-  maxWidth?: string
 }
 
 export default function EmbedBlock({

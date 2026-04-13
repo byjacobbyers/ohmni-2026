@@ -1,12 +1,8 @@
 import Script from 'next/script'
 import { generateOrganizationJsonLd, generateWebSiteJsonLd } from '@/lib/seo'
-import type { SiteType } from '@/lib/seo'
+import type { OrganizationJsonLdProps } from '@/types/components/organization-jsonld-type'
 
-type Props = {
-  site?: SiteType | null
-}
-
-export default function OrganizationJsonLd({ site }: Props) {
+export default function OrganizationJsonLd({ site }: OrganizationJsonLdProps) {
   const org = generateOrganizationJsonLd(site ?? null)
   const web = generateWebSiteJsonLd(site ?? null)
   const schemas = [org, web]

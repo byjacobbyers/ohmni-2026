@@ -2,15 +2,7 @@
 
 import { motion } from 'framer-motion'
 import SanityImage from '@/components/sanity-image'
-
-type ImageBlockProps = {
-  active?: boolean
-  componentIndex?: number
-  anchor?: string
-  image?: { asset?: { url?: string }; alt?: string; crop?: unknown; hotspot?: unknown } | null
-  imageMobile?: { asset?: { url?: string }; alt?: string; crop?: unknown; hotspot?: unknown } | null
-  maxWidth?: string
-}
+import type { ImageBlockProps } from '@/types/components/image-block-type'
 
 export default function ImageBlock({
   active = true,

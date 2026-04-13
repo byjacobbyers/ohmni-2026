@@ -3,15 +3,7 @@
 import { motion } from 'framer-motion'
 import NormalText from '@/components/normal-text'
 import TextureSectionBackdrop from '@/components/texture-section-backdrop'
-
-type TextBlockProps = {
-  active?: boolean
-  componentIndex?: number
-  anchor?: string
-  backgroundColor?: 'primary' | 'secondary' | 'texture'
-  contentAlignment?: string
-  content?: unknown
-}
+import type { TextBlockProps } from '@/types/components/text-block-type'
 
 export default function TextBlock({
   active = true,

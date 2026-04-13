@@ -1,17 +1,10 @@
 'use client'
 
-import type { ReactNode } from 'react'
-
 import AuroraBits from '@/components/aurora-bits'
+import type { PrimaryButtonAuroraLayersProps } from '@/types/components/primary-button-aurora-layers-type'
 
 /** Same hues as banner SoftAurora: #f7f7f7 and #3566ff */
 export const PRIMARY_AURORA_STOPS = ['#f7f7f7', '#3566ff', '#f7f7f7'] as const
-
-type PrimaryButtonAuroraLayersProps = {
-  children: ReactNode
-  /** When false, Aurora WebGL is not mounted (lazy first hover). */
-  mountAurora?: boolean
-}
 
 export function PrimaryButtonAuroraLayers({
   children,

@@ -4,16 +4,10 @@ import { motion } from 'framer-motion'
 import SimpleText from '@/components/simple-text'
 import SanityImage from '@/components/sanity-image'
 import TextureSectionBackdrop from '@/components/texture-section-backdrop'
-import type { SplitScrollBlockItem } from '@/types/components/split-scroll-block-type'
-
-type SplitScrollBlockProps = {
-  active?: boolean
-  componentIndex?: number
-  anchor?: string
-  backgroundColor?: 'primary' | 'secondary' | 'texture'
-  title?: unknown
-  items?: SplitScrollBlockItem[]
-}
+import type {
+  SplitScrollBlockItem,
+  SplitScrollBlockProps,
+} from '@/types/components/split-scroll-block-type'
 
 export default function SplitScrollBlock({
   active = true,

@@ -5,14 +5,7 @@ import { Button } from '@/components/ui/button'
 import Route from '@/components/route'
 import SimpleText from '@/components/simple-text'
 import SoftAurora from '@/components/soft-aurora'
-
-type BannerBlockProps = {
-  active?: boolean
-  componentIndex?: number
-  anchor?: string
-  content?: unknown
-  cta?: { active?: boolean; route?: unknown } | null
-}
+import type { BannerBlockProps } from '@/types/components/banner-block-type'
 
 export default function BannerBlock({
   active = true,

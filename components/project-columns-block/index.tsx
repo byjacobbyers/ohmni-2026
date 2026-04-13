@@ -8,27 +8,7 @@ import Route from '@/components/route'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter } from '@/components/ui/card'
 import { cleanStega } from '@/lib/stega'
-
-type ProjectItem = {
-  _key?: string
-  title?: string
-  content?: unknown
-  image?: {
-    asset?: { metadata?: { dimensions?: { width?: number; height?: number } } }
-    [key: string]: unknown
-  } | null
-  cta?: { active?: boolean; route?: { title?: string; [key: string]: unknown } } | null
-}
-
-type ProjectColumnsBlockProps = {
-  active?: boolean
-  componentIndex?: number
-  anchor?: string
-  backgroundColor?: string
-  title?: string
-  columnsPerRow?: number
-  projects?: ProjectItem[]
-}
+import type { ProjectColumnsBlockProps } from '@/types/components/project-columns-block-type'
 
 function normalizeBackgroundColor(raw?: string): 'primary' | 'secondary' | 'texture' {
   const v = cleanStega(typeof raw === 'string' ? raw : '').toLowerCase()

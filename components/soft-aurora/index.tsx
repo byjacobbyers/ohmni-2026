@@ -3,24 +3,7 @@
 import { Renderer, Program, Mesh, Triangle } from 'ogl'
 import { useEffect, useRef } from 'react'
 import { cn } from '@/lib/utils'
-
-interface SoftAuroraProps {
-  speed?: number
-  scale?: number
-  brightness?: number
-  color1?: string
-  color2?: string
-  noiseFrequency?: number
-  noiseAmplitude?: number
-  bandHeight?: number
-  bandSpread?: number
-  octaveDecay?: number
-  layerOffset?: number
-  colorSpeed?: number
-  enableMouseInteraction?: boolean
-  mouseInfluence?: number
-  className?: string
-}
+import type { SoftAuroraProps } from '@/types/components/soft-aurora-type'
 
 function hexToVec3(hex: string): [number, number, number] {
   const h = hex.replace('#', '')

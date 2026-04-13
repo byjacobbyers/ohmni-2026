@@ -5,7 +5,11 @@ import { motion } from 'framer-motion'
 import { LuClock, LuCode, LuLayers } from 'react-icons/lu'
 import SimpleText from '@/components/simple-text'
 import SanityImage from '@/components/sanity-image'
-import type { ProblemBlockColumn, ProblemBlockIcon } from '@/types/components/problem-block-type'
+import type {
+  ProblemBlockColumn,
+  ProblemBlockIcon,
+  ProblemBlockProps,
+} from '@/types/components/problem-block-type'
 
 const PROBLEM_ICONS: Record<ProblemBlockIcon, ComponentType<{ className?: string; 'aria-hidden'?: boolean }>> = {
   LuClock,
@@ -27,15 +31,6 @@ function ProblemColumnVisual({ column }: { column: ProblemBlockColumn }) {
     return <Icon className="h-12 w-12 shrink-0 text-destructive" aria-hidden />
   }
   return null
-}
-
-type ProblemBlockProps = {
-  active?: boolean
-  componentIndex?: number
-  anchor?: string
-  content?: unknown
-  columns?: ProblemBlockColumn[]
-  excerpt?: unknown
 }
 
 export default function ProblemBlock({

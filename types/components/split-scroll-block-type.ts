@@ -18,3 +18,12 @@ export type SplitScrollBlockType = {
   title?: unknown
   items?: SplitScrollBlockItem[]
 }
+
+export type SplitScrollBlockProps = {
+  active?: boolean
+  componentIndex?: number
+  anchor?: string
+  backgroundColor?: 'primary' | 'secondary' | 'texture'
+  title?: unknown
+  items?: SplitScrollBlockItem[]
+}

@@ -1,9 +1,6 @@
 'use client'
 
-type SpacerBlockProps = {
-  active?: boolean
-  size?: string
-}
+import type { SpacerBlockProps } from '@/types/components/spacer-block-type'
 
 export default function SpacerBlock({ active = true, size = 'medium' }: SpacerBlockProps) {
   if (!active) return null

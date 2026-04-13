@@ -2,10 +2,7 @@
 
 import { PortableText } from '@portabletext/react'
 import { portableTextComponents } from '@/lib/portable-text-components'
-
-type NormalTextProps = {
-  content?: unknown
-}
+import type { NormalTextProps } from '@/types/components/normal-text-type'
 
 export default function NormalText({ content }: NormalTextProps) {
   if (!content || !Array.isArray(content) || content.length === 0) return null

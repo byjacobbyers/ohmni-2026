@@ -2,18 +2,7 @@
 
 import SanityImage from '@/components/sanity-image'
 import { useState } from 'react'
-
-type GalleryBlockProps = {
-  active?: boolean
-  componentIndex?: number
-  anchor?: string
-  images?: Array<{
-    asset?: { metadata?: { dimensions?: { width?: number; height?: number } } }
-    [key: string]: unknown
-  }>
-  imagesPerRow?: number
-  enableLightbox?: boolean
-}
+import type { GalleryBlockProps } from '@/types/components/gallery-block-type'
 
 export default function GalleryBlock({
   active = true,

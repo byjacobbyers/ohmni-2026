@@ -8,18 +8,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion'
-
-type Faq = {
-  question?: string
-  answer?: unknown
-}
-
-type FaqBlockProps = {
-  active?: boolean
-  componentIndex?: number
-  anchor?: string
-  faqs?: Faq[]
-}
+import type { FaqBlockFaq, FaqBlockProps } from '@/types/components/faq-block-type'
 
 export default function FaqBlock({
   active = true,

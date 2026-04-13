@@ -3,22 +3,7 @@
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import MuxPlayer from '@mux/mux-player-react'
-
-type VideoBlockProps = {
-  active?: boolean
-  componentIndex?: number
-  anchor?: string
-  videoProvider?: 'mux' | 'vimeo'
-  muxUrl?: { asset?: { playbackId?: string } }
-  muxUrlMobile?: { asset?: { playbackId?: string } } | null
-  vimeoUrl?: string | null
-  vimeoUrlMobile?: string | null
-  maxWidth?: string
-  autoplay?: boolean
-  loop?: boolean
-  muted?: boolean
-  controls?: boolean
-}
+import type { VideoBlockProps } from '@/types/components/video-block-type'
 
 function getVimeoId(url: string): string | null {
   const match = url.match(/vimeo\.com\/(\d+)/)

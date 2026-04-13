@@ -4,16 +4,7 @@ import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import Route from '@/components/route'
 import SimpleText from '@/components/simple-text'
-
-type CtaBlockProps = {
-  active?: boolean
-  componentIndex?: number
-  anchor?: string
-  backgroundColor?: 'primary' | 'secondary'
-  content?: unknown
-  alignment?: string
-  cta?: { active?: boolean; route?: unknown } | null
-}
+import type { CtaBlockProps } from '@/types/components/cta-block-type'
 
 export default function CtaBlock({
   active = true,

@@ -1,11 +1,5 @@
 import * as React from 'react'
-
-interface EmailTemplateProps {
-  name?: string
-  email?: string
-  message: string
-  isAnonymous: boolean
-}
+import type { EmailTemplateProps } from '@/types/components/email-template-type'
 
 export const EmailTemplate: React.FC<EmailTemplateProps> = ({
   name,

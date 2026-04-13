@@ -20,3 +20,12 @@ export type ProblemBlockType = {
   columns?: ProblemBlockColumn[]
   excerpt?: unknown
 }
+
+export type ProblemBlockProps = {
+  active?: boolean
+  componentIndex?: number
+  anchor?: string
+  content?: unknown
+  columns?: ProblemBlockColumn[]
+  excerpt?: unknown
+}

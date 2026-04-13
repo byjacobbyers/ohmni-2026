@@ -1,9 +1,6 @@
 'use client'
 
-type DividerBlockProps = {
-  active?: boolean
-  size?: string
-}
+import type { DividerBlockProps } from '@/types/components/divider-block-type'
 
 export default function DividerBlock({ active = true, size = 'zero' }: DividerBlockProps) {
   if (!active) return null

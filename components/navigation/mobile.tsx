@@ -7,16 +7,9 @@ import {
   NavigationMenuList,
 } from '@/components/ui/navigation-menu'
 import Route from '@/components/route'
-import { BaseRouteType } from '@/types/objects/route-type'
+import type { MobileNavProps } from '@/types/components/mobile-nav-type'
 
 const BOOK_NOW_TITLE = 'Book Now'
-
-interface MobileNavProps {
-  data: { items?: BaseRouteType[] }
-  closeMenu: () => void
-  /** Fires when Book Now link is hovered (e.g. header aurora on tablet with pointer). */
-  onBookNowHoverChange?: (active: boolean) => void
-}
 
 export default function MobileNav({
   data,

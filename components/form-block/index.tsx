@@ -9,21 +9,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 import { Switch } from '@/components/ui/switch'
 import { trackEvent } from '@/lib/gtm'
-
-interface FormData {
-  name: string
-  email: string
-  message: string
-  isAnonymous: boolean
-  website?: string
-}
-
-interface FormBlockProps {
-  active?: boolean
-  componentIndex?: number
-  anchor?: string
-  content?: unknown
-}
+import type { FormBlockFormData, FormBlockProps } from '@/types/components/form-block-type'
 
 export default function FormBlock({
   active = true,
@@ -33,17 +19,17 @@ export default function FormBlock({
 }: FormBlockProps) {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState<FormBlockFormData>({
     name: '',
     email: '',
     message: '',
     isAnonymous: false,
     website: '',
   })
-  const [errors, setErrors] = useState<Partial<FormData>>({})
+  const [errors, setErrors] = useState<Partial<FormBlockFormData>>({})
 
   const validateForm = (): boolean => {
-    const newErrors: Partial<FormData> = {}
+    const newErrors: Partial<FormBlockFormData> = {}
 
     if (!formData.isAnonymous) {
       if (!formData.name.trim()) newErrors.name = 'Name is required'
@@ -117,7 +103,7 @@ export default function FormBlock({
     }
   }
 
-  const handleInputChange = (field: keyof FormData, value: string | boolean) => {
+  const handleInputChange = (field: keyof FormBlockFormData, value: string | boolean) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
     if (errors[field]) {
       setErrors((prev) => ({ ...prev, [field]: undefined }))

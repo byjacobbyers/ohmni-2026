@@ -2,20 +2,9 @@
 
 import Image from 'next/image'
 import { urlFor } from '@/sanity/lib/image'
+import type { SanityImageProps, SanityImageSource } from '@/types/components/sanity-image-type'
 
-export type SanityImageSource = Parameters<typeof urlFor>[0]
-
-type SanityImageProps = {
-  image: SanityImageSource | null | undefined
-  alt?: string
-  fill?: boolean
-  width?: number
-  height?: number
-  className?: string
-  sizes?: string
-  priority?: boolean
-  quality?: number
-}
+export type { SanityImageSource }
 
 /**
  * Renders a Sanity image with crop and hotspot support via urlFor.
