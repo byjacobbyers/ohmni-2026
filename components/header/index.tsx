@@ -58,7 +58,7 @@ function HeaderScrollLogoMark() {
       <div className="aspect-square p-[0.5px] h-full w-full overflow-hidden">
         <img
           src="/ohmni.svg"
-          alt="Ohmni Web Technologies Logo"
+          alt="Ohmni Web Marketing Logo"
           className="h-full w-full object-contain"
         />
       </div>
@@ -174,7 +174,7 @@ export default function Header({ navigation }: HeaderProps) {
                 OHMNI
               </h1>
               <span className="text-sm pb-[2px] md:pb-[3px] uppercase leading-none">
-                Web Technologies
+                Marketing Technologies
               </span>
             </div>
           </Link>
