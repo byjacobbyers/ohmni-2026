@@ -1,11 +1,11 @@
 import { defineType, defineField } from 'sanity'
-import { BlockElementIcon } from '@sanity/icons'
+import { RocketIcon } from '@sanity/icons'
 
 export default defineType({
   title: 'Hero Block',
   name: 'heroBlock',
   type: 'object',
-  icon: BlockElementIcon,
+  icon: RocketIcon,
   fields: [
     defineField({
       title: 'Active?',
