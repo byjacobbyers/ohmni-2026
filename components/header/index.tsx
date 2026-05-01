@@ -174,7 +174,7 @@ export default function Header({ navigation }: HeaderProps) {
                 OHMNI
               </h1>
               <span className="text-sm pb-[2px] md:pb-[3px] uppercase leading-none">
-                Marketing Technologies
+                Web Technologies
               </span>
             </div>
           </Link>
