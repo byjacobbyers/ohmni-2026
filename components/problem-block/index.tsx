@@ -1,20 +1,87 @@
 'use client'
 
-import type { ComponentType } from 'react'
 import { motion } from 'framer-motion'
-import { LuClock, LuCode, LuLayers } from 'react-icons/lu'
 import SimpleText from '@/components/simple-text'
 import SanityImage from '@/components/sanity-image'
+import Radar from '@/components/Radar'
+import LetterGlitch from '@/components/LetterGlitch'
+import PixelBlast from '@/components/PixelBlast'
 import type {
   ProblemBlockColumn,
   ProblemBlockIcon,
   ProblemBlockProps,
 } from '@/types/components/problem-block-type'
 
-const PROBLEM_ICONS: Record<ProblemBlockIcon, ComponentType<{ className?: string; 'aria-hidden'?: boolean }>> = {
-  LuClock,
-  LuCode,
-  LuLayers,
+function ProblemIconVisual({ icon }: { icon: ProblemBlockIcon }) {
+  const shell =
+    'relative h-12 w-12 shrink-0 overflow-hidden rounded-full pointer-events-none border border-destructive'
+
+  switch (icon) {
+    case 'LuClock':
+      return (
+        <div className={shell} aria-hidden>
+          <div className="absolute inset-0 size-full min-h-12 min-w-12">
+            <Radar
+              speed={0.2}
+              scale={0.5}
+              ringCount={10}
+              spokeCount={10}
+              ringThickness={0.05}
+              spokeThickness={0.01}
+              sweepSpeed={0.3}
+              sweepWidth={2}
+              sweepLobes={1}
+              color="#EF4444"
+              backgroundColor="#000000"
+              falloff={2}
+              brightness={1}
+              enableMouseInteraction={false}
+              mouseInfluence={0.1}
+            />
+          </div>
+        </div>
+      )
+    case 'LuCode':
+      return (
+        <div className={shell} aria-hidden>
+          <LetterGlitch
+            glitchColors={['#f97316', '#f43f5e', '#3b82f6']}
+            glitchSpeed={50}
+            centerVignette={false}
+            outerVignette={true}
+            smooth
+            characters="ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$&*()-_+=/[]{};:<>.,0123456789"
+          />
+        </div>
+      )
+    case 'LuLayers':
+      return (
+        <div className={shell} aria-hidden>
+          <PixelBlast
+            className="absolute inset-0 size-full min-h-12 min-w-12"
+            variant="square"
+            pixelSize={4}
+            color="#EF4444"
+            patternScale={2}
+            patternDensity={1}
+            pixelSizeJitter={0}
+            enableRipples
+            rippleSpeed={0.4}
+            rippleThickness={0.12}
+            rippleIntensityScale={1.5}
+            liquid={false}
+            liquidStrength={0.12}
+            liquidRadius={1.2}
+            liquidWobbleSpeed={5}
+            speed={0.5}
+            edgeFade={0.25}
+            transparent
+          />
+        </div>
+      )
+    default:
+      return null
+  }
 }
 
 function ProblemColumnVisual({ column }: { column: ProblemBlockColumn }) {
@@ -26,9 +93,8 @@ function ProblemColumnVisual({ column }: { column: ProblemBlockColumn }) {
     )
   }
   const key = column.icon as ProblemBlockIcon | undefined
-  if (key && PROBLEM_ICONS[key]) {
-    const Icon = PROBLEM_ICONS[key]
-    return <Icon className="h-12 w-12 shrink-0 text-destructive" aria-hidden />
+  if (key === 'LuClock' || key === 'LuCode' || key === 'LuLayers') {
+    return <ProblemIconVisual icon={key} />
   }
   return null
 }
