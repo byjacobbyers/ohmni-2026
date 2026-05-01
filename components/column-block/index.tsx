@@ -32,7 +32,7 @@ export default function ColumnBlock({
       id={anchor || `column-block-${componentIndex}`}
       className="column-block w-full overflow-x-hidden px-5 py-16 md:py-24 flex justify-center"
     >
-      <div className="relative z-10 container flex justify-center">
+      <div className="relative z-10 flex justify-center">
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -49,15 +49,20 @@ export default function ColumnBlock({
               className={`grid w-full gap-x-6 gap-y-5 lg:mx-auto lg:max-w-[75vw] ${gridCols}`}
             >
               {columns.map((column, index) => {
-                const isMiddleOfThree =
-                  columns.length === 3 && columnsPerRowValue === 3 && index === 1
+                const isEmphasized =
+                  (columnsPerRowValue === 3 &&
+                    columns.length === 3 &&
+                    index === 1) ||
+                  (columnsPerRowValue === 4 &&
+                    columns.length === 4 &&
+                    (index === 1 || index === 2))
 
                 return (
                   <Card
                     key={column._key || index}
                     className={cn(
                       'flex w-full min-h-0 min-w-0 max-w-none flex-col items-center justify-center overflow-hidden rounded-md border-0 py-6 md:py-8',
-                      isMiddleOfThree
+                      isEmphasized
                         ? 'relative z-10 bg-muted/52 md:scale-[1.04] md:py-10'
                         : 'bg-muted/40'
                     )}
