@@ -44,6 +44,7 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
     return generateSeoMetadata(page?.seo, global?.seo, page?.title, undefined, {
       url: `/${resolved.slug}`,
       titleSuffix: ' :: Ohmni',
+      ogDocument: { slug: String(resolved.slug), type: 'page' },
     })
   } catch {
     return generateSeoMetadata()

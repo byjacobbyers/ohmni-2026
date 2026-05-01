@@ -15,7 +15,10 @@ export const generateMetadata = async (): Promise<Metadata> => {
   try {
     const { data: global } = await sanityFetch({ query: SiteQuery })
     const globalSeo = global?.seo
-    return generateSeoMetadata(undefined, globalSeo, undefined, undefined, { url: '/' })
+    return generateSeoMetadata(undefined, globalSeo, undefined, undefined, {
+      url: '/',
+      ogDocument: { slug: 'home', type: 'page' },
+    })
   } catch {
     return generateSeoMetadata()
   }
