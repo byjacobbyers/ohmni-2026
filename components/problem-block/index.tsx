@@ -5,7 +5,7 @@ import SimpleText from '@/components/simple-text'
 import SanityImage from '@/components/sanity-image'
 import Radar from '@/components/Radar'
 import LetterGlitch from '@/components/LetterGlitch'
-import PixelBlast from '@/components/PixelBlast'
+import FaultyTerminal from '@/components/FaultyTerminal'
 import type {
   ProblemBlockColumn,
   ProblemBlockIcon,
@@ -57,25 +57,25 @@ function ProblemIconVisual({ icon }: { icon: ProblemBlockIcon }) {
     case 'LuLayers':
       return (
         <div className={shell} aria-hidden>
-          <PixelBlast
+          <FaultyTerminal
             className="absolute inset-0 size-full min-h-12 min-w-12"
-            variant="square"
-            pixelSize={4}
-            color="#EF4444"
-            patternScale={2}
-            patternDensity={1}
-            pixelSizeJitter={0}
-            enableRipples
-            rippleSpeed={0.4}
-            rippleThickness={0.12}
-            rippleIntensityScale={1.5}
-            liquid={false}
-            liquidStrength={0.12}
-            liquidRadius={1.2}
-            liquidWobbleSpeed={5}
-            speed={0.5}
-            edgeFade={0.25}
-            transparent
+            scale={2.1}
+            gridMul={[2, 1]}
+            digitSize={1}
+            timeScale={0.5}
+            pause={false}
+            scanlineIntensity={0.5}
+            glitchAmount={1}
+            flickerAmount={1}
+            noiseAmp={1}
+            chromaticAberration={0}
+            dither={0}
+            curvature={0.1}
+            tint="#EF4444"
+            mouseReact={false}
+            mouseStrength={0.5}
+            pageLoadAnimation={false}
+            brightness={1}
           />
         </div>
       )

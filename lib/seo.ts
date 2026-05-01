@@ -42,16 +42,44 @@ export function buildGeneratedOgImageUrl(ref: OgDocumentRef): string {
   return buildUrl(`/api/og?${qs.toString()}`)
 }
 
+function safeShareGraphicUrl(
+  share: SeoType['shareGraphic'] | undefined
+): string | null {
+  if (
+    !share ||
+    typeof share !== 'object' ||
+    !('asset' in share) ||
+    !share.asset ||
+    typeof share.asset !== 'object' ||
+    share.asset === null ||
+    !('url' in share.asset) ||
+    typeof (share.asset as { url?: unknown }).url !== 'string'
+  ) {
+    return null
+  }
+  try {
+    return urlFor(share as Parameters<typeof urlFor>[0]).width(1200).height(630).url()
+  } catch {
+    return null
+  }
+}
+
+/**
+ * Page-level custom upload wins, then generated OG for this document (so per-page
+ * auto share + headings work), then site-wide upload, then static default.
+ * Previously global shareGraphic sat before /api/og and blocked all inner pages.
+ */
 function resolveOgImageUrl(pageSeo?: SeoType, globalSeo?: SeoType, ogDocument?: OgDocumentRef): string {
-  if (pageSeo?.shareGraphic?.asset?.url) {
-    return urlFor(pageSeo.shareGraphic.asset as Parameters<typeof urlFor>[0]).width(1200).height(630).url()
-  }
-  if (globalSeo?.shareGraphic?.asset?.url) {
-    return urlFor(globalSeo.shareGraphic.asset as Parameters<typeof urlFor>[0]).width(1200).height(630).url()
-  }
+  const pageGraphic = safeShareGraphicUrl(pageSeo?.shareGraphic)
+  if (pageGraphic) return pageGraphic
+
   if (ogDocument) {
     return buildGeneratedOgImageUrl(ogDocument)
   }
+
+  const globalGraphic = safeShareGraphicUrl(globalSeo?.shareGraphic)
+  if (globalGraphic) return globalGraphic
+
   return defaultOgImage
 }
 
