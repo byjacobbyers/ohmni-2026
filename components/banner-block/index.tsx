@@ -75,7 +75,7 @@ export default function BannerBlock({
             </div>
           ) : null}
           {cta?.active && cta?.route ? (
-            <div className="flex pt-2">
+            <div className="flex pt-2 justify-center md:justify-start">
               <Button asChild variant="default">
                 <Route data={cta.route as Parameters<typeof Route>[0]['data']}>
                   {(cta.route as { title?: string }).title || 'Learn More'}
