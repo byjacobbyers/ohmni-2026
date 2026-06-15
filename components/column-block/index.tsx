@@ -46,7 +46,7 @@ export default function ColumnBlock({
           )}
           {columns && Array.isArray(columns) && columns.length > 0 && (
             <div
-              className={`grid w-full gap-x-6 gap-y-5 lg:mx-auto lg:max-w-[75vw] ${gridCols}`}
+              className={`grid w-full gap-x-6 gap-y-5 lg:mx-auto 2xl:max-w-[75vw] ${gridCols}`}
             >
               {columns.map((column, index) => {
                 const isEmphasized =
