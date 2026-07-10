@@ -1,18 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
-const allowedOrigins = [
-  siteUrl.replace(/\/$/, ''),
-  'http://localhost:3000',
-  'http://127.0.0.1:3000',
-]
+const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000').replace(/\/$/, '')
 
 function isAllowedOrigin(origin: string | null): boolean {
   if (!origin) return false
   const o = origin.trim()
-  if (/^https?:\/\/localhost(:\d+)?$/.test(o)) return true
-  if (/^https?:\/\/127\.0\.0\.1(:\d+)?$/.test(o)) return true
-  return allowedOrigins.some((a) => o === a)
+  if (/^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(o)) return true
+  return o === siteUrl
 }
 
 export function corsHeaders(request: NextRequest): Record<string, string> {

@@ -2,20 +2,14 @@ import type { MouseEvent } from 'react'
 import { BaseRouteType } from '@/types/objects/route-type'
 import { trackEvent } from '@/lib/gtm'
 
-export function resolveRouteUrl(route: BaseRouteType): string {
+function resolveRouteUrl(route: BaseRouteType): string {
   if (!route || !route.linkType) return '#'
 
   switch (route.linkType) {
-    case 'page': {
-      const pageSlug =
-        typeof route.pageRoute?.slug === 'string' ? route.pageRoute.slug : route.pageRoute?.slug?.current
-      return pageSlug ? `/${pageSlug}` : '#'
-    }
-    case 'event': {
-      const eventSlug =
-        typeof route.eventRoute?.slug === 'string' ? route.eventRoute.slug : route.eventRoute?.slug?.current
-      return eventSlug ? `/events/${eventSlug}` : '#'
-    }
+    case 'page':
+      return route.pageRoute?.slug ? `/${route.pageRoute.slug}` : '#'
+    case 'event':
+      return route.eventRoute?.slug ? `/events/${route.eventRoute.slug}` : '#'
     case 'path':
       if (route.route === undefined || route.route === null) return '#'
       if (route.route === '') return '/'

@@ -19,8 +19,9 @@ export type BaseRouteType = {
   _type: string
   title?: string
   linkType: 'page' | 'event' | 'path' | 'anchor' | 'file' | 'external' | 'email' | 'telephone'
-  pageRoute?: PageType & { _type: 'page' }
-  eventRoute?: EventType & { _type: 'event' }
+  /* routeQuery projects "slug": slug.current, so slug arrives as a plain string */
+  pageRoute?: Omit<PageType, 'slug'> & { _type: 'page'; slug?: string }
+  eventRoute?: Omit<EventType, 'slug'> & { _type: 'event'; slug?: string }
   fileRoute?: {
     asset?: {
       url?: string

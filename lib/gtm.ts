@@ -22,7 +22,7 @@ const ensureDataLayer = () => {
   return win.dataLayer
 }
 
-export const pushToDataLayer = (payload: Record<string, unknown>) => {
+const pushToDataLayer = (payload: Record<string, unknown>) => {
   const dataLayer = ensureDataLayer()
   if (!dataLayer) return
   dataLayer.push(payload)
