@@ -1,6 +1,5 @@
 'use client'
 
-import { forwardRef } from 'react'
 import Link from 'next/link'
 import { BaseRouteType } from '@/types/objects/route-type'
 import { buildRouteProps } from '@/lib/route-resolver'
@@ -32,8 +31,7 @@ function RouteLinkWithOptionalTooltip({
   )
 }
 
-const Route = forwardRef<HTMLAnchorElement, RouteProps>(
-  ({ data, children, className, ...rest }, ref) => {
+function Route({ data, children, className, ref, ...rest }: RouteProps) {
     const ctaLocation = useCtaLocation()
     if (!data || !data.linkType) {
       return <>{children}</>
@@ -114,9 +112,6 @@ const Route = forwardRef<HTMLAnchorElement, RouteProps>(
         </Link>
       </RouteLinkWithOptionalTooltip>
     )
-  }
-)
-
-Route.displayName = 'Route'
+}
 
 export default Route

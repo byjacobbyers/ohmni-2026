@@ -37,13 +37,19 @@ function isPrimaryAuroraVariant(variant: VariantProps<typeof buttonVariants>['va
   return variant === 'default' || variant === 'huge'
 }
 
-const Button = React.forwardRef<
-  HTMLButtonElement,
-  React.ComponentProps<'button'> &
-    VariantProps<typeof buttonVariants> & {
-      asChild?: boolean
-    }
->(({ className, variant, size, asChild = false, children, onMouseEnter, ...props }, ref) => {
+function Button({
+  className,
+  variant,
+  size,
+  asChild = false,
+  children,
+  onMouseEnter,
+  ref,
+  ...props
+}: React.ComponentProps<'button'> &
+  VariantProps<typeof buttonVariants> & {
+    asChild?: boolean
+  }) {
   const resolvedVariant = variant ?? 'default'
   const primaryAurora = isPrimaryAuroraVariant(resolvedVariant)
   const [mountAurora, setMountAurora] = React.useState(false)
@@ -112,8 +118,6 @@ const Button = React.forwardRef<
       <PrimaryButtonAuroraLayers mountAurora={mountAurora}>{children}</PrimaryButtonAuroraLayers>
     </button>
   )
-})
-
-Button.displayName = 'Button'
+}
 
 export { Button }

@@ -14,9 +14,9 @@ export function CtaLocationProvider({
   children: ReactNode
 }) {
   return (
-    <CtaLocationContext.Provider value={value}>
+    <CtaLocationContext value={value}>
       {children}
-    </CtaLocationContext.Provider>
+    </CtaLocationContext>
   )
 }
 

@@ -180,7 +180,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   ])
 
   return (
-    <AppContext.Provider
+    <AppContext
       value={{
         ...state,
         updateGeolocation,
@@ -190,7 +190,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       }}
     >
       {children}
-    </AppContext.Provider>
+    </AppContext>
   )
 }
 
