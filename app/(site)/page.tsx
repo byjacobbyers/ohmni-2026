@@ -25,38 +25,39 @@ export const generateMetadata = async (): Promise<Metadata> => {
 }
 
 export default async function Home() {
+  let page
   try {
-    const { data: page } = await sanityFetch({
+    ;({ data: page } = await sanityFetch({
       query: pageQuery,
       params: { slug: "home" },
-    })
-
-    if (!page) return notFound()
-
-    const schemas = []
-    const pageSeo = page?.seo || {}
-    schemas.push(generateWebPageJsonLd({
-      title: page.title,
-      description: pageSeo.metaDesc,
-      url: '/',
-      seo: pageSeo,
-      _updatedAt: page._updatedAt,
     }))
-
-    const faqBlocks = page.sections?.filter((s: { _type?: string; active?: boolean }) => s._type === 'faqBlock' && s.active !== false) || []
-    const allFaqs = faqBlocks.flatMap((b: { faqs?: Array<{ question: string; answer: unknown }> }) => b.faqs || [])
-    const faqSchema = generateFAQJsonLd(allFaqs)
-    if (faqSchema) schemas.push(faqSchema)
-
-    return (
-      <>
-        {schemas.length > 0 && (
-          <Script id="home-jsonld" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas) }} />
-        )}
-        <Page page={page} key={page._id} />
-      </>
-    )
   } catch {
-    return notFound()
+    notFound()
   }
+
+  if (!page) notFound()
+
+  const schemas = []
+  const pageSeo = page?.seo || {}
+  schemas.push(generateWebPageJsonLd({
+    title: page.title,
+    description: pageSeo.metaDesc,
+    url: '/',
+    seo: pageSeo,
+    _updatedAt: page._updatedAt,
+  }))
+
+  const faqBlocks = page.sections?.filter((s: { _type?: string; active?: boolean }) => s._type === 'faqBlock' && s.active !== false) || []
+  const allFaqs = faqBlocks.flatMap((b: { faqs?: Array<{ question: string; answer: unknown }> }) => b.faqs || [])
+  const faqSchema = generateFAQJsonLd(allFaqs)
+  if (faqSchema) schemas.push(faqSchema)
+
+  return (
+    <>
+      {schemas.length > 0 && (
+        <Script id="home-jsonld" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas) }} />
+      )}
+      <Page page={page} key={page._id} />
+    </>
+  )
 }

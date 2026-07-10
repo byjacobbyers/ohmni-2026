@@ -52,56 +52,57 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
 }
 
 export default async function EventPage({ params }: { params: Promise<QueryParams> }) {
-  try {
-    const resolved = await params
-    const slug = resolved?.slug
-    if (!slug || typeof slug !== 'string') return notFound()
+  const resolved = await params
+  const slug = resolved?.slug
+  if (!slug || typeof slug !== 'string') notFound()
 
-    const { data: event } = await sanityFetch({
+  let event
+  try {
+    ;({ data: event } = await sanityFetch({
       query: eventQuery,
       params: { slug },
-    })
-
-    if (!event) return notFound()
-
-    const schemas = []
-    const eventSlug = typeof event.slug === 'string' ? event.slug : event.slug?.current
-    const eventUrl = `/events/${eventSlug || slug}`
-
-    const parseSanityDate = (dateStr: string) => {
-      const [year, month, day] = dateStr.split('-').map(Number)
-      return new Date(year, month - 1, day)
-    }
-
-    if (event.startDate) {
-      const startDate = parseSanityDate(event.startDate).toISOString()
-      const endDate = event.endDate ? parseSanityDate(event.endDate).toISOString() : undefined
-      schemas.push(generateEventJsonLd({
-        title: event.title,
-        description: event.seo?.metaDesc,
-        url: eventUrl,
-        startDate,
-        endDate,
-        location: event.location,
-        image: event.image,
-        _updatedAt: event._updatedAt,
-      }))
-    }
-
-    const faqBlocks = event.sections?.filter((s: { _type?: string; active?: boolean }) => s._type === 'faqBlock' && s.active !== false) || []
-    const allFaqs = faqBlocks.flatMap((b: { faqs?: Array<{ question: string; answer: unknown }> }) => b.faqs || [])
-    const faqSchema = generateFAQJsonLd(allFaqs)
-    if (faqSchema) schemas.push(faqSchema)
-
-    return (
-      <>
-        {schemas.length > 0 && (
-          <Script id="event-jsonld" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas) }} />
-        )}
-        <EventSingle event={event} key={event._id} />
-      </>
-    )
+    }))
   } catch {
-    return notFound()
+    notFound()
   }
+
+  if (!event) notFound()
+
+  const schemas = []
+  const eventSlug = typeof event.slug === 'string' ? event.slug : event.slug?.current
+  const eventUrl = `/events/${eventSlug || slug}`
+
+  const parseSanityDate = (dateStr: string) => {
+    const [year, month, day] = dateStr.split('-').map(Number)
+    return new Date(year, month - 1, day)
+  }
+
+  if (event.startDate) {
+    const startDate = parseSanityDate(event.startDate).toISOString()
+    const endDate = event.endDate ? parseSanityDate(event.endDate).toISOString() : undefined
+    schemas.push(generateEventJsonLd({
+      title: event.title,
+      description: event.seo?.metaDesc,
+      url: eventUrl,
+      startDate,
+      endDate,
+      location: event.location,
+      image: event.image,
+      _updatedAt: event._updatedAt,
+    }))
+  }
+
+  const faqBlocks = event.sections?.filter((s: { _type?: string; active?: boolean }) => s._type === 'faqBlock' && s.active !== false) || []
+  const allFaqs = faqBlocks.flatMap((b: { faqs?: Array<{ question: string; answer: unknown }> }) => b.faqs || [])
+  const faqSchema = generateFAQJsonLd(allFaqs)
+  if (faqSchema) schemas.push(faqSchema)
+
+  return (
+    <>
+      {schemas.length > 0 && (
+        <Script id="event-jsonld" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas) }} />
+      )}
+      <EventSingle event={event} key={event._id} />
+    </>
+  )
 }

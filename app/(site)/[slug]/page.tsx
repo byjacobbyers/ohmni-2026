@@ -52,41 +52,42 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
 }
 
 export default async function SinglePage({ params }: { params: Promise<QueryParams> }) {
-  try {
-    const resolved = await params
-    if (resolved?.slug?.toString().startsWith('__') || !resolved?.slug) return notFound()
+  const resolved = await params
+  if (resolved?.slug?.toString().startsWith('__') || !resolved?.slug) notFound()
 
-    const { data: page } = await sanityFetch({
+  let page
+  try {
+    ;({ data: page } = await sanityFetch({
       query: pageQuery,
       params: { slug: resolved.slug },
-    })
-
-    if (!page) return notFound()
-
-    const schemas = []
-    const pageSeo = page?.seo || {}
-    schemas.push(generateWebPageJsonLd({
-      title: page.title,
-      description: pageSeo.metaDesc,
-      url: `/${resolved.slug}`,
-      seo: pageSeo,
-      _updatedAt: page._updatedAt,
     }))
-
-    const faqBlocks = page.sections?.filter((s: { _type?: string; active?: boolean }) => s._type === 'faqBlock' && s.active !== false) || []
-    const allFaqs = faqBlocks.flatMap((b: { faqs?: Array<{ question: string; answer: unknown }> }) => b.faqs || [])
-    const faqSchema = generateFAQJsonLd(allFaqs)
-    if (faqSchema) schemas.push(faqSchema)
-
-    return (
-      <>
-        {schemas.length > 0 && (
-          <Script id="page-jsonld" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas) }} />
-        )}
-        <Page page={page} key={page._id} />
-      </>
-    )
   } catch {
-    return notFound()
+    notFound()
   }
+
+  if (!page) notFound()
+
+  const schemas = []
+  const pageSeo = page?.seo || {}
+  schemas.push(generateWebPageJsonLd({
+    title: page.title,
+    description: pageSeo.metaDesc,
+    url: `/${resolved.slug}`,
+    seo: pageSeo,
+    _updatedAt: page._updatedAt,
+  }))
+
+  const faqBlocks = page.sections?.filter((s: { _type?: string; active?: boolean }) => s._type === 'faqBlock' && s.active !== false) || []
+  const allFaqs = faqBlocks.flatMap((b: { faqs?: Array<{ question: string; answer: unknown }> }) => b.faqs || [])
+  const faqSchema = generateFAQJsonLd(allFaqs)
+  if (faqSchema) schemas.push(faqSchema)
+
+  return (
+    <>
+      {schemas.length > 0 && (
+        <Script id="page-jsonld" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas) }} />
+      )}
+      <Page page={page} key={page._id} />
+    </>
+  )
 }
