@@ -13,15 +13,22 @@ Deferred findings from the Stage 1 simplification pass (July 10, 2026). Each ite
 
 ## Out of scope for the pass (correctness, not simplification)
 
-Pre-existing lint errors, present before the pass and left untouched (13 errors baseline):
+Pre-existing lint errors, left untouched (11 errors baseline after the July 2026 dependency update; eslint now ignores the .claude/ worktrees that used to double-report):
 
 - `components/cover-block/index.tsx:166` conditional `useEffect` (rules-of-hooks)
 - `components/gallery-block/index.tsx:17` conditional `useState` (rules-of-hooks)
 - `components/Radar.tsx:130-131` and `components/soft-aurora/index.tsx:176-177` prefer-const
 - `components/ui/input.tsx:5` empty interface
 - `sanity/schemas/inputs/auto-share-image-input.tsx:24` synchronous setState in effect
+- `components/FaultyTerminal.tsx:277`, `components/LetterGlitch.tsx:30,175` impure function call during render (new rule in eslint-config-next 16.2)
 
 First candidate to fix when the backlogged test/CI gate (BUILD-PLAN backlog) lands.
+
+## Held upgrades (July 2026 dependency pass)
+
+- **eslint 9 → 10:** blocked; eslint-config-next has no v10 support yet. Revisit when vercel/next.js#91702 closes.
+- **typescript 5.9 → 7 (tsgo):** blocked; the Go compiler's stable programmatic API (needed by typescript-eslint and friends) lands in TS 7.1. Revisit then.
+- **Sanity TypeGen:** untyped `sanityFetch` results are `{}`/`unknown` in next-sanity 13; call sites carry casts for now. Adopting TypeGen would replace the casts with generated query types.
 
 ## Housekeeping noticed during the pass
 
