@@ -1,5 +1,5 @@
 import { defineType, defineField } from 'sanity'
-import { RocketIcon } from '@sanity/icons'
+import {RocketIcon} from '@sanity/icons/Rocket'
 
 export default defineType({
   title: 'Hero Block',

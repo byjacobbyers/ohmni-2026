@@ -1,5 +1,5 @@
 import { defineType, defineField } from 'sanity'
-import { BlockContentIcon } from '@sanity/icons'
+import {BlockContentIcon} from '@sanity/icons/BlockContent'
 
 export default defineType({
   title: 'Text Block',

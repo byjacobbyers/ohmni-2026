@@ -1,5 +1,6 @@
 import { sanityFetch } from "@/sanity/lib/live"
 import { Metadata } from "next"
+import { SanityDocument } from "next-sanity"
 import { notFound } from "next/navigation"
 import { pageQuery } from "@/sanity/queries/documents/page-query"
 import { SiteQuery } from "@/sanity/queries/documents/site-query"
@@ -13,7 +14,7 @@ import {
 
 export const generateMetadata = async (): Promise<Metadata> => {
   try {
-    const { data: global } = await sanityFetch({ query: SiteQuery })
+    const { data: global } = (await sanityFetch({ query: SiteQuery })) as { data: SanityDocument | null }
     const globalSeo = global?.seo
     return generateSeoMetadata(undefined, globalSeo, undefined, undefined, {
       url: '/',
@@ -27,10 +28,10 @@ export const generateMetadata = async (): Promise<Metadata> => {
 export default async function Home() {
   let page
   try {
-    ;({ data: page } = await sanityFetch({
+    ;({ data: page } = (await sanityFetch({
       query: pageQuery,
       params: { slug: "home" },
-    }))
+    })) as { data: SanityDocument | null })
   } catch {
     notFound()
   }

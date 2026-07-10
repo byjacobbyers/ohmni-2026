@@ -1,5 +1,5 @@
 import { defineType, defineField } from 'sanity'
-import { ImageIcon } from '@sanity/icons'
+import {ImageIcon} from '@sanity/icons/Image'
 import ContentPositionInput from '../inputs/content-position-input'
 
 export default defineType({

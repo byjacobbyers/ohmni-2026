@@ -1,5 +1,5 @@
 import { defineType, defineField } from 'sanity'
-import { PresentationIcon } from '@sanity/icons'
+import {PresentationIcon} from '@sanity/icons/Presentation'
 
 export default defineType({
   title: 'CTA Block',

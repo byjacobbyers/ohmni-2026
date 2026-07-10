@@ -16,7 +16,7 @@ import {
 export async function generateStaticParams() {
   try {
     const { data: posts } = await sanityFetch({ query: pagesQuery })
-    return (posts || [])
+    return ((posts || []) as SanityDocument[])
       .filter((p: SanityDocument) => {
         const slug = p?.slug
         return slug && typeof slug === 'string' && !EXCLUDED_PAGE_SLUGS.includes(slug)
@@ -34,10 +34,10 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
     const resolved = await params
     if (resolved?.slug?.toString().startsWith('__') || !resolved?.slug) return generateSeoMetadata()
 
-    const [{ data: page }, { data: global }] = await Promise.all([
+    const [{ data: page }, { data: global }] = (await Promise.all([
       sanityFetch({ query: pageQuery, params: { slug: resolved.slug } }),
       sanityFetch({ query: SiteQuery }),
-    ])
+    ])) as Array<{ data: SanityDocument | null }>
 
     if (!page) return generateSeoMetadata()
 
@@ -57,10 +57,10 @@ export default async function SinglePage({ params }: { params: Promise<QueryPara
 
   let page
   try {
-    ;({ data: page } = await sanityFetch({
+    ;({ data: page } = (await sanityFetch({
       query: pageQuery,
       params: { slug: resolved.slug },
-    }))
+    })) as { data: SanityDocument | null })
   } catch {
     notFound()
   }

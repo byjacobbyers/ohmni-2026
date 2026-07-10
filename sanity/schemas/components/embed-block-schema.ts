@@ -1,5 +1,5 @@
 import { defineType, defineField } from 'sanity'
-import { CodeIcon } from '@sanity/icons'
+import {CodeIcon} from '@sanity/icons/Code'
 
 const maxWidthOptions = [
   { title: 'Small (24rem)', value: 'max-w-sm' },

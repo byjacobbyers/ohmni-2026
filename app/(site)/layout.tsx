@@ -28,11 +28,15 @@ export default async function SiteLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   const { isEnabled } = await draftMode()
-  const [{ data: site }, { data: headerNav }, { data: footerNav }] = await Promise.all([
+  // next-sanity 13 types untyped queries as unknown; cast to the consuming prop types (typegen is future work)
+  const [siteRes, headerRes, footerRes] = await Promise.all([
     sanityFetch({ query: SiteQuery }),
     sanityFetch({ query: headerQuery }),
     sanityFetch({ query: footerQuery }),
   ])
+  const site = siteRes.data as React.ComponentProps<typeof OrganizationJsonLd>["site"]
+  const headerNav = headerRes.data as React.ComponentProps<typeof Header>["navigation"]
+  const footerNav = footerRes.data as React.ComponentProps<typeof Footer>["navigation"]
 
   return (
     <div className={cn(sans.variable, mono.variable, serif.variable, "min-h-screen antialiased bg-background text-foreground font-sans", isEnabled && "body-preview-mode")}>

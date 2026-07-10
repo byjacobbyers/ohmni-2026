@@ -1,5 +1,5 @@
 import { defineType, defineField } from 'sanity'
-import { ErrorOutlineIcon } from '@sanity/icons'
+import {ErrorOutlineIcon} from '@sanity/icons/ErrorOutline'
 
 export default defineType({
   title: 'FAQ Block',

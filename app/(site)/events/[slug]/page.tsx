@@ -5,6 +5,7 @@ import { notFound } from "next/navigation"
 import { eventsQuery, eventQuery } from "@/sanity/queries/documents/event-query"
 import { SiteQuery } from "@/sanity/queries/documents/site-query"
 import EventSingle from "@/components/event-single"
+import type { EventSingleData } from "@/types/components/event-single-type"
 import Script from "next/script"
 import {
   generateEventJsonLd,
@@ -15,7 +16,7 @@ import {
 export async function generateStaticParams() {
   try {
     const { data: events } = await sanityFetch({ query: eventsQuery })
-    return (events || [])
+    return ((events || []) as SanityDocument[])
       .filter((e: SanityDocument) => e?.slug?.current && typeof e.slug.current === 'string')
       .map((e: SanityDocument) => ({ slug: e.slug.current }))
   } catch {
@@ -28,10 +29,10 @@ type Props = { params: Promise<{ slug: string }> }
 export const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
   try {
     const resolved = await params
-    const [{ data: event }, { data: global }] = await Promise.all([
+    const [{ data: event }, { data: global }] = (await Promise.all([
       sanityFetch({ query: eventQuery, params: { slug: resolved.slug } }),
       sanityFetch({ query: SiteQuery }),
-    ])
+    ])) as Array<{ data: SanityDocument | null }>
 
     if (!event) return generateSeoMetadata(undefined, undefined, undefined, 'Event at Ohmni.')
 
@@ -58,10 +59,10 @@ export default async function EventPage({ params }: { params: Promise<QueryParam
 
   let event
   try {
-    ;({ data: event } = await sanityFetch({
+    ;({ data: event } = (await sanityFetch({
       query: eventQuery,
       params: { slug },
-    }))
+    })) as { data: SanityDocument | null })
   } catch {
     notFound()
   }
@@ -102,7 +103,7 @@ export default async function EventPage({ params }: { params: Promise<QueryParam
       {schemas.length > 0 && (
         <Script id="event-jsonld" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas) }} />
       )}
-      <EventSingle event={event} key={event._id} />
+      <EventSingle event={event as EventSingleData} key={event._id} />
     </>
   )
 }
