@@ -1,6 +1,5 @@
 'use client'
 
-import { format } from 'date-fns'
 import Sections from "@/components/sections"
 import type { EventSingleProps } from "@/types/components/event-single-type"
 
@@ -8,6 +7,14 @@ const parseSanityDate = (dateStr: string) => {
   const [year, month, day] = dateStr.split('-').map(Number)
   return new Date(year, month - 1, day)
 }
+
+// e.g. "Thursday, July 10, 2026" (same output as the former date-fns 'EEEE, MMMM d, yyyy')
+const formatEventDate = new Intl.DateTimeFormat('en-US', {
+  weekday: 'long',
+  month: 'long',
+  day: 'numeric',
+  year: 'numeric',
+}).format
 
 export default function EventSingle({ event }: EventSingleProps) {
   if (!event) {
@@ -30,8 +37,8 @@ export default function EventSingle({ event }: EventSingleProps) {
         <div className="flex flex-col gap-2 text-xl text-muted-foreground content">
           {startDate && (
             <p>
-              {format(parseSanityDate(startDate), 'EEEE, MMMM d, yyyy')}
-              {endDate && ` – ${format(parseSanityDate(endDate), 'EEEE, MMMM d, yyyy')}`}
+              {formatEventDate(parseSanityDate(startDate))}
+              {endDate && ` – ${formatEventDate(parseSanityDate(endDate))}`}
             </p>
           )}
           {timeString && <p>{timeString}</p>}
