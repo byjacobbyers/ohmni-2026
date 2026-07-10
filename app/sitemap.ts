@@ -1,12 +1,10 @@
 import { MetadataRoute } from 'next'
 import { client } from '@/sanity/lib/client'
 import {
+  EXCLUDED_PAGE_SLUGS,
   eventsSitemapQuery,
   pagesSitemapQuery,
 } from '@/sanity/queries/documents/sitemap-queries'
-
-/** Aligns with [slug]/page.tsx generateStaticParams — not separate indexable routes. */
-const EXCLUDED_PAGE_SLUGS = new Set(['home', 'quiz', 'resources'])
 
 function normalizeBaseUrl(url: string): string {
   return url.endsWith('/') ? url.slice(0, -1) : url
@@ -39,7 +37,7 @@ async function generateSitemap(): Promise<MetadataRoute.Sitemap> {
   })
 
   for (const page of pageRows || []) {
-    if (!page?.slug || EXCLUDED_PAGE_SLUGS.has(page.slug)) continue
+    if (!page?.slug || EXCLUDED_PAGE_SLUGS.includes(page.slug)) continue
     sitemap.push({
       url: `${baseUrl}/${page.slug}`,
       lastModified: page._updatedAt ? new Date(page._updatedAt) : new Date(),
