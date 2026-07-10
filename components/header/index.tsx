@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
-import { useCycle } from 'framer-motion'
+import { useCycle } from 'motion/react'
 import AuroraBits from '@/components/aurora-bits'
 import Route from '@/components/route'
 import MenuButton from '@/components/header/menu-button'
@@ -11,7 +11,7 @@ import { PRIMARY_AURORA_STOPS } from '@/components/ui/primary-button-aurora-laye
 import { cn } from '@/lib/utils'
 import { BaseRouteType } from '@/types/objects/route-type'
 import type { HeaderProps } from '@/types/components/header-type'
-import { motion } from 'framer-motion'
+import { motion } from 'motion/react'
 
 const BOOK_NOW_TITLE = 'Book Now'
 

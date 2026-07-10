@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion } from 'motion/react'
 import NormalText from '@/components/normal-text'
 import TextureSectionBackdrop from '@/components/texture-section-backdrop'
 import type { TextBlockProps } from '@/types/components/text-block-type'

@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion } from 'motion/react'
 import SanityImage from '@/components/sanity-image'
 import type { ImageBlockProps } from '@/types/components/image-block-type'
 

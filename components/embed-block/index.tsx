@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion } from 'motion/react'
 import { useMemo } from 'react'
 import { cleanStega } from '@/lib/stega'
 import type { EmbedBlockProps, EmbedCodeValue } from '@/types/components/embed-block-type'

@@ -1,6 +1,6 @@
 'use client'
 
-import { LazyMotion, domAnimation, m } from 'framer-motion'
+import { LazyMotion, domAnimation, m } from 'motion/react'
 import type { MenuButtonProps } from '@/types/components/menu-button-type'
 
 export default function MenuButton({

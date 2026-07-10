@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { motion } from 'framer-motion'
+import { motion } from 'motion/react'
 import MuxPlayer from '@mux/mux-player-react'
 import type { VideoBlockProps } from '@/types/components/video-block-type'
 
