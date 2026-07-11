@@ -1,8 +1,8 @@
 'use client'
 
-import { useEffect, useState } from 'react'
 import { motion } from 'motion/react'
 import MuxPlayer from '@mux/mux-player-react'
+import { useIsMobile } from '@/lib/use-is-mobile'
 import type { VideoBlockProps } from '@/types/components/video-block-type'
 
 function getVimeoId(url: string): string | null {
@@ -25,14 +25,7 @@ export default function VideoBlock({
   muted = false,
   controls = true,
 }: VideoBlockProps) {
-  const [isMobile, setIsMobile] = useState(false)
-
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768)
-    checkMobile()
-    window.addEventListener('resize', checkMobile)
-    return () => window.removeEventListener('resize', checkMobile)
-  }, [])
+  const isMobile = useIsMobile()
 
   if (!active) return null
 

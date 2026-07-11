@@ -1,8 +1,8 @@
 'use client'
 
 import type { CSSProperties } from 'react'
-import { useEffect, useState } from 'react'
 import MuxPlayer from '@mux/mux-player-react'
+import { useIsMobile } from '@/lib/use-is-mobile'
 import SimpleText from '@/components/simple-text'
 import { Button } from '@/components/ui/button'
 import Route from '@/components/route'
@@ -46,14 +46,7 @@ export default function CoverVideo({
   muted = true,
   controls = false,
 }: CoverVideoProps) {
-  const [isMobile, setIsMobile] = useState(false)
-
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768)
-    checkMobile()
-    window.addEventListener('resize', checkMobile)
-    return () => window.removeEventListener('resize', checkMobile)
-  }, [])
+  const isMobile = useIsMobile()
 
   if (!active) return null
 

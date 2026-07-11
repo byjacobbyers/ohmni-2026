@@ -1,8 +1,9 @@
 'use client'
 
 import type { CSSProperties } from 'react'
-import { useEffect, useState } from 'react'
+import { preload } from 'react-dom'
 import SimpleText from '@/components/simple-text'
+import { useIsMobile } from '@/lib/use-is-mobile'
 import TextureSectionBackdrop from '@/components/texture-section-backdrop'
 import { Button } from '@/components/ui/button'
 import Route from '@/components/route'
@@ -52,14 +53,7 @@ export default function CoverBlock({
   content,
   cta,
 }: CoverBlockProps) {
-  const [isMobile, setIsMobile] = useState(false)
-
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768)
-    checkMobile()
-    window.addEventListener('resize', checkMobile)
-    return () => window.removeEventListener('resize', checkMobile)
-  }, [])
+  const isMobile = useIsMobile()
 
   if (!active) return null
 
@@ -163,17 +157,11 @@ export default function CoverBlock({
 
   const isFirstBlock = componentIndex === 0
 
-  useEffect(() => {
-    if (backgroundType !== 'image' || !isFirstBlock || !backgroundImageUrl) return
-    const link = document.createElement('link')
-    link.rel = 'preload'
-    link.as = 'image'
-    link.href = backgroundImageUrl
-    document.head.appendChild(link)
-    return () => {
-      if (link.parentNode) link.parentNode.removeChild(link)
-    }
-  }, [backgroundType, isFirstBlock, backgroundImageUrl])
+  // React 19 resource hint: emitted during render (including SSR), so the
+  // browser sees the preload before hydration instead of after it.
+  if (backgroundType === 'image' && isFirstBlock && backgroundImageUrl) {
+    preload(backgroundImageUrl, { as: 'image' })
+  }
 
   let sectionAspectStyle: CSSProperties | undefined
   if (isAutoHeight && backgroundType === 'image') {

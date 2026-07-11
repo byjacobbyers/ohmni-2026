@@ -12,9 +12,10 @@ export default function GalleryBlock({
   imagesPerRow = 3,
   enableLightbox = true,
 }: GalleryBlockProps) {
+  const [lightboxImage, setLightboxImage] = useState<number | null>(null)
+
   if (!active) return null
 
-  const [lightboxImage, setLightboxImage] = useState<number | null>(null)
   const imagesPerRowValue = imagesPerRow || 3
   const gridCols =
     imagesPerRowValue === 2
