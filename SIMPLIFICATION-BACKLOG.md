@@ -13,12 +13,9 @@ Deferred findings from the Stage 1 simplification pass (July 10, 2026). Each ite
 
 ## Out of scope for the pass (correctness, not simplification)
 
-Pre-existing lint errors, left untouched (11 errors baseline after the July 2026 dependency update; eslint now ignores the .claude/ worktrees that used to double-report):
+Pre-existing lint errors, left untouched (8 errors baseline as of July 2026; eslint ignores the .claude/ worktrees that used to double-report; the rules-of-hooks and empty-interface errors were fixed during the React 19 pass):
 
-- `components/cover-block/index.tsx:166` conditional `useEffect` (rules-of-hooks)
-- `components/gallery-block/index.tsx:17` conditional `useState` (rules-of-hooks)
 - `components/Radar.tsx:130-131` and `components/soft-aurora/index.tsx:176-177` prefer-const
-- `components/ui/input.tsx:5` empty interface
 - `sanity/schemas/inputs/auto-share-image-input.tsx:24` synchronous setState in effect
 - `components/FaultyTerminal.tsx:277`, `components/LetterGlitch.tsx:30,175` impure function call during render (new rule in eslint-config-next 16.2)
 
