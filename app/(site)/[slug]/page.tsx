@@ -15,7 +15,11 @@ import {
 
 export async function generateStaticParams() {
   try {
-    const { data: posts } = await sanityFetch({ query: pagesQuery })
+    const { data: posts } = await sanityFetch({
+      query: pagesQuery,
+      perspective: 'published',
+      stega: false,
+    })
     return ((posts || []) as SanityDocument[])
       .filter((p: SanityDocument) => {
         const slug = p?.slug
@@ -34,9 +38,10 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
     const resolved = await params
     if (resolved?.slug?.toString().startsWith('__') || !resolved?.slug) return generateSeoMetadata()
 
+    // stega: false keeps invisible edit-markers out of <head> metadata
     const [{ data: page }, { data: global }] = (await Promise.all([
-      sanityFetch({ query: pageQuery, params: { slug: resolved.slug } }),
-      sanityFetch({ query: SiteQuery }),
+      sanityFetch({ query: pageQuery, params: { slug: resolved.slug }, stega: false }),
+      sanityFetch({ query: SiteQuery, stega: false }),
     ])) as Array<{ data: SanityDocument | null }>
 
     if (!page) return generateSeoMetadata()

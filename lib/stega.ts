@@ -1,10 +1,8 @@
+import { stegaClean } from 'next-sanity'
+
 /**
- * Cleans stega markers from Sanity Visual Editing strings
- * Removes both bracket-wrapped markers (⟬...⟭) and zero-width Unicode characters
+ * Cleans stega markers from Sanity Visual Editing strings.
+ * Delegates to the official cleaner; keeps the string-only, trimmed contract.
  */
-export const cleanStega = (value?: string): string => {
-  if (typeof value !== 'string') return ''
-  let cleaned = value.replace(/⟬.*?⟭/g, '')
-  cleaned = cleaned.replace(/[\u200B-\u200D\uFEFF\u200E\u200F\u202A-\u202E\u2060-\u206F]/g, '')
-  return cleaned.trim()
-}
+export const cleanStega = (value?: string): string =>
+  typeof value === 'string' ? stegaClean(value).trim() : ''

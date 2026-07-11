@@ -14,7 +14,8 @@ import {
 
 export const generateMetadata = async (): Promise<Metadata> => {
   try {
-    const { data: global } = (await sanityFetch({ query: SiteQuery })) as { data: SanityDocument | null }
+    // stega: false keeps invisible edit-markers out of <head> metadata
+    const { data: global } = (await sanityFetch({ query: SiteQuery, stega: false })) as { data: SanityDocument | null }
     const globalSeo = global?.seo
     return generateSeoMetadata(undefined, globalSeo, undefined, undefined, {
       url: '/',

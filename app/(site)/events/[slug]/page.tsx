@@ -15,7 +15,11 @@ import {
 
 export async function generateStaticParams() {
   try {
-    const { data: events } = await sanityFetch({ query: eventsQuery })
+    const { data: events } = await sanityFetch({
+      query: eventsQuery,
+      perspective: 'published',
+      stega: false,
+    })
     return ((events || []) as SanityDocument[])
       .filter((e: SanityDocument) => e?.slug?.current && typeof e.slug.current === 'string')
       .map((e: SanityDocument) => ({ slug: e.slug.current }))
@@ -29,9 +33,10 @@ type Props = { params: Promise<{ slug: string }> }
 export const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
   try {
     const resolved = await params
+    // stega: false keeps invisible edit-markers out of <head> metadata
     const [{ data: event }, { data: global }] = (await Promise.all([
-      sanityFetch({ query: eventQuery, params: { slug: resolved.slug } }),
-      sanityFetch({ query: SiteQuery }),
+      sanityFetch({ query: eventQuery, params: { slug: resolved.slug }, stega: false }),
+      sanityFetch({ query: SiteQuery, stega: false }),
     ])) as Array<{ data: SanityDocument | null }>
 
     if (!event) return generateSeoMetadata(undefined, undefined, undefined, 'Event at Ohmni.')
