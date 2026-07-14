@@ -1,30 +1,18 @@
-import { EmailTemplate } from '@/components/email-template'
-import { Resend } from 'resend'
-import * as React from 'react'
+import { inngest, isInngestConfigured } from '@/lib/inngest/client'
+import { sendLeadNotification, type Lead } from '@/lib/lead'
 
 export async function POST(request: Request) {
   try {
-    if (!process.env.RESEND_API_KEY) {
-      console.error('[API Send] Missing RESEND_API_KEY')
-      return Response.json(
-        { error: 'Server configuration error' },
-        { status: 500 }
-      )
-    }
-
-    const resend = new Resend(process.env.RESEND_API_KEY)
     const body = await request.json()
-    const { name, email, message, isAnonymous, website } = body
+    const { name, email, message, isAnonymous, website, path } = body
 
+    // Honeypot: pretend success
     if (website && website.trim().length > 0) {
       return Response.json({ success: true })
     }
 
     if (!message || message.trim().length === 0) {
-      return Response.json(
-        { error: 'Message is required' },
-        { status: 400 }
-      )
+      return Response.json({ error: 'Message is required' }, { status: 400 })
     }
 
     if (!isAnonymous) {
@@ -49,53 +37,36 @@ export async function POST(request: Request) {
       }
     }
 
-    const recipientEmail =
-      process.env.CONTACT_FORM_RECIPIENT_EMAIL?.split(',').map((e) => e.trim()) ??
-      []
-    const fromEmail =
-      process.env.CONTACT_FORM_FROM_EMAIL ??
-      'Ohmni <no-reply@example.com>'
-    const replyToDefault =
-      process.env.CONTACT_FORM_REPLY_TO ?? 'no-reply@example.com'
-    const replyTo = isAnonymous ? replyToDefault : email
-
-    if (recipientEmail.length === 0) {
-      console.error('[API Send] CONTACT_FORM_RECIPIENT_EMAIL not set')
-      return Response.json(
-        { error: 'Server configuration error' },
-        { status: 500 }
-      )
+    const lead: Lead = {
+      name: isAnonymous ? undefined : name,
+      email: isAnonymous ? undefined : email,
+      message: message.trim(),
+      isAnonymous: Boolean(isAnonymous),
+      path: typeof path === 'string' ? path.slice(0, 200) : undefined,
+      submittedAt: new Date().toISOString(),
     }
 
-    const { data, error } = await resend.emails.send({
-      from: fromEmail,
-      to: recipientEmail,
-      replyTo,
-      subject: isAnonymous
-        ? 'Ohmni - Anonymous Contact Form Submission'
-        : `Ohmni - Contact Form Submission from ${name}`,
-      react: EmailTemplate({
-        name: isAnonymous ? undefined : name,
-        email: isAnonymous ? undefined : email,
-        message: message.trim(),
-        isAnonymous,
-      }) as React.ReactElement,
-    })
-
-    if (error) {
-      console.error('Resend error:', error)
-      return Response.json(
-        { error: 'Failed to send email' },
-        { status: 500 }
-      )
+    // Preferred path: hand off to the Inngest pipeline (CRM upsert, PostHog
+    // server event, notification email as a step) and respond fast.
+    if (isInngestConfigured()) {
+      try {
+        await inngest.send({ name: 'lead/submitted', data: lead })
+        return Response.json({ success: true })
+      } catch (err) {
+        // Inngest unreachable (e.g. dev server not running): degrade to email
+        console.error('[API Send] Inngest send failed, falling back to direct email:', err)
+      }
     }
 
-    return Response.json({ success: true, data })
+    // Fallback (no Inngest keys): direct email-only path, original behavior.
+    const result = await sendLeadNotification(lead)
+    if ('skipped' in result && result.skipped) {
+      console.error(`[API Send] ${result.skipped}`)
+      return Response.json({ error: 'Server configuration error' }, { status: 500 })
+    }
+    return Response.json({ success: true, data: result })
   } catch (error) {
     console.error('API error:', error)
-    return Response.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    )
+    return Response.json({ error: 'Internal server error' }, { status: 500 })
   }
 }

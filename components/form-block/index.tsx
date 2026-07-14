@@ -72,6 +72,7 @@ export default function FormBlock({
           message: formData.message,
           isAnonymous: formData.isAnonymous,
           website: formData.website,
+          path: window.location.pathname,
         }),
       })
 
