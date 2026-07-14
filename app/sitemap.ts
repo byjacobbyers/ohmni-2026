@@ -4,6 +4,7 @@ import {
   EXCLUDED_PAGE_SLUGS,
   eventsSitemapQuery,
   pagesSitemapQuery,
+  postsSitemapQuery,
 } from '@/sanity/queries/documents/sitemap-queries'
 
 function normalizeBaseUrl(url: string): string {
@@ -18,13 +19,16 @@ const baseUrl = normalizeBaseUrl(
 )
 
 async function generateSitemap(): Promise<MetadataRoute.Sitemap> {
-  const [pageRows, eventRows] = await Promise.all([
+  const [pageRows, eventRows, postRows] = await Promise.all([
     client.fetch<
       Array<{ slug: string; _updatedAt?: string }>
     >(pagesSitemapQuery),
     client.fetch<
       Array<{ slug: string; _updatedAt?: string }>
     >(eventsSitemapQuery),
+    client.fetch<
+      Array<{ slug: string; _updatedAt?: string }>
+    >(postsSitemapQuery),
   ])
 
   const sitemap: MetadataRoute.Sitemap = []
@@ -51,6 +55,16 @@ async function generateSitemap(): Promise<MetadataRoute.Sitemap> {
     sitemap.push({
       url: `${baseUrl}/events/${event.slug}`,
       lastModified: event._updatedAt ? new Date(event._updatedAt) : new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.7,
+    })
+  }
+
+  for (const post of postRows || []) {
+    if (!post?.slug) continue
+    sitemap.push({
+      url: `${baseUrl}/posts/${post.slug}`,
+      lastModified: post._updatedAt ? new Date(post._updatedAt) : new Date(),
       changeFrequency: 'weekly',
       priority: 0.7,
     })

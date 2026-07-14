@@ -17,3 +17,8 @@ export const eventsSitemapQuery = groq`*[_type == "event" && defined(slug.curren
   "slug": slug.current,
   _updatedAt
 }`
+
+export const postsSitemapQuery = groq`*[_type == "post" && defined(slug.current)] {
+  "slug": slug.current,
+  _updatedAt
+}`

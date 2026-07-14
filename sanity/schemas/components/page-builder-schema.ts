@@ -19,6 +19,7 @@ export default defineField({
     { type: 'problemBlock' },
     { type: 'columnBlock' },
     { type: 'projectColumnsBlock' },
+    { type: 'postsBlock' },
     { type: 'formBlock' },
     { type: 'embedBlock' },
     { type: 'spacerBlock' },

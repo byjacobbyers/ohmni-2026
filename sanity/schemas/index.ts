@@ -4,6 +4,7 @@ import page from './documents/page-schema'
 import site from './documents/site-schema'
 import announcement from './documents/announcement-schema'
 import event from './documents/event-schema'
+import post from './documents/post-schema'
 import navigation from './documents/navigation-schema'
 
 import seo from './components/seo-schema'
@@ -26,6 +27,7 @@ import spacerBlock from './components/spacer-block-schema'
 import dividerBlock from './components/divider-block-schema'
 import splitScrollBlock from './components/split-scroll-block-schema'
 import problemBlock from './components/problem-block-schema'
+import postsBlock from './components/posts-block-schema'
 
 import column from './objects/column-schema'
 import project from './objects/project-schema'
@@ -42,6 +44,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     site,
     announcement,
     event,
+    post,
     navigation,
     seo,
     sections,
@@ -63,6 +66,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     dividerBlock,
     splitScrollBlock,
     problemBlock,
+    postsBlock,
     column,
     project,
     defaultImage,

@@ -12,6 +12,7 @@ import EmbedBlock from '@/components/embed-block'
 import FormBlock from '@/components/form-block'
 import ColumnBlock from '@/components/column-block'
 import ProjectColumnsBlock from '@/components/project-columns-block'
+import PostsBlock from '@/components/posts-block'
 import GalleryBlock from '@/components/gallery-block'
 import VideoBlock from '@/components/video-block'
 import SpacerBlock from '@/components/spacer-block'
@@ -35,6 +36,7 @@ const blockMap: Record<string, React.FC<Record<string, unknown>>> = {
   formBlock: FormBlock as React.FC<Record<string, unknown>>,
   columnBlock: ColumnBlock as React.FC<Record<string, unknown>>,
   projectColumnsBlock: ProjectColumnsBlock as React.FC<Record<string, unknown>>,
+  postsBlock: PostsBlock as React.FC<Record<string, unknown>>,
   galleryBlock: GalleryBlock as React.FC<Record<string, unknown>>,
   videoBlock: VideoBlock as React.FC<Record<string, unknown>>,
   spacerBlock: SpacerBlock as React.FC<Record<string, unknown>>,

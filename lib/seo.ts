@@ -35,7 +35,7 @@ export type SeoType = {
   ogImageBackground?: string
 }
 
-export type OgDocumentRef = { slug: string; type: 'page' | 'event' }
+export type OgDocumentRef = { slug: string; type: 'page' | 'event' | 'post' }
 
 export function buildGeneratedOgImageUrl(ref: OgDocumentRef): string {
   const qs = new URLSearchParams({ slug: ref.slug, type: ref.type })
