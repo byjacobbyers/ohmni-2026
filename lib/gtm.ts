@@ -1,4 +1,8 @@
 // Google Tag Manager utility functions (dataLayer-first)
+// PostHog rides along: consent + custom events bridge into the second lane here,
+// so every existing trackEvent call site feeds both GA4/GTM and PostHog.
+
+import posthog from 'posthog-js'
 
 type ConsentModeValue = 'granted' | 'denied'
 
@@ -64,10 +68,21 @@ export const updateConsentMode = (consent: ConsentUpdate, mode: 'default' | 'upd
     ad_personalization: consent.ad_personalization,
   }
   setTimeout(() => dataLayer.push(consentEvent), 0)
+
+  // PostHog lane: init leaves capturing opted out; analytics consent flips it.
+  if (posthog.__loaded) {
+    if (consent.analytics_storage === 'granted') {
+      if (posthog.has_opted_out_capturing()) posthog.opt_in_capturing()
+    } else if (!posthog.has_opted_out_capturing()) {
+      posthog.opt_out_capturing()
+    }
+  }
 }
 
 export const trackEvent = (eventName: string, parameters: Record<string, unknown> = {}) => {
   pushToDataLayer({ event: eventName, ...parameters })
+  // capture() is a no-op while the visitor is opted out, so consent holds here too
+  if (posthog.__loaded) posthog.capture(eventName, parameters)
 }
 
 export const trackGeolocation = (geolocation: { country: string; region: string; city: string }) => {

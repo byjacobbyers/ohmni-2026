@@ -1,0 +1,19 @@
+import posthog from 'posthog-js'
+
+// Client-side PostHog init (Next.js instrumentation-client convention).
+// No key -> analytics silently off; the template works without an account.
+const key = process.env.NEXT_PUBLIC_POSTHOG_KEY
+
+if (key) {
+  posthog.init(key, {
+    // First-party proxy (see rewrites in next.config.ts) so capture survives ad blockers
+    api_host: '/relay-oh',
+    ui_host: 'https://us.posthog.com',
+    defaults: '2026-05-30',
+    // Consent-gated: opted out until the cookie banner grants analytics_storage
+    // (updateConsentMode in lib/gtm.ts flips it, including for saved consent on load).
+    opt_out_capturing_by_default: true,
+    // ponytail: replay recording left on library defaults; configure sampling and
+    // billing caps in the PostHog project settings per the MarTech stack report.
+  })
+}
