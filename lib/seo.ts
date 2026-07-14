@@ -135,6 +135,46 @@ export function generateWebPageJsonLd(data: {
   }
 }
 
+export function generateArticleJsonLd(data: {
+  title: string
+  description?: string
+  url: string
+  publishedAt?: string
+  author?: string
+  image?: { asset?: { url?: string } }
+  _updatedAt?: string
+}) {
+  const articleUrl = data.url.startsWith('http') ? data.url : buildUrl(data.url)
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: data.title,
+    ...(data.description && { description: data.description }),
+    url: articleUrl,
+    mainEntityOfPage: { '@type': 'WebPage', '@id': articleUrl },
+    ...(data.publishedAt && { datePublished: data.publishedAt }),
+    ...(data.author && { author: { '@type': 'Person', name: data.author } }),
+    ...(data.image?.asset?.url && {
+      image: urlFor(data.image.asset as Parameters<typeof urlFor>[0]).width(1200).height(630).url(),
+    }),
+    ...(data._updatedAt && { dateModified: new Date(data._updatedAt).toISOString() }),
+  }
+}
+
+export function generateBreadcrumbJsonLd(items: Array<{ name: string; url: string }>) {
+  if (!items.length) return null
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: items.map((item, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: item.name,
+      item: item.url.startsWith('http') ? item.url : buildUrl(item.url),
+    })),
+  }
+}
+
 export function generateEventJsonLd(data: {
   title: string
   description?: string

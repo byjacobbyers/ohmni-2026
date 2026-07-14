@@ -8,7 +8,8 @@ import PostSingle from "@/components/post-single"
 import type { PostSingleData } from "@/types/components/post-single-type"
 import Script from "next/script"
 import {
-  generateWebPageJsonLd,
+  generateArticleJsonLd,
+  generateBreadcrumbJsonLd,
   generateFAQJsonLd,
   generateMetadata as generateSeoMetadata,
 } from "@/lib/seo"
@@ -68,16 +69,22 @@ export default async function PostPage({ params }: { params: Promise<QueryParams
 
   if (!post) notFound()
 
-  // ponytail: WebPage JSON-LD for now; Article + BreadcrumbList markup is BUILD-PLAN Task 3
   const schemas = []
   const postSeo = post?.seo || {}
-  schemas.push(generateWebPageJsonLd({
+  schemas.push(generateArticleJsonLd({
     title: post.title,
     description: postSeo.metaDesc || post.excerpt,
     url: `/posts/${slug}`,
-    seo: postSeo,
+    publishedAt: post.publishedAt,
+    author: post.author,
+    image: post.image,
     _updatedAt: post._updatedAt,
   }))
+  const breadcrumb = generateBreadcrumbJsonLd([
+    { name: 'Posts', url: '/posts' },
+    { name: post.title, url: `/posts/${slug}` },
+  ])
+  if (breadcrumb) schemas.push(breadcrumb)
 
   const faqBlocks = post.sections?.filter((s: { _type?: string; active?: boolean }) => s._type === 'faqBlock' && s.active !== false) || []
   const allFaqs = faqBlocks.flatMap((b: { faqs?: Array<{ question: string; answer: unknown }> }) => b.faqs || [])

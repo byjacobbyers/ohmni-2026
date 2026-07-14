@@ -10,7 +10,8 @@ export const postsQuery = groq`*[_type == "post"] | order(publishedAt desc) {
   publishedAt,
   author,
   category,
-  excerpt
+  excerpt,
+  image { ${imageQuery} }
 }`
 
 export const postQuery = groq`*[_type == "post" && slug.current == $slug][0] {

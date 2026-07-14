@@ -60,6 +60,15 @@ async function generateSitemap(): Promise<MetadataRoute.Sitemap> {
     })
   }
 
+  if ((postRows || []).length > 0) {
+    sitemap.push({
+      url: `${baseUrl}/posts`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.7,
+    })
+  }
+
   for (const post of postRows || []) {
     if (!post?.slug) continue
     sitemap.push({
