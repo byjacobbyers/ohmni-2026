@@ -5,6 +5,7 @@ import site from './documents/site-schema'
 import announcement from './documents/announcement-schema'
 import event from './documents/event-schema'
 import post from './documents/post-schema'
+import redirect from './documents/redirect-schema'
 import navigation from './documents/navigation-schema'
 
 import seo from './components/seo-schema'
@@ -45,6 +46,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     announcement,
     event,
     post,
+    redirect,
     navigation,
     seo,
     sections,
