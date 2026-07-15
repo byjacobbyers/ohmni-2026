@@ -23,6 +23,8 @@ export type SeoType = {
   metaTitle?: string
   metaDesc?: string
   noIndex?: boolean
+  /** Per-page canonical override; empty means the page's own URL */
+  canonicalUrl?: string
   shareGraphic?: {
     asset?: { url?: string }
   }
@@ -96,11 +98,14 @@ export function generateMetadata(
   const ogImage = resolveOgImageUrl(pageSeo, globalSeo, options?.ogDocument)
   const pageUrl = options?.url ? buildUrl(options.url) : baseUrl
   const finalTitle = options?.titleSuffix ? `${title}${options.titleSuffix}` : title
+  // Per-page override wins; otherwise the page canonicalizes to its own URL
+  const canonical = pageSeo?.canonicalUrl ? buildUrl(pageSeo.canonicalUrl) : pageUrl
 
   return {
     metadataBase: new URL(baseUrl),
     title: finalTitle,
     description,
+    alternates: { canonical },
     robots: { index: !noIndex, follow: true },
     openGraph: {
       title: finalTitle,

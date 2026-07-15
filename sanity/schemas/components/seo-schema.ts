@@ -39,6 +39,20 @@ export default defineType({
         Rule.max(160).warning('Longer descriptions may be truncated by search engines'),
     }),
     defineField({
+      title: 'Canonical URL',
+      name: 'canonicalUrl',
+      type: 'string',
+      description:
+        'Leave empty to use this page’s own URL (the default and usually correct). Set only when this content is a copy of a page that lives elsewhere: a path (/original-page) or a full URL.',
+      validation: (Rule) =>
+        Rule.custom((value) => {
+          if (!value) return true
+          return value.startsWith('/') || value.startsWith('https://') || value.startsWith('http://')
+            ? true
+            : 'Must be a path starting with / or a full URL'
+        }),
+    }),
+    defineField({
       title: 'Auto share image (Facebook, Slack, etc.)',
       name: 'autoShareImage',
       type: 'object',

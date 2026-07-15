@@ -47,7 +47,9 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
     if (!page) return generateSeoMetadata()
 
     return generateSeoMetadata(page?.seo, global?.seo, page?.title, undefined, {
-      url: `/${resolved.slug}`,
+      // The home document also renders on-demand at /home; canonicalize that
+      // duplicate to the root route.
+      url: resolved.slug === 'home' ? '/' : `/${resolved.slug}`,
       titleSuffix: ' :: Ohmni',
       ogDocument: { slug: String(resolved.slug), type: 'page' },
     })
