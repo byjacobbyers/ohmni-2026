@@ -1,5 +1,6 @@
 import * as React from 'react'
 import type { EmailTemplateProps } from '@/types/components/email-template-type'
+import { brand } from '@/lib/brand'
 
 export const EmailTemplate: React.FC<EmailTemplateProps> = ({
   name,
@@ -96,7 +97,7 @@ export const EmailTemplate: React.FC<EmailTemplateProps> = ({
         color: '#666',
       }}
     >
-      <p>This message was sent from the Ohmni website contact form.</p>
+      <p>This message was sent from the {brand.name} website contact form.</p>
       <p>Timestamp: {new Date().toLocaleString()}</p>
     </div>
   </div>

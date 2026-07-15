@@ -7,6 +7,7 @@ import { SiteQuery } from "@/sanity/queries/documents/site-query"
 import EventSingle from "@/components/event-single"
 import type { EventSingleData } from "@/types/components/event-single-type"
 
+import { brand } from '@/lib/brand'
 import {
   generateEventJsonLd,
   generateFAQJsonLd,
@@ -39,7 +40,7 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
       sanityFetch({ query: SiteQuery, stega: false }),
     ])) as Array<{ data: SanityDocument | null }>
 
-    if (!event) return generateSeoMetadata(undefined, undefined, undefined, 'Event at Ohmni.')
+    if (!event) return generateSeoMetadata(undefined, undefined, undefined, `Event at ${brand.name}.`)
 
     return generateSeoMetadata(
       event?.seo,
@@ -48,12 +49,12 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
       'Join us for this event.',
       {
         url: `/events/${resolved.slug}`,
-        titleSuffix: ' :: Ohmni',
+        titleSuffix: brand.titleSuffix,
         ogDocument: { slug: resolved.slug, type: 'event' },
       }
     )
   } catch {
-    return generateSeoMetadata(undefined, undefined, undefined, 'Event at Ohmni.')
+    return generateSeoMetadata(undefined, undefined, undefined, `Event at ${brand.name}.`)
   }
 }
 

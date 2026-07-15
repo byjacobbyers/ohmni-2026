@@ -5,6 +5,7 @@ import { OG_BRAND_PRIMARY, ogSurfaceColors, normalizeOgSurface } from '@/lib/og-
 import { hasPortableHeading, renderSimpleTextForOg } from '@/lib/og-simple-text'
 import { cleanStega } from '@/lib/stega'
 import { getPublicSiteUrl } from '@/lib/site-url'
+import { brand } from '@/lib/brand'
 
 function absolutePublicFile(path: string): string {
   const base = getPublicSiteUrl().replace(/\/+$/, '')
@@ -42,7 +43,7 @@ function resolvePlainHeading(doc: OgRouteDoc | null, site: OgRouteSite | null): 
   return (
     cleanStega(site?.organizationJsonLd?.name || '') ||
     cleanStega(site?.title || '') ||
-    'Ohmni'
+    brand.name
   )
 }
 

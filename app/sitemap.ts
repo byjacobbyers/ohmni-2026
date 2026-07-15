@@ -1,5 +1,6 @@
 import { MetadataRoute } from 'next'
 import { client } from '@/sanity/lib/client'
+import { brand } from '@/lib/brand'
 import {
   EXCLUDED_PAGE_SLUGS,
   eventsSitemapQuery,
@@ -15,7 +16,7 @@ function normalizeBaseUrl(url: string): string {
 const baseUrl = normalizeBaseUrl(
   process.env.NODE_ENV === 'development'
     ? 'http://localhost:3000'
-    : process.env.NEXT_PUBLIC_SITE_URL || 'https://www.ohmni.com'
+    : process.env.NEXT_PUBLIC_SITE_URL || brand.fallbackSiteUrl
 )
 
 async function generateSitemap(): Promise<MetadataRoute.Sitemap> {

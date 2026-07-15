@@ -6,6 +6,7 @@ import { SiteQuery } from "@/sanity/queries/documents/site-query"
 import PostsBlock from "@/components/posts-block"
 import type { PostCard } from "@/types/components/posts-block-type"
 import { generateMetadata as generateSeoMetadata } from "@/lib/seo"
+import { brand } from '@/lib/brand'
 
 export const generateMetadata = async (): Promise<Metadata> => {
   try {
@@ -15,7 +16,7 @@ export const generateMetadata = async (): Promise<Metadata> => {
     }
     return generateSeoMetadata(undefined, global?.seo, 'Posts', undefined, {
       url: '/posts',
-      titleSuffix: ' :: Ohmni',
+      titleSuffix: brand.titleSuffix,
     })
   } catch {
     return generateSeoMetadata(undefined, undefined, 'Posts')

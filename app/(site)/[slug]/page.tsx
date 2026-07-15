@@ -7,6 +7,7 @@ import { EXCLUDED_PAGE_SLUGS } from "@/sanity/queries/documents/sitemap-queries"
 import { SiteQuery } from "@/sanity/queries/documents/site-query"
 import Page from "@/components/page-single"
 
+import { brand } from '@/lib/brand'
 import {
   generateWebPageJsonLd,
   generateFAQJsonLd,
@@ -50,7 +51,7 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
       // The home document also renders on-demand at /home; canonicalize that
       // duplicate to the root route.
       url: resolved.slug === 'home' ? '/' : `/${resolved.slug}`,
-      titleSuffix: ' :: Ohmni',
+      titleSuffix: brand.titleSuffix,
       ogDocument: { slug: String(resolved.slug), type: 'page' },
     })
   } catch {

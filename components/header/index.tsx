@@ -12,6 +12,7 @@ import { cn } from '@/lib/utils'
 import { BaseRouteType } from '@/types/objects/route-type'
 import type { HeaderProps } from '@/types/components/header-type'
 import { motion } from 'motion/react'
+import { brand } from '@/lib/brand'
 
 const BOOK_NOW_TITLE = 'Book Now'
 
@@ -58,7 +59,7 @@ function HeaderScrollLogoMark() {
       <div className="aspect-square p-[0.5px] h-full w-full overflow-hidden">
         <img
           src="/ohmni.svg"
-          alt="Ohmni Web Marketing Logo"
+          alt={`${brand.name} logo`}
           className="h-full w-full object-contain"
         />
       </div>
@@ -169,12 +170,12 @@ export default function Header({ navigation }: HeaderProps) {
             <div className="flex items-end gap-2 leading-none">
               <h1
                 className="text-2xl font-bold leading-none p-0 lg:text-3xl"
-                title="Ohmni"
+                title={brand.name}
               >
-                OHMNI
+                {brand.name.toUpperCase()}
               </h1>
               <span className="text-sm pb-[2px] md:pb-[3px] uppercase leading-none">
-                Web Technologies
+                {brand.tagline}
               </span>
             </div>
           </Link>

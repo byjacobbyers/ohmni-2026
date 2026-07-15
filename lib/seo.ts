@@ -1,6 +1,7 @@
 import { Metadata } from 'next'
 import { urlFor } from '@/sanity/lib/image'
 import { getPublicSiteUrl } from '@/lib/site-url'
+import { brand } from '@/lib/brand'
 
 function normalizeBaseUrl(url: string): string {
   return url.endsWith('/') ? url.slice(0, -1) : url
@@ -15,8 +16,8 @@ export function buildUrl(path?: string): string {
   return `${baseUrl}${slash}${path}`
 }
 
-const defaultTitle = 'Ohmni'
-const defaultDescription = 'Ohmni'
+const defaultTitle = brand.name
+const defaultDescription = brand.description
 const defaultOgImage = `${baseUrl}/opengraph-image.png`
 
 export type SeoType = {
@@ -265,7 +266,7 @@ export function generateOrganizationJsonLd(site: SiteType | null) {
     return {
       '@context': 'https://schema.org',
       '@type': 'Organization',
-      name: 'Ohmni',
+      name: brand.name,
       url: baseUrl,
     }
   }
@@ -273,7 +274,7 @@ export function generateOrganizationJsonLd(site: SiteType | null) {
   const logoUrl = org?.logo?.asset?.url
     ? (urlFor(org.logo.asset as Parameters<typeof urlFor>[0]).width(600).height(60).url())
     : undefined
-  const name = org?.name || site.title || 'Ohmni'
+  const name = org?.name || site.title || brand.name
   const siteUrl = org?.url || baseUrl
   const email = site.email || org?.email
 
@@ -318,7 +319,7 @@ export function generateOrganizationJsonLd(site: SiteType | null) {
 }
 
 export function generateWebSiteJsonLd(site: SiteType | null) {
-  const name = site?.organizationJsonLd?.name || site?.title || 'Ohmni'
+  const name = site?.organizationJsonLd?.name || site?.title || brand.name
   return {
     '@context': 'https://schema.org',
     '@type': 'WebSite',

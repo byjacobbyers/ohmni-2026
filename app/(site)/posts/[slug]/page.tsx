@@ -7,6 +7,7 @@ import { SiteQuery } from "@/sanity/queries/documents/site-query"
 import PostSingle from "@/components/post-single"
 import type { PostSingleData } from "@/types/components/post-single-type"
 
+import { brand } from '@/lib/brand'
 import {
   generateArticleJsonLd,
   generateBreadcrumbJsonLd,
@@ -44,7 +45,7 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
 
     return generateSeoMetadata(post?.seo, global?.seo, post?.title, post?.excerpt, {
       url: `/posts/${resolved.slug}`,
-      titleSuffix: ' :: Ohmni',
+      titleSuffix: brand.titleSuffix,
       ogDocument: { slug: resolved.slug, type: 'post' },
       article: {
         publishedTime: post?.publishedAt,

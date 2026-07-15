@@ -1,8 +1,9 @@
 import type { Metadata } from "next"
+import { brand } from "@/lib/brand"
 
 export const metadata: Metadata = {
-  title: "Ohmni",
-  description: "Ohmni",
+  title: brand.name,
+  description: brand.description,
 }
 
 export default function RootLayout({

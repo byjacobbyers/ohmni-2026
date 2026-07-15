@@ -15,12 +15,13 @@ import {media} from 'sanity-plugin-media'
 import {apiVersion, dataset, projectId} from './sanity/env'
 import {schema} from './sanity/schemas'
 import {structure} from './sanity/structure'
+import { brand } from '@/lib/brand'
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
 
 export default defineConfig({
   name: 'default',
-  title: 'Ohmni',
+  title: brand.name,
   basePath: '/studio',
   projectId,
   dataset,

@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { Resend } from 'resend'
 import { EmailTemplate } from '@/components/email-template'
+import { brand } from '@/lib/brand'
 
 export type Lead = {
   name?: string
@@ -24,7 +25,7 @@ export async function sendLeadNotification(lead: Lead) {
   }
 
   const resend = new Resend(process.env.RESEND_API_KEY)
-  const fromEmail = process.env.CONTACT_FORM_FROM_EMAIL ?? 'Ohmni <no-reply@example.com>'
+  const fromEmail = process.env.CONTACT_FORM_FROM_EMAIL ?? brand.emailFrom
   const replyToDefault = process.env.CONTACT_FORM_REPLY_TO ?? 'no-reply@example.com'
 
   const { data, error } = await resend.emails.send({
@@ -32,8 +33,8 @@ export async function sendLeadNotification(lead: Lead) {
     to: recipients,
     replyTo: lead.isAnonymous || !lead.email ? replyToDefault : lead.email,
     subject: lead.isAnonymous
-      ? 'Ohmni - Anonymous Contact Form Submission'
-      : `Ohmni - Contact Form Submission from ${lead.name}`,
+      ? `${brand.emailSubjectPrefix} - Anonymous Contact Form Submission`
+      : `${brand.emailSubjectPrefix} - Contact Form Submission from ${lead.name}`,
     react: EmailTemplate({
       name: lead.isAnonymous ? undefined : lead.name,
       email: lead.isAnonymous ? undefined : lead.email,

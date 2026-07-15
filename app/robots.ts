@@ -1,4 +1,5 @@
 import { MetadataRoute } from 'next'
+import { brand } from '@/lib/brand'
 
 function normalizeBaseUrl(url: string): string {
   return url.endsWith('/') ? url.slice(0, -1) : url
@@ -11,7 +12,7 @@ function normalizeBaseUrl(url: string): string {
 const baseUrl = normalizeBaseUrl(
   process.env.NODE_ENV === 'development'
     ? 'http://localhost:3000'
-    : process.env.NEXT_PUBLIC_SITE_URL || 'https://www.ohmni.com'
+    : process.env.NEXT_PUBLIC_SITE_URL || brand.fallbackSiteUrl
 )
 
 export default function robots(): MetadataRoute.Robots {

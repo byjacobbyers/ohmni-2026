@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import Script from "next/script"
+import { brand } from "@/lib/brand"
 import { GoogleTagManager } from "@next/third-parties/google"
 import { sans, mono, serif } from "./fonts"
 import { cn } from "@/lib/utils"
@@ -20,8 +21,8 @@ import OrganizationJsonLd from "@/components/organization-jsonld"
 export const revalidate = 60
 
 export const metadata: Metadata = {
-  title: "Ohmni",
-  description: "Ohmni",
+  title: brand.name,
+  description: brand.description,
 }
 
 export default async function SiteLayout({
