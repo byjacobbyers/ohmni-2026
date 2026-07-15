@@ -26,6 +26,7 @@ export default defineType({
         list: [
           { title: 'Page', value: 'page' },
           { title: 'Event', value: 'event' },
+          { title: 'Post', value: 'post' },
           { title: 'Path', value: 'path' },
           { title: 'Anchor', value: 'anchor' },
           { title: 'File Download', value: 'file' },
@@ -55,6 +56,15 @@ export default defineType({
       to: [{ type: 'event' }],
       description: 'Select an event',
       hidden: ({ parent }) => parent?.linkType !== 'event',
+    }),
+    defineField({
+      title: 'Post',
+      name: 'postRoute',
+      type: 'reference',
+      group: 'general',
+      to: [{ type: 'post' }],
+      description: 'Select a post',
+      hidden: ({ parent }) => parent?.linkType !== 'post',
     }),
     defineField({
       title: 'File',
@@ -233,6 +243,7 @@ export default defineType({
       linkType: 'linkType',
       pageRoute: 'pageRoute.slug.current',
       eventRoute: 'eventRoute.slug.current',
+      postRoute: 'postRoute.slug.current',
       fileRoute: 'fileRoute.asset.originalFilename',
       route: 'route',
       anchor: 'anchor',
@@ -240,7 +251,7 @@ export default defineType({
       email: 'email',
       telephone: 'telephone',
     },
-    prepare({ linkType, pageRoute, eventRoute, fileRoute, route, anchor, link, email, telephone }) {
+    prepare({ linkType, pageRoute, eventRoute, postRoute, fileRoute, route, anchor, link, email, telephone }) {
       let subtitle = 'Not set'
       switch (linkType) {
         case 'page':
@@ -248,6 +259,9 @@ export default defineType({
           break
         case 'event':
           subtitle = eventRoute ? `Event: /events/${eventRoute}` : 'Event (not set)'
+          break
+        case 'post':
+          subtitle = postRoute ? `Post: /posts/${postRoute}` : 'Post (not set)'
           break
         case 'file':
           subtitle = fileRoute ? `File: ${fileRoute}` : 'File (not set)'

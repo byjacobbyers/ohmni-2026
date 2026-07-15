@@ -30,6 +30,7 @@ export default defineType({
         list: [
           { title: 'Page', value: 'page' },
           { title: 'Event', value: 'event' },
+          { title: 'Post', value: 'post' },
           { title: 'Path', value: 'path' },
           { title: 'Anchor', value: 'anchor' },
           { title: 'File Download', value: 'file' },
@@ -58,6 +59,15 @@ export default defineType({
       to: [{ type: 'event' }],
       description: 'Select an event',
       hidden: ({ parent }) => parent?.linkType !== 'event',
+    }),
+    defineField({
+      title: 'Post',
+      name: 'postRoute',
+      type: 'reference',
+      group: 'general',
+      to: [{ type: 'post' }],
+      description: 'Select a post',
+      hidden: ({ parent }) => parent?.linkType !== 'post',
     }),
     defineField({
       title: 'File',
@@ -237,16 +247,18 @@ export default defineType({
       linkType: 'linkType',
       pageRoute: 'pageRoute.slug.current',
       eventRoute: 'eventRoute.slug.current',
+      postRoute: 'postRoute.slug.current',
       route: 'route',
       anchor: 'anchor',
       link: 'link',
       email: 'email',
       telephone: 'telephone',
     },
-    prepare({ title, linkType, pageRoute, eventRoute, route, anchor, link, email, telephone }) {
+    prepare({ title, linkType, pageRoute, eventRoute, postRoute, route, anchor, link, email, telephone }) {
       let subtitle = 'Not set'
       if (linkType === 'page') subtitle = pageRoute ? `Page: /${pageRoute}` : 'Page (not set)'
       else if (linkType === 'event') subtitle = eventRoute ? `Event: /events/${eventRoute}` : 'Event (not set)'
+      else if (linkType === 'post') subtitle = postRoute ? `Post: /posts/${postRoute}` : 'Post (not set)'
       else if (linkType === 'path')
         subtitle = route === undefined || route === null ? 'Path (not set)' : route === '' ? 'Path: /' : `Path: /${route}`
       else if (linkType === 'anchor') subtitle = anchor ? `#${anchor}` : 'Anchor (not set)'

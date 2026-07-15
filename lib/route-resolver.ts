@@ -10,6 +10,8 @@ function resolveRouteUrl(route: BaseRouteType): string {
       return route.pageRoute?.slug ? `/${route.pageRoute.slug}` : '#'
     case 'event':
       return route.eventRoute?.slug ? `/events/${route.eventRoute.slug}` : '#'
+    case 'post':
+      return route.postRoute?.slug ? `/posts/${route.postRoute.slug}` : '#'
     case 'path':
       if (route.route === undefined || route.route === null) return '#'
       if (route.route === '') return '/'

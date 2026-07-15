@@ -6,6 +6,7 @@ export const routeQuery = groq`
   linkType,
   pageRoute->{ _type, "slug": slug.current },
   eventRoute->{ _type, "slug": slug.current },
+  postRoute->{ _type, "slug": slug.current },
   fileRoute { asset->{ url, originalFilename } },
   route,
   anchor,

@@ -24,6 +24,10 @@
 .cursor
 
 
+# claude
+/.claude/
+
+
 # pnpm store
 /.pnpm-store/
 

@@ -1,5 +1,6 @@
 import { PageType } from '../documents/page-type'
 import { EventType } from '../documents/event-type'
+import { PostType } from '../documents/post-type'
 
 export type UtmParametersType = {
   source?: string
@@ -18,10 +19,11 @@ export type DataAttributeType = {
 export type BaseRouteType = {
   _type: string
   title?: string
-  linkType: 'page' | 'event' | 'path' | 'anchor' | 'file' | 'external' | 'email' | 'telephone'
+  linkType: 'page' | 'event' | 'post' | 'path' | 'anchor' | 'file' | 'external' | 'email' | 'telephone'
   /* routeQuery projects "slug": slug.current, so slug arrives as a plain string */
   pageRoute?: Omit<PageType, 'slug'> & { _type: 'page'; slug?: string }
   eventRoute?: Omit<EventType, 'slug'> & { _type: 'event'; slug?: string }
+  postRoute?: Omit<PostType, 'slug'> & { _type: 'post'; slug?: string }
   fileRoute?: {
     asset?: {
       url?: string
