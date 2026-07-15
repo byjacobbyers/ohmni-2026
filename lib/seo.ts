@@ -90,7 +90,13 @@ export function generateMetadata(
   globalSeo?: SeoType,
   fallbackTitle?: string,
   fallbackDescription?: string,
-  options?: { url?: string; titleSuffix?: string; ogDocument?: OgDocumentRef }
+  options?: {
+    url?: string
+    titleSuffix?: string
+    ogDocument?: OgDocumentRef
+    /** Set for posts: emits og:type article with publish metadata */
+    article?: { publishedTime?: string; modifiedTime?: string; author?: string }
+  }
 ): Metadata {
   const title = pageSeo?.metaTitle || globalSeo?.metaTitle || fallbackTitle || defaultTitle
   const description = pageSeo?.metaDesc || globalSeo?.metaDesc || fallbackDescription || defaultDescription
@@ -112,6 +118,12 @@ export function generateMetadata(
       description,
       url: pageUrl,
       images: [{ url: ogImage, width: 1200, height: 630, alt: finalTitle }],
+      ...(options?.article && {
+        type: 'article',
+        publishedTime: options.article.publishedTime,
+        modifiedTime: options.article.modifiedTime,
+        ...(options.article.author && { authors: [options.article.author] }),
+      }),
     },
     twitter: {
       card: 'summary_large_image',

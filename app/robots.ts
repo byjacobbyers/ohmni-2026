@@ -17,6 +17,9 @@ const baseUrl = normalizeBaseUrl(
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: {
+      // Deliberate: AI crawlers (GPTBot, ClaudeBot, PerplexityBot, et al) are
+      // allowed. AI-search visibility is the point; see AEO-AUDIT.md. Add
+      // per-bot disallow rules here only for content-licensing engagements.
       userAgent: '*',
       allow: '/',
       disallow: ['/api/*', '/studio/*'],

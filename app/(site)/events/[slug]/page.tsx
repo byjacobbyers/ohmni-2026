@@ -6,7 +6,7 @@ import { eventsQuery, eventQuery } from "@/sanity/queries/documents/event-query"
 import { SiteQuery } from "@/sanity/queries/documents/site-query"
 import EventSingle from "@/components/event-single"
 import type { EventSingleData } from "@/types/components/event-single-type"
-import Script from "next/script"
+
 import {
   generateEventJsonLd,
   generateFAQJsonLd,
@@ -106,7 +106,7 @@ export default async function EventPage({ params }: { params: Promise<QueryParam
   return (
     <>
       {schemas.length > 0 && (
-        <Script id="event-jsonld" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas) }} />
+        <script id="event-jsonld" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas) }} />
       )}
       <EventSingle event={event as EventSingleData} key={event._id} />
     </>

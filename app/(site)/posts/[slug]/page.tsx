@@ -6,7 +6,7 @@ import { postsQuery, postQuery } from "@/sanity/queries/documents/post-query"
 import { SiteQuery } from "@/sanity/queries/documents/site-query"
 import PostSingle from "@/components/post-single"
 import type { PostSingleData } from "@/types/components/post-single-type"
-import Script from "next/script"
+
 import {
   generateArticleJsonLd,
   generateBreadcrumbJsonLd,
@@ -46,6 +46,11 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
       url: `/posts/${resolved.slug}`,
       titleSuffix: ' :: Ohmni',
       ogDocument: { slug: resolved.slug, type: 'post' },
+      article: {
+        publishedTime: post?.publishedAt,
+        modifiedTime: post?._updatedAt,
+        author: post?.author,
+      },
     })
   } catch {
     return generateSeoMetadata()
@@ -94,7 +99,7 @@ export default async function PostPage({ params }: { params: Promise<QueryParams
   return (
     <>
       {schemas.length > 0 && (
-        <Script id="post-jsonld" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas) }} />
+        <script id="post-jsonld" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas) }} />
       )}
       <PostSingle post={post as PostSingleData} key={post._id} />
     </>
