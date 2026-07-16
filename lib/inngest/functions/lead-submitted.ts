@@ -5,6 +5,7 @@ import {
   createAttioLeadNote,
   sendLeadNotification,
   sendSlackAlert,
+  trackLeadInCustomerio,
   upsertAttioPerson,
   type Lead,
 } from '@/lib/lead'
@@ -48,8 +49,11 @@ export const leadSubmitted = inngest.createFunction(
       })
     )
 
+    // Lifecycle lane: identify + event so Customer.io journeys can trigger
+    const customerio = await step.run('customerio-track', () => trackLeadInCustomerio(lead))
+
     const email = await step.run('resend-notification', () => sendLeadNotification(lead))
 
-    return { attio, email }
+    return { attio, customerio, email }
   }
 )

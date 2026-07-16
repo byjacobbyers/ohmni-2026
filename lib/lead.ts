@@ -117,6 +117,59 @@ export async function createAttioLeadNote(recordId: string, lead: Lead) {
   return { ok: true }
 }
 
+const customerioBase = () =>
+  process.env.CUSTOMERIO_REGION === 'eu'
+    ? 'https://track-eu.customer.io'
+    : 'https://track.customer.io'
+
+function customerioAuth() {
+  const basic = Buffer.from(
+    `${process.env.CUSTOMERIO_SITE_ID}:${process.env.CUSTOMERIO_TRACK_API_KEY}`
+  ).toString('base64')
+  return { Authorization: `Basic ${basic}`, 'Content-Type': 'application/json' }
+}
+
+/**
+ * Identifies the lead in Customer.io and fires a lead_submitted event so
+ * journeys (e.g. the welcome sequence) can trigger on it. Keys unset -> no-op.
+ */
+export async function trackLeadInCustomerio(lead: Lead) {
+  if (!process.env.CUSTOMERIO_SITE_ID || !process.env.CUSTOMERIO_TRACK_API_KEY) {
+    return { skipped: 'Customer.io Track API keys not set' }
+  }
+  if (!lead.email) return { skipped: 'anonymous lead, no email to identify' }
+
+  const id = encodeURIComponent(lead.email)
+
+  const identify = await fetch(`${customerioBase()}/api/v1/customers/${id}`, {
+    method: 'PUT',
+    headers: customerioAuth(),
+    body: JSON.stringify({
+      email: lead.email,
+      ...(lead.name && { name: lead.name }),
+    }),
+  })
+  if (!identify.ok) {
+    throw new Error(`Customer.io identify failed: ${identify.status} ${await identify.text()}`)
+  }
+
+  const track = await fetch(`${customerioBase()}/api/v1/customers/${id}/events`, {
+    method: 'POST',
+    headers: customerioAuth(),
+    body: JSON.stringify({
+      name: 'lead_submitted',
+      data: {
+        ...(lead.path && { path: lead.path }),
+        message_excerpt: lead.message.slice(0, 200),
+      },
+    }),
+  })
+  if (!track.ok) {
+    throw new Error(`Customer.io event failed: ${track.status} ${await track.text()}`)
+  }
+  return { ok: true }
+}
+
 /** Posts a failure alert to Slack. No webhook configured -> no-op. */
 export async function sendSlackAlert(text: string) {
   const webhook = process.env.SLACK_ALERT_WEBHOOK_URL
