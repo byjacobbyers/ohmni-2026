@@ -10,6 +10,7 @@ import ImageBlock from '@/components/image-block'
 import FaqBlock from '@/components/faq-block'
 import EmbedBlock from '@/components/embed-block'
 import FormBlock from '@/components/form-block'
+import SplitFormBlock from '@/components/split-form-block'
 import ColumnBlock from '@/components/column-block'
 import ProjectColumnsBlock from '@/components/project-columns-block'
 import PostsBlock from '@/components/posts-block'
@@ -34,6 +35,7 @@ const blockMap: Record<string, React.FC<Record<string, unknown>>> = {
   problemBlock: ProblemBlock as React.FC<Record<string, unknown>>,
   embedBlock: EmbedBlock as React.FC<Record<string, unknown>>,
   formBlock: FormBlock as React.FC<Record<string, unknown>>,
+  splitFormBlock: SplitFormBlock as React.FC<Record<string, unknown>>,
   columnBlock: ColumnBlock as React.FC<Record<string, unknown>>,
   projectColumnsBlock: ProjectColumnsBlock as React.FC<Record<string, unknown>>,
   postsBlock: PostsBlock as React.FC<Record<string, unknown>>,

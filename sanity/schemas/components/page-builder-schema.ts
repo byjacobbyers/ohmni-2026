@@ -21,6 +21,7 @@ export default defineField({
     { type: 'projectColumnsBlock' },
     { type: 'postsBlock' },
     { type: 'formBlock' },
+    { type: 'splitFormBlock' },
     { type: 'embedBlock' },
     { type: 'spacerBlock' },
     { type: 'dividerBlock' },

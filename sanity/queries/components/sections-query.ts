@@ -87,6 +87,10 @@ export const sectionsQuery = groq`
       ...,
       ${portableTextWithLinks}
     },
+    _type == 'splitFormBlock' => {
+      ...,
+      ${portableTextWithLinks}
+    },
     _type == 'imageBlock' => {
       ...,
       image { ${imageQuery} },

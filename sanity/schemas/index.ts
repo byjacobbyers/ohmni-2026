@@ -29,6 +29,7 @@ import dividerBlock from './components/divider-block-schema'
 import splitScrollBlock from './components/split-scroll-block-schema'
 import problemBlock from './components/problem-block-schema'
 import postsBlock from './components/posts-block-schema'
+import splitFormBlock from './components/split-form-block-schema'
 
 import column from './objects/column-schema'
 import project from './objects/project-schema'
@@ -69,6 +70,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     splitScrollBlock,
     problemBlock,
     postsBlock,
+    splitFormBlock,
     column,
     project,
     defaultImage,
