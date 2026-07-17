@@ -120,7 +120,9 @@ export default function LeadForm({
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    // data-form-name mirrors what the submit handler sends, so devtools and
+    // autocapture tools can tell forms apart without inspecting the payload
+    <form onSubmit={handleSubmit} className="space-y-6" data-form-name={formName}>
       {allowAnonymous && (
         <div className="flex flex-row items-center justify-between border p-4">
           <div className="space-y-0.5">
