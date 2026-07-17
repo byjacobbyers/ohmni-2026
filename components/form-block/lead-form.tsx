@@ -18,9 +18,11 @@ import type { FormBlockFormData } from '@/types/components/form-block-type'
 export default function LeadForm({
   formName = 'contact',
   submitLabel = 'Send Message',
+  allowAnonymous = true,
 }: {
   formName?: string
   submitLabel?: string
+  allowAnonymous?: boolean
 }) {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
@@ -118,18 +120,20 @@ export default function LeadForm({
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="flex flex-row items-center justify-between border p-4">
-        <div className="space-y-0.5">
-          <Label className="text-base">Send Anonymously?</Label>
-          <p className="text-sm text-muted-foreground">
-            Send your message without revealing your identity
-          </p>
+      {allowAnonymous && (
+        <div className="flex flex-row items-center justify-between border p-4">
+          <div className="space-y-0.5">
+            <Label className="text-base">Send Anonymously?</Label>
+            <p className="text-sm text-muted-foreground">
+              Send your message without revealing your identity
+            </p>
+          </div>
+          <Switch
+            checked={formData.isAnonymous}
+            onCheckedChange={(checked: boolean) => handleInputChange('isAnonymous', checked)}
+          />
         </div>
-        <Switch
-          checked={formData.isAnonymous}
-          onCheckedChange={(checked: boolean) => handleInputChange('isAnonymous', checked)}
-        />
-      </div>
+      )}
 
       {!formData.isAnonymous && (
         <div className="space-y-2">

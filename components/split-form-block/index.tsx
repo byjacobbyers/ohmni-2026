@@ -51,11 +51,13 @@ export default function SplitFormBlock({
             </div>
           </div>
 
-          <div className="w-full md:w-1/2">
+          {/* Sticky on md+: the form pins below the header and follows while the content column scrolls */}
+          <div className="w-full md:w-1/2 md:sticky md:top-24 md:self-start">
             <div className="bg-background text-foreground shadow-lg p-6">
               <LeadForm
                 formName="split-form"
                 submitLabel={cleanStega(submitLabel || '') || undefined}
+                allowAnonymous={false}
               />
             </div>
           </div>
