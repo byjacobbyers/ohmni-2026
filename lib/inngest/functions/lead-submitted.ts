@@ -55,6 +55,13 @@ export const leadSubmitted = inngest.createFunction(
 
     const email = await step.run('resend-notification', () => sendLeadNotification(lead))
 
+    // Instant heads-up in Slack for every lead (same webhook as failure alerts)
+    await step.run('slack-new-lead-ping', () =>
+      sendSlackAlert(
+        `New lead${lead.formName ? ` via ${lead.formName}` : ''}: ${lead.name || 'Anonymous'} <${lead.email || 'no email'}>${lead.path ? `\nPage: ${lead.path}` : ''}\n${lead.message.slice(0, 300)}`
+      )
+    )
+
     return { attio, customerio, email }
   }
 )
