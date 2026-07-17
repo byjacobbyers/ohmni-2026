@@ -1,0 +1,106 @@
+<!-- Customer.io: Email 1 of the free-site-audit campaign.
+     Paste into the Code editor. Uses Liquid: customer.name, unsubscribe_url.
+     Table-based + inline styles for Outlook/Gmail compatibility. -->
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="supported-color-schemes" content="light">
+  <title>Your site audit is underway</title>
+</head>
+<body style="margin:0; padding:0; background-color:#f4f4f6; -webkit-text-size-adjust:100%;">
+  <!-- Preheader: shows in inbox preview, hidden in the email body -->
+  <div style="display:none; max-height:0; overflow:hidden; mso-hide:all;">
+    Your free site audit is in the queue &mdash; here is what happens next.
+  </div>
+
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#f4f4f6;">
+    <tr>
+      <td align="center" style="padding:32px 16px;">
+        <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px; width:100%;">
+
+          <!-- Header -->
+          <tr>
+            <td style="padding:0 8px 16px 8px;">
+              <span style="font-family:Helvetica, Arial, sans-serif; font-size:20px; font-weight:bold; letter-spacing:1px; color:#121117;">OHMNI</span>
+              <span style="font-family:Helvetica, Arial, sans-serif; font-size:11px; letter-spacing:2px; color:#6b6b76; text-transform:uppercase;">&nbsp;Web Technologies</span>
+            </td>
+          </tr>
+
+          <!-- Card -->
+          <tr>
+            <td style="background-color:#ffffff; border-top:4px solid #3265fd; padding:40px 32px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="font-family:Helvetica, Arial, sans-serif; color:#121117;">
+
+                    {% assign first_name = customer.name | split: " " | first | default: "there" %}
+                    <h1 style="margin:0 0 16px 0; font-size:26px; line-height:1.2; font-weight:bold;">
+                      Thanks, {{ first_name }} &mdash; your audit request is in.
+                    </h1>
+
+                    <p style="margin:0 0 20px 0; font-size:16px; line-height:1.6; color:#3a3a42;">
+                      I review every request personally. Here is what happens next:
+                    </p>
+
+                    <!-- Steps -->
+                    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 24px 0;">
+                      <tr>
+                        <td width="28" valign="top" style="font-family:Helvetica, Arial, sans-serif; font-size:16px; font-weight:bold; color:#3265fd; padding:0 0 12px 0;">1.</td>
+                        <td style="font-family:Helvetica, Arial, sans-serif; font-size:16px; line-height:1.6; color:#3a3a42; padding:0 0 12px 0;">
+                          I run your site through the full review: performance, technical SEO and AI-search readiness, analytics health, and publishing workflow.
+                        </td>
+                      </tr>
+                      <tr>
+                        <td width="28" valign="top" style="font-family:Helvetica, Arial, sans-serif; font-size:16px; font-weight:bold; color:#3265fd; padding:0 0 12px 0;">2.</td>
+                        <td style="font-family:Helvetica, Arial, sans-serif; font-size:16px; line-height:1.6; color:#3a3a42; padding:0 0 12px 0;">
+                          Within 3 business days you get a short recorded walkthrough plus a prioritized punch list &mdash; what to fix first, and what to ignore.
+                        </td>
+                      </tr>
+                      <tr>
+                        <td width="28" valign="top" style="font-family:Helvetica, Arial, sans-serif; font-size:16px; font-weight:bold; color:#3265fd;">3.</td>
+                        <td style="font-family:Helvetica, Arial, sans-serif; font-size:16px; line-height:1.6; color:#3a3a42;">
+                          The findings are yours to keep and act on with any team. No strings.
+                        </td>
+                      </tr>
+                    </table>
+
+                    <p style="margin:0 0 24px 0; font-size:16px; line-height:1.6; color:#3a3a42;">
+                      Prefer to talk it through instead of waiting?
+                    </p>
+
+                    <!-- Bulletproof button -->
+                    <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 8px 0;">
+                      <tr>
+                        <td style="background-color:#3265fd; border-radius:6px;">
+                          <a href="https://calendar.notion.so/meet/jacobbyers/lets-talk"
+                             style="display:inline-block; padding:14px 28px; font-family:Helvetica, Arial, sans-serif; font-size:16px; font-weight:bold; color:#ffffff; text-decoration:none;">
+                            Book a 15-minute call
+                          </a>
+                        </td>
+                      </tr>
+                    </table>
+
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="padding:24px 8px; font-family:Helvetica, Arial, sans-serif; font-size:12px; line-height:1.6; color:#8a8a94;">
+              You are receiving this because you requested a site audit at ohmni.tech.<br>
+              No sequence, no drip &mdash; just the audit you asked for and this note.<br>
+              <a href="{{ unsubscribe_url }}" style="color:#8a8a94; text-decoration:underline;">Unsubscribe</a>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
