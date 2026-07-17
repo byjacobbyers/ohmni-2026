@@ -4,7 +4,7 @@ import { sendLeadNotification, type Lead } from '@/lib/lead'
 export async function POST(request: Request) {
   try {
     const body = await request.json()
-    const { name, email, message, isAnonymous, website, path } = body
+    const { name, email, message, isAnonymous, website, path, formName } = body
 
     // Honeypot: pretend success
     if (website && website.trim().length > 0) {
@@ -43,6 +43,7 @@ export async function POST(request: Request) {
       message: message.trim(),
       isAnonymous: Boolean(isAnonymous),
       path: typeof path === 'string' ? path.slice(0, 200) : undefined,
+      formName: typeof formName === 'string' ? formName.slice(0, 50) : undefined,
       submittedAt: new Date().toISOString(),
     }
 

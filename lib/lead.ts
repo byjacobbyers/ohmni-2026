@@ -9,6 +9,8 @@ export type Lead = {
   message: string
   isAnonymous?: boolean
   path?: string
+  /** Which form sent it (e.g. 'contact', 'split-form'); campaign filters key on this */
+  formName?: string
   submittedAt: string
 }
 
@@ -160,6 +162,7 @@ export async function trackLeadInCustomerio(lead: Lead) {
       name: 'lead_submitted',
       data: {
         ...(lead.path && { path: lead.path }),
+        ...(lead.formName && { form_name: lead.formName }),
         message_excerpt: lead.message.slice(0, 200),
       },
     }),

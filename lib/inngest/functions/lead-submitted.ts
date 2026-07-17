@@ -41,6 +41,7 @@ export const leadSubmitted = inngest.createFunction(
       captureServerEvent('lead_submitted', lead.email || `anonymous-${event.id}`, {
         is_anonymous: Boolean(lead.isAnonymous),
         path: lead.path,
+        form_name: lead.formName,
         // $current_url is what PostHog's URL/Screen column reads
         ...(lead.path && {
           $current_url: `${getPublicSiteUrl().replace(/\/+$/, '')}${lead.path}`,

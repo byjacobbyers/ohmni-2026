@@ -80,6 +80,7 @@ export default function LeadForm({
           isAnonymous: formData.isAnonymous,
           website: formData.website,
           path: window.location.pathname,
+          formName,
         }),
       })
 
