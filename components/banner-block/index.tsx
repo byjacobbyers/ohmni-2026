@@ -1,6 +1,4 @@
-'use client'
-
-import { motion } from 'motion/react'
+import AppearAnimation from '@/components/appear-animation'
 import { Button } from '@/components/ui/button'
 import Route from '@/components/route'
 import SimpleText from '@/components/simple-text'
@@ -61,12 +59,10 @@ export default function BannerBlock({
           </filter>
         </svg>
       </div>
-      <motion.div
+      <AppearAnimation
         className="container relative z-10 flex w-full flex-col justify-center gap-6 mx-auto text-foreground"
-        initial={{ opacity: 0, scale: 0.98 }}
-        whileInView={{ opacity: 1, scale: 1 }}
-        viewport={{ once: true }}
-        transition={{ delay: componentIndex !== 0 ? 0.5 : 0 }}
+        scale
+        delay={componentIndex !== 0 ? 0.5 : 0}
       >
         {content ? (
           <div className="content [&_h1]:text-display ">
@@ -82,7 +78,7 @@ export default function BannerBlock({
             </Button>
           </div>
         ) : null}
-      </motion.div>
+      </AppearAnimation>
     </section>
   )
 }

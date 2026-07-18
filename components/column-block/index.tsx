@@ -1,6 +1,4 @@
-'use client'
-
-import { motion } from 'motion/react'
+import AppearAnimation from '@/components/appear-animation'
 import SimpleText from '@/components/simple-text'
 import SanityImage from '@/components/sanity-image'
 import Route from '@/components/route'
@@ -33,12 +31,7 @@ export default function ColumnBlock({
       className="column-block w-full overflow-x-hidden px-5 py-16 md:py-24 flex justify-center"
     >
       <div className="relative z-10 flex justify-center">
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          className="flex w-full flex-col items-center justify-center content"
-        >
+        <AppearAnimation className="flex w-full flex-col items-center justify-center content">
           {title && (
             <h2 className="mb-8 w-full text-center md:mb-12">
               {title}
@@ -104,7 +97,7 @@ export default function ColumnBlock({
               })}
             </div>
           )}
-        </motion.div>
+        </AppearAnimation>
       </div>
     </section>
   )

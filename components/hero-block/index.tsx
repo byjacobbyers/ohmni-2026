@@ -1,6 +1,4 @@
-'use client'
-
-import { motion } from 'motion/react'
+import AppearAnimation from '@/components/appear-animation'
 import { Button } from '@/components/ui/button'
 import Route from '@/components/route'
 import SanityImage from '@/components/sanity-image'
@@ -19,6 +17,7 @@ export default function HeroBlock({
   if (!active) return null
 
   const layoutClass = layout === 'image-left' ? 'md:flex-row-reverse' : 'md:flex-row'
+  const delay = componentIndex !== 0 ? 0.5 : 0
 
   return (
     <section
@@ -28,12 +27,10 @@ export default function HeroBlock({
       <div
         className={`container flex flex-wrap md:flex-nowrap ${layoutClass} flex-col-reverse items-center w-full gap-10`}
       >
-        <motion.div
+        <AppearAnimation
           className="w-full md:w-1/2 flex flex-col gap-6"
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: componentIndex !== 0 ? 0.5 : 0 }}
+          scale
+          delay={delay}
         >
           {content ? (
             <div className="content">
@@ -41,7 +38,7 @@ export default function HeroBlock({
             </div>
           ) : null}
           {cta?.active && cta?.route ? (
-            <div className='flex'>
+            <div className="flex">
               <Button asChild variant="default" className="mt-5">
                 <Route data={cta.route as Parameters<typeof Route>[0]['data']}>
                   {(cta.route as { title?: string }).title || 'Learn More'}
@@ -49,14 +46,8 @@ export default function HeroBlock({
               </Button>
             </div>
           ) : null}
-        </motion.div>
-        <motion.div
-          className="w-full md:w-1/2 relative"
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: componentIndex !== 0 ? 0.5 : 0 }}
-        >
+        </AppearAnimation>
+        <AppearAnimation className="w-full md:w-1/2 relative" scale delay={delay}>
           {image ? (
             <SanityImage
               image={image}
@@ -66,7 +57,7 @@ export default function HeroBlock({
               sizes="(max-width: 768px) 100vw, 50vw"
             />
           ) : null}
-        </motion.div>
+        </AppearAnimation>
       </div>
     </section>
   )

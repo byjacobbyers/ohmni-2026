@@ -1,6 +1,4 @@
-'use client'
-
-import { motion } from 'motion/react'
+import AppearAnimation from '@/components/appear-animation'
 import SanityImage from '@/components/sanity-image'
 import type { ImageBlockProps } from '@/types/components/image-block-type'
 
@@ -22,11 +20,8 @@ export default function ImageBlock({
       className="image-block w-full flex justify-center px-5 py-16 md:py-24"
     >
       {image || mobileImage ? (
-        <motion.div
+        <AppearAnimation
           className={`container flex flex-col items-center gap-6 relative w-full ${maxWidth} mx-auto`}
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
         >
           {image ? (
             <div className="hidden md:block relative w-full">
@@ -50,7 +45,7 @@ export default function ImageBlock({
               />
             </div>
           ) : null}
-        </motion.div>
+        </AppearAnimation>
       ) : null}
     </section>
   )

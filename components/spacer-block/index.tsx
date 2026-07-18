@@ -1,5 +1,3 @@
-'use client'
-
 import type { SpacerBlockProps } from '@/types/components/spacer-block-type'
 
 export default function SpacerBlock({ active = true, size = 'medium' }: SpacerBlockProps) {

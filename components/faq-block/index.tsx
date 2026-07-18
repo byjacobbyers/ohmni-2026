@@ -1,6 +1,4 @@
-'use client'
-
-import { motion } from 'motion/react'
+import AppearAnimation from '@/components/appear-animation'
 import SimpleText from '@/components/simple-text'
 import {
   Accordion,
@@ -8,7 +6,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion'
-import type { FaqBlockFaq, FaqBlockProps } from '@/types/components/faq-block-type'
+import type { FaqBlockProps } from '@/types/components/faq-block-type'
 
 export default function FaqBlock({
   active = true,
@@ -23,12 +21,7 @@ export default function FaqBlock({
       id={anchor || `faq-block-${componentIndex}`}
       className="faq-block w-full flex justify-center px-5 py-16  md:py-24"
     >
-      <motion.div
-        className="container"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-      >
+      <AppearAnimation className="container">
         <Accordion type="single" collapsible defaultValue="faq-0" className="w-full">
           {faqs.map((faq, i) => (
             <AccordionItem key={i} value={`faq-${i}`}>
@@ -45,7 +38,7 @@ export default function FaqBlock({
             </AccordionItem>
           ))}
         </Accordion>
-      </motion.div>
+      </AppearAnimation>
     </section>
   )
 }

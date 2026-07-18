@@ -1,6 +1,4 @@
-'use client'
-
-import { motion } from 'motion/react'
+import AppearAnimation from '@/components/appear-animation'
 import NormalText from '@/components/normal-text'
 import TextureSectionBackdrop from '@/components/texture-section-backdrop'
 import LeadForm from '@/components/form-block/lead-form'
@@ -38,11 +36,8 @@ export default function SplitFormBlock({
       className={`split-form-block w-full flex justify-center px-5 py-16 md:py-24 ${bgClass}`}
     >
       {bg === 'texture' ? <TextureSectionBackdrop /> : null}
-      <motion.div
+      <AppearAnimation
         className={`relative z-10 container flex w-full flex-col gap-10 md:flex-row md:items-start md:gap-12 lg:gap-16 ${innerLiftClass}`}
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
       >
         <div className="w-full md:w-1/2">
           <div className="content">
@@ -59,7 +54,7 @@ export default function SplitFormBlock({
             />
           </div>
         </div>
-      </motion.div>
+      </AppearAnimation>
     </section>
   )
 }

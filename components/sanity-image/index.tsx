@@ -1,5 +1,3 @@
-'use client'
-
 import Image from 'next/image'
 import { urlFor } from '@/sanity/lib/image'
 import type { SanityImageProps, SanityImageSource } from '@/types/components/sanity-image-type'

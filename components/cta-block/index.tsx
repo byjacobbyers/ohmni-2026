@@ -1,6 +1,3 @@
-'use client'
-
-import { motion } from 'motion/react'
 import { Button } from '@/components/ui/button'
 import Route from '@/components/route'
 import SimpleText from '@/components/simple-text'
@@ -32,10 +29,7 @@ export default function CtaBlock({
       id={anchor || `cta-block-${componentIndex}`}
       className={`cta-block w-full flex justify-center px-5 py-16 md:py-24 ${bgClass}`}
     >
-      <motion.div
-        className={`container mt-5 flex w-full flex-col gap-6 ${stackItemsClass}`}
-        transition={{ delay: componentIndex !== 0 ? 0.5 : 0 }}
-      >
+      <div className={`container mt-5 flex w-full flex-col gap-6 ${stackItemsClass}`}>
         {content ? (
           <div className={`w-full ${copyAlignClass}`}>
             <div className="content">
@@ -52,7 +46,7 @@ export default function CtaBlock({
             </Button>
           </div>
         ) : null}
-      </motion.div>
+      </div>
     </section>
   )
 }

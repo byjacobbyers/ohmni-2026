@@ -1,5 +1,3 @@
-'use client'
-
 import Sections from "@/components/sections"
 import { formatFullDate, parseSanityDate } from "@/lib/format-date"
 import type { EventSingleProps } from "@/types/components/event-single-type"

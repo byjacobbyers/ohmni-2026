@@ -1,6 +1,4 @@
-'use client'
-
-import { motion } from 'motion/react'
+import AppearAnimation from '@/components/appear-animation'
 import SimpleText from '@/components/simple-text'
 import SanityImage from '@/components/sanity-image'
 import TextureSectionBackdrop from '@/components/texture-section-backdrop'
@@ -50,10 +48,7 @@ export default function ProjectColumnsBlock({
       className={`project-columns-block w-full overflow-x-hidden px-5 py-16 md:py-24 flex justify-center ${bgClass}`}
     >
       {bg === 'texture' ? <TextureSectionBackdrop /> : null}
-      <motion.div
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
+      <AppearAnimation
         className={`relative z-10 container flex w-full flex-col items-center justify-center content ${innerLiftClass}`}
       >
         {title ? (
@@ -100,7 +95,7 @@ export default function ProjectColumnsBlock({
             ))}
           </div>
         ) : null}
-      </motion.div>
+      </AppearAnimation>
     </section>
   )
 }

@@ -1,6 +1,4 @@
-'use client'
-
-import { motion } from 'motion/react'
+import AppearAnimation from '@/components/appear-animation'
 import NormalText from '@/components/normal-text'
 import TextureSectionBackdrop from '@/components/texture-section-backdrop'
 import type { TextBlockProps } from '@/types/components/text-block-type'
@@ -30,16 +28,13 @@ export default function TextBlock({
       className={`text-block w-full flex justify-center px-5 py-16 md:py-24 ${bgClass}`}
     >
       {backgroundColor === 'texture' ? <TextureSectionBackdrop /> : null}
-      <motion.div
+      <AppearAnimation
         className={`container ${alignClass} ${backgroundColor === 'texture' ? 'relative z-10 text-foreground' : ''}`}
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
       >
         <div className="content">
           <NormalText content={content} />
         </div>
-      </motion.div>
+      </AppearAnimation>
     </section>
   )
 }

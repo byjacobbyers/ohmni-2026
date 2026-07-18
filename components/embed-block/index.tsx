@@ -1,7 +1,4 @@
-'use client'
-
-import { motion } from 'motion/react'
-import { useMemo } from 'react'
+import AppearAnimation from '@/components/appear-animation'
 import { cleanStega } from '@/lib/stega'
 import type { EmbedBlockProps, EmbedCodeValue } from '@/types/components/embed-block-type'
 
@@ -22,10 +19,7 @@ export default function EmbedBlock({
   embedCode,
   maxWidth = 'max-w-2xl',
 }: EmbedBlockProps) {
-  const html = useMemo(() => {
-    const raw = getCodeString(embedCode)
-    return cleanStega(raw).trim()
-  }, [embedCode])
+  const html = cleanStega(getCodeString(embedCode)).trim()
 
   if (!active) return null
   if (!html) return null
@@ -38,18 +32,13 @@ export default function EmbedBlock({
       className="embed-block w-full flex justify-center px-5 py-16 md:py-24"
       aria-label={iframeTitle}
     >
-      <motion.div
-        className={`container w-full ${maxWidth} mx-auto content`}
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-      >
+      <AppearAnimation className={`container w-full ${maxWidth} mx-auto content`}>
         {title ? <h2 className="text-center mb-6">{title}</h2> : null}
         <div
           className="embed-block__inner relative w-full min-h-[300px] rounded-lg overflow-hidden border border-border [&_iframe]:block [&_iframe]:min-h-[300px] [&_iframe]:w-full [&_iframe]:max-w-full [&_iframe]:border-0"
           dangerouslySetInnerHTML={{ __html: html }}
         />
-      </motion.div>
+      </AppearAnimation>
     </section>
   )
 }

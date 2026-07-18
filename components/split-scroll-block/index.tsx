@@ -1,13 +1,8 @@
-'use client'
-
-import { motion } from 'motion/react'
+import AppearAnimation from '@/components/appear-animation'
 import SimpleText from '@/components/simple-text'
 import SanityImage from '@/components/sanity-image'
 import TextureSectionBackdrop from '@/components/texture-section-backdrop'
-import type {
-  SplitScrollBlockItem,
-  SplitScrollBlockProps,
-} from '@/types/components/split-scroll-block-type'
+import type { SplitScrollBlockProps } from '@/types/components/split-scroll-block-type'
 
 export default function SplitScrollBlock({
   active = true,
@@ -32,11 +27,8 @@ export default function SplitScrollBlock({
       className={`split-scroll-block w-full flex justify-center px-5 py-16 md:py-24 ${bgClass}`}
     >
       {backgroundColor === 'texture' ? <TextureSectionBackdrop /> : null}
-      <motion.div
+      <AppearAnimation
         className={`container ${backgroundColor === 'texture' ? 'relative z-10 text-foreground' : ''} grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-12 lg:items-start`}
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
       >
         <div className="lg:sticky lg:top-24 lg:self-start">
           {title && Array.isArray(title) && title.length > 0 ? (
@@ -69,7 +61,7 @@ export default function SplitScrollBlock({
             </article>
           ))}
         </div>
-      </motion.div>
+      </AppearAnimation>
     </section>
   )
 }

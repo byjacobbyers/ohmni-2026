@@ -1,5 +1,3 @@
-'use client'
-
 import Sections from "@/components/sections"
 import { formatFullDate, parseSanityDate } from "@/lib/format-date"
 import type { PostSingleProps } from "@/types/components/post-single-type"

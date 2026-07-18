@@ -1,5 +1,3 @@
-'use client'
-
 import type { DividerBlockProps } from '@/types/components/divider-block-type'
 
 export default function DividerBlock({ active = true, size = 'zero' }: DividerBlockProps) {
