@@ -7,6 +7,7 @@ export const EmailTemplate: React.FC<EmailTemplateProps> = ({
   email,
   message,
   isAnonymous,
+  formLabel = 'Contact Form',
 }) => (
   <div
     style={{
@@ -23,20 +24,10 @@ export const EmailTemplate: React.FC<EmailTemplateProps> = ({
         paddingBottom: '10px',
       }}
     >
-      New Contact Form Submission
+      New {formLabel} Submission
     </h1>
 
     <div style={{ marginTop: '20px' }}>
-      <h2
-        style={{
-          color: '#555',
-          fontSize: '18px',
-          marginBottom: '15px',
-        }}
-      >
-        {isAnonymous ? 'Anonymous Message' : 'Contact Information'}
-      </h2>
-
       {!isAnonymous && (
         <div style={{ marginBottom: '20px' }}>
           <p style={{ margin: '5px 0' }}>
@@ -60,32 +51,21 @@ export const EmailTemplate: React.FC<EmailTemplateProps> = ({
           <p style={{ margin: '0', color: '#666', fontStyle: 'italic' }}>
             This message was sent anonymously
           </p>
+          {/* Anonymous leads have no name/email, so the message is the only content */}
+          {message ? (
+            <div
+              style={{
+                marginTop: '10px',
+                whiteSpace: 'pre-wrap' as const,
+                lineHeight: '1.5',
+                color: '#333',
+              }}
+            >
+              {message}
+            </div>
+          ) : null}
         </div>
       )}
-
-      <div style={{ marginTop: '20px' }}>
-        <h3
-          style={{
-            color: '#555',
-            fontSize: '16px',
-            marginBottom: '10px',
-          }}
-        >
-          Message:
-        </h3>
-        <div
-          style={{
-            padding: '15px',
-            backgroundColor: '#f8f9fa',
-            borderRadius: '5px',
-            borderLeft: '4px solid #007bff',
-            whiteSpace: 'pre-wrap' as const,
-            lineHeight: '1.5',
-          }}
-        >
-          {message}
-        </div>
-      </div>
     </div>
 
     <div
@@ -97,7 +77,7 @@ export const EmailTemplate: React.FC<EmailTemplateProps> = ({
         color: '#666',
       }}
     >
-      <p>This message was sent from the {brand.name} website contact form.</p>
+      <p>This message was sent from the {brand.name} website.</p>
       <p>Timestamp: {new Date().toLocaleString()}</p>
     </div>
   </div>

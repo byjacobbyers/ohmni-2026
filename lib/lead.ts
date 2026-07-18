@@ -14,6 +14,15 @@ export type Lead = {
   submittedAt: string
 }
 
+/** Friendly names per form for notification subjects and headings. */
+const FORM_LABELS: Record<string, string> = {
+  'split-form': 'Free Audit',
+  contact: 'Contact Form',
+}
+
+const formLabel = (lead: Lead) =>
+  FORM_LABELS[lead.formName || ''] || FORM_LABELS.contact
+
 /** Sends the internal notification email. Throws on Resend errors so callers can retry/alert. */
 export async function sendLeadNotification(lead: Lead) {
   if (!process.env.RESEND_API_KEY) {
@@ -35,13 +44,16 @@ export async function sendLeadNotification(lead: Lead) {
     to: recipients,
     replyTo: lead.isAnonymous || !lead.email ? replyToDefault : lead.email,
     subject: lead.isAnonymous
-      ? `${brand.emailSubjectPrefix} - Anonymous Contact Form Submission`
-      : `${brand.emailSubjectPrefix} - Contact Form Submission from ${lead.name}`,
+      ? `${brand.emailSubjectPrefix} - Anonymous ${formLabel(lead)} Submission`
+      : `${brand.emailSubjectPrefix} - ${formLabel(lead)} Submission from ${lead.name}`,
     react: EmailTemplate({
       name: lead.isAnonymous ? undefined : lead.name,
       email: lead.isAnonymous ? undefined : lead.email,
-      message: lead.message,
+      // Message only rendered for anonymous leads (otherwise name/email suffice;
+      // the full message lives in Slack and the Attio note)
+      message: lead.isAnonymous ? lead.message : undefined,
       isAnonymous: Boolean(lead.isAnonymous),
+      formLabel: formLabel(lead),
     }) as React.ReactElement,
   })
 
