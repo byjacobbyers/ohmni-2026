@@ -85,7 +85,8 @@ export default defineType({
       title: 'Organization JSON-LD',
       type: 'object',
       group: 'jsonLd',
-      description: 'Structured data for your organization',
+      description:
+        'Structured data for your organization. Address, founding year, and social links are pulled from the General and Social Links groups. Founders come from Team members with the Founder toggle on.',
       fields: [
         { title: 'Organization Name', name: 'name', type: 'string' },
         { title: 'Legal Name', name: 'legalName', type: 'string' },

@@ -9,6 +9,7 @@ import redirect from './documents/redirect-schema'
 import navigation from './documents/navigation-schema'
 import form from './documents/form-schema'
 import formSettings from './documents/form-settings-schema'
+import team from './documents/team-schema'
 
 import seo from './components/seo-schema'
 import sections from './components/page-builder-schema'
@@ -33,6 +34,7 @@ import problemBlock from './components/problem-block-schema'
 import postsBlock from './components/posts-block-schema'
 import eventsBlock from './components/events-block-schema'
 import splitFormBlock from './components/split-form-block-schema'
+import teamMemberBlock from './components/team-member-block-schema'
 
 import column from './objects/column-schema'
 import project from './objects/project-schema'
@@ -43,6 +45,7 @@ import linkWithRoute from './objects/link-annotation-schema'
 import simpleText from './objects/simple-text-schema'
 import normalText from './objects/normal-text-schema'
 import formField from './objects/form-field-schema'
+import social from './objects/social-schema'
 import pageJsonLd from './objects/page-json-ld-schema'
 import articleJsonLd from './objects/article-json-ld-schema'
 import eventJsonLd from './objects/event-json-ld-schema'
@@ -54,6 +57,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     announcement,
     event,
     post,
+    team,
     redirect,
     navigation,
     form,
@@ -81,6 +85,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     postsBlock,
     eventsBlock,
     splitFormBlock,
+    teamMemberBlock,
     column,
     project,
     defaultImage,
@@ -90,6 +95,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     simpleText,
     normalText,
     formField,
+    social,
     pageJsonLd,
     articleJsonLd,
     eventJsonLd,

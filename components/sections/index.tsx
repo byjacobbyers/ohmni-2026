@@ -19,6 +19,7 @@ import SpacerBlock from '@/components/spacer-block'
 import DividerBlock from '@/components/divider-block'
 import SplitScrollBlock from '@/components/split-scroll-block'
 import ProblemBlock from '@/components/problem-block'
+import TeamMemberBlock from '@/components/team-member-block'
 import { CtaLocationProvider } from '@/context'
 
 // Server Component so blocks like PostsBlockServer can fetch for SEO.
@@ -40,6 +41,7 @@ const blockMap: Record<string, React.ComponentType<Record<string, unknown>>> = {
   projectColumnsBlock: ProjectColumnsBlock as React.ComponentType<Record<string, unknown>>,
   postsBlock: PostsBlockServer as React.ComponentType<Record<string, unknown>>,
   eventsBlock: EventsBlockServer as React.ComponentType<Record<string, unknown>>,
+  teamMemberBlock: TeamMemberBlock as React.ComponentType<Record<string, unknown>>,
   galleryBlock: GalleryBlock as React.ComponentType<Record<string, unknown>>,
   videoBlock: VideoBlock as React.ComponentType<Record<string, unknown>>,
   spacerBlock: SpacerBlock as React.ComponentType<Record<string, unknown>>,

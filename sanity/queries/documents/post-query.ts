@@ -1,6 +1,7 @@
 import { groq } from 'next-sanity'
 import { imageQuery } from '../objects/image-query'
 import { sectionsQuery } from '../components/sections-query'
+import { teamPersonProjection } from './team-query'
 
 export const postsQuery = groq`*[_type == "post"] | order(publishedAt desc) {
   _id,
@@ -8,7 +9,7 @@ export const postsQuery = groq`*[_type == "post"] | order(publishedAt desc) {
   title,
   "slug": slug.current,
   publishedAt,
-  author,
+  author-> ${teamPersonProjection},
   category,
   excerpt,
   image { ${imageQuery} }
@@ -22,7 +23,7 @@ export const postQuery = groq`*[_type == "post" && slug.current == $slug][0] {
   slug,
   image { ${imageQuery} },
   publishedAt,
-  author,
+  author-> ${teamPersonProjection},
   category,
   excerpt,
   seo {

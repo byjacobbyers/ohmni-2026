@@ -1,6 +1,9 @@
 import Sections from "@/components/sections"
 import { formatFullDate, parseSanityDate } from "@/lib/format-date"
-import type { PostSingleProps } from "@/types/components/post-single-type"
+import {
+  authorDisplayName,
+  type PostSingleProps,
+} from "@/types/components/post-single-type"
 
 export default function PostSingle({ post }: PostSingleProps) {
   if (!post) {
@@ -17,7 +20,7 @@ export default function PostSingle({ post }: PostSingleProps) {
 
   const metaLine = [
     publishedAt ? formatFullDate(parseSanityDate(publishedAt)) : null,
-    author,
+    authorDisplayName(author),
     category,
   ]
     .filter(Boolean)

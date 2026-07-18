@@ -214,7 +214,8 @@ export function generateArticleJsonLd(data: {
   description?: string
   url: string
   publishedAt?: string
-  author?: string
+  /** Team reference (preferred) or legacy string name */
+  author?: TeamPersonRef | string | null
   category?: string
   image?: { asset?: { url?: string } }
   _updatedAt?: string
@@ -224,8 +225,16 @@ export function generateArticleJsonLd(data: {
   const overrides = data.jsonLd
   const headline = overrides?.headline || data.title
   const description = overrides?.description || data.description
-  const authorName = overrides?.authorName || data.author
   const articleSection = overrides?.articleSection || data.category
+
+  let authorNode: Record<string, unknown> | null = null
+  if (overrides?.authorName?.trim()) {
+    authorNode = { '@type': 'Person', name: overrides.authorName.trim() }
+  } else if (data.author && typeof data.author === 'object') {
+    authorNode = personFromTeam(data.author)
+  } else if (typeof data.author === 'string' && data.author.trim()) {
+    authorNode = { '@type': 'Person', name: data.author.trim() }
+  }
 
   return {
     '@context': 'https://schema.org',
@@ -235,7 +244,7 @@ export function generateArticleJsonLd(data: {
     url: articleUrl,
     mainEntityOfPage: { '@type': 'WebPage', '@id': articleUrl },
     ...(data.publishedAt && { datePublished: data.publishedAt }),
-    ...(authorName && { author: { '@type': 'Person', name: authorName } }),
+    ...(authorNode && { author: authorNode }),
     ...(articleSection && { articleSection }),
     ...(data.image?.asset?.url && {
       image: urlFor(data.image.asset as Parameters<typeof urlFor>[0]).width(1200).height(630).url(),
@@ -330,17 +339,37 @@ function extractTextFromPortableText(content: unknown): string {
     .trim()
 }
 
+/** Team member fields used for Person JSON-LD (founder / article author). */
+export type TeamPersonRef = {
+  title?: string
+  slug?: string | { current?: string }
+  primaryJobTitle?: string
+  image?: { asset?: { url?: string } }
+  socials?: {
+    facebook?: string
+    linkedin?: string
+    x?: string
+    instagram?: string
+    youtube?: string
+    tiktok?: string
+  }
+}
+
 export type SiteType = {
   title?: string
   altTitle?: string
   tagline?: string
   email?: string
+  foundingYear?: string
   address?: string
   addressLocality?: string
   addressRegion?: string
   postalCode?: string
   addressCountry?: string
+  latitude?: number
+  longitude?: number
   sameAs?: string[]
+  founders?: TeamPersonRef[]
   seo?: {
     metaTitle?: string
     metaDesc?: string
@@ -358,6 +387,46 @@ export type SiteType = {
     telephone?: string
     priceRange?: string
   }
+}
+
+/** Public Person URL surface (no /team routes); switch later without changing team docs. */
+export const PERSON_PAGE_PATH = '/about'
+
+function teamSlug(member: TeamPersonRef): string {
+  if (typeof member.slug === 'string') return member.slug
+  return member.slug?.current ?? ''
+}
+
+function teamSameAs(socials?: TeamPersonRef['socials']): string[] {
+  if (!socials) return []
+  const urls: string[] = []
+  for (const key of ['facebook', 'linkedin', 'x', 'instagram', 'youtube', 'tiktok'] as const) {
+    const value = socials[key]
+    if (typeof value === 'string' && value.trim()) urls.push(value.trim())
+  }
+  return urls
+}
+
+/** Schema.org Person node from a team member (founder / article author). */
+export function personFromTeam(member: TeamPersonRef, options?: { includeContext?: boolean }) {
+  const name = member.title?.trim()
+  if (!name) return null
+  const slug = teamSlug(member)
+  const sameAs = teamSameAs(member.socials)
+  const imageUrl = member.image?.asset?.url
+    ? urlFor(member.image.asset as Parameters<typeof urlFor>[0]).width(400).height(400).url()
+    : undefined
+
+  const person: Record<string, unknown> = {
+    ...(options?.includeContext && { '@context': 'https://schema.org' }),
+    '@type': 'Person',
+    name,
+    url: slug ? buildUrl(`${PERSON_PAGE_PATH}#${slug}`) : buildUrl(PERSON_PAGE_PATH),
+    ...(member.primaryJobTitle && { jobTitle: member.primaryJobTitle }),
+    ...(imageUrl && { image: { '@type': 'ImageObject', url: imageUrl } }),
+    ...(sameAs.length > 0 && { sameAs }),
+  }
+  return person
 }
 
 export function generateOrganizationJsonLd(site: SiteType | null) {
@@ -391,6 +460,15 @@ export function generateOrganizationJsonLd(site: SiteType | null) {
     ...(email && { email }),
     ...(org?.telephone && { telephone: org.telephone }),
     ...(org?.priceRange && { priceRange: org.priceRange }),
+    ...(site.foundingYear?.trim() && { foundingDate: site.foundingYear.trim() }),
+  }
+
+  const founders = site.founders
+    ?.map((member) => personFromTeam(member))
+    .filter((person): person is Record<string, unknown> => person !== null)
+
+  if (founders && founders.length > 0) {
+    schema.founder = founders
   }
 
   if (
@@ -400,7 +478,7 @@ export function generateOrganizationJsonLd(site: SiteType | null) {
     site.postalCode ||
     site.addressCountry
   ) {
-    ;(schema as Record<string, unknown>).address = {
+    schema.address = {
       '@type': 'PostalAddress',
       ...(site.address && { streetAddress: site.address }),
       ...(site.addressLocality && { addressLocality: site.addressLocality }),
@@ -410,8 +488,16 @@ export function generateOrganizationJsonLd(site: SiteType | null) {
     }
   }
 
+  if (site.latitude != null && site.longitude != null) {
+    schema.geo = {
+      '@type': 'GeoCoordinates',
+      latitude: site.latitude,
+      longitude: site.longitude,
+    }
+  }
+
   if (Array.isArray(site.sameAs) && site.sameAs.length > 0) {
-    ;(schema as Record<string, unknown>).sameAs = site.sameAs.filter(Boolean)
+    schema.sameAs = site.sameAs.filter(Boolean)
   }
 
   return schema

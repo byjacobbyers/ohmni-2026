@@ -70,10 +70,14 @@ export default function PostsBlock({
 
         <ul className="flex w-full flex-col gap-6">
           {displayedPosts.map((post) => {
+            const authorName =
+              typeof post.author === 'string'
+                ? post.author
+                : post.author?.title
             const meta = [
               post.category,
               post.publishedAt ? formatShortDate(parseSanityDate(post.publishedAt)) : null,
-              post.author,
+              authorName,
             ]
               .filter(Boolean)
               .join(' · ')

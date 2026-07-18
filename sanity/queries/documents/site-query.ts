@@ -1,5 +1,6 @@
 import { groq } from 'next-sanity'
 import { imageQuery } from '../objects/image-query'
+import { teamPersonProjection } from './team-query'
 
 export const SiteQuery = groq`*[_type == "site"][0] {
   _id,
@@ -18,6 +19,7 @@ export const SiteQuery = groq`*[_type == "site"][0] {
   longitude,
   email,
   sameAs,
+  "founders": *[_type == "team" && founder == true] | order(title asc) ${teamPersonProjection},
   seo {
     ...,
     metaIcon { ${imageQuery} },

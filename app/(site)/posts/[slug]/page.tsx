@@ -14,6 +14,7 @@ import {
   generateMetadata as generateSeoMetadata,
 } from "@/lib/seo"
 import { faqJsonLdFromSections, JsonLdScript } from "@/lib/content-page"
+import { authorDisplayName } from "@/types/components/post-single-type"
 
 export async function generateStaticParams() {
   try {
@@ -50,7 +51,7 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
       article: {
         publishedTime: post?.publishedAt,
         modifiedTime: post?._updatedAt,
-        author: post?.author,
+        author: authorDisplayName(post?.author),
       },
     })
   } catch {

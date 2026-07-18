@@ -43,8 +43,10 @@ export default defineType({
     defineField({
       title: 'Author',
       name: 'author',
-      type: 'string',
+      type: 'reference',
+      to: [{ type: 'team' }],
       group: 'post',
+      description: 'Team member credited as the article author (Person JSON-LD).',
     }),
     defineField({
       title: 'Category',

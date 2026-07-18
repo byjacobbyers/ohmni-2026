@@ -132,6 +132,30 @@ export const sectionsQuery = groq`
     _type == 'postsBlock' => {
       ...
     },
+    _type == 'eventsBlock' => {
+      ...
+    },
+    _type == 'teamMemberBlock' => {
+      ...,
+      member-> {
+        _id,
+        title,
+        "slug": slug.current,
+        primaryJobTitle,
+        secondaryJobTitle,
+        email,
+        phone,
+        socials,
+        image { ${imageQuery} },
+        content[] {
+          ...,
+          markDefs[] {
+            ...,
+            ${linkWithRouteMarkDef}
+          }
+        }
+      }
+    },
     _type == 'galleryBlock' => {
       ...,
       images[] { ${imageQuery} }

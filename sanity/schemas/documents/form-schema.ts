@@ -1,11 +1,11 @@
 import { defineField, defineType } from 'sanity'
-import {DocumentTextIcon} from '@sanity/icons/DocumentText'
+import {ClipboardIcon} from '@sanity/icons/Clipboard' 
 
 export default defineType({
   name: 'form',
   title: 'Form',
   type: 'document',
-  icon: DocumentTextIcon,
+  icon: ClipboardIcon,
   fields: [
     defineField({
       name: 'title',

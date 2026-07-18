@@ -3,7 +3,7 @@ export type PostCard = {
   title?: string
   slug?: string
   publishedAt?: string
-  author?: string
+  author?: { title?: string } | string | null
   category?: string
   excerpt?: string
   image?: unknown

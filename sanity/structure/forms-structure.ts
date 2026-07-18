@@ -1,11 +1,11 @@
 import type { StructureBuilder } from 'sanity/structure'
-import {DocumentTextIcon} from '@sanity/icons/DocumentText'
+import {ClipboardIcon} from '@sanity/icons/Clipboard'
 import {CogIcon} from '@sanity/icons/Cog'
 
 export default function Forms(S: StructureBuilder) {
   return S.listItem()
     .title('Forms')
-    .icon(DocumentTextIcon)
+    .icon(ClipboardIcon)
     .child(
       S.list()
         .title('Forms')
@@ -22,7 +22,7 @@ export default function Forms(S: StructureBuilder) {
           S.divider(),
           S.listItem()
             .title('All Forms')
-            .icon(DocumentTextIcon)
+            .icon(ClipboardIcon)
             .child(S.documentTypeList('form').title('Forms')),
         ])
     )
