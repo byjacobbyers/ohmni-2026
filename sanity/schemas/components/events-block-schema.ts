@@ -1,11 +1,11 @@
 import { defineType, defineField } from 'sanity'
-import { DocumentTextIcon } from '@sanity/icons/DocumentText'
+import { CalendarIcon } from '@sanity/icons/Calendar'
 
-const postsBlock = defineType({
-  title: 'Posts Block',
-  name: 'postsBlock',
+const eventsBlock = defineType({
+  title: 'Events Block',
+  name: 'eventsBlock',
   type: 'object',
-  icon: DocumentTextIcon,
+  icon: CalendarIcon,
   fields: [
     defineField({
       title: 'Active?',
@@ -37,14 +37,14 @@ const postsBlock = defineType({
       title: 'Title',
       name: 'title',
       type: 'string',
-      description: 'Optional heading for the posts section',
+      description: 'Optional heading for the events section',
     }),
     defineField({
-      title: 'Initial posts shown',
+      title: 'Initial events shown',
       name: 'count',
       type: 'number',
       description:
-        'How many posts to show before “Load more”. Remaining posts are revealed on click (all posts are still server-rendered for SEO).',
+        'How many events to show before “Load more”. Remaining events are revealed on click (list is still server-fetched for SEO).',
       validation: (Rule) => Rule.min(1).max(24),
       initialValue: 6,
     }),
@@ -53,11 +53,11 @@ const postsBlock = defineType({
     select: { title: 'title', active: 'active', count: 'count' },
     prepare({ title, active, count }) {
       return {
-        title: 'Posts Block',
+        title: 'Events Block',
         subtitle: `${active === false ? 'Inactive' : 'Active'} · show ${count ?? 6} then load more · ${title || 'No title'}`,
       }
     },
   },
 })
 
-export default postsBlock
+export default eventsBlock

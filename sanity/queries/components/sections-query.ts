@@ -127,19 +127,7 @@ export const sectionsQuery = groq`
       }
     },
     _type == 'postsBlock' => {
-      ...,
-      // GROQ slice bounds must be constants; 12 = the schema's max count.
-      // The component trims to the editor-chosen count.
-      "posts": *[_type == "post" && defined(slug.current)] | order(publishedAt desc)[0...12] {
-        _id,
-        title,
-        "slug": slug.current,
-        publishedAt,
-        author,
-        category,
-        excerpt,
-        image { ${imageQuery} }
-      }
+      ...
     },
     _type == 'galleryBlock' => {
       ...,

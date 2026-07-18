@@ -15,28 +15,28 @@ import {
 export const generateMetadata = async (): Promise<Metadata> => {
   try {
     const [{ data: page }, { data: global }] = (await Promise.all([
-      sanityFetch({ query: pageQuery, params: { slug: 'posts' }, stega: false }),
+      sanityFetch({ query: pageQuery, params: { slug: 'events' }, stega: false }),
       sanityFetch({ query: SiteQuery, stega: false }),
     ])) as Array<{ data: SanityDocument | null }>
 
-    if (!page) return generateSeoMetadata(undefined, undefined, 'Posts')
+    if (!page) return generateSeoMetadata(undefined, undefined, 'Events')
 
-    return generateSeoMetadata(page?.seo, global?.seo, page?.title || 'Posts', undefined, {
-      url: '/posts',
+    return generateSeoMetadata(page?.seo, global?.seo, page?.title || 'Events', undefined, {
+      url: '/events',
       titleSuffix: resolveBrand(global as BrandSiteInput | null).titleSuffix,
-      ogDocument: { slug: 'posts', type: 'page' },
+      ogDocument: { slug: 'events', type: 'page' },
     })
   } catch {
-    return generateSeoMetadata(undefined, undefined, 'Posts')
+    return generateSeoMetadata(undefined, undefined, 'Events')
   }
 }
 
-export default async function PostsIndexPage() {
+export default async function EventsIndexPage() {
   let page
   try {
     ;({ data: page } = (await sanityFetch({
       query: pageQuery,
-      params: { slug: 'posts' },
+      params: { slug: 'events' },
     })) as { data: SanityDocument | null })
   } catch {
     notFound()
@@ -49,7 +49,7 @@ export default async function PostsIndexPage() {
   schemas.push(generateWebPageJsonLd({
     title: page.title,
     description: pageSeo.metaDesc,
-    url: '/posts',
+    url: '/events',
     seo: pageSeo,
     _updatedAt: page._updatedAt,
   }))
@@ -62,7 +62,7 @@ export default async function PostsIndexPage() {
   return (
     <>
       {schemas.length > 0 && (
-        <script id="posts-jsonld" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas) }} />
+        <script id="events-jsonld" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas) }} />
       )}
       <Page page={page} key={page._id} />
     </>

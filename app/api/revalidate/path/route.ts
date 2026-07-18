@@ -17,12 +17,15 @@ function getPathForDocument(body: WebhookPayload): string[] {
     case 'page': {
       const pageSlug = slug?.current
       if (pageSlug === 'home') paths.push('/')
+      else if (pageSlug === 'posts') paths.push('/posts')
+      else if (pageSlug === 'events') paths.push('/events')
       else if (pageSlug) paths.push(`/${pageSlug}`)
       break
     }
     case 'event': {
       const eventSlug = slug?.current
       if (eventSlug) paths.push(`/events/${eventSlug}`)
+      paths.push('/events')
       paths.push('/')
       break
     }

@@ -51,6 +51,15 @@ async function generateSitemap(): Promise<MetadataRoute.Sitemap> {
     })
   }
 
+  if ((eventRows || []).length > 0) {
+    sitemap.push({
+      url: `${baseUrl}/events`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.7,
+    })
+  }
+
   for (const event of eventRows || []) {
     if (!event?.slug) continue
     sitemap.push({

@@ -1,11 +1,11 @@
 import { groq } from 'next-sanity'
 
 /**
- * Page slugs that are not standalone indexable routes: home is served by the
- * root route; quiz and resources are embedded elsewhere. Shared by sitemap.ts
- * and [slug]/page.tsx generateStaticParams so the lists cannot drift.
+ * Page slugs that are not standalone indexable routes under /[slug]:
+ * home → /, posts → /posts, events → /events; quiz and resources are embedded elsewhere.
+ * Shared by sitemap.ts and [slug]/page.tsx generateStaticParams.
  */
-export const EXCLUDED_PAGE_SLUGS = ['home', 'quiz', 'resources']
+export const EXCLUDED_PAGE_SLUGS = ['home', 'posts', 'events', 'quiz', 'resources']
 
 /** Lightweight slug + updatedAt only (sitemap / SEO). */
 export const pagesSitemapQuery = groq`*[_type == "page" && defined(slug.current)] {

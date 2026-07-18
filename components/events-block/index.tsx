@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { cleanStega } from '@/lib/stega'
 import { formatShortDate, parseSanityDate } from '@/lib/format-date'
-import type { PostCard, PostsBlockProps } from '@/types/components/posts-block-type'
+import type { EventCard, EventsBlockProps } from '@/types/components/events-block-type'
 import type { SanityImageSource } from '@/types/components/sanity-image-type'
 
 function normalizeBackgroundColor(raw?: string): 'primary' | 'secondary' | 'texture' {
@@ -18,38 +18,44 @@ function normalizeBackgroundColor(raw?: string): 'primary' | 'secondary' | 'text
   return 'primary'
 }
 
+function formatEventDates(startDate?: string, endDate?: string): string | null {
+  if (!startDate) return null
+  const start = formatShortDate(parseSanityDate(startDate))
+  if (!endDate || endDate === startDate) return start
+  return `${start} – ${formatShortDate(parseSanityDate(endDate))}`
+}
+
 const DEFAULT_PAGE_SIZE = 6
 
-export default function PostsBlock({
+export default function EventsBlock({
   active = true,
   componentIndex = 0,
   anchor,
   backgroundColor = 'primary',
   title,
   count = DEFAULT_PAGE_SIZE,
-  initialPosts,
-  posts,
-}: PostsBlockProps) {
+  initialEvents,
+}: EventsBlockProps) {
   if (!active) return null
 
-  const allPosts: PostCard[] = (initialPosts ?? posts ?? []).filter((p) => p?.slug)
+  const allEvents: EventCard[] = (initialEvents ?? []).filter((e) => e?.slug)
   const pageSize = Math.max(1, count || DEFAULT_PAGE_SIZE)
 
   const [visibleCount, setVisibleCount] = useState(pageSize)
 
-  if (allPosts.length === 0) {
+  if (allEvents.length === 0) {
     return (
       <section
-        id={anchor || `posts-block-${componentIndex}`}
-        className="posts-block w-full px-5 py-16 md:py-24 flex justify-center"
+        id={anchor || `events-block-${componentIndex}`}
+        className="events-block w-full px-5 py-16 md:py-24 flex justify-center"
       >
-        <p className="container text-center text-muted-foreground">No posts published yet.</p>
+        <p className="container text-center text-muted-foreground">No events published yet.</p>
       </section>
     )
   }
 
-  const displayedPosts = allPosts.slice(0, visibleCount)
-  const hasMore = visibleCount < allPosts.length
+  const displayedEvents = allEvents.slice(0, visibleCount)
+  const hasMore = visibleCount < allEvents.length
 
   const bg = normalizeBackgroundColor(backgroundColor)
   const bgClass =
@@ -63,8 +69,8 @@ export default function PostsBlock({
 
   return (
     <section
-      id={anchor || `posts-block-${componentIndex}`}
-      className={`posts-block w-full overflow-x-hidden px-5 py-16 md:py-24 flex justify-center ${bgClass}`}
+      id={anchor || `events-block-${componentIndex}`}
+      className={`events-block w-full overflow-x-hidden px-5 py-16 md:py-24 flex justify-center ${bgClass}`}
     >
       {bg === 'texture' ? <TextureSectionBackdrop /> : null}
       <motion.div
@@ -78,23 +84,24 @@ export default function PostsBlock({
         ) : null}
 
         <ul className="flex w-full flex-col gap-6">
-          {displayedPosts.map((post) => {
+          {displayedEvents.map((event) => {
             const meta = [
-              post.category,
-              post.publishedAt ? formatShortDate(parseSanityDate(post.publishedAt)) : null,
-              post.author,
+              event.eventType,
+              formatEventDates(event.startDate, event.endDate),
+              event.timeString,
+              event.location,
             ]
               .filter(Boolean)
               .join(' · ')
 
             return (
-              <li key={post._id}>
-                <Link href={`/posts/${post.slug}`} className="group block">
+              <li key={event._id}>
+                <Link href={`/events/${event.slug}`} className="group block">
                   <Card className="flex w-full flex-col overflow-hidden rounded-md border border-border bg-card text-card-foreground transition-colors group-hover:border-primary sm:flex-row">
-                    {post.image ? (
+                    {event.image ? (
                       <div className="relative aspect-video w-full shrink-0 overflow-hidden bg-foreground sm:aspect-square sm:w-40 md:w-48">
                         <SanityImage
-                          image={post.image as SanityImageSource}
+                          image={event.image as SanityImageSource}
                           fill
                           sizes="(max-width: 640px) 100vw, 192px"
                           className="object-cover object-center transition-transform duration-300 group-hover:scale-105"
@@ -102,19 +109,21 @@ export default function PostsBlock({
                       </div>
                     ) : null}
                     <CardContent className="flex w-full flex-col justify-center gap-2 px-4 py-5 sm:px-6">
-                      {meta ? (
-                        <p className="text-sm text-muted-foreground uppercase tracking-wide">
-                          {meta}
-                        </p>
-                      ) : null}
-                      <h3 className="text-h4 group-hover:underline">{post.title}</h3>
-                      {post.excerpt ? (
-                        <p className="text-base text-muted-foreground line-clamp-2">
-                          {post.excerpt}
-                        </p>
-                      ) : null}
+                      <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                        {meta ? (
+                          <p className="text-sm text-muted-foreground uppercase tracking-wide">
+                            {meta}
+                          </p>
+                        ) : null}
+                        {event.soldOut ? (
+                          <span className="text-sm font-semibold uppercase tracking-wide text-destructive">
+                            Sold out
+                          </span>
+                        ) : null}
+                      </div>
+                      <h3 className="text-h4 group-hover:underline">{event.title}</h3>
                       <span className="mt-1 text-sm font-medium uppercase tracking-wider text-primary">
-                        Read more
+                        Learn more
                       </span>
                     </CardContent>
                   </Card>
@@ -129,7 +138,7 @@ export default function PostsBlock({
             <Button
               type="button"
               variant={buttonVariant}
-              onClick={() => setVisibleCount((n) => Math.min(n + pageSize, allPosts.length))}
+              onClick={() => setVisibleCount((n) => Math.min(n + pageSize, allEvents.length))}
             >
               Load more
             </Button>

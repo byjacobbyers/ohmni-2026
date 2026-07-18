@@ -20,6 +20,7 @@ export default defineField({
     { type: 'columnBlock' },
     { type: 'projectColumnsBlock' },
     { type: 'postsBlock' },
+    { type: 'eventsBlock' },
     { type: 'formBlock' },
     { type: 'splitFormBlock' },
     { type: 'embedBlock' },

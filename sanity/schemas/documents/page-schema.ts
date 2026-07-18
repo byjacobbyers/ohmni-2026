@@ -57,7 +57,17 @@ export default defineType({
   preview: {
     select: { title: 'title', slug: 'slug.current' },
     prepare({ title, slug }) {
-      return { title, subtitle: slug === 'home' ? 'Home Page' : `/${slug}` }
+      return {
+        title,
+        subtitle:
+          slug === 'home'
+            ? 'Home Page'
+            : slug === 'posts'
+              ? 'Posts index (/posts)'
+              : slug === 'events'
+                ? 'Events index (/events)'
+                : `/${slug}`,
+      }
     },
   },
 })

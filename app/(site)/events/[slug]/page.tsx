@@ -21,9 +21,9 @@ export async function generateStaticParams() {
       perspective: 'published',
       stega: false,
     })
-    return ((events || []) as SanityDocument[])
-      .filter((e: SanityDocument) => e?.slug?.current && typeof e.slug.current === 'string')
-      .map((e: SanityDocument) => ({ slug: e.slug.current }))
+    return ((events || []) as Array<{ slug?: string }>)
+      .filter((e) => e?.slug && typeof e.slug === 'string')
+      .map((e) => ({ slug: e.slug as string }))
   } catch {
     return []
   }

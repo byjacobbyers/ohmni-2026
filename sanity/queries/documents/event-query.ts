@@ -2,14 +2,18 @@ import { groq } from 'next-sanity'
 import { imageQuery } from '../objects/image-query'
 import { sectionsQuery } from '../components/sections-query'
 
-export const eventsQuery = groq`*[_type == "event"] {
+export const eventsQuery = groq`*[_type == "event" && defined(slug.current)] | order(startDate desc) {
   _id,
   _type,
   title,
-  slug,
+  "slug": slug.current,
   startDate,
   endDate,
-  "slug": slug.current
+  timeString,
+  eventType,
+  soldOut,
+  location,
+  image { ${imageQuery} }
 }`
 
 export const eventQuery = groq`*[_type == "event" && slug.current == $slug][0] {

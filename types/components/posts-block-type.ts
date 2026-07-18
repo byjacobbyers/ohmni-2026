@@ -15,7 +15,10 @@ export type PostsBlockProps = {
   anchor?: string
   backgroundColor?: string
   title?: string
+  /** How many posts to show before Load more (default 6). */
   count?: number
-  columnsPerRow?: number
+  /** Server-fetched list (preferred for SEO). */
+  initialPosts?: PostCard[]
+  /** @deprecated Prefer initialPosts from the server wrapper */
   posts?: PostCard[]
 }
