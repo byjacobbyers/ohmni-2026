@@ -54,58 +54,56 @@ export default function PostsBlock({
       className={`posts-block w-full overflow-x-hidden px-5 py-16 md:py-24 flex justify-center ${bgClass}`}
     >
       {bg === 'texture' ? <TextureSectionBackdrop /> : null}
-      <div className={`relative z-10 container flex justify-center ${innerLiftClass}`}>
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          className="flex w-full flex-col items-center justify-center content"
-        >
-          {title ? (
-            <h2 className="mb-8 w-full text-center md:mb-12">{title}</h2>
-          ) : null}
-          <div className={`grid w-full gap-x-6 gap-y-5 lg:mx-auto lg:max-w-[75vw] ${gridCols}`}>
-            {visiblePosts.map((post) => (
-              <Link
-                key={post._id}
-                href={`/posts/${post.slug}`}
-                className="group block h-full"
-              >
-                <Card className="flex h-full w-full min-w-0 flex-col overflow-hidden rounded-md border-0 bg-card text-card-foreground">
-                  {post.image ? (
-                    <div className="relative aspect-video w-full shrink-0 overflow-hidden bg-foreground">
-                      <SanityImage
-                        image={post.image as SanityImageSource}
-                        fill
-                        sizes="(max-width: 768px) 100vw, 33vw"
-                        className="object-cover object-center transition-transform duration-300 group-hover:scale-105"
-                      />
-                    </div>
-                  ) : null}
-                  <CardContent className="w-full px-3 pt-6 sm:px-6">
-                    <p className="text-sm text-muted-foreground">
-                      {[
-                        post.category,
-                        post.publishedAt
-                          ? formatShortDate(parseSanityDate(post.publishedAt))
-                          : null,
-                      ]
-                        .filter(Boolean)
-                        .join(' · ')}
+      <motion.div
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        className={`relative z-10 container flex w-full flex-col items-center justify-center content ${innerLiftClass}`}
+      >
+        {title ? (
+          <h2 className="mb-8 w-full text-center md:mb-12">{title}</h2>
+        ) : null}
+        <div className={`grid w-full gap-x-6 gap-y-5 lg:mx-auto lg:max-w-[75vw] ${gridCols}`}>
+          {visiblePosts.map((post) => (
+            <Link
+              key={post._id}
+              href={`/posts/${post.slug}`}
+              className="group block h-full"
+            >
+              <Card className="flex h-full w-full min-w-0 flex-col overflow-hidden rounded-md border-0 bg-card text-card-foreground">
+                {post.image ? (
+                  <div className="relative aspect-video w-full shrink-0 overflow-hidden bg-foreground">
+                    <SanityImage
+                      image={post.image as SanityImageSource}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                      className="object-cover object-center transition-transform duration-300 group-hover:scale-105"
+                    />
+                  </div>
+                ) : null}
+                <CardContent className="w-full px-3 pt-6 sm:px-6">
+                  <p className="text-sm text-muted-foreground">
+                    {[
+                      post.category,
+                      post.publishedAt
+                        ? formatShortDate(parseSanityDate(post.publishedAt))
+                        : null,
+                    ]
+                      .filter(Boolean)
+                      .join(' · ')}
+                  </p>
+                  <h3 className="mt-2 text-h4 group-hover:underline">{post.title}</h3>
+                  {post.excerpt ? (
+                    <p className="mt-2 text-base text-muted-foreground line-clamp-3">
+                      {post.excerpt}
                     </p>
-                    <h3 className="mt-2 text-h4 group-hover:underline">{post.title}</h3>
-                    {post.excerpt ? (
-                      <p className="mt-2 text-base text-muted-foreground line-clamp-3">
-                        {post.excerpt}
-                      </p>
-                    ) : null}
-                  </CardContent>
-                </Card>
-              </Link>
-            ))}
-          </div>
-        </motion.div>
-      </div>
+                  ) : null}
+                </CardContent>
+              </Card>
+            </Link>
+          ))}
+        </div>
+      </motion.div>
     </section>
   )
 }

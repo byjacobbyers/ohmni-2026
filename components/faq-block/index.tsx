@@ -23,30 +23,29 @@ export default function FaqBlock({
       id={anchor || `faq-block-${componentIndex}`}
       className="faq-block w-full flex justify-center px-5 py-16  md:py-24"
     >
-      <div className="container">
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-        >
-          <Accordion type="single" collapsible defaultValue="faq-0" className="w-full">
-            {faqs.map((faq, i) => (
-              <AccordionItem key={i} value={`faq-${i}`}>
-                <AccordionTrigger className="text-left text-xl font-semibold cursor-pointer">
-                  {faq.question}
-                </AccordionTrigger>
-                <AccordionContent className="text-left text-balance">
-                  {faq.answer && Array.isArray(faq.answer) ? (
-                    <div className="content">
-                      <SimpleText content={faq.answer} />
-                    </div>
-                  ) : null}
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
-        </motion.div>
-      </div>
+      <motion.div
+        className="container"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+      >
+        <Accordion type="single" collapsible defaultValue="faq-0" className="w-full">
+          {faqs.map((faq, i) => (
+            <AccordionItem key={i} value={`faq-${i}`}>
+              <AccordionTrigger className="text-left text-xl font-semibold cursor-pointer">
+                {faq.question}
+              </AccordionTrigger>
+              <AccordionContent className="text-left text-balance">
+                {faq.answer && Array.isArray(faq.answer) ? (
+                  <div className="content">
+                    <SimpleText content={faq.answer} />
+                  </div>
+                ) : null}
+              </AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
+      </motion.div>
     </section>
   )
 }

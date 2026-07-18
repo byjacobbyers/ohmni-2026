@@ -38,20 +38,18 @@ export default function EmbedBlock({
       className="embed-block w-full flex justify-center px-5 py-16 md:py-24"
       aria-label={iframeTitle}
     >
-      <div className="container">
-        <motion.div
-          className={`w-full ${maxWidth} mx-auto content`}
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-        >
-          {title ? <h2 className="text-center mb-6">{title}</h2> : null}
-          <div
-            className="embed-block__inner relative w-full min-h-[300px] rounded-lg overflow-hidden border border-border [&_iframe]:block [&_iframe]:min-h-[300px] [&_iframe]:w-full [&_iframe]:max-w-full [&_iframe]:border-0"
-            dangerouslySetInnerHTML={{ __html: html }}
-          />
-        </motion.div>
-      </div>
+      <motion.div
+        className={`container w-full ${maxWidth} mx-auto content`}
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+      >
+        {title ? <h2 className="text-center mb-6">{title}</h2> : null}
+        <div
+          className="embed-block__inner relative w-full min-h-[300px] rounded-lg overflow-hidden border border-border [&_iframe]:block [&_iframe]:min-h-[300px] [&_iframe]:w-full [&_iframe]:max-w-full [&_iframe]:border-0"
+          dangerouslySetInnerHTML={{ __html: html }}
+        />
+      </motion.div>
     </section>
   )
 }

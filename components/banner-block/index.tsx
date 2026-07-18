@@ -61,30 +61,28 @@ export default function BannerBlock({
           </filter>
         </svg>
       </div>
-      <div className="container relative z-10 flex flex-col justify-center text-foreground">
-        <motion.div
-          className="w-full mx-auto flex flex-col gap-6"
-          initial={{ opacity: 0, scale: 0.98 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: componentIndex !== 0 ? 0.5 : 0 }}
-        >
-          {content ? (
-            <div className="content [&_h1]:text-display ">
-              <SimpleText content={content} />
-            </div>
-          ) : null}
-          {cta?.active && cta?.route ? (
-            <div className="flex pt-2 justify-center md:justify-start">
-              <Button asChild variant="default">
-                <Route data={cta.route as Parameters<typeof Route>[0]['data']}>
-                  {(cta.route as { title?: string }).title || 'Learn More'}
-                </Route>
-              </Button>
-            </div>
-          ) : null}
-        </motion.div>
-      </div>
+      <motion.div
+        className="container relative z-10 flex w-full flex-col justify-center gap-6 mx-auto text-foreground"
+        initial={{ opacity: 0, scale: 0.98 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: true }}
+        transition={{ delay: componentIndex !== 0 ? 0.5 : 0 }}
+      >
+        {content ? (
+          <div className="content [&_h1]:text-display ">
+            <SimpleText content={content} />
+          </div>
+        ) : null}
+        {cta?.active && cta?.route ? (
+          <div className="flex pt-2 justify-center md:justify-start">
+            <Button asChild variant="default">
+              <Route data={cta.route as Parameters<typeof Route>[0]['data']}>
+                {(cta.route as { title?: string }).title || 'Learn More'}
+              </Route>
+            </Button>
+          </div>
+        ) : null}
+      </motion.div>
     </section>
   )
 }

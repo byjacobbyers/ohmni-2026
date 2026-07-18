@@ -38,30 +38,28 @@ export default function SplitFormBlock({
       className={`split-form-block w-full flex justify-center px-5 py-16 md:py-24 ${bgClass}`}
     >
       {bg === 'texture' ? <TextureSectionBackdrop /> : null}
-      <div className={`relative z-10 container ${innerLiftClass}`}>
-        <motion.div
-          className="flex w-full flex-col gap-10 md:flex-row md:items-start md:gap-12 lg:gap-16"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-        >
-          <div className="w-full md:w-1/2">
-            <div className="content">
-              <NormalText content={content} />
-            </div>
+      <motion.div
+        className={`relative z-10 container flex w-full flex-col gap-10 md:flex-row md:items-start md:gap-12 lg:gap-16 ${innerLiftClass}`}
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+      >
+        <div className="w-full md:w-1/2">
+          <div className="content">
+            <NormalText content={content} />
           </div>
+        </div>
 
-          {/* Sticky on md+: the form pins below the header and follows while the content column scrolls */}
-          <div className="w-full md:w-1/2 md:sticky md:top-24 md:self-start">
-            <div className="bg-background text-foreground shadow-lg">
-              <LeadForm
-                formName="split-form"
-                submitLabel={cleanStega(submitLabel || '') || undefined}
-              />
-            </div>
+        {/* Sticky on md+: the form pins below the header and follows while the content column scrolls */}
+        <div className="w-full md:w-1/2 md:sticky md:top-24 md:self-start">
+          <div className="bg-background text-foreground shadow-lg">
+            <LeadForm
+              formName="split-form"
+              submitLabel={cleanStega(submitLabel || '') || undefined}
+            />
           </div>
-        </motion.div>
-      </div>
+        </div>
+      </motion.div>
     </section>
   )
 }
