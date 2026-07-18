@@ -5,14 +5,11 @@ import TextureSectionBackdrop from '@/components/texture-section-backdrop'
 import CtaRouteButton from '@/components/cta-route-button'
 import { isActiveCta } from '@/lib/cta'
 import { Card, CardContent, CardFooter } from '@/components/ui/card'
-import { cleanStega } from '@/lib/stega'
+import {
+  normalizeSectionBackground,
+  sectionBackgroundClasses,
+} from '@/lib/section-background'
 import type { ProjectColumnsBlockProps } from '@/types/components/project-columns-block-type'
-
-function normalizeBackgroundColor(raw?: string): 'primary' | 'secondary' | 'texture' {
-  const v = cleanStega(typeof raw === 'string' ? raw : '').toLowerCase()
-  if (v === 'secondary' || v === 'texture') return v
-  return 'primary'
-}
 
 export default function ProjectColumnsBlock({
   active = true,
@@ -25,14 +22,8 @@ export default function ProjectColumnsBlock({
 }: ProjectColumnsBlockProps) {
   if (active === false) return null
 
-  const bg = normalizeBackgroundColor(backgroundColor)
-  const bgClass =
-    bg === 'secondary'
-      ? 'bg-primary text-primary-foreground'
-      : bg === 'texture'
-        ? 'relative bg-black'
-        : ''
-  const innerLiftClass = bg === 'texture' ? 'relative z-10 text-foreground' : ''
+  const bg = normalizeSectionBackground(backgroundColor)
+  const { sectionClass, innerLiftClass, showTexture } = sectionBackgroundClasses(bg)
 
   const columnsPerRowValue = columnsPerRow || 3
   const gridCols =
@@ -45,9 +36,9 @@ export default function ProjectColumnsBlock({
   return (
     <section
       id={anchor || `project-columns-block-${componentIndex}`}
-      className={`project-columns-block w-full overflow-x-hidden px-5 py-16 md:py-24 flex justify-center ${bgClass}`}
+      className={`project-columns-block w-full overflow-x-hidden px-5 py-16 md:py-24 flex justify-center ${sectionClass}`}
     >
-      {bg === 'texture' ? <TextureSectionBackdrop /> : null}
+      {showTexture ? <TextureSectionBackdrop /> : null}
       <AppearAnimation
         className={`relative z-10 container flex w-full flex-col items-center justify-center content ${innerLiftClass}`}
       >

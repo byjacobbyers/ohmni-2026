@@ -2,6 +2,10 @@ import AppearAnimation from '@/components/appear-animation'
 import SimpleText from '@/components/simple-text'
 import SanityImage from '@/components/sanity-image'
 import TextureSectionBackdrop from '@/components/texture-section-backdrop'
+import {
+  normalizeSectionBackground,
+  sectionBackgroundClasses,
+} from '@/lib/section-background'
 import type { SplitScrollBlockProps } from '@/types/components/split-scroll-block-type'
 
 export default function SplitScrollBlock({
@@ -14,21 +18,17 @@ export default function SplitScrollBlock({
 }: SplitScrollBlockProps) {
   if (active === false || !items?.length) return null
 
-  const bgClass =
-    backgroundColor === 'secondary'
-      ? 'bg-primary text-primary-foreground'
-      : backgroundColor === 'texture'
-        ? 'relative bg-black'
-        : ''
+  const bg = normalizeSectionBackground(backgroundColor)
+  const { sectionClass, innerLiftClass, showTexture } = sectionBackgroundClasses(bg)
 
   return (
     <section
       id={anchor || `split-scroll-block-${componentIndex}`}
-      className={`split-scroll-block w-full flex justify-center px-5 py-16 md:py-24 ${bgClass}`}
+      className={`split-scroll-block w-full flex justify-center px-5 py-16 md:py-24 ${sectionClass}`}
     >
-      {backgroundColor === 'texture' ? <TextureSectionBackdrop /> : null}
+      {showTexture ? <TextureSectionBackdrop /> : null}
       <AppearAnimation
-        className={`container ${backgroundColor === 'texture' ? 'relative z-10 text-foreground' : ''} grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-12 lg:items-start`}
+        className={`container ${innerLiftClass} grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-12 lg:items-start`}
       >
         <div className="lg:sticky lg:top-24 lg:self-start">
           {title && Array.isArray(title) && title.length > 0 ? (

@@ -1,6 +1,10 @@
 import AppearAnimation from '@/components/appear-animation'
-import NormalText from '@/components/normal-text'
+import SimpleText from '@/components/simple-text'
 import TextureSectionBackdrop from '@/components/texture-section-backdrop'
+import {
+  normalizeSectionBackground,
+  sectionBackgroundClasses,
+} from '@/lib/section-background'
 import type { TextBlockProps } from '@/types/components/text-block-type'
 
 export default function TextBlock({
@@ -15,24 +19,18 @@ export default function TextBlock({
 
   const alignClass =
     contentAlignment === 'center' ? 'text-center' : contentAlignment === 'right' ? 'text-right' : 'text-left'
-  const bgClass =
-    backgroundColor === 'secondary'
-      ? 'bg-primary text-primary-foreground'
-      : backgroundColor === 'texture'
-        ? 'relative bg-black'
-        : ''
+  const bg = normalizeSectionBackground(backgroundColor)
+  const { sectionClass, innerLiftClass, showTexture } = sectionBackgroundClasses(bg)
 
   return (
     <section
       id={anchor || `text-block-${componentIndex}`}
-      className={`text-block w-full flex justify-center px-5 py-16 md:py-24 ${bgClass}`}
+      className={`text-block w-full flex justify-center px-5 py-16 md:py-24 ${sectionClass}`}
     >
-      {backgroundColor === 'texture' ? <TextureSectionBackdrop /> : null}
-      <AppearAnimation
-        className={`container ${alignClass} ${backgroundColor === 'texture' ? 'relative z-10 text-foreground' : ''}`}
-      >
+      {showTexture ? <TextureSectionBackdrop /> : null}
+      <AppearAnimation className={`container ${alignClass} ${innerLiftClass}`}>
         <div className="content">
-          <NormalText content={content} />
+          <SimpleText content={content} />
         </div>
       </AppearAnimation>
     </section>

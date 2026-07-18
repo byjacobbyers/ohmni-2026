@@ -1,10 +1,10 @@
-import type { NormalTextProps } from '@/types/components/normal-text-type'
+import type { SimpleTextProps } from '@/types/components/simple-text-type'
 
 export type SplitFormBlockProps = {
   active?: boolean
   componentIndex?: number
   anchor?: string
   backgroundColor?: string
-  content?: NormalTextProps['content']
+  content?: SimpleTextProps['content']
   submitLabel?: string
 }

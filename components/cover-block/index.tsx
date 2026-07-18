@@ -7,6 +7,12 @@ import { useIsMobile } from '@/lib/use-is-mobile'
 import TextureSectionBackdrop from '@/components/texture-section-backdrop'
 import CtaRouteButton from '@/components/cta-route-button'
 import { isActiveCta } from '@/lib/cta'
+import {
+  coverOverlayButtonVariant,
+  coverOverlayCssColor,
+  coverOverlayTextClass,
+  coverPositionClass,
+} from '@/lib/cover-layout'
 import { cleanStega } from '@/lib/stega'
 import { urlFor } from '@/sanity/lib/image'
 import type {
@@ -80,22 +86,11 @@ export default function CoverBlock({
           ? 'bg-primary text-primary-foreground'
           : 'relative bg-black text-foreground'
 
-  const overlayColorValue =
-    overlayColor === 'black'
-      ? 'var(--foreground)'
-      : overlayColor === 'primary'
-        ? 'var(--primary)'
-        : overlayColor === 'white'
-          ? 'var(--background)'
-          : undefined
+  const overlayColorValue = coverOverlayCssColor(overlayColor)
 
   const contentTextClass =
     backgroundType === 'image'
-      ? overlayColor === 'black'
-        ? 'text-background'
-        : overlayColor === 'primary'
-          ? 'text-primary-foreground'
-          : 'text-foreground'
+      ? coverOverlayTextClass(overlayColor)
       : colorBg === 'legacyBlack'
         ? 'text-background'
         : colorBg === 'secondary'
@@ -104,25 +99,12 @@ export default function CoverBlock({
 
   const buttonVariant =
     backgroundType === 'image'
-      ? overlayColor === 'primary'
-        ? 'secondary'
-        : 'default'
+      ? coverOverlayButtonVariant(overlayColor)
       : colorBg === 'secondary'
         ? 'secondary'
         : 'default'
 
-  const positionClasses: Record<string, string> = {
-    'top-left': 'items-start justify-start text-left',
-    'top-center': 'items-start justify-center text-center',
-    'top-right': 'items-start justify-end text-right',
-    'center-left': 'items-center justify-start text-left',
-    center: 'items-center justify-center text-center',
-    'center-right': 'items-center justify-end text-right',
-    'bottom-left': 'items-end justify-start text-left',
-    'bottom-center': 'items-end justify-center text-center',
-    'bottom-right': 'items-end justify-end text-right',
-  }
-  const positionClass = positionClasses[contentPosition] || 'items-center justify-center text-center'
+  const positionClass = coverPositionClass(contentPosition)
 
   const getBackgroundImageUrl = (
     img: CoverBlockImage | CoverBlockImageMobile | undefined | null,

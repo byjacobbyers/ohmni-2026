@@ -1,6 +1,7 @@
 import CtaRouteButton from '@/components/cta-route-button'
 import { isActiveCta } from '@/lib/cta'
 import SimpleText from '@/components/simple-text'
+import { secondarySectionClass } from '@/lib/section-background'
 import type { CtaBlockProps } from '@/types/components/cta-block-type'
 
 export default function CtaBlock({
@@ -14,7 +15,7 @@ export default function CtaBlock({
 }: CtaBlockProps) {
   if (active === false) return null
 
-  const bgClass = backgroundColor === 'secondary' ? 'bg-primary text-primary-foreground' : ''
+  const bgClass = secondarySectionClass(backgroundColor)
   const copyAlignClass = alignment ?? 'text-center'
   const stackItemsClass =
     copyAlignClass === 'text-left'

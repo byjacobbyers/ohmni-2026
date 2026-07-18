@@ -7,16 +7,13 @@ import SanityImage from '@/components/sanity-image'
 import TextureSectionBackdrop from '@/components/texture-section-backdrop'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
-import { cleanStega } from '@/lib/stega'
 import { formatShortDate, parseSanityDate } from '@/lib/format-date'
+import {
+  normalizeSectionBackground,
+  sectionBackgroundClasses,
+} from '@/lib/section-background'
 import type { EventCard, EventsBlockProps } from '@/types/components/events-block-type'
 import type { SanityImageSource } from '@/types/components/sanity-image-type'
-
-function normalizeBackgroundColor(raw?: string): 'primary' | 'secondary' | 'texture' {
-  const v = cleanStega(typeof raw === 'string' ? raw : '').toLowerCase()
-  if (v === 'secondary' || v === 'texture') return v
-  return 'primary'
-}
 
 function formatEventDates(startDate?: string, endDate?: string): string | null {
   if (!startDate) return null
@@ -57,22 +54,16 @@ export default function EventsBlock({
   const displayedEvents = allEvents.slice(0, visibleCount)
   const hasMore = visibleCount < allEvents.length
 
-  const bg = normalizeBackgroundColor(backgroundColor)
-  const bgClass =
-    bg === 'secondary'
-      ? 'bg-primary text-primary-foreground'
-      : bg === 'texture'
-        ? 'relative bg-black'
-        : ''
-  const innerLiftClass = bg === 'texture' ? 'relative z-10 text-foreground' : ''
+  const bg = normalizeSectionBackground(backgroundColor)
+  const { sectionClass, innerLiftClass, showTexture } = sectionBackgroundClasses(bg)
   const buttonVariant = bg === 'secondary' ? 'secondary' : 'default'
 
   return (
     <section
       id={anchor || `events-block-${componentIndex}`}
-      className={`events-block w-full overflow-x-hidden px-5 py-16 md:py-24 flex justify-center ${bgClass}`}
+      className={`events-block w-full overflow-x-hidden px-5 py-16 md:py-24 flex justify-center ${sectionClass}`}
     >
-      {bg === 'texture' ? <TextureSectionBackdrop /> : null}
+      {showTexture ? <TextureSectionBackdrop /> : null}
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}

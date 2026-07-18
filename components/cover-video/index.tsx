@@ -6,6 +6,12 @@ import { useIsMobile } from '@/lib/use-is-mobile'
 import SimpleText from '@/components/simple-text'
 import CtaRouteButton from '@/components/cta-route-button'
 import { isActiveCta } from '@/lib/cta'
+import {
+  coverOverlayButtonVariant,
+  coverOverlayCssColor,
+  coverOverlayTextClass,
+  coverPositionClass,
+} from '@/lib/cover-layout'
 import type { CoverVideoProps } from '@/types/components/cover-video-type'
 
 function aspectRatioToCss(ratio?: string | null): string | undefined {
@@ -60,36 +66,10 @@ export default function CoverVideo({
           ? ''
           : 'min-h-[50vh]'
 
-  const overlayColorValue =
-    overlayColor === 'black'
-      ? 'var(--foreground)'
-      : overlayColor === 'primary'
-        ? 'var(--primary)'
-        : overlayColor === 'white'
-          ? 'var(--background)'
-          : undefined
-
-  const contentTextClass =
-    overlayColor === 'black'
-      ? 'text-background'
-      : overlayColor === 'primary'
-        ? 'text-primary-foreground'
-        : 'text-foreground'
-
-  const buttonVariant = overlayColor === 'primary' ? 'secondary' : 'default'
-
-  const positionClasses: Record<string, string> = {
-    'top-left': 'items-start justify-start text-left',
-    'top-center': 'items-start justify-center text-center',
-    'top-right': 'items-start justify-end text-right',
-    'center-left': 'items-center justify-start text-left',
-    center: 'items-center justify-center text-center',
-    'center-right': 'items-center justify-end text-right',
-    'bottom-left': 'items-end justify-start text-left',
-    'bottom-center': 'items-end justify-center text-center',
-    'bottom-right': 'items-end justify-end text-right',
-  }
-  const positionClass = positionClasses[contentPosition] || 'items-center justify-center text-center'
+  const overlayColorValue = coverOverlayCssColor(overlayColor)
+  const contentTextClass = coverOverlayTextClass(overlayColor)
+  const buttonVariant = coverOverlayButtonVariant(overlayColor)
+  const positionClass = coverPositionClass(contentPosition)
 
   const muxPlaybackId =
     videoProvider === 'mux'

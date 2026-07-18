@@ -1,15 +1,13 @@
 import AppearAnimation from '@/components/appear-animation'
-import NormalText from '@/components/normal-text'
+import SimpleText from '@/components/simple-text'
 import TextureSectionBackdrop from '@/components/texture-section-backdrop'
 import LeadForm from '@/components/form-block/lead-form'
 import { cleanStega } from '@/lib/stega'
+import {
+  normalizeSectionBackground,
+  sectionBackgroundClasses,
+} from '@/lib/section-background'
 import type { SplitFormBlockProps } from '@/types/components/split-form-block-type'
-
-function normalizeBackgroundColor(raw?: string): 'primary' | 'secondary' | 'texture' {
-  const v = cleanStega(typeof raw === 'string' ? raw : '').toLowerCase()
-  if (v === 'secondary' || v === 'texture') return v
-  return 'primary'
-}
 
 export default function SplitFormBlock({
   active = true,
@@ -21,27 +19,21 @@ export default function SplitFormBlock({
 }: SplitFormBlockProps) {
   if (active === false) return null
 
-  const bg = normalizeBackgroundColor(backgroundColor)
-  const bgClass =
-    bg === 'secondary'
-      ? 'bg-primary text-primary-foreground'
-      : bg === 'texture'
-        ? 'relative bg-black'
-        : ''
-  const innerLiftClass = bg === 'texture' ? 'relative z-10 text-foreground' : ''
+  const bg = normalizeSectionBackground(backgroundColor)
+  const { sectionClass, innerLiftClass, showTexture } = sectionBackgroundClasses(bg)
 
   return (
     <section
       id={anchor || `split-form-block-${componentIndex}`}
-      className={`split-form-block w-full flex justify-center px-5 py-16 md:py-24 ${bgClass}`}
+      className={`split-form-block w-full flex justify-center px-5 py-16 md:py-24 ${sectionClass}`}
     >
-      {bg === 'texture' ? <TextureSectionBackdrop /> : null}
+      {showTexture ? <TextureSectionBackdrop /> : null}
       <AppearAnimation
         className={`relative z-10 container flex w-full flex-col gap-10 md:flex-row md:items-start md:gap-12 lg:gap-16 ${innerLiftClass}`}
       >
         <div className="w-full md:w-1/2">
           <div className="content">
-            <NormalText content={content} />
+            <SimpleText content={content} />
           </div>
         </div>
 
