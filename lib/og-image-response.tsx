@@ -5,7 +5,7 @@ import { OG_BRAND_PRIMARY, ogSurfaceColors, normalizeOgSurface } from '@/lib/og-
 import { hasPortableHeading, renderSimpleTextForOg } from '@/lib/og-simple-text'
 import { cleanStega } from '@/lib/stega'
 import { getPublicSiteUrl } from '@/lib/site-url'
-import { brand } from '@/lib/brand'
+import { resolveBrand } from '@/lib/brand'
 
 function absolutePublicFile(path: string): string {
   const base = getPublicSiteUrl().replace(/\/+$/, '')
@@ -25,9 +25,12 @@ export type OgRouteDoc = {
 
 export type OgRouteSite = {
   title?: string
+  altTitle?: string
+  tagline?: string
   organizationJsonLd?: { name?: string }
   seo?: {
     metaTitle?: string
+    metaDesc?: string
     ogImageHeading?: unknown
     ogImageBackground?: string
     shareGraphic?: SanityImageSource
@@ -43,7 +46,7 @@ function resolvePlainHeading(doc: OgRouteDoc | null, site: OgRouteSite | null): 
   return (
     cleanStega(site?.organizationJsonLd?.name || '') ||
     cleanStega(site?.title || '') ||
-    brand.name
+    resolveBrand(site).name
   )
 }
 
@@ -60,7 +63,15 @@ function truncateHeading(text: string, max = 88): string {
 }
 
 /** Matches [`components/header/index.tsx`](components/header/index.tsx) wordmark (not scroll ring). */
-function OgBrandFooter({ textColor }: { textColor: string }) {
+function OgBrandFooter({
+  textColor,
+  name,
+  tagline,
+}: {
+  textColor: string
+  name: string
+  tagline: string
+}) {
   const logoUrl = absolutePublicFile('/ohmni.svg')
   return (
     <div
@@ -98,7 +109,9 @@ function OgBrandFooter({ textColor }: { textColor: string }) {
             color: textColor,
           }}
         >
-          <span style={{ fontSize: 40, fontWeight: 700, letterSpacing: -0.02 }}>OHMNI</span>
+          <span style={{ fontSize: 40, fontWeight: 700, letterSpacing: -0.02, textTransform: 'uppercase' }}>
+            {name}
+          </span>
           <span
             style={{
               fontSize: 20,
@@ -107,7 +120,7 @@ function OgBrandFooter({ textColor }: { textColor: string }) {
               paddingBottom: 3,
             }}
           >
-            Web Technologies
+            {tagline}
           </span>
         </div>
       </div>
@@ -144,6 +157,7 @@ export async function createOgImageResponse({
   const plainHeading = truncateHeading(resolvePlainHeading(doc, site))
   const useRichHeading = Boolean(richHeading)
   const headingContent = useRichHeading ? richHeading : plainHeading
+  const resolved = resolveBrand(site)
 
   const loaded = await loadOgFonts()
   const fonts = loaded.length > 0 ? loaded : undefined
@@ -186,7 +200,7 @@ export async function createOgImageResponse({
             </div>
           )}
         </div>
-        <OgBrandFooter textColor={colors.color} />
+        <OgBrandFooter textColor={colors.color} name={resolved.name} tagline={resolved.tagline} />
       </div>
     ),
     {

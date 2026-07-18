@@ -236,6 +236,8 @@ function extractTextFromPortableText(content: unknown): string {
 
 export type SiteType = {
   title?: string
+  altTitle?: string
+  tagline?: string
   email?: string
   address?: string
   addressLocality?: string
@@ -244,6 +246,7 @@ export type SiteType = {
   addressCountry?: string
   sameAs?: string[]
   seo?: {
+    metaTitle?: string
     metaDesc?: string
     autoShareImage?: { heading?: unknown; background?: string }
     ogImageHeading?: unknown
@@ -274,7 +277,7 @@ export function generateOrganizationJsonLd(site: SiteType | null) {
   const logoUrl = org?.logo?.asset?.url
     ? (urlFor(org.logo.asset as Parameters<typeof urlFor>[0]).width(600).height(60).url())
     : undefined
-  const name = org?.name || site.title || brand.name
+  const name = org?.name || site.title || site.altTitle || brand.name
   const siteUrl = org?.url || baseUrl
   const email = site.email || org?.email
 
@@ -319,7 +322,8 @@ export function generateOrganizationJsonLd(site: SiteType | null) {
 }
 
 export function generateWebSiteJsonLd(site: SiteType | null) {
-  const name = site?.organizationJsonLd?.name || site?.title || brand.name
+  const name =
+    site?.organizationJsonLd?.name || site?.title || site?.altTitle || brand.name
   return {
     '@context': 'https://schema.org',
     '@type': 'WebSite',

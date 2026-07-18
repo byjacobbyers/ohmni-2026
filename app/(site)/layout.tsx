@@ -1,6 +1,6 @@
 import type { Metadata } from "next"
 import Script from "next/script"
-import { brand } from "@/lib/brand"
+import { resolveBrand } from "@/lib/brand"
 import { GoogleTagManager } from "@next/third-parties/google"
 import { sans, mono, serif } from "./fonts"
 import { cn } from "@/lib/utils"
@@ -17,12 +17,25 @@ import Footer from "@/components/footer"
 import SmoothScrollProvider from "@/components/providers/smooth-scroll-provider"
 import { Providers } from "@/components/providers"
 import OrganizationJsonLd from "@/components/organization-jsonld"
+import type { SiteType } from "@/lib/seo"
 
 export const revalidate = 60
 
-export const metadata: Metadata = {
-  title: brand.name,
-  description: brand.description,
+export async function generateMetadata(): Promise<Metadata> {
+  try {
+    const { data: site } = await sanityFetch({ query: SiteQuery, stega: false })
+    const resolved = resolveBrand(site as SiteType | null)
+    return {
+      title: resolved.name,
+      description: resolved.description,
+    }
+  } catch {
+    const resolved = resolveBrand()
+    return {
+      title: resolved.name,
+      description: resolved.description,
+    }
+  }
 }
 
 export default async function SiteLayout({
@@ -38,6 +51,7 @@ export default async function SiteLayout({
   const site = siteRes.data as React.ComponentProps<typeof OrganizationJsonLd>["site"]
   const headerNav = headerRes.data as React.ComponentProps<typeof Header>["navigation"]
   const footerNav = footerRes.data as React.ComponentProps<typeof Footer>["navigation"]
+  const resolved = resolveBrand(site)
 
   return (
     <div className={cn(sans.variable, mono.variable, serif.variable, "min-h-screen antialiased bg-background text-foreground font-sans", isEnabled && "body-preview-mode")}>
@@ -96,13 +110,17 @@ export default async function SiteLayout({
         {site && <OrganizationJsonLd site={site} />}
         {isEnabled && <PreviewBar />}
         <SmoothScrollProvider>
-          <Header navigation={headerNav} />
+          <Header
+            navigation={headerNav}
+            brandName={resolved.name}
+            brandTagline={resolved.tagline}
+          />
           <Template>
             {children}
             <SanityLive />
             {isEnabled && <VisualEditing zIndex={999999} />}
           </Template>
-          <Footer navigation={footerNav} />
+          <Footer navigation={footerNav} brandName={resolved.name} />
         </SmoothScrollProvider>
       </Providers>
     </div>

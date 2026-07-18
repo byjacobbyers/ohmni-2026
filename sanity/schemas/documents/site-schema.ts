@@ -11,8 +11,22 @@ export default defineType({
     { name: 'jsonLd', title: 'JSON-LD' },
   ],
   fields: [
-    defineField({ name: 'title', title: 'Site Title', type: 'string', group: 'general' }),
-    defineField({ name: 'altTitle', title: 'Alternative Title', type: 'string', group: 'general' }),
+    defineField({ name: 'title', title: 'Site Title', type: 'string', group: 'general', description: 'Longer site / product name (e.g. “Ohmni Marketing Technologies”). Used for Studio labels and as a fallback in structured data.' }),
+    defineField({
+      name: 'altTitle',
+      title: 'Brand Name',
+      type: 'string',
+      group: 'general',
+      description:
+        'Short public name for the header wordmark, footer copyright, title suffix (“ :: Name”), and share-image footer (e.g. “Ohmni”). Prefer this over Site Title for logo-adjacent UI.',
+    }),
+    defineField({
+      name: 'tagline',
+      title: 'Tagline',
+      type: 'string',
+      group: 'general',
+      description: 'Shown next to the brand name in the header and on generated share images (e.g. “Web Technologies”).',
+    }),
     defineField({ name: 'foundingYear', title: 'Founding Year', type: 'string', group: 'general' }),
     defineField({ name: 'address', title: 'Street Address', type: 'string', group: 'general' }),
     defineField({

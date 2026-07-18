@@ -7,7 +7,7 @@ import { SiteQuery } from "@/sanity/queries/documents/site-query"
 import EventSingle from "@/components/event-single"
 import type { EventSingleData } from "@/types/components/event-single-type"
 
-import { brand } from '@/lib/brand'
+import { resolveBrand, type BrandSiteInput } from '@/lib/brand'
 import {
   generateEventJsonLd,
   generateFAQJsonLd,
@@ -40,8 +40,17 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
       sanityFetch({ query: SiteQuery, stega: false }),
     ])) as Array<{ data: SanityDocument | null }>
 
-    if (!event) return generateSeoMetadata(undefined, undefined, undefined, `Event at ${brand.name}.`)
+    if (!event) {
+      const resolvedBrand = resolveBrand(global as BrandSiteInput | null)
+      return generateSeoMetadata(
+        undefined,
+        undefined,
+        undefined,
+        `Event at ${resolvedBrand.name}.`
+      )
+    }
 
+    const resolvedBrand = resolveBrand(global as BrandSiteInput | null)
     return generateSeoMetadata(
       event?.seo,
       global?.seo,
@@ -49,12 +58,18 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
       'Join us for this event.',
       {
         url: `/events/${resolved.slug}`,
-        titleSuffix: brand.titleSuffix,
+        titleSuffix: resolvedBrand.titleSuffix,
         ogDocument: { slug: resolved.slug, type: 'event' },
       }
     )
   } catch {
-    return generateSeoMetadata(undefined, undefined, undefined, `Event at ${brand.name}.`)
+    const resolvedBrand = resolveBrand()
+    return generateSeoMetadata(
+      undefined,
+      undefined,
+      undefined,
+      `Event at ${resolvedBrand.name}.`
+    )
   }
 }
 

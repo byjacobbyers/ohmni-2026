@@ -7,6 +7,7 @@ export const SiteQuery = groq`*[_type == "site"][0] {
   _updatedAt,
   title,
   altTitle,
+  tagline,
   foundingYear,
   address,
   addressLocality,

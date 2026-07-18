@@ -17,6 +17,8 @@ export const ogRouteDataQuery = groq`{
   },
   "site": *[_type == "site"][0] {
     title,
+    altTitle,
+    tagline,
     organizationJsonLd { name },
     seo ${seoOgProjection}
   }

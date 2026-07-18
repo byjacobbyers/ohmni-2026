@@ -12,7 +12,6 @@ import { cn } from '@/lib/utils'
 import { BaseRouteType } from '@/types/objects/route-type'
 import type { HeaderProps } from '@/types/components/header-type'
 import { motion } from 'motion/react'
-import { brand } from '@/lib/brand'
 
 const BOOK_NOW_TITLE = 'Book Now'
 
@@ -46,7 +45,7 @@ const RING_STROKE = 2.2
 const RING_R = LOGO_VB / 2 - RING_STROKE / 2
 const RING_C = 2 * Math.PI * RING_R
 
-function HeaderScrollLogoMark() {
+function HeaderScrollLogoMark({ brandName }: { brandName: string }) {
   const progress = usePageScrollProgress()
   const showRing = progress > 0.05
   const offset = RING_C * (1 - progress)
@@ -59,7 +58,7 @@ function HeaderScrollLogoMark() {
       <div className="aspect-square p-[0.5px] h-full w-full overflow-hidden">
         <img
           src="/ohmni.svg"
-          alt={`${brand.name} logo`}
+          alt={`${brandName} logo`}
           className="h-full w-full object-contain"
         />
       </div>
@@ -96,7 +95,7 @@ function HeaderScrollLogoMark() {
   )
 }
 
-export default function Header({ navigation }: HeaderProps) {
+export default function Header({ navigation, brandName, brandTagline }: HeaderProps) {
   const [isOpen, toggleDropdown] = useCycle(false, true)
   const headerRef = useRef<HTMLElement>(null)
   const [dimensions, setDimensions] = useState({ height: 64 })
@@ -166,16 +165,16 @@ export default function Header({ navigation }: HeaderProps) {
             href="/"
             className="inline-flex items-center gap-2 self-center"
           >
-            <HeaderScrollLogoMark />
+            <HeaderScrollLogoMark brandName={brandName} />
             <div className="flex items-end gap-2 leading-none">
               <h1
                 className="text-2xl font-bold leading-none p-0 lg:text-3xl"
-                title={brand.name}
+                title={brandName}
               >
-                {brand.name.toUpperCase()}
+                {brandName.toUpperCase()}
               </h1>
               <span className="text-sm pb-[2px] md:pb-[3px] uppercase leading-none">
-                {brand.tagline}
+                {brandTagline}
               </span>
             </div>
           </Link>

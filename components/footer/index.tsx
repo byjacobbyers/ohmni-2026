@@ -1,9 +1,8 @@
 import Route from '@/components/route'
 import { CookieSettingsTrigger } from '@/components/cookie-consent-banner/cookie-settings-trigger'
 import type { FooterProps } from '@/types/components/footer-type'
-import { brand } from '@/lib/brand'
 
-export default function Footer({ navigation }: FooterProps) {
+export default function Footer({ navigation, brandName }: FooterProps) {
   const year = new Date().getFullYear()
 
   return (
@@ -11,7 +10,7 @@ export default function Footer({ navigation }: FooterProps) {
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
           <small className="text-sm">
-            © {year} {brand.name}. All rights reserved.
+            © {year} {brandName}. All rights reserved.
           </small>
           
         </div>
