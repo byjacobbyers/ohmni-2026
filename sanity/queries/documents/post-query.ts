@@ -29,5 +29,6 @@ export const postQuery = groq`*[_type == "post" && slug.current == $slug][0] {
     ...,
     shareGraphic { ${imageQuery} }
   },
+  jsonLd,
   ${sectionsQuery}
 }`

@@ -8,6 +8,7 @@ import {
   generateFAQJsonLd,
   generateWebPageJsonLd,
   generateMetadata as generateSeoMetadata,
+  type PageJsonLdOverrides,
   type SeoType,
 } from '@/lib/seo'
 
@@ -20,6 +21,7 @@ type SectionLike = {
 type PageLike = {
   title?: string
   seo?: SeoType
+  jsonLd?: PageJsonLdOverrides | null
   sections?: SectionLike[]
   _updatedAt?: string
 }
@@ -41,6 +43,7 @@ export function webPageSchemas(page: PageLike, url: string) {
       description: pageSeo.metaDesc,
       url,
       _updatedAt: page._updatedAt,
+      jsonLd: page.jsonLd,
     })
   )
   const faqSchema = faqJsonLdFromSections(page.sections)

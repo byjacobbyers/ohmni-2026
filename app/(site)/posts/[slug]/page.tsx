@@ -83,8 +83,10 @@ export default async function PostPage({ params }: { params: Promise<QueryParams
     url: `/posts/${slug}`,
     publishedAt: post.publishedAt,
     author: post.author,
+    category: post.category,
     image: post.image,
     _updatedAt: post._updatedAt,
+    jsonLd: post.jsonLd,
   }))
   const breadcrumb = generateBreadcrumbJsonLd([
     { name: 'Posts', url: '/posts' },

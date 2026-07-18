@@ -9,6 +9,7 @@ export default defineType({
   groups: [
     { title: 'Event Details', name: 'event', default: true },
     { title: 'SEO & Settings', name: 'seo' },
+    { title: 'JSON-LD', name: 'jsonLd' },
   ],
   fields: [
     defineField({
@@ -81,6 +82,15 @@ export default defineType({
       name: 'seo',
       type: 'seo',
       group: 'seo',
+      options: { collapsible: true, collapsed: false },
+    }),
+    defineField({
+      name: 'jsonLd',
+      title: 'Event JSON-LD',
+      type: 'eventJsonLd',
+      group: 'jsonLd',
+      description:
+        'Optional overrides for Event structured data. Type stays Event; FAQ blocks still auto-generate FAQPage.',
       options: { collapsible: true, collapsed: false },
     }),
   ],

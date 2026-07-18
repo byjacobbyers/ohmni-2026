@@ -10,6 +10,7 @@ export default defineType({
   groups: [
     { title: 'Page content', name: 'page', default: true },
     { title: 'SEO & Settings', name: 'seo' },
+    { title: 'JSON-LD', name: 'jsonLd' },
   ],
   fields: [
     defineField({
@@ -65,6 +66,15 @@ export default defineType({
       options: { collapsible: true, collapsed: false },
       hidden: ({ document }) =>
         (document?.slug as { current?: string } | undefined)?.current === 'home',
+    }),
+    defineField({
+      name: 'jsonLd',
+      title: 'JSON-LD',
+      type: 'pageJsonLd',
+      group: 'jsonLd',
+      description:
+        'Optional structured-data overrides. FAQ schema is still generated automatically from FAQ blocks.',
+      options: { collapsible: true, collapsed: false },
     }),
   ],
   preview: {

@@ -18,5 +18,6 @@ export const pageQuery = groq`*[_type == "page" && slug.current == $slug][0] {
     ...,
     shareGraphic { ${imageQuery} }
   },
+  jsonLd,
   ${sectionsQuery}
 }`

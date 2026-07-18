@@ -13,6 +13,7 @@ import {
   generateMetadata as generateSeoMetadata,
 } from "@/lib/seo"
 import { faqJsonLdFromSections, JsonLdScript } from "@/lib/content-page"
+import { parseSanityDate } from "@/lib/format-date"
 
 export async function generateStaticParams() {
   try {
@@ -94,11 +95,6 @@ export default async function EventPage({ params }: { params: Promise<QueryParam
   const eventSlug = typeof event.slug === 'string' ? event.slug : event.slug?.current
   const eventUrl = `/events/${eventSlug || slug}`
 
-  const parseSanityDate = (dateStr: string) => {
-    const [year, month, day] = dateStr.split('-').map(Number)
-    return new Date(year, month - 1, day)
-  }
-
   if (event.startDate) {
     const startDate = parseSanityDate(event.startDate).toISOString()
     const endDate = event.endDate ? parseSanityDate(event.endDate).toISOString() : undefined
@@ -111,6 +107,7 @@ export default async function EventPage({ params }: { params: Promise<QueryParam
       location: event.location,
       image: event.image,
       _updatedAt: event._updatedAt,
+      jsonLd: event.jsonLd,
     }))
   }
 
