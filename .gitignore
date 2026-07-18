@@ -27,6 +27,9 @@
 # claude
 /.claude/
 
+# private planning and business docs
+/plans/
+
 
 # pnpm store
 /.pnpm-store/

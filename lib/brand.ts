@@ -1,13 +1,6 @@
 /**
- * Brand configuration (BUILD-PLAN Task 7).
- *
- * Every client-specific string the template ships. Onboarding a client means
- * editing this file (plus env vars, globals.css @theme, and app/(site)/fonts.ts
- * for colors and type, which stay in their native homes until the stage-3
- * token architecture).
- *
- * Each field documents the client-intake question that populates it; this
- * schema becomes the phase-3 questionnaire output.
+ * Brand configuration: the single home for site-identity strings.
+ * Colors and type live in globals.css @theme and app/(site)/fonts.ts.
  */
 export const brand = {
   /** "What is the company's public name?" Used in titles, JSON-LD fallbacks, header/footer. */
