@@ -117,8 +117,12 @@ export default async function SiteLayout({
           />
           <Template>
             {children}
-            <SanityLive />
-            {isEnabled && <VisualEditing zIndex={999999} />}
+            {isEnabled && (
+              <>
+                <SanityLive />
+                <VisualEditing zIndex={999999} />
+              </>
+            )}
           </Template>
           <Footer navigation={footerNav} brandName={resolved.name} />
         </SmoothScrollProvider>

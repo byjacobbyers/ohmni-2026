@@ -1,7 +1,6 @@
 import { revalidatePath } from 'next/cache'
 import { type NextRequest, NextResponse } from 'next/server'
 import { parseBody } from 'next-sanity/webhook'
-import { apiVersion, dataset, projectId } from '@/sanity/env'
 
 type WebhookPayload = {
   _type: string
@@ -9,42 +8,47 @@ type WebhookPayload = {
   slug?: { current?: string }
 }
 
-function getPathForDocument(body: WebhookPayload): string[] {
-  const paths: string[] = []
+type RevalidateTarget = {
+  path: string
+  /** `layout` busts the shared site chrome (header/footer/brand) on all routes under the path */
+  type?: 'page' | 'layout'
+}
+
+function getTargetsForDocument(body: WebhookPayload): RevalidateTarget[] {
   const { _type, slug } = body
 
   switch (_type) {
     case 'page': {
       const pageSlug = slug?.current
-      if (pageSlug === 'home') paths.push('/')
-      else if (pageSlug === 'posts') paths.push('/posts')
-      else if (pageSlug === 'events') paths.push('/events')
-      else if (pageSlug) paths.push(`/${pageSlug}`)
-      break
+      if (pageSlug === 'home') return [{ path: '/' }]
+      if (pageSlug === 'posts') return [{ path: '/posts' }]
+      if (pageSlug === 'events') return [{ path: '/events' }]
+      if (pageSlug) return [{ path: `/${pageSlug}` }]
+      return [{ path: '/', type: 'layout' }]
     }
     case 'event': {
+      const targets: RevalidateTarget[] = [{ path: '/events' }, { path: '/' }]
       const eventSlug = slug?.current
-      if (eventSlug) paths.push(`/events/${eventSlug}`)
-      paths.push('/events')
-      paths.push('/')
-      break
+      if (eventSlug) targets.unshift({ path: `/events/${eventSlug}` })
+      return targets
     }
     case 'post': {
+      const targets: RevalidateTarget[] = [{ path: '/posts' }, { path: '/' }]
       const postSlug = slug?.current
-      if (postSlug) paths.push(`/posts/${postSlug}`)
-      paths.push('/posts')
-      paths.push('/')
-      break
+      if (postSlug) targets.unshift({ path: `/posts/${postSlug}` })
+      return targets
     }
     case 'navigation':
     case 'site':
-      paths.push('/')
-      break
+    case 'announcement':
+      // Shared chrome lives in the site layout — bust all routes under it.
+      return [{ path: '/', type: 'layout' }]
+    case 'redirect':
+      // Redirects can affect any URL; layout revalidate is the safe sweep.
+      return [{ path: '/', type: 'layout' }]
     default:
-      paths.push('/')
+      return [{ path: '/', type: 'layout' }]
   }
-
-  return paths
 }
 
 export async function GET() {
@@ -70,10 +74,14 @@ export async function POST(req: NextRequest) {
     return new Response(JSON.stringify({ message: 'Missing _type' }), { status: 400 })
   }
 
-  const paths = getPathForDocument(body)
-  for (const path of paths) {
-    revalidatePath(path)
+  const targets = getTargetsForDocument(body)
+  for (const { path, type } of targets) {
+    if (type === 'layout') {
+      revalidatePath(path, 'layout')
+    } else {
+      revalidatePath(path)
+    }
   }
 
-  return NextResponse.json({ body, paths })
+  return NextResponse.json({ body, targets })
 }
