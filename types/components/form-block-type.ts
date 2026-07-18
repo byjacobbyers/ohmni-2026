@@ -2,7 +2,6 @@ export type FormBlockFormData = {
   name: string
   email: string
   message: string
-  isAnonymous: boolean
   website?: string
 }
 

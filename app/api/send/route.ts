@@ -4,7 +4,7 @@ import { sendLeadNotification, type Lead } from '@/lib/lead'
 export async function POST(request: Request) {
   try {
     const body = await request.json()
-    const { name, email, message, isAnonymous, website, path, formName } = body
+    const { name, email, message, website, path, formName } = body
 
     // Honeypot: pretend success
     if (website && website.trim().length > 0) {
@@ -15,33 +15,25 @@ export async function POST(request: Request) {
       return Response.json({ error: 'Message is required' }, { status: 400 })
     }
 
-    if (!isAnonymous) {
-      if (!name || name.trim().length === 0) {
-        return Response.json(
-          { error: 'Name is required when not sending anonymously' },
-          { status: 400 }
-        )
-      }
-      if (!email || email.trim().length === 0) {
-        return Response.json(
-          { error: 'Email is required when not sending anonymously' },
-          { status: 400 }
-        )
-      }
-      const emailRegex = /\S+@\S+\.\S+/
-      if (!emailRegex.test(email)) {
-        return Response.json(
-          { error: 'Please enter a valid email address' },
-          { status: 400 }
-        )
-      }
+    if (!name || name.trim().length === 0) {
+      return Response.json({ error: 'Name is required' }, { status: 400 })
+    }
+
+    if (!email || email.trim().length === 0) {
+      return Response.json({ error: 'Email is required' }, { status: 400 })
+    }
+    const emailRegex = /\S+@\S+\.\S+/
+    if (!emailRegex.test(email)) {
+      return Response.json(
+        { error: 'Please enter a valid email address' },
+        { status: 400 }
+      )
     }
 
     const lead: Lead = {
-      name: isAnonymous ? undefined : name,
-      email: isAnonymous ? undefined : email,
+      name: name.trim(),
+      email: email.trim(),
       message: message.trim(),
-      isAnonymous: Boolean(isAnonymous),
       path: typeof path === 'string' ? path.slice(0, 200) : undefined,
       formName: typeof formName === 'string' ? formName.slice(0, 50) : undefined,
       submittedAt: new Date().toISOString(),

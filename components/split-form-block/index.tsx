@@ -57,7 +57,6 @@ export default function SplitFormBlock({
               <LeadForm
                 formName="split-form"
                 submitLabel={cleanStega(submitLabel || '') || undefined}
-                allowAnonymous={false}
               />
             </div>
           </div>

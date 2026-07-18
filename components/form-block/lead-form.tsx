@@ -6,23 +6,20 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
-import { Switch } from '@/components/ui/switch'
 import { trackEvent } from '@/lib/gtm'
 import type { FormBlockFormData } from '@/types/components/form-block-type'
 
 /**
- * The contact/lead form itself: state, validation, honeypot, submit to
- * /api/send, and status messages. Hosts (form-block, split-form-block)
- * provide the section shell and card styling around it.
+ * The lead form itself: state, validation, honeypot, submit to /api/send,
+ * and status messages. Hosts (form-block, split-form-block) provide the
+ * section shell and card styling around it.
  */
 export default function LeadForm({
   formName = 'contact',
   submitLabel = 'Send Message',
-  allowAnonymous = true,
 }: {
   formName?: string
   submitLabel?: string
-  allowAnonymous?: boolean
 }) {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
@@ -30,7 +27,6 @@ export default function LeadForm({
     name: '',
     email: '',
     message: '',
-    isAnonymous: false,
     website: '',
   })
   const [errors, setErrors] = useState<Partial<FormBlockFormData>>({})
@@ -38,13 +34,11 @@ export default function LeadForm({
   const validateForm = (): boolean => {
     const newErrors: Partial<FormBlockFormData> = {}
 
-    if (!formData.isAnonymous) {
-      if (!formData.name.trim()) newErrors.name = 'Name is required'
-      if (!formData.email.trim()) {
-        newErrors.email = 'Email is required'
-      } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-        newErrors.email = 'Please enter a valid email address'
-      }
+    if (!formData.name.trim()) newErrors.name = 'Name is required'
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email is required'
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = 'Please enter a valid email address'
     }
 
     if (!formData.message.trim()) {
@@ -74,10 +68,9 @@ export default function LeadForm({
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          name: formData.isAnonymous ? undefined : formData.name,
-          email: formData.isAnonymous ? undefined : formData.email,
+          name: formData.name,
+          email: formData.email,
           message: formData.message,
-          isAnonymous: formData.isAnonymous,
           website: formData.website,
           path: window.location.pathname,
           formName,
@@ -87,13 +80,7 @@ export default function LeadForm({
       if (response.ok) {
         setSubmitStatus('success')
         trackEvent('form_submit', { form_name: formName, form_type: 'contact' })
-        setFormData({
-          name: '',
-          email: '',
-          message: '',
-          isAnonymous: false,
-          website: '',
-        })
+        setFormData({ name: '', email: '', message: '', website: '' })
         setErrors({})
       } else {
         const errorData = await response.json()
@@ -112,7 +99,7 @@ export default function LeadForm({
     }
   }
 
-  const handleInputChange = (field: keyof FormBlockFormData, value: string | boolean) => {
+  const handleInputChange = (field: keyof FormBlockFormData, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
     if (errors[field]) {
       setErrors((prev) => ({ ...prev, [field]: undefined }))
@@ -123,53 +110,30 @@ export default function LeadForm({
     // data-form-name mirrors what the submit handler sends, so devtools and
     // autocapture tools can tell forms apart without inspecting the payload
     <form onSubmit={handleSubmit} className="space-y-6" data-form-name={formName}>
-      {allowAnonymous && (
-        <div className="flex flex-row items-center justify-between border p-4">
-          <div className="space-y-0.5">
-            <Label className="text-base">Send Anonymously?</Label>
-            <p className="text-sm text-muted-foreground">
-              Send your message without revealing your identity
-            </p>
-          </div>
-          <Switch
-            checked={formData.isAnonymous}
-            onCheckedChange={(checked: boolean) => handleInputChange('isAnonymous', checked)}
-          />
-        </div>
-      )}
+      <div className="space-y-2">
+        <Label htmlFor="name">Name</Label>
+        <Input
+          id="name"
+          placeholder="Your name"
+          value={formData.name}
+          onChange={(e) => handleInputChange('name', e.target.value)}
+          className={errors.name ? 'border-red-500' : ''}
+        />
+        {errors.name && <p className="text-sm text-red-500">{errors.name}</p>}
+      </div>
 
-      {!formData.isAnonymous && (
-        <div className="space-y-2">
-          <Label htmlFor="name">Name</Label>
-          <Input
-            id="name"
-            placeholder="Your name"
-            value={formData.name}
-            onChange={(e) => handleInputChange('name', e.target.value)}
-            className={errors.name ? 'border-red-500' : ''}
-          />
-          {errors.name && (
-            <p className="text-sm text-red-500">{errors.name}</p>
-          )}
-        </div>
-      )}
-
-      {!formData.isAnonymous && (
-        <div className="space-y-2">
-          <Label htmlFor="email">Email</Label>
-          <Input
-            id="email"
-            type="email"
-            placeholder="your.email@example.com"
-            value={formData.email}
-            onChange={(e) => handleInputChange('email', e.target.value)}
-            className={errors.email ? 'border-red-500' : ''}
-          />
-          {errors.email && (
-            <p className="text-sm text-red-500">{errors.email}</p>
-          )}
-        </div>
-      )}
+      <div className="space-y-2">
+        <Label htmlFor="email">Email</Label>
+        <Input
+          id="email"
+          type="email"
+          placeholder="your.email@example.com"
+          value={formData.email}
+          onChange={(e) => handleInputChange('email', e.target.value)}
+          className={errors.email ? 'border-red-500' : ''}
+        />
+        {errors.email && <p className="text-sm text-red-500">{errors.email}</p>}
+      </div>
 
       <div className="space-y-2">
         <Label htmlFor="message">Message</Label>
@@ -180,9 +144,7 @@ export default function LeadForm({
           value={formData.message}
           onChange={(e) => handleInputChange('message', e.target.value)}
         />
-        {errors.message && (
-          <p className="text-sm text-red-500">{errors.message}</p>
-        )}
+        {errors.message && <p className="text-sm text-red-500">{errors.message}</p>}
       </div>
 
       <input

@@ -4,10 +4,9 @@ import { EmailTemplate } from '@/components/email-template'
 import { brand } from '@/lib/brand'
 
 export type Lead = {
-  name?: string
-  email?: string
+  name: string
+  email: string
   message: string
-  isAnonymous?: boolean
   path?: string
   /** Which form sent it (e.g. 'contact', 'split-form'); campaign filters key on this */
   formName?: string
@@ -37,22 +36,15 @@ export async function sendLeadNotification(lead: Lead) {
 
   const resend = new Resend(process.env.RESEND_API_KEY)
   const fromEmail = process.env.CONTACT_FORM_FROM_EMAIL ?? brand.emailFrom
-  const replyToDefault = process.env.CONTACT_FORM_REPLY_TO ?? 'no-reply@example.com'
 
   const { data, error } = await resend.emails.send({
     from: fromEmail,
     to: recipients,
-    replyTo: lead.isAnonymous || !lead.email ? replyToDefault : lead.email,
-    subject: lead.isAnonymous
-      ? `${brand.emailSubjectPrefix} - Anonymous ${formLabel(lead)} Submission`
-      : `${brand.emailSubjectPrefix} - ${formLabel(lead)} Submission from ${lead.name}`,
+    replyTo: lead.email,
+    subject: `${brand.emailSubjectPrefix} - ${formLabel(lead)} Submission from ${lead.name}`,
     react: EmailTemplate({
-      name: lead.isAnonymous ? undefined : lead.name,
-      email: lead.isAnonymous ? undefined : lead.email,
-      // Message only rendered for anonymous leads (otherwise name/email suffice;
-      // the full message lives in Slack and the Attio note)
-      message: lead.isAnonymous ? lead.message : undefined,
-      isAnonymous: Boolean(lead.isAnonymous),
+      name: lead.name,
+      email: lead.email,
       formLabel: formLabel(lead),
     }) as React.ReactElement,
   })
@@ -73,9 +65,8 @@ function attioHeaders() {
 /** Upserts a person by email. Returns the Attio record id, or a skip marker without a key. */
 export async function upsertAttioPerson(lead: Lead): Promise<{ recordId?: string; skipped?: string }> {
   if (!process.env.ATTIO_API_KEY) return { skipped: 'ATTIO_API_KEY not set' }
-  if (!lead.email) return { skipped: 'anonymous lead, no email to match on' }
 
-  const [firstName, ...rest] = (lead.name || '').trim().split(/\s+/)
+  const [firstName, ...rest] = lead.name.trim().split(/\s+/)
   const res = await fetch(
     `${ATTIO_BASE}/objects/people/records?matching_attribute=email_addresses`,
     {
@@ -85,17 +76,13 @@ export async function upsertAttioPerson(lead: Lead): Promise<{ recordId?: string
         data: {
           values: {
             email_addresses: [{ email_address: lead.email }],
-            ...(lead.name
-              ? {
-                  name: [
-                    {
-                      first_name: firstName,
-                      last_name: rest.join(' ') || firstName,
-                      full_name: lead.name,
-                    },
-                  ],
-                }
-              : {}),
+            name: [
+              {
+                first_name: firstName,
+                last_name: rest.join(' ') || firstName,
+                full_name: lead.name,
+              },
+            ],
           },
         },
       }),
@@ -151,7 +138,6 @@ export async function trackLeadInCustomerio(lead: Lead) {
   if (!process.env.CUSTOMERIO_SITE_ID || !process.env.CUSTOMERIO_TRACK_API_KEY) {
     return { skipped: 'Customer.io Track API keys not set' }
   }
-  if (!lead.email) return { skipped: 'anonymous lead, no email to identify' }
 
   const id = encodeURIComponent(lead.email)
 
@@ -160,7 +146,7 @@ export async function trackLeadInCustomerio(lead: Lead) {
     headers: customerioAuth(),
     body: JSON.stringify({
       email: lead.email,
-      ...(lead.name && { name: lead.name }),
+      name: lead.name,
     }),
   })
   if (!identify.ok) {

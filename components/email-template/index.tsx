@@ -5,8 +5,6 @@ import { brand } from '@/lib/brand'
 export const EmailTemplate: React.FC<EmailTemplateProps> = ({
   name,
   email,
-  message,
-  isAnonymous,
   formLabel = 'Contact Form',
 }) => (
   <div
@@ -27,45 +25,13 @@ export const EmailTemplate: React.FC<EmailTemplateProps> = ({
       New {formLabel} Submission
     </h1>
 
-    <div style={{ marginTop: '20px' }}>
-      {!isAnonymous && (
-        <div style={{ marginBottom: '20px' }}>
-          <p style={{ margin: '5px 0' }}>
-            <strong>Name:</strong> {name}
-          </p>
-          <p style={{ margin: '5px 0' }}>
-            <strong>Email:</strong> {email}
-          </p>
-        </div>
-      )}
-
-      {isAnonymous && (
-        <div
-          style={{
-            marginBottom: '20px',
-            padding: '10px',
-            backgroundColor: '#f8f9fa',
-            borderRadius: '5px',
-          }}
-        >
-          <p style={{ margin: '0', color: '#666', fontStyle: 'italic' }}>
-            This message was sent anonymously
-          </p>
-          {/* Anonymous leads have no name/email, so the message is the only content */}
-          {message ? (
-            <div
-              style={{
-                marginTop: '10px',
-                whiteSpace: 'pre-wrap' as const,
-                lineHeight: '1.5',
-                color: '#333',
-              }}
-            >
-              {message}
-            </div>
-          ) : null}
-        </div>
-      )}
+    <div style={{ marginTop: '20px', marginBottom: '20px' }}>
+      <p style={{ margin: '5px 0' }}>
+        <strong>Name:</strong> {name}
+      </p>
+      <p style={{ margin: '5px 0' }}>
+        <strong>Email:</strong> {email}
+      </p>
     </div>
 
     <div
