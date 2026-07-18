@@ -3,9 +3,9 @@
 import { motion } from 'motion/react'
 import SimpleText from '@/components/simple-text'
 import SanityImage from '@/components/sanity-image'
-import Radar from '@/components/Radar'
-import LetterGlitch from '@/components/LetterGlitch'
-import FaultyTerminal from '@/components/FaultyTerminal'
+import Radar from '@/components/animations/radar'
+import LetterGlitch from '@/components/animations/letter-glitch'
+import FaultyTerminal from '@/components/animations/faulty-terminal'
 import type {
   ProblemBlockColumn,
   ProblemBlockIcon,

@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import { useCycle } from 'motion/react'
-import AuroraBits from '@/components/aurora-bits'
+import AuroraBits from '@/components/animations/aurora-bits'
 import Route from '@/components/route'
 import MenuButton from '@/components/header/menu-button'
 import MobileNav from '@/components/navigation/mobile'

@@ -1,6 +1,6 @@
 'use client'
 
-import AuroraBits from '@/components/aurora-bits'
+import AuroraBits from '@/components/animations/aurora-bits'
 import type { PrimaryButtonAuroraLayersProps } from '@/types/components/primary-button-aurora-layers-type'
 
 /** Same hues as banner SoftAurora: #f7f7f7 and #3566ff */

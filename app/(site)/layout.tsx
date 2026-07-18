@@ -14,7 +14,7 @@ import { VisualEditing } from "next-sanity/visual-editing"
 import { draftMode } from "next/headers"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
-import SmoothScrollProvider from "@/components/smooth-scroll-provider"
+import SmoothScrollProvider from "@/components/providers/smooth-scroll-provider"
 import { Providers } from "@/components/providers"
 import OrganizationJsonLd from "@/components/organization-jsonld"
 
