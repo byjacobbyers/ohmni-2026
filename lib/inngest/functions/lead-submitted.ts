@@ -53,14 +53,15 @@ export const leadSubmitted = inngest.createFunction(
     // Lifecycle lane: identify + event so Customer.io journeys can trigger
     const customerio = await step.run('customerio-track', () => trackLeadInCustomerio(lead))
 
-    const email = await step.run('resend-notification', () => sendLeadNotification(lead))
-
-    // Instant heads-up in Slack for every lead (same webhook as failure alerts)
+    // Instant heads-up in Slack for every lead (same webhook as failure alerts).
+    // Runs before the email step so a broken email lane can't suppress the ping.
     await step.run('slack-new-lead-ping', () =>
       sendSlackAlert(
         `New lead${lead.formName ? ` via ${lead.formName}` : ''}: ${lead.name || 'Anonymous'} <${lead.email || 'no email'}>${lead.path ? `\nPage: ${lead.path}` : ''}\n${lead.message.slice(0, 300)}`
       )
     )
+
+    const email = await step.run('resend-notification', () => sendLeadNotification(lead))
 
     return { attio, customerio, email }
   }
