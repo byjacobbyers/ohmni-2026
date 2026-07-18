@@ -5,8 +5,8 @@ import { preload } from 'react-dom'
 import SimpleText from '@/components/simple-text'
 import { useIsMobile } from '@/lib/use-is-mobile'
 import TextureSectionBackdrop from '@/components/texture-section-backdrop'
-import { Button } from '@/components/ui/button'
-import Route from '@/components/route'
+import CtaRouteButton from '@/components/cta-route-button'
+import { isActiveCta } from '@/lib/cta'
 import { cleanStega } from '@/lib/stega'
 import { urlFor } from '@/sanity/lib/image'
 import type {
@@ -55,7 +55,7 @@ export default function CoverBlock({
 }: CoverBlockProps) {
   const isMobile = useIsMobile()
 
-  if (!active) return null
+  if (active === false) return null
 
   const colorBg = normalizeCoverBackgroundColor(backgroundColor)
 
@@ -221,13 +221,9 @@ export default function CoverBlock({
               <SimpleText content={content} />
             </div>
           ) : null}
-          {cta?.active && cta?.route ? (
+          {isActiveCta(cta) ? (
             <div className="mt-6">
-              <Button asChild variant={buttonVariant}>
-                <Route data={cta.route as Parameters<typeof Route>[0]['data']}>
-                  {(cta.route as { title?: string }).title || 'Learn More'}
-                </Route>
-              </Button>
+              <CtaRouteButton route={cta.route} variant={buttonVariant} />
             </div>
           ) : null}
         </div>

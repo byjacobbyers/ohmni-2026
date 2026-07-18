@@ -1,55 +1,7 @@
 import { revalidatePath } from 'next/cache'
 import { type NextRequest, NextResponse } from 'next/server'
 import { parseBody } from 'next-sanity/webhook'
-
-type WebhookPayload = {
-  _type: string
-  _id?: string
-  slug?: { current?: string }
-}
-
-type RevalidateTarget = {
-  path: string
-  /** `layout` busts the shared site chrome (header/footer/brand) on all routes under the path */
-  type?: 'page' | 'layout'
-}
-
-function getTargetsForDocument(body: WebhookPayload): RevalidateTarget[] {
-  const { _type, slug } = body
-
-  switch (_type) {
-    case 'page': {
-      const pageSlug = slug?.current
-      if (pageSlug === 'home') return [{ path: '/' }]
-      if (pageSlug === 'posts') return [{ path: '/posts' }]
-      if (pageSlug === 'events') return [{ path: '/events' }]
-      if (pageSlug) return [{ path: `/${pageSlug}` }]
-      return [{ path: '/', type: 'layout' }]
-    }
-    case 'event': {
-      const targets: RevalidateTarget[] = [{ path: '/events' }, { path: '/' }]
-      const eventSlug = slug?.current
-      if (eventSlug) targets.unshift({ path: `/events/${eventSlug}` })
-      return targets
-    }
-    case 'post': {
-      const targets: RevalidateTarget[] = [{ path: '/posts' }, { path: '/' }]
-      const postSlug = slug?.current
-      if (postSlug) targets.unshift({ path: `/posts/${postSlug}` })
-      return targets
-    }
-    case 'navigation':
-    case 'site':
-    case 'announcement':
-      // Shared chrome lives in the site layout — bust all routes under it.
-      return [{ path: '/', type: 'layout' }]
-    case 'redirect':
-      // Redirects can affect any URL; layout revalidate is the safe sweep.
-      return [{ path: '/', type: 'layout' }]
-    default:
-      return [{ path: '/', type: 'layout' }]
-  }
-}
+import { getTargetsForDocument, type WebhookPayload } from '@/lib/revalidate-targets'
 
 export async function GET() {
   return NextResponse.json({

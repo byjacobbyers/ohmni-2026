@@ -36,7 +36,7 @@ export default function EventsBlock({
   count = DEFAULT_PAGE_SIZE,
   initialEvents,
 }: EventsBlockProps) {
-  if (!active) return null
+  if (active === false) return null
 
   const allEvents: EventCard[] = (initialEvents ?? []).filter((e) => e?.slug)
   const pageSize = Math.max(1, count || DEFAULT_PAGE_SIZE)

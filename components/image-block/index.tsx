@@ -10,7 +10,7 @@ export default function ImageBlock({
   imageMobile,
   maxWidth = 'max-w-2xl',
 }: ImageBlockProps) {
-  if (!active) return null
+  if (active === false) return null
 
   const mobileImage = imageMobile ?? image
 

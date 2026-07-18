@@ -4,8 +4,8 @@ import type { CSSProperties } from 'react'
 import MuxPlayer from '@mux/mux-player-react'
 import { useIsMobile } from '@/lib/use-is-mobile'
 import SimpleText from '@/components/simple-text'
-import { Button } from '@/components/ui/button'
-import Route from '@/components/route'
+import CtaRouteButton from '@/components/cta-route-button'
+import { isActiveCta } from '@/lib/cta'
 import type { CoverVideoProps } from '@/types/components/cover-video-type'
 
 function aspectRatioToCss(ratio?: string | null): string | undefined {
@@ -48,7 +48,7 @@ export default function CoverVideo({
 }: CoverVideoProps) {
   const isMobile = useIsMobile()
 
-  if (!active) return null
+  if (active === false) return null
 
   const isAutoHeight = height === 'auto'
   const heightClass =
@@ -190,13 +190,9 @@ export default function CoverVideo({
               <SimpleText content={content} />
             </div>
           ) : null}
-          {cta?.active && cta?.route ? (
+          {isActiveCta(cta) ? (
             <div className="mt-6">
-              <Button asChild variant={buttonVariant}>
-                <Route data={cta.route as Parameters<typeof Route>[0]['data']}>
-                  {(cta.route as { title?: string }).title || 'Learn More'}
-                </Route>
-              </Button>
+              <CtaRouteButton route={cta.route} variant={buttonVariant} />
             </div>
           ) : null}
         </div>

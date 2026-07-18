@@ -12,7 +12,7 @@ export default function SplitScrollBlock({
   title,
   items = [],
 }: SplitScrollBlockProps) {
-  if (!active || !items?.length) return null
+  if (active === false || !items?.length) return null
 
   const bgClass =
     backgroundColor === 'secondary'

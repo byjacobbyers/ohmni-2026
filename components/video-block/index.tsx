@@ -17,7 +17,7 @@ export default function VideoBlock({
   muted = false,
   controls = true,
 }: VideoBlockProps) {
-  if (!active) return null
+  if (active === false) return null
 
   const hasMux = videoProvider === 'mux' && Boolean(muxUrl?.asset?.playbackId || muxUrlMobile?.asset?.playbackId)
   const hasVimeo = videoProvider === 'vimeo' && Boolean(vimeoUrl || vimeoUrlMobile)

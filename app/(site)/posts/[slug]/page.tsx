@@ -11,9 +11,9 @@ import { resolveBrand, type BrandSiteInput } from '@/lib/brand'
 import {
   generateArticleJsonLd,
   generateBreadcrumbJsonLd,
-  generateFAQJsonLd,
   generateMetadata as generateSeoMetadata,
 } from "@/lib/seo"
+import { faqJsonLdFromSections, JsonLdScript } from "@/lib/content-page"
 
 export async function generateStaticParams() {
   try {
@@ -92,16 +92,12 @@ export default async function PostPage({ params }: { params: Promise<QueryParams
   ])
   if (breadcrumb) schemas.push(breadcrumb)
 
-  const faqBlocks = post.sections?.filter((s: { _type?: string; active?: boolean }) => s._type === 'faqBlock' && s.active !== false) || []
-  const allFaqs = faqBlocks.flatMap((b: { faqs?: Array<{ question: string; answer: unknown }> }) => b.faqs || [])
-  const faqSchema = generateFAQJsonLd(allFaqs)
+  const faqSchema = faqJsonLdFromSections(post.sections)
   if (faqSchema) schemas.push(faqSchema)
 
   return (
     <>
-      {schemas.length > 0 && (
-        <script id="post-jsonld" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas) }} />
-      )}
+      <JsonLdScript id="post-jsonld" schemas={schemas} />
       <PostSingle post={post as PostSingleData} key={post._id} />
     </>
   )

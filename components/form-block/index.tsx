@@ -9,7 +9,7 @@ export default function FormBlock({
   anchor,
   content,
 }: FormBlockProps) {
-  if (!active) return null
+  if (active === false) return null
 
   return (
     <section

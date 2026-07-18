@@ -1,6 +1,6 @@
 import AppearAnimation from '@/components/appear-animation'
-import { Button } from '@/components/ui/button'
-import Route from '@/components/route'
+import CtaRouteButton from '@/components/cta-route-button'
+import { isActiveCta } from '@/lib/cta'
 import SimpleText from '@/components/simple-text'
 import SoftAurora from '@/components/soft-aurora'
 import type { BannerBlockProps } from '@/types/components/banner-block-type'
@@ -12,7 +12,7 @@ export default function BannerBlock({
   content,
   cta,
 }: BannerBlockProps) {
-  if (!active) return null
+  if (active === false) return null
 
   return (
     <section
@@ -69,13 +69,9 @@ export default function BannerBlock({
             <SimpleText content={content} />
           </div>
         ) : null}
-        {cta?.active && cta?.route ? (
+        {isActiveCta(cta) ? (
           <div className="flex pt-2 justify-center md:justify-start">
-            <Button asChild variant="default">
-              <Route data={cta.route as Parameters<typeof Route>[0]['data']}>
-                {(cta.route as { title?: string }).title || 'Learn More'}
-              </Route>
-            </Button>
+            <CtaRouteButton route={cta.route} variant="default" />
           </div>
         ) : null}
       </AppearAnimation>

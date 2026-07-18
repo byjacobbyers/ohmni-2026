@@ -1,18 +1,17 @@
-import { Metadata } from "next"
-import { QueryParams, SanityDocument } from "next-sanity"
-import { sanityFetch } from "@/sanity/lib/live"
-import { notFound } from "next/navigation"
-import { pagesQuery, pageQuery } from "@/sanity/queries/documents/page-query"
-import { EXCLUDED_PAGE_SLUGS } from "@/sanity/queries/documents/sitemap-queries"
-import { SiteQuery } from "@/sanity/queries/documents/site-query"
-import Page from "@/components/page-single"
-
-import { resolveBrand, type BrandSiteInput } from '@/lib/brand'
+import { Metadata } from 'next'
+import { QueryParams, SanityDocument } from 'next-sanity'
+import { sanityFetch } from '@/sanity/lib/live'
+import { notFound } from 'next/navigation'
+import { pagesQuery } from '@/sanity/queries/documents/page-query'
+import { EXCLUDED_PAGE_SLUGS } from '@/sanity/queries/documents/sitemap-queries'
+import Page from '@/components/page-single'
 import {
-  generateWebPageJsonLd,
-  generateFAQJsonLd,
-  generateMetadata as generateSeoMetadata,
-} from "@/lib/seo"
+  fetchPage,
+  JsonLdScript,
+  pageSeoMetadata,
+  webPageSchemas,
+} from '@/lib/content-page'
+import { generateMetadata as generateSeoMetadata } from '@/lib/seo'
 
 export async function generateStaticParams() {
   try {
@@ -35,66 +34,36 @@ export async function generateStaticParams() {
 type Props = { params: Promise<QueryParams> }
 
 export const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
-  try {
-    const resolved = await params
-    if (resolved?.slug?.toString().startsWith('__') || !resolved?.slug) return generateSeoMetadata()
-
-    // stega: false keeps invisible edit-markers out of <head> metadata
-    const [{ data: page }, { data: global }] = (await Promise.all([
-      sanityFetch({ query: pageQuery, params: { slug: resolved.slug }, stega: false }),
-      sanityFetch({ query: SiteQuery, stega: false }),
-    ])) as Array<{ data: SanityDocument | null }>
-
-    if (!page) return generateSeoMetadata()
-
-    return generateSeoMetadata(page?.seo, global?.seo, page?.title, undefined, {
-      // The home document also renders on-demand at /home; canonicalize that
-      // duplicate to the root route.
-      url: resolved.slug === 'home' ? '/' : `/${resolved.slug}`,
-      titleSuffix: resolveBrand(global as BrandSiteInput | null).titleSuffix,
-      ogDocument: { slug: String(resolved.slug), type: 'page' },
-    })
-  } catch {
+  const resolved = await params
+  if (resolved?.slug?.toString().startsWith('__') || !resolved?.slug) {
     return generateSeoMetadata()
   }
+  const slug = String(resolved.slug)
+  return pageSeoMetadata({
+    slug,
+    url: slug === 'home' ? '/' : `/${slug}`,
+  })
 }
 
 export default async function SinglePage({ params }: { params: Promise<QueryParams> }) {
   const resolved = await params
   if (resolved?.slug?.toString().startsWith('__') || !resolved?.slug) notFound()
 
+  const slug = String(resolved.slug)
   let page
   try {
-    ;({ data: page } = (await sanityFetch({
-      query: pageQuery,
-      params: { slug: resolved.slug },
-    })) as { data: SanityDocument | null })
+    page = await fetchPage(slug)
   } catch {
     notFound()
   }
 
   if (!page) notFound()
 
-  const schemas = []
-  const pageSeo = page?.seo || {}
-  schemas.push(generateWebPageJsonLd({
-    title: page.title,
-    description: pageSeo.metaDesc,
-    url: `/${resolved.slug}`,
-    seo: pageSeo,
-    _updatedAt: page._updatedAt,
-  }))
-
-  const faqBlocks = page.sections?.filter((s: { _type?: string; active?: boolean }) => s._type === 'faqBlock' && s.active !== false) || []
-  const allFaqs = faqBlocks.flatMap((b: { faqs?: Array<{ question: string; answer: unknown }> }) => b.faqs || [])
-  const faqSchema = generateFAQJsonLd(allFaqs)
-  if (faqSchema) schemas.push(faqSchema)
+  const url = slug === 'home' ? '/' : `/${slug}`
 
   return (
     <>
-      {schemas.length > 0 && (
-        <script id="page-jsonld" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas) }} />
-      )}
+      <JsonLdScript id="page-jsonld" schemas={webPageSchemas(page, url)} />
       <Page page={page} key={page._id} />
     </>
   )

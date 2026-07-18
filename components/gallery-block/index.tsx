@@ -14,7 +14,7 @@ export default function GalleryBlock({
 }: GalleryBlockProps) {
   const [lightboxImage, setLightboxImage] = useState<number | null>(null)
 
-  if (!active) return null
+  if (active === false) return null
 
   const imagesPerRowValue = imagesPerRow || 3
   const gridCols =

@@ -10,9 +10,9 @@ import type { EventSingleData } from "@/types/components/event-single-type"
 import { resolveBrand, type BrandSiteInput } from '@/lib/brand'
 import {
   generateEventJsonLd,
-  generateFAQJsonLd,
   generateMetadata as generateSeoMetadata,
 } from "@/lib/seo"
+import { faqJsonLdFromSections, JsonLdScript } from "@/lib/content-page"
 
 export async function generateStaticParams() {
   try {
@@ -114,16 +114,12 @@ export default async function EventPage({ params }: { params: Promise<QueryParam
     }))
   }
 
-  const faqBlocks = event.sections?.filter((s: { _type?: string; active?: boolean }) => s._type === 'faqBlock' && s.active !== false) || []
-  const allFaqs = faqBlocks.flatMap((b: { faqs?: Array<{ question: string; answer: unknown }> }) => b.faqs || [])
-  const faqSchema = generateFAQJsonLd(allFaqs)
+  const faqSchema = faqJsonLdFromSections(event.sections)
   if (faqSchema) schemas.push(faqSchema)
 
   return (
     <>
-      {schemas.length > 0 && (
-        <script id="event-jsonld" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas) }} />
-      )}
+      <JsonLdScript id="event-jsonld" schemas={schemas} />
       <EventSingle event={event as EventSingleData} key={event._id} />
     </>
   )

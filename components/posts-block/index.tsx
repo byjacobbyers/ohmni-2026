@@ -30,7 +30,7 @@ export default function PostsBlock({
   initialPosts,
   posts,
 }: PostsBlockProps) {
-  if (!active) return null
+  if (active === false) return null
 
   const allPosts: PostCard[] = (initialPosts ?? posts ?? []).filter((p) => p?.slug)
   const pageSize = Math.max(1, count || DEFAULT_PAGE_SIZE)

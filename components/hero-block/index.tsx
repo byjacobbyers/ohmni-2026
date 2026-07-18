@@ -1,6 +1,6 @@
 import AppearAnimation from '@/components/appear-animation'
-import { Button } from '@/components/ui/button'
-import Route from '@/components/route'
+import CtaRouteButton from '@/components/cta-route-button'
+import { isActiveCta } from '@/lib/cta'
 import SanityImage from '@/components/sanity-image'
 import SimpleText from '@/components/simple-text'
 import type { HeroBlockProps } from '@/types/components/hero-block-type'
@@ -14,7 +14,7 @@ export default function HeroBlock({
   content,
   cta,
 }: HeroBlockProps) {
-  if (!active) return null
+  if (active === false) return null
 
   const layoutClass = layout === 'image-left' ? 'md:flex-row-reverse' : 'md:flex-row'
   const delay = componentIndex !== 0 ? 0.5 : 0
@@ -37,13 +37,9 @@ export default function HeroBlock({
               <SimpleText content={content} />
             </div>
           ) : null}
-          {cta?.active && cta?.route ? (
+          {isActiveCta(cta) ? (
             <div className="flex">
-              <Button asChild variant="default" className="mt-5">
-                <Route data={cta.route as Parameters<typeof Route>[0]['data']}>
-                  {(cta.route as { title?: string }).title || 'Learn More'}
-                </Route>
-              </Button>
+              <CtaRouteButton route={cta.route} variant="default" className="mt-5" />
             </div>
           ) : null}
         </AppearAnimation>

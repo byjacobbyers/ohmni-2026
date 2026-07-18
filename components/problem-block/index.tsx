@@ -107,7 +107,7 @@ export default function ProblemBlock({
   columns = [],
   excerpt,
 }: ProblemBlockProps) {
-  if (!active || !columns?.length) return null
+  if (active === false || !columns?.length) return null
 
   return (
     <section

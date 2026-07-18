@@ -8,7 +8,6 @@ import "./globals.css"
 import Template from "./template"
 import { sanityFetch, SanityLive } from "@/sanity/lib/live"
 import { SiteQuery } from "@/sanity/queries/documents/site-query"
-import { headerQuery, footerQuery } from "@/sanity/queries/components/page-nav-query"
 import { PreviewBar } from "@/components/preview-bar"
 import { VisualEditing } from "next-sanity/visual-editing"
 import { draftMode } from "next/headers"
@@ -42,16 +41,8 @@ export default async function SiteLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   const { isEnabled } = await draftMode()
-  // next-sanity 13 types untyped queries as unknown; cast to the consuming prop types (typegen is future work)
-  const [siteRes, headerRes, footerRes] = await Promise.all([
-    sanityFetch({ query: SiteQuery }),
-    sanityFetch({ query: headerQuery }),
-    sanityFetch({ query: footerQuery }),
-  ])
-  const site = siteRes.data as React.ComponentProps<typeof OrganizationJsonLd>["site"]
-  const headerNav = headerRes.data as React.ComponentProps<typeof Header>["navigation"]
-  const footerNav = footerRes.data as React.ComponentProps<typeof Footer>["navigation"]
-  const resolved = resolveBrand(site)
+  const { data: siteData } = await sanityFetch({ query: SiteQuery })
+  const site = siteData as React.ComponentProps<typeof OrganizationJsonLd>["site"]
 
   return (
     <div className={cn(sans.variable, mono.variable, serif.variable, "min-h-screen antialiased bg-background text-foreground font-sans", isEnabled && "body-preview-mode")}>
@@ -110,11 +101,7 @@ export default async function SiteLayout({
         {site && <OrganizationJsonLd site={site} />}
         {isEnabled && <PreviewBar />}
         <SmoothScrollProvider>
-          <Header
-            navigation={headerNav}
-            brandName={resolved.name}
-            brandTagline={resolved.tagline}
-          />
+          <Header />
           <Template>
             {children}
             {isEnabled && (
@@ -124,7 +111,7 @@ export default async function SiteLayout({
               </>
             )}
           </Template>
-          <Footer navigation={footerNav} brandName={resolved.name} />
+          <Footer />
         </SmoothScrollProvider>
       </Providers>
     </div>

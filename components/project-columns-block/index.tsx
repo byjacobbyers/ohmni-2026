@@ -2,8 +2,8 @@ import AppearAnimation from '@/components/appear-animation'
 import SimpleText from '@/components/simple-text'
 import SanityImage from '@/components/sanity-image'
 import TextureSectionBackdrop from '@/components/texture-section-backdrop'
-import Route from '@/components/route'
-import { Button } from '@/components/ui/button'
+import CtaRouteButton from '@/components/cta-route-button'
+import { isActiveCta } from '@/lib/cta'
 import { Card, CardContent, CardFooter } from '@/components/ui/card'
 import { cleanStega } from '@/lib/stega'
 import type { ProjectColumnsBlockProps } from '@/types/components/project-columns-block-type'
@@ -23,7 +23,7 @@ export default function ProjectColumnsBlock({
   columnsPerRow = 3,
   projects,
 }: ProjectColumnsBlockProps) {
-  if (!active) return null
+  if (active === false) return null
 
   const bg = normalizeBackgroundColor(backgroundColor)
   const bgClass =
@@ -82,13 +82,9 @@ export default function ProjectColumnsBlock({
                     </div>
                   </CardContent>
                 ) : null}
-                {project.cta?.active && project.cta.route ? (
+                {isActiveCta(project.cta) ? (
                   <CardFooter className="mt-auto w-full shrink-0 justify-center px-3 pb-6 pt-2 sm:px-6">
-                    <Route data={project.cta.route as Parameters<typeof Route>[0]['data']}>
-                      <Button variant="secondary">
-                        {String((project.cta.route as { title?: string }).title || 'Learn More')}
-                      </Button>
-                    </Route>
+                    <CtaRouteButton route={project.cta.route} variant="secondary" />
                   </CardFooter>
                 ) : null}
               </Card>

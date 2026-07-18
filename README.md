@@ -30,11 +30,28 @@ Copy `.env.example` to `.env.local` and fill in keys. Every integration
 no-ops gracefully when its key is unset. `INNGEST_DEV=1` belongs in
 `.env.local` only, never in production env.
 
-Verification floor: `pnpm build` and `pnpm lint` must pass.
+Verification floor: `pnpm build`, `pnpm lint`, and `pnpm test` must pass.
+
+## Caching / freshness
+
+- **Production:** Sanity publish webhook → `/api/revalidate/path` (primary). ISR `revalidate = 60` is the safety net.
+- **Draft / Presentation:** `SanityLive` + Visual Editing mount only when draft mode is on.
+- Prefer a **Viewer** token in `SANITY_VIEWER_TOKEN` for draft Live (browser); keep write tokens server-only.
+
+## Sanity TypeGen
+
+Hand-written `types/` still exist. To generate query result types:
+
+```bash
+pnpm typegen
+```
+
+Then migrate queries from `groq\`...\`` to `defineQuery(...)` and replace `SanityDocument` casts incrementally.
 
 ## Layout
 
 - `app/` routes; `components/` blocks (registered in `components/sections`)
+- Header/footer fetch their own Sanity data in `components/header/server.tsx` and `components/footer/server.tsx` (same pattern as posts/events list servers)
 - `sanity/` schemas, queries, studio structure
 - `lib/` brand config, SEO helpers, lead pipeline, Inngest functions
 - `emails/` transactional/campaign email templates

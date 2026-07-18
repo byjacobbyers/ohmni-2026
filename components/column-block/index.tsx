@@ -1,8 +1,8 @@
 import AppearAnimation from '@/components/appear-animation'
 import SimpleText from '@/components/simple-text'
 import SanityImage from '@/components/sanity-image'
-import Route from '@/components/route'
-import { Button } from '@/components/ui/button'
+import CtaRouteButton from '@/components/cta-route-button'
+import { isActiveCta } from '@/lib/cta'
 import { Card, CardContent, CardFooter } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
 import type { ColumnBlockProps } from '@/types/components/column-block-type'
@@ -15,7 +15,7 @@ export default function ColumnBlock({
   columnsPerRow = 3,
   columns,
 }: ColumnBlockProps) {
-  if (!active) return null
+  if (active === false) return null
 
   const columnsPerRowValue = columnsPerRow || 3
   const gridCols =
@@ -83,15 +83,11 @@ export default function ColumnBlock({
                         </div>
                       </CardContent>
                     ) : null}
-                    {column.cta && column.cta.active && column.cta.route && (
+                    {isActiveCta(column.cta) ? (
                       <CardFooter className="mt-auto shrink-0 justify-center px-3 pb-3 pt-2 sm:px-6">
-                        <Route data={column.cta.route as Parameters<typeof Route>[0]['data']}>
-                          <Button variant="secondary">
-                            {String((column.cta.route as { title?: string }).title || 'Learn More')}
-                          </Button>
-                        </Route>
+                        <CtaRouteButton route={column.cta.route} variant="secondary" />
                       </CardFooter>
-                    )}
+                    ) : null}
                   </Card>
                 )
               })}

@@ -1,64 +1,31 @@
-import { sanityFetch } from "@/sanity/lib/live"
-import { Metadata } from "next"
-import { SanityDocument } from "next-sanity"
-import { notFound } from "next/navigation"
-import { pageQuery } from "@/sanity/queries/documents/page-query"
-import { SiteQuery } from "@/sanity/queries/documents/site-query"
-import Page from "@/components/page-single"
-
+import { notFound } from 'next/navigation'
+import Page from '@/components/page-single'
 import {
-  generateWebPageJsonLd,
-  generateFAQJsonLd,
-  generateMetadata as generateSeoMetadata,
-} from "@/lib/seo"
+  fetchPage,
+  JsonLdScript,
+  pageSeoMetadata,
+  webPageSchemas,
+} from '@/lib/content-page'
 
-export const generateMetadata = async (): Promise<Metadata> => {
-  try {
-    // stega: false keeps invisible edit-markers out of <head> metadata
-    const { data: global } = (await sanityFetch({ query: SiteQuery, stega: false })) as { data: SanityDocument | null }
-    const globalSeo = global?.seo
-    return generateSeoMetadata(undefined, globalSeo, undefined, undefined, {
-      url: '/',
-      ogDocument: { slug: 'home', type: 'page' },
-    })
-  } catch {
-    return generateSeoMetadata()
-  }
-}
+export const generateMetadata = async () =>
+  pageSeoMetadata({ slug: 'home', url: '/', fallbackTitle: undefined })
 
 export default async function Home() {
   let page
   try {
-    ;({ data: page } = (await sanityFetch({
-      query: pageQuery,
-      params: { slug: "home" },
-    })) as { data: SanityDocument | null })
+    page = await fetchPage('home')
   } catch {
     notFound()
   }
 
   if (!page) notFound()
 
-  const schemas = []
-  const pageSeo = page?.seo || {}
-  schemas.push(generateWebPageJsonLd({
-    title: page.title,
-    description: pageSeo.metaDesc,
-    url: '/',
-    seo: pageSeo,
-    _updatedAt: page._updatedAt,
-  }))
-
-  const faqBlocks = page.sections?.filter((s: { _type?: string; active?: boolean }) => s._type === 'faqBlock' && s.active !== false) || []
-  const allFaqs = faqBlocks.flatMap((b: { faqs?: Array<{ question: string; answer: unknown }> }) => b.faqs || [])
-  const faqSchema = generateFAQJsonLd(allFaqs)
-  if (faqSchema) schemas.push(faqSchema)
-
   return (
     <>
-      {schemas.length > 0 && (
-        <script id="home-jsonld" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas) }} />
-      )}
+      <JsonLdScript
+        id="home-jsonld"
+        schemas={webPageSchemas({ ...page, seo: undefined }, '/')}
+      />
       <Page page={page} key={page._id} />
     </>
   )

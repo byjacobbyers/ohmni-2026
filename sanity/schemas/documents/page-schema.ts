@@ -1,5 +1,6 @@
 import { defineField, defineType } from 'sanity'
 import {DocumentIcon} from '@sanity/icons/Document'
+import HomeSeoNoticeField from '../inputs/home-seo-notice'
 
 export default defineType({
   name: 'page',
@@ -47,11 +48,23 @@ export default defineType({
       description: 'Add, edit, and reorder sections',
     }),
     defineField({
+      name: 'homeSeoNotice',
+      title: 'SEO',
+      type: 'string',
+      group: 'seo',
+      readOnly: true,
+      hidden: ({ document }) =>
+        (document?.slug as { current?: string } | undefined)?.current !== 'home',
+      components: { field: HomeSeoNoticeField },
+    }),
+    defineField({
       title: 'SEO / Share Settings',
       name: 'seo',
       type: 'seo',
       group: 'seo',
       options: { collapsible: true, collapsed: false },
+      hidden: ({ document }) =>
+        (document?.slug as { current?: string } | undefined)?.current === 'home',
     }),
   ],
   preview: {

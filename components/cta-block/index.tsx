@@ -1,5 +1,5 @@
-import { Button } from '@/components/ui/button'
-import Route from '@/components/route'
+import CtaRouteButton from '@/components/cta-route-button'
+import { isActiveCta } from '@/lib/cta'
 import SimpleText from '@/components/simple-text'
 import type { CtaBlockProps } from '@/types/components/cta-block-type'
 
@@ -12,7 +12,7 @@ export default function CtaBlock({
   content,
   cta,
 }: CtaBlockProps) {
-  if (!active) return null
+  if (active === false) return null
 
   const bgClass = backgroundColor === 'secondary' ? 'bg-primary text-primary-foreground' : ''
   const copyAlignClass = alignment ?? 'text-center'
@@ -37,13 +37,9 @@ export default function CtaBlock({
             </div>
           </div>
         ) : null}
-        {cta?.active && cta?.route ? (
+        {isActiveCta(cta) ? (
           <div className="w-full flex justify-center md:justify-start pt-5">
-            <Button asChild variant={buttonVariant}>
-              <Route data={cta.route as Parameters<typeof Route>[0]['data']}>
-                {(cta.route as { title?: string }).title || 'Learn More'}
-              </Route>
-            </Button>
+            <CtaRouteButton route={cta.route} variant={buttonVariant} />
           </div>
         ) : null}
       </div>

@@ -19,7 +19,7 @@ export default function SplitFormBlock({
   content,
   submitLabel,
 }: SplitFormBlockProps) {
-  if (!active) return null
+  if (active === false) return null
 
   const bg = normalizeBackgroundColor(backgroundColor)
   const bgClass =

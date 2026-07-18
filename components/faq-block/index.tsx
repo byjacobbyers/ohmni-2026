@@ -14,7 +14,7 @@ export default function FaqBlock({
   anchor,
   faqs = [],
 }: FaqBlockProps) {
-  if (!active || !faqs?.length) return null
+  if (active === false || !faqs?.length) return null
 
   return (
     <section

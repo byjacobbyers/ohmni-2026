@@ -51,8 +51,11 @@ export default function LeadForm({
     setSubmitStatus('idle')
 
     try {
+      // Honeypot filled: pretend success (matches /api/send)
       if (formData.website) {
-        setSubmitStatus('error')
+        setSubmitStatus('success')
+        setFormData({ name: '', email: '', website: '' })
+        setErrors({})
         return
       }
 

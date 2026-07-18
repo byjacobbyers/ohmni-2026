@@ -58,3 +58,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Sanity TypeGen artifacts (regenerate with `pnpm typegen`)
+/schema.json
+/sanity.types.ts

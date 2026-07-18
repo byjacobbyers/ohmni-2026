@@ -11,7 +11,7 @@ export default function TextBlock({
   contentAlignment = 'left',
   content,
 }: TextBlockProps) {
-  if (!active) return null
+  if (active === false) return null
 
   const alignClass =
     contentAlignment === 'center' ? 'text-center' : contentAlignment === 'right' ? 'text-right' : 'text-left'

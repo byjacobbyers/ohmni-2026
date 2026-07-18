@@ -21,7 +21,7 @@ export default function EmbedBlock({
 }: EmbedBlockProps) {
   const html = cleanStega(getCodeString(embedCode)).trim()
 
-  if (!active) return null
+  if (active === false) return null
   if (!html) return null
 
   const iframeTitle = title?.trim() || 'Embedded content'
