@@ -41,6 +41,8 @@ export const leadSubmitted = inngest.createFunction(
       captureServerEvent('lead_submitted', lead.email, {
         path: lead.path,
         form_name: lead.formName,
+        form_title: lead.formTitle,
+        marketing_opt_in: lead.marketingOptIn,
         // $current_url is what PostHog's URL/Screen column reads
         ...(lead.path && {
           $current_url: `${getPublicSiteUrl().replace(/\/+$/, '')}${lead.path}`,
@@ -56,7 +58,11 @@ export const leadSubmitted = inngest.createFunction(
     // Runs before the email step so a broken email lane can't suppress the ping.
     await step.run('slack-new-lead-ping', () =>
       sendSlackAlert(
-        `New lead${lead.formName ? ` via ${lead.formName}` : ''}: ${lead.name} <${lead.email}>${lead.path ? `\nPage: ${lead.path}` : ''}`
+        `New lead${lead.formTitle || lead.formName ? ` via ${lead.formTitle || lead.formName}` : ''}: ${lead.name} <${lead.email}>${lead.path ? `\nPage: ${lead.path}` : ''}${
+          typeof lead.marketingOptIn === 'boolean'
+            ? `\nOpt-in: ${lead.marketingOptIn ? 'yes' : 'no'}`
+            : ''
+        }`
       )
     )
 

@@ -43,6 +43,8 @@ export function getTargetsForDocument(body: WebhookPayload): RevalidateTarget[] 
     case 'site':
     case 'announcement':
     case 'redirect':
+    case 'form':
+    case 'formSettings':
       return [{ path: '/', type: 'layout' }]
     default:
       return [{ path: '/', type: 'layout' }]

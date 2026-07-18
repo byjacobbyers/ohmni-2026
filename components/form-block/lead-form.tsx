@@ -5,42 +5,65 @@ import { useState } from 'react'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
+import SimpleText from '@/components/simple-text'
 import { trackEvent } from '@/lib/gtm'
-import type { FormBlockFormData } from '@/types/components/form-block-type'
+import type { FormFieldConfig, ResolvedFormConfig } from '@/types/components/form-config-type'
+
+type LeadFormProps = {
+  config: ResolvedFormConfig
+}
 
 /**
- * The lead form itself: state, validation, honeypot, submit to /api/send,
- * and status messages. Hosts (form-block, split-form-block) provide the
- * section shell and card styling around it.
+ * Dynamic lead form: system name/email + CMS fields, opt-in, disclaimer.
+ * Hosts provide section chrome around this island.
  */
-export default function LeadForm({
-  formName = 'contact',
-  submitLabel = 'Send Message',
-}: {
-  formName?: string
-  submitLabel?: string
-}) {
+export default function LeadForm({ config }: LeadFormProps) {
+  const {
+    formName,
+    formTitle,
+    submitLabel,
+    disclaimer,
+    showOptIn,
+    optInLabel,
+    optInDefault,
+    fields,
+  } = config
+
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
-  const [formData, setFormData] = useState<FormBlockFormData>({
-    name: '',
-    email: '',
-    website: '',
-  })
-  const [errors, setErrors] = useState<Partial<FormBlockFormData>>({})
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [website, setWebsite] = useState('')
+  const [marketingOptIn, setMarketingOptIn] = useState(optInDefault)
+  const [extra, setExtra] = useState<Record<string, string>>(() =>
+    Object.fromEntries(fields.map((f) => [f.name, '']))
+  )
+  const [errors, setErrors] = useState<Record<string, string>>({})
 
   const validateForm = (): boolean => {
-    const newErrors: Partial<FormBlockFormData> = {}
-
-    if (!formData.name.trim()) newErrors.name = 'Name is required'
-    if (!formData.email.trim()) {
-      newErrors.email = 'Email is required'
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email address'
+    const next: Record<string, string> = {}
+    if (!name.trim()) next.name = 'Name is required'
+    if (!email.trim()) {
+      next.email = 'Email is required'
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      next.email = 'Please enter a valid email address'
     }
+    for (const field of fields) {
+      if (field.required && !(extra[field.name] || '').trim()) {
+        next[field.name] = `${field.label} is required`
+      }
+    }
+    setErrors(next)
+    return Object.keys(next).length === 0
+  }
 
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
+  const resetForm = () => {
+    setName('')
+    setEmail('')
+    setWebsite('')
+    setMarketingOptIn(optInDefault)
+    setExtra(Object.fromEntries(fields.map((f) => [f.name, ''])))
+    setErrors({})
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -51,31 +74,37 @@ export default function LeadForm({
     setSubmitStatus('idle')
 
     try {
-      // Honeypot filled: pretend success (matches /api/send)
-      if (formData.website) {
+      if (website) {
         setSubmitStatus('success')
-        setFormData({ name: '', email: '', website: '' })
-        setErrors({})
+        resetForm()
         return
       }
+
+      const fieldsPayload = Object.fromEntries(
+        fields
+          .map((f) => [f.name, (extra[f.name] || '').trim()] as const)
+          .filter(([, v]) => v.length > 0)
+      )
 
       const response = await fetch('/api/send', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          website: formData.website,
+          name,
+          email,
+          website,
           path: window.location.pathname,
           formName,
+          formTitle,
+          marketingOptIn: showOptIn ? marketingOptIn : undefined,
+          fields: fieldsPayload,
         }),
       })
 
       if (response.ok) {
         setSubmitStatus('success')
         trackEvent('form_submit', { form_name: formName, form_type: 'contact' })
-        setFormData({ name: '', email: '', website: '' })
-        setErrors({})
+        resetForm()
       } else {
         setSubmitStatus('error')
       }
@@ -87,48 +116,101 @@ export default function LeadForm({
     }
   }
 
-  const handleInputChange = (field: keyof FormBlockFormData, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }))
-    if (errors[field]) {
-      setErrors((prev) => ({ ...prev, [field]: undefined }))
+  const renderField = (field: FormFieldConfig) => {
+    const id = `field-${field.name}`
+    const value = extra[field.name] || ''
+    const onChange = (v: string) => {
+      setExtra((prev) => ({ ...prev, [field.name]: v }))
+      if (errors[field.name]) {
+        setErrors((prev) => {
+          const next = { ...prev }
+          delete next[field.name]
+          return next
+        })
+      }
     }
+
+    return (
+      <div key={field._key || field.name} className="space-y-2">
+        <Label htmlFor={id}>
+          {field.label}
+          {field.required ? ' *' : ''}
+        </Label>
+        {field.fieldType === 'textarea' ? (
+          <textarea
+            id={id}
+            name={field.name}
+            placeholder={field.placeholder}
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            rows={4}
+            className={`flex min-h-[80px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-base shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring ${
+              errors[field.name] ? 'border-red-500' : ''
+            }`}
+          />
+        ) : (
+          <Input
+            id={id}
+            name={field.name}
+            type={field.inputType || 'text'}
+            placeholder={field.placeholder}
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            className={errors[field.name] ? 'border-red-500' : ''}
+          />
+        )}
+        {errors[field.name] ? (
+          <p className="text-sm text-red-500">{errors[field.name]}</p>
+        ) : null}
+      </div>
+    )
   }
 
   return (
-    // data-form-name mirrors what the submit handler sends, so devtools and
-    // autocapture tools can tell forms apart without inspecting the payload
-    <form onSubmit={handleSubmit} className="space-y-6" data-form-name={formName}>
+    <form onSubmit={handleSubmit} className="space-y-6 p-6" data-form-name={formName}>
       <div className="space-y-2">
-        <Label htmlFor="name">Name</Label>
+        <Label htmlFor="name">Name *</Label>
         <Input
           id="name"
+          name="name"
           placeholder="Your name"
-          value={formData.name}
-          onChange={(e) => handleInputChange('name', e.target.value)}
+          value={name}
+          onChange={(e) => {
+            setName(e.target.value)
+            if (errors.name) setErrors((prev) => ({ ...prev, name: '' }))
+          }}
           className={errors.name ? 'border-red-500' : ''}
+          autoComplete="name"
         />
-        {errors.name && <p className="text-sm text-red-500">{errors.name}</p>}
+        {errors.name ? <p className="text-sm text-red-500">{errors.name}</p> : null}
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="email">Email</Label>
+        <Label htmlFor="email">Email *</Label>
         <Input
           id="email"
+          name="email"
           type="email"
           placeholder="your.email@example.com"
-          value={formData.email}
-          onChange={(e) => handleInputChange('email', e.target.value)}
+          value={email}
+          onChange={(e) => {
+            setEmail(e.target.value)
+            if (errors.email) setErrors((prev) => ({ ...prev, email: '' }))
+          }}
           className={errors.email ? 'border-red-500' : ''}
+          autoComplete="email"
         />
-        {errors.email && <p className="text-sm text-red-500">{errors.email}</p>}
+        {errors.email ? <p className="text-sm text-red-500">{errors.email}</p> : null}
       </div>
+
+      {fields.map(renderField)}
 
       <input
         type="text"
         id="website"
         name="website"
-        value={formData.website}
-        onChange={(e) => handleInputChange('website', e.target.value)}
+        value={website}
+        onChange={(e) => setWebsite(e.target.value)}
         style={{
           position: 'absolute',
           left: '-9999px',
@@ -139,6 +221,24 @@ export default function LeadForm({
         autoComplete="off"
         aria-hidden="true"
       />
+
+      {showOptIn ? (
+        <label className="flex items-center gap-3 text-sm cursor-pointer">
+          <input
+            type="checkbox"
+            checked={marketingOptIn}
+            onChange={(e) => setMarketingOptIn(e.target.checked)}
+            className="size-4 accent-primary"
+          />
+          <span>{optInLabel}</span>
+        </label>
+      ) : null}
+
+      {disclaimer && Array.isArray(disclaimer) && disclaimer.length > 0 ? (
+        <div className="content text-sm text-muted-foreground [&_p]:text-sm">
+          <SimpleText content={disclaimer} />
+        </div>
+      ) : null}
 
       <Button type="submit" className="w-full" disabled={isSubmitting}>
         {isSubmitting ? 'Sending...' : submitLabel}

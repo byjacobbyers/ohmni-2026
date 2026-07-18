@@ -7,6 +7,8 @@ import event from './documents/event-schema'
 import post from './documents/post-schema'
 import redirect from './documents/redirect-schema'
 import navigation from './documents/navigation-schema'
+import form from './documents/form-schema'
+import formSettings from './documents/form-settings-schema'
 
 import seo from './components/seo-schema'
 import sections from './components/page-builder-schema'
@@ -40,6 +42,7 @@ import route from './objects/route-schema'
 import linkWithRoute from './objects/link-annotation-schema'
 import simpleText from './objects/simple-text-schema'
 import normalText from './objects/normal-text-schema'
+import formField from './objects/form-field-schema'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -50,6 +53,8 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     post,
     redirect,
     navigation,
+    form,
+    formSettings,
     seo,
     sections,
     bannerBlock,
@@ -81,5 +86,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     linkWithRoute,
     simpleText,
     normalText,
+    formField,
   ],
 }

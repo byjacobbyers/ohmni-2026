@@ -24,17 +24,19 @@ export async function POST(request: Request) {
       return Response.json({ error: parsed.error }, { status: 400 })
     }
 
-    // Honeypot: pretend success (same as client silent success)
     if (parsed.honeypot) {
       return Response.json({ success: true })
     }
 
-    const { name, email, path, formName } = parsed.data
+    const { name, email, path, formName, formTitle, marketingOptIn, fields } = parsed.data
     const lead: Lead = {
       name,
       email,
       path: path?.slice(0, 200),
-      formName: formName?.slice(0, 50),
+      formName,
+      formTitle: formTitle?.slice(0, 120),
+      marketingOptIn,
+      fields: fields && Object.keys(fields).length > 0 ? fields : undefined,
       submittedAt: new Date().toISOString(),
     }
 

@@ -6,7 +6,7 @@ const splitFormBlock = defineType({
   name: 'splitFormBlock',
   type: 'object',
   icon: CommentIcon,
-  description: 'Rich text on the left, contact form on the right (stacked on mobile)',
+  description: 'Rich text on the left, form on the right (stacked on mobile)',
   fields: [
     defineField({
       title: 'Active?',
@@ -45,18 +45,19 @@ const splitFormBlock = defineType({
       description: 'Shown left of the form (above it on mobile)',
     }),
     defineField({
-      title: 'Submit Button Label',
-      name: 'submitLabel',
-      type: 'string',
-      description: 'Defaults to "Send Message"',
+      name: 'form',
+      title: 'Form',
+      type: 'reference',
+      to: [{ type: 'form' }],
+      validation: (Rule) => Rule.required(),
     }),
   ],
   preview: {
-    select: { active: 'active' },
-    prepare({ active }) {
+    select: { formTitle: 'form.title', active: 'active' },
+    prepare({ formTitle, active }) {
       return {
-        title: 'Split Form Block',
-        subtitle: active ? 'Active' : 'Not Active',
+        title: formTitle || 'Split Form Block',
+        subtitle: active === false ? 'Not Active' : 'Active',
       }
     },
   },

@@ -1,4 +1,5 @@
 import type { SimpleTextProps } from '@/types/components/simple-text-type'
+import type { SanityFormDocument } from '@/types/components/form-config-type'
 
 export type SplitFormBlockProps = {
   active?: boolean
@@ -6,5 +7,5 @@ export type SplitFormBlockProps = {
   anchor?: string
   backgroundColor?: string
   content?: SimpleTextProps['content']
-  submitLabel?: string
+  form?: SanityFormDocument | null
 }

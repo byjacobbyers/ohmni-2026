@@ -24,4 +24,13 @@ describe('getTargetsForDocument', () => {
       { path: '/', type: 'layout' },
     ])
   })
+
+  it('busts layout for form and formSettings', () => {
+    expect(getTargetsForDocument({ _type: 'form' })).toEqual([
+      { path: '/', type: 'layout' },
+    ])
+    expect(getTargetsForDocument({ _type: 'formSettings' })).toEqual([
+      { path: '/', type: 'layout' },
+    ])
+  })
 })

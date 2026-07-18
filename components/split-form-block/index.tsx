@@ -2,25 +2,35 @@ import AppearAnimation from '@/components/appear-animation'
 import SimpleText from '@/components/simple-text'
 import TextureSectionBackdrop from '@/components/texture-section-backdrop'
 import LeadForm from '@/components/form-block/lead-form'
-import { cleanStega } from '@/lib/stega'
+import { sanityFetch } from '@/sanity/lib/live'
+import { formSettingsQuery } from '@/sanity/queries/documents/form-query'
+import { resolveFormConfig } from '@/lib/form-config'
 import {
   normalizeSectionBackground,
   sectionBackgroundClasses,
 } from '@/lib/section-background'
 import type { SplitFormBlockProps } from '@/types/components/split-form-block-type'
+import type { FormSettingsData, SanityFormDocument } from '@/types/components/form-config-type'
 
-export default function SplitFormBlock({
+export default async function SplitFormBlock({
   active = true,
   componentIndex = 0,
   anchor,
   backgroundColor = 'primary',
   content,
-  submitLabel,
+  form,
 }: SplitFormBlockProps) {
   if (active === false) return null
 
   const bg = normalizeSectionBackground(backgroundColor)
   const { sectionClass, innerLiftClass, showTexture } = sectionBackgroundClasses(bg)
+
+  const { data: settings } = (await sanityFetch({
+    query: formSettingsQuery,
+    stega: false,
+  })) as { data: FormSettingsData | null }
+
+  const config = resolveFormConfig(form as SanityFormDocument | null, settings)
 
   return (
     <section
@@ -37,14 +47,12 @@ export default function SplitFormBlock({
           </div>
         </div>
 
-        {/* Sticky on md+: the form pins below the header and follows while the content column scrolls */}
         <div className="w-full md:w-1/2 md:sticky md:top-24 md:self-start">
-          <div className="bg-background text-foreground shadow-lg">
-            <LeadForm
-              formName="split-form"
-              submitLabel={cleanStega(submitLabel || '') || undefined}
-            />
-          </div>
+          {config ? (
+            <div className="bg-background text-foreground shadow-lg">
+              <LeadForm config={config} />
+            </div>
+          ) : null}
         </div>
       </AppearAnimation>
     </section>

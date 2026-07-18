@@ -2,6 +2,7 @@ import { groq } from 'next-sanity'
 import { imageQuery } from '../objects/image-query'
 import { routeQuery } from '../objects/route-query'
 import { muxAssetProjection, videoQuery } from '../objects/video-query'
+import { formDocumentProjection } from '../documents/form-query'
 
 /** Inline link (new) or nested `route` object (legacy portable text). */
 const linkWithRouteMarkDef = `_type == 'linkWithRoute' => select(
@@ -85,11 +86,13 @@ export const sectionsQuery = groq`
     },
     _type == 'formBlock' => {
       ...,
-      ${portableTextWithLinks}
+      ${portableTextWithLinks},
+      form-> ${formDocumentProjection}
     },
     _type == 'splitFormBlock' => {
       ...,
-      ${portableTextWithLinks}
+      ${portableTextWithLinks},
+      form-> ${formDocumentProjection}
     },
     _type == 'imageBlock' => {
       ...,

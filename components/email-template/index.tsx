@@ -6,6 +6,9 @@ export const EmailTemplate: React.FC<EmailTemplateProps> = ({
   name,
   email,
   formLabel = 'Contact Form',
+  path,
+  marketingOptIn,
+  fields,
 }) => (
   <div
     style={{
@@ -32,6 +35,22 @@ export const EmailTemplate: React.FC<EmailTemplateProps> = ({
       <p style={{ margin: '5px 0' }}>
         <strong>Email:</strong> {email}
       </p>
+      {path ? (
+        <p style={{ margin: '5px 0' }}>
+          <strong>Page:</strong> {path}
+        </p>
+      ) : null}
+      {typeof marketingOptIn === 'boolean' ? (
+        <p style={{ margin: '5px 0' }}>
+          <strong>Marketing opt-in:</strong> {marketingOptIn ? 'Yes' : 'No'}
+        </p>
+      ) : null}
+      {fields &&
+        Object.entries(fields).map(([key, value]) => (
+          <p key={key} style={{ margin: '5px 0' }}>
+            <strong>{key}:</strong> {value}
+          </p>
+        ))}
     </div>
 
     <div

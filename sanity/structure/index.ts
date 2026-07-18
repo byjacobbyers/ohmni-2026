@@ -6,6 +6,7 @@ import Redirect from './redirect-structure'
 import Announcement from './announcement-structure'
 import SiteSettings from './site-settings-structure'
 import Navigation from './navigation-structure'
+import Forms from './forms-structure'
 
 export const structure: StructureResolver = (S) =>
   S.list()
@@ -14,6 +15,7 @@ export const structure: StructureResolver = (S) =>
       Page(S),
       Event(S),
       Post(S),
+      Forms(S),
       Redirect(S),
       Announcement(S),
       SiteSettings(S),

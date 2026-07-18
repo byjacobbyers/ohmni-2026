@@ -26,23 +26,25 @@ export default defineType({
         ),
     }),
     defineField({
-      name: 'title',
-      type: 'string',
-      validation: (Rule) => Rule.required(),
-      initialValue: 'Contact Form',
-      readOnly: true,
+      name: 'content',
+      title: 'Intro Content',
+      type: 'simpleText',
+      description: 'Optional copy above the form.',
     }),
     defineField({
-      name: 'content',
-      type: 'simpleText',
+      name: 'form',
+      title: 'Form',
+      type: 'reference',
+      to: [{ type: 'form' }],
+      validation: (Rule) => Rule.required(),
     }),
   ],
   preview: {
-    select: { title: 'title', active: 'active' },
-    prepare({ title, active }) {
+    select: { formTitle: 'form.title', active: 'active' },
+    prepare({ formTitle, active }) {
       return {
-        title: title || 'Form',
-        subtitle: active ? 'Active' : 'Inactive',
+        title: formTitle || 'Form Block',
+        subtitle: active === false ? 'Inactive' : 'Active',
       }
     },
   },

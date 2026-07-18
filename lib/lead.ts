@@ -7,19 +7,17 @@ export type Lead = {
   name: string
   email: string
   path?: string
-  /** Which form sent it (e.g. 'contact', 'split-form'); campaign filters key on this */
+  /** Machine form id (slug) for Customer.io / data-form-name */
   formName?: string
+  /** Human title for emails / Slack */
+  formTitle?: string
+  marketingOptIn?: boolean
+  /** Extra CMS fields (not name/email) */
+  fields?: Record<string, string>
   submittedAt: string
 }
 
-/** Friendly names per form for notification subjects and headings. */
-const FORM_LABELS: Record<string, string> = {
-  'split-form': 'Free Audit',
-  contact: 'Contact Form',
-}
-
-const formLabel = (lead: Lead) =>
-  FORM_LABELS[lead.formName || ''] || FORM_LABELS.contact
+const formLabel = (lead: Lead) => lead.formTitle || lead.formName || 'Contact Form'
 
 /** Sends the internal notification email. Throws on Resend errors so callers can retry/alert. */
 export async function sendLeadNotification(lead: Lead) {
@@ -35,16 +33,20 @@ export async function sendLeadNotification(lead: Lead) {
 
   const resend = new Resend(process.env.RESEND_API_KEY)
   const fromEmail = process.env.CONTACT_FORM_FROM_EMAIL ?? brand.emailFrom
+  const label = formLabel(lead)
 
   const { data, error } = await resend.emails.send({
     from: fromEmail,
     to: recipients,
     replyTo: lead.email,
-    subject: `${brand.emailSubjectPrefix} - ${formLabel(lead)} Submission from ${lead.name}`,
+    subject: `${brand.emailSubjectPrefix} - ${label} Submission from ${lead.name}`,
     react: EmailTemplate({
       name: lead.name,
       email: lead.email,
-      formLabel: formLabel(lead),
+      formLabel: label,
+      path: lead.path,
+      marketingOptIn: lead.marketingOptIn,
+      fields: lead.fields,
     }) as React.ReactElement,
   })
 
@@ -98,9 +100,18 @@ export async function upsertAttioPerson(lead: Lead): Promise<{ recordId?: string
 export async function createAttioLeadNote(recordId: string, lead: Lead) {
   if (!process.env.ATTIO_API_KEY) return { skipped: 'ATTIO_API_KEY not set' }
 
+  const extraLines = Object.entries(lead.fields || {}).map(
+    ([key, value]) => `${key}: ${value}`
+  )
+
   const parts = [
-    `Website form submission${lead.formName ? ` (${lead.formName})` : ''}`,
+    `Website form submission${lead.formTitle || lead.formName ? ` (${lead.formTitle || lead.formName})` : ''}`,
+    lead.formName ? `Form id: ${lead.formName}` : null,
     lead.path ? `Page: ${lead.path}` : null,
+    typeof lead.marketingOptIn === 'boolean'
+      ? `Marketing opt-in: ${lead.marketingOptIn ? 'yes' : 'no'}`
+      : null,
+    ...extraLines,
     `Submitted: ${lead.submittedAt}`,
   ].filter(Boolean)
 
@@ -111,7 +122,7 @@ export async function createAttioLeadNote(recordId: string, lead: Lead) {
       data: {
         parent_object: 'people',
         parent_record_id: recordId,
-        title: `Website contact form${lead.path ? ` (${lead.path})` : ''}`,
+        title: `Website form${lead.path ? ` (${lead.path})` : ''}`,
         format: 'plaintext',
         content: parts.join('\n'),
       },
@@ -137,7 +148,7 @@ function customerioAuth() {
 
 /**
  * Identifies the lead in Customer.io and fires a lead_submitted event so
- * journeys (e.g. the welcome sequence) can trigger on it. Keys unset -> no-op.
+ * journeys can trigger on it. Keys unset -> no-op.
  */
 export async function trackLeadInCustomerio(lead: Lead) {
   if (!process.env.CUSTOMERIO_SITE_ID || !process.env.CUSTOMERIO_TRACK_API_KEY) {
@@ -152,6 +163,9 @@ export async function trackLeadInCustomerio(lead: Lead) {
     body: JSON.stringify({
       email: lead.email,
       name: lead.name,
+      ...(typeof lead.marketingOptIn === 'boolean' && {
+        marketing_opt_in: lead.marketingOptIn,
+      }),
     }),
   })
   if (!identify.ok) {
@@ -166,6 +180,11 @@ export async function trackLeadInCustomerio(lead: Lead) {
       data: {
         ...(lead.path && { path: lead.path }),
         ...(lead.formName && { form_name: lead.formName }),
+        ...(lead.formTitle && { form_title: lead.formTitle }),
+        ...(typeof lead.marketingOptIn === 'boolean' && {
+          marketing_opt_in: lead.marketingOptIn,
+        }),
+        ...(lead.fields && Object.keys(lead.fields).length > 0 && { fields: lead.fields }),
       },
     }),
   })
