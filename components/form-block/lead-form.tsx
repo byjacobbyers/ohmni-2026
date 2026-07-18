@@ -4,7 +4,6 @@ import { motion } from 'motion/react'
 import { useState } from 'react'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 import { trackEvent } from '@/lib/gtm'
 import type { FormBlockFormData } from '@/types/components/form-block-type'
@@ -26,7 +25,6 @@ export default function LeadForm({
   const [formData, setFormData] = useState<FormBlockFormData>({
     name: '',
     email: '',
-    message: '',
     website: '',
   })
   const [errors, setErrors] = useState<Partial<FormBlockFormData>>({})
@@ -39,12 +37,6 @@ export default function LeadForm({
       newErrors.email = 'Email is required'
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = 'Please enter a valid email address'
-    }
-
-    if (!formData.message.trim()) {
-      newErrors.message = 'Message is required'
-    } else if (formData.message.length < 10) {
-      newErrors.message = 'Message must be at least 10 characters'
     }
 
     setErrors(newErrors)
@@ -60,7 +52,7 @@ export default function LeadForm({
 
     try {
       if (formData.website) {
-        setErrors({ message: 'Invalid submission' })
+        setSubmitStatus('error')
         return
       }
 
@@ -70,7 +62,6 @@ export default function LeadForm({
         body: JSON.stringify({
           name: formData.name,
           email: formData.email,
-          message: formData.message,
           website: formData.website,
           path: window.location.pathname,
           formName,
@@ -80,16 +71,10 @@ export default function LeadForm({
       if (response.ok) {
         setSubmitStatus('success')
         trackEvent('form_submit', { form_name: formName, form_type: 'contact' })
-        setFormData({ name: '', email: '', message: '', website: '' })
+        setFormData({ name: '', email: '', website: '' })
         setErrors({})
       } else {
-        const errorData = await response.json()
-        if (errorData.error === 'Bot detected') {
-          setSubmitStatus('error')
-          setErrors({ message: 'Bot activity detected. Please try again.' })
-        } else {
-          setSubmitStatus('error')
-        }
+        setSubmitStatus('error')
       }
     } catch (error) {
       console.error('Error submitting form:', error)
@@ -135,18 +120,6 @@ export default function LeadForm({
         {errors.email && <p className="text-sm text-red-500">{errors.email}</p>}
       </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="message">Message</Label>
-        <Textarea
-          id="message"
-          placeholder="Your message here..."
-          className={`min-h-[120px] resize-none ${errors.message ? 'border-red-500' : ''}`}
-          value={formData.message}
-          onChange={(e) => handleInputChange('message', e.target.value)}
-        />
-        {errors.message && <p className="text-sm text-red-500">{errors.message}</p>}
-      </div>
-
       <input
         type="text"
         id="website"
@@ -175,7 +148,7 @@ export default function LeadForm({
           className="p-4 bg-green-50 border border-green-200 rounded-md"
         >
           <p className="text-green-800 text-sm">
-            Thank you! Your message has been sent successfully.
+            Thank you! Your submission was received successfully.
           </p>
         </motion.div>
       )}
@@ -187,7 +160,7 @@ export default function LeadForm({
           className="p-4 bg-red-50 border border-red-200 rounded-md"
         >
           <p className="text-red-800 text-sm">
-            Sorry, there was an error sending your message. Please try again.
+            Sorry, there was an error submitting the form. Please try again.
           </p>
         </motion.div>
       )}

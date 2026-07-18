@@ -22,7 +22,7 @@ export const leadSubmitted = inngest.createFunction(
     onFailure: async ({ event, error }) => {
       const lead = event.data.event.data as Lead
       await sendSlackAlert(
-        `Lead pipeline failed after retries: ${error.message}\nFrom: ${lead.name} <${lead.email}>\nMessage: ${lead.message.slice(0, 300)}`
+        `Lead pipeline failed after retries: ${error.message}\nFrom: ${lead.name} <${lead.email}>${lead.path ? `\nPage: ${lead.path}` : ''}`
       )
     },
   },
@@ -56,7 +56,7 @@ export const leadSubmitted = inngest.createFunction(
     // Runs before the email step so a broken email lane can't suppress the ping.
     await step.run('slack-new-lead-ping', () =>
       sendSlackAlert(
-        `New lead${lead.formName ? ` via ${lead.formName}` : ''}: ${lead.name} <${lead.email}>${lead.path ? `\nPage: ${lead.path}` : ''}\n${lead.message.slice(0, 300)}`
+        `New lead${lead.formName ? ` via ${lead.formName}` : ''}: ${lead.name} <${lead.email}>${lead.path ? `\nPage: ${lead.path}` : ''}`
       )
     )
 

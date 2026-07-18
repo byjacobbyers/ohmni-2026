@@ -6,7 +6,6 @@ import { brand } from '@/lib/brand'
 export type Lead = {
   name: string
   email: string
-  message: string
   path?: string
   /** Which form sent it (e.g. 'contact', 'split-form'); campaign filters key on this */
   formName?: string
@@ -95,9 +94,15 @@ export async function upsertAttioPerson(lead: Lead): Promise<{ recordId?: string
   return { recordId: json.data?.id?.record_id }
 }
 
-/** Attaches the form message to the person's timeline as a note. */
+/** Attaches a submission note to the person's timeline. */
 export async function createAttioLeadNote(recordId: string, lead: Lead) {
   if (!process.env.ATTIO_API_KEY) return { skipped: 'ATTIO_API_KEY not set' }
+
+  const parts = [
+    `Website form submission${lead.formName ? ` (${lead.formName})` : ''}`,
+    lead.path ? `Page: ${lead.path}` : null,
+    `Submitted: ${lead.submittedAt}`,
+  ].filter(Boolean)
 
   const res = await fetch(`${ATTIO_BASE}/notes`, {
     method: 'POST',
@@ -108,7 +113,7 @@ export async function createAttioLeadNote(recordId: string, lead: Lead) {
         parent_record_id: recordId,
         title: `Website contact form${lead.path ? ` (${lead.path})` : ''}`,
         format: 'plaintext',
-        content: lead.message,
+        content: parts.join('\n'),
       },
     }),
   })
@@ -161,7 +166,6 @@ export async function trackLeadInCustomerio(lead: Lead) {
       data: {
         ...(lead.path && { path: lead.path }),
         ...(lead.formName && { form_name: lead.formName }),
-        message_excerpt: lead.message.slice(0, 200),
       },
     }),
   })
