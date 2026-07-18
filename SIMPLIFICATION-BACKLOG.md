@@ -9,7 +9,7 @@ Deferred findings from the Stage 1 simplification pass (July 10, 2026). Each ite
 3. ~~Hardcoded `' :: Ohmni'` title suffix and `'Ohmni'` literals~~ DONE July 14, 2026: extracted to `lib/brand.ts` (BUILD-PLAN Task 7). Stage-3 neutral-baseline work now edits one file.
 4. **GROQ `seo`/`shareGraphic` projection duplicated with drift.** Repeated in page, event, and og-route queries; only og-route has the `coalesce(autoShareImage...)` logic. Unify into one shared fragment. Superseded by: Task 3 (blog reuses the query pattern) and Task 6.
 5. **`stripTrailingSlash` (lib/site-url.ts) vs `normalizeBaseUrl` (lib/seo.ts, app/sitemap.ts).** Same one-line regex under different names in three files. Superseded by: Task 7 (both files are named brand-config extraction targets).
-6. **`app/api/send` + `components/email-template`.** No standalone findings; Task 2 replaces the whole pipeline with the Inngest/Attio flow.
+6. ~~`app/api/send` + `components/email-template`~~ DONE July 2026: Task 2 replaced the pipeline (Inngest/Attio/Customer.io/PostHog); the email template was rewritten during the notification polish.
 
 ## Out of scope for the pass (correctness, not simplification)
 
@@ -29,5 +29,5 @@ First candidate to fix when the backlogged test/CI gate (BUILD-PLAN backlog) lan
 
 ## Housekeeping noticed during the pass
 
-- Stale git worktree at `.claude/worktrees/vibrant-buck` (detached HEAD, from an old agent session). ESLint scans it and double-reports every finding. Remove with `git worktree remove` once confirmed unneeded, or add `.claude/worktrees` to eslint ignores.
+- ~~Stale git worktree at `.claude/worktrees/vibrant-buck`~~ Removed July 2026 (was clean, detached at an ancestor commit). The `.claude/**` eslint ignore stays as protection against future agent worktrees.
 - SEO/OG modules still hardcode `https://www.ohmni.com` fallbacks in several places; covered by Task 7.
