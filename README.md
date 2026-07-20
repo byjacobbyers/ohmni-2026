@@ -22,7 +22,8 @@ The Ohmni business site: Next.js 16 + Sanity, deployed on Vercel.
 
 ```bash
 pnpm install
-pnpm dev                      # site + studio on :3000
+pnpm tokens:build            # Style Dictionary → app/(site)/generated/tokens.css
+pnpm dev                      # site + studio on :3000 (runs tokens:build via predev)
 npx inngest-cli@latest dev    # local pipeline runner (optional)
 ```
 
@@ -31,6 +32,13 @@ no-ops gracefully when its key is unset. `INNGEST_DEV=1` belongs in
 `.env.local` only, never in production env.
 
 Verification floor: `pnpm build`, `pnpm lint`, and `pnpm test` must pass.
+
+### Design tokens
+
+Edit DTCG JSON under `tokens/`, then run `pnpm tokens:build` (also hooked to
+`predev` / `prebuild`). Generated CSS is committed at
+`app/(site)/generated/tokens.css`. Review at `/design` (colors, type, space)
+and `/design/components` (UI primitives). `/type-scale` redirects to `/design`.
 
 ## Caching / freshness
 
@@ -50,6 +58,7 @@ Then migrate queries from `groq\`...\`` to `defineQuery(...)` and replace `Sanit
 
 ## Layout
 
+- `tokens/` Style Dictionary sources; `style-dictionary.config.mjs` builds CSS
 - `app/` routes; `components/` blocks (registered in `components/sections`)
 - Header/footer fetch their own Sanity data in `components/header/server.tsx` and `components/footer/server.tsx` (same pattern as posts/events list servers)
 - `sanity/` schemas, queries, studio structure

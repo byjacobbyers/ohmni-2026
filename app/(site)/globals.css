@@ -1,123 +1,7 @@
 @import "tailwindcss";
+@import "./generated/tokens.css";
 
 @custom-variant dark (&:is(.dark *));
-
-:root {
-  --background: #ffffff;
-  --foreground: #0a0a0a;
-  --card: #ffffff;
-  --card-foreground: #0a0a0a;
-  --popover: #ffffff;
-  --popover-foreground: #0a0a0a;
-  --primary: #3265fd;
-  --primary-foreground: #fafbfa;
-  --secondary: #e5e7eb;
-  --secondary-foreground: #171717;
-  --muted: #e5e7eb;
-  --muted-foreground: #737373;
-  --accent: #e5e7eb;
-  --accent-foreground: #171717;
-  --destructive: #e7000b;
-  --destructive-foreground: #ffffff;
-  --border: #dadee4;
-  --input: #dadee4;
-  --ring: #1447e6;
-  --chart-1: #f54900;
-  --chart-2: #009689;
-  --chart-3: #104e64;
-  --chart-4: #ffb900;
-  --chart-5: #fe9a00;
-  --sidebar: #fafafa;
-  --sidebar-foreground: #0a0a0a;
-  --sidebar-primary: #1447e6;
-  --sidebar-primary-foreground: #fafafa;
-  --sidebar-accent: #e5e7eb;
-  --sidebar-accent-foreground: #171717;
-  --sidebar-border: #dadee4;
-  --sidebar-ring: #1447e6;
-  --font-sans: Inter, ui-sans-serif, sans-serif, system-ui;
-  --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  --radius: 0rem;
-  --shadow-x: 0;
-  --shadow-y: 1px;
-  --shadow-blur: 3px;
-  --shadow-spread: 0px;
-  --shadow-opacity: 0.1;
-  --shadow-color: #000000;
-  --shadow-2xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
-  --shadow-xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
-  --shadow-sm: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 1px 2px -1px hsl(0 0% 0% / 0.10);
-  --shadow: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 1px 2px -1px hsl(0 0% 0% / 0.10);
-  --shadow-md: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 2px 4px -1px hsl(0 0% 0% / 0.10);
-  --shadow-lg: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 4px 6px -1px hsl(0 0% 0% / 0.10);
-  --shadow-xl: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 8px 10px -1px hsl(0 0% 0% / 0.10);
-  --shadow-2xl: 0 1px 3px 0px hsl(0 0% 0% / 0.25);
-  --tracking-normal: 0em;
-  --spacing: 0.35rem;
-
-  --space-1: 0.5625rem;
-  --space-2: 1.125rem;
-  --space-3: 1.6875rem;
-  --space-4: 2.25rem;
-  --space-6: 3.375rem;
-  --space-8: 4.5rem;
-  --space-10: 5.625rem;
-  --space-12: 6.75rem;
-}
-
-.dark {
-  --background: #121117;
-  --foreground: #fafbfa;
-  --card: #171e2b;
-  --card-foreground: #fafbfa;
-  --popover: #212b3e;
-  --popover-foreground: #fafbfa;
-  --primary: #3566ff;
-  --primary-foreground: #fafbfa;
-  --secondary: #373c53;
-  --secondary-foreground: #fafbfa;
-  --muted: #1c2639;
-  --muted-foreground: #bdbdbd;
-  --accent: #010204;
-  --accent-foreground: #fafbfa;
-  --destructive: #ff3333;
-  --destructive-foreground: #fafbfa;
-  --border: #3e4858;
-  --input: #3e4858;
-  --ring: #3566ff;
-  --chart-1: #3566ff;
-  --chart-2: #5781ff;
-  --chart-3: #3566ff;
-  --chart-4: #1a53ff;
-  --chart-5: #063ce0;
-  --sidebar: #212b3e;
-  --sidebar-foreground: #fafbfa;
-  --sidebar-primary: #3566ff;
-  --sidebar-primary-foreground: #141c30;
-  --sidebar-accent: #374153;
-  --sidebar-accent-foreground: #d1d5db;
-  --sidebar-border: #3e4858;
-  --sidebar-ring: #3566ff;
-  --font-sans: Inter, ui-sans-serif, sans-serif, system-ui;
-  --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  --radius: 0rem;
-  --shadow-x: 0;
-  --shadow-y: 1px;
-  --shadow-blur: 3px;
-  --shadow-spread: 0px;
-  --shadow-opacity: 0.1;
-  --shadow-color: #000000;
-  --shadow-2xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
-  --shadow-xs: 0 1px 3px 0px hsl(0 0% 0% / 0.05);
-  --shadow-sm: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 1px 2px -1px hsl(0 0% 0% / 0.10);
-  --shadow: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 1px 2px -1px hsl(0 0% 0% / 0.10);
-  --shadow-md: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 2px 4px -1px hsl(0 0% 0% / 0.10);
-  --shadow-lg: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 4px 6px -1px hsl(0 0% 0% / 0.10);
-  --shadow-xl: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 8px 10px -1px hsl(0 0% 0% / 0.10);
-  --shadow-2xl: 0 1px 3px 0px hsl(0 0% 0% / 0.25);
-}
 
 @theme inline {
   --color-background: var(--background);
@@ -173,62 +57,83 @@
 }
 
 @theme {
-  /* Type scale (backing text-display, text-h1, text-body, etc.) */
-  --text-display: 6rem;
-  --text-display--line-height: 1.06;
-  --text-display--letter-spacing: -0.03em;
-  --text-display--font-weight: 700;
+  /* Type scale → text-display, text-h1, text-body, etc. Values from tokens.css */
+  --text-display: var(--type-display-size);
+  --text-display--line-height: var(--type-display-line-height);
+  --text-display--letter-spacing: var(--type-display-letter-spacing);
+  --text-display--font-weight: var(--type-display-font-weight);
 
-  --text-h1: 4rem;
-  --text-h1--line-height: 1.08;
-  --text-h1--letter-spacing: -0.025em;
-  --text-h1--font-weight: 700;
+  --text-h1: var(--type-h1-size);
+  --text-h1--line-height: var(--type-h1-line-height);
+  --text-h1--letter-spacing: var(--type-h1-letter-spacing);
+  --text-h1--font-weight: var(--type-h1-font-weight);
 
-  --text-h2: 3.25rem;
-  --text-h2--line-height: 1.12;
-  --text-h2--letter-spacing: -0.02em;
-  --text-h2--font-weight: 700;
+  --text-h2: var(--type-h2-size);
+  --text-h2--line-height: var(--type-h2-line-height);
+  --text-h2--letter-spacing: var(--type-h2-letter-spacing);
+  --text-h2--font-weight: var(--type-h2-font-weight);
 
-  --text-h3: 2.25rem;
-  --text-h3--line-height: 1.18;
-  --text-h3--letter-spacing: -0.015em;
-  --text-h3--font-weight: 600;
+  --text-h3: var(--type-h3-size);
+  --text-h3--line-height: var(--type-h3-line-height);
+  --text-h3--letter-spacing: var(--type-h3-letter-spacing);
+  --text-h3--font-weight: var(--type-h3-font-weight);
 
-  --text-h4: 2rem;
-  --text-h4--line-height: 1.2;
-  --text-h4--letter-spacing: -0.015em;
-  --text-h4--font-weight: 700;
+  --text-h4: var(--type-h4-size);
+  --text-h4--line-height: var(--type-h4-line-height);
+  --text-h4--letter-spacing: var(--type-h4-letter-spacing);
+  --text-h4--font-weight: var(--type-h4-font-weight);
 
-  --text-body-lg: 2rem;
-  --text-body-lg--line-height: 1.5;
-  --text-body-lg--font-weight: 400;
+  --text-body-lg: var(--type-body-lg-size);
+  --text-body-lg--line-height: var(--type-body-lg-line-height);
+  --text-body-lg--font-weight: var(--type-body-lg-font-weight);
 
-  --text-body: 1.5rem;
-  --text-body--line-height: 1.6;
-  --text-body--font-weight: 400;
+  --text-body: var(--type-body-size);
+  --text-body--line-height: var(--type-body-line-height);
+  --text-body--font-weight: var(--type-body-font-weight);
 
-  --text-small: 1rem;
-  --text-small--line-height: 1.6;
-  --text-small--font-weight: 400;
+  --text-small: var(--type-small-size);
+  --text-small--line-height: var(--type-small-line-height);
+  --text-small--font-weight: var(--type-small-font-weight);
+
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+}
+
+@keyframes accordion-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+
+@keyframes accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
 }
 
 /* Reduced heading sizes for mobile (below md breakpoint) */
 @media (max-width: 767px) {
   :root {
-    --text-display: 3rem;
-    --text-h1: 2.5rem;
-    --text-h2: 2rem;
-    --text-h3: 1.75rem;
-    --text-h4: 1.5rem;
-    --text-body-lg: 1.5rem;
-    --text-body: 1.25rem;
+    --type-display-size: 3rem;
+    --type-h1-size: 2.5rem;
+    --type-h2-size: 2rem;
+    --type-h3-size: 1.75rem;
+    --type-h4-size: 1.5rem;
+    --type-body-lg-size: 1.5rem;
+    --type-body-size: 1.25rem;
   }
 }
 
 /* iPad portrait: display 5rem (768px–1024px) */
 @media (min-width: 768px) and (max-width: 1024px) {
   :root {
-    --text-display: 5rem;
+    --type-display-size: 5rem;
   }
 }
 
@@ -368,6 +273,17 @@
 
   .content.compact > * + * {
     margin-top: var(--space-2);
+  }
+
+  /* Match Input / Textarea scale (text-sm → 2xl:text-2xl) */
+  .content.input-size,
+  .content.input-size p,
+  .content.input-size li,
+  .content.input-size ul,
+  .content.input-size ol,
+  .content.input-size a,
+  .content.input-size code {
+    @apply text-sm 2xl:text-2xl;
   }
 }
 

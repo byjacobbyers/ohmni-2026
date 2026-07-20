@@ -1,6 +1,7 @@
 /**
  * Brand configuration: the single home for site-identity strings.
- * Colors and type live in globals.css @theme and app/(site)/fonts.ts.
+ * Colors and type live in tokens/ (Style Dictionary → generated/tokens.css)
+ * and app/(site)/fonts.ts.
  *
  * Runtime UI/SEO should prefer Site Settings via {@link resolveBrand}, and
  * fall back to these values when CMS fields are empty or unavailable.

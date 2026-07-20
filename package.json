@@ -3,7 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "tokens:build": "style-dictionary build --config style-dictionary.config.mjs",
+    "predev": "pnpm tokens:build",
     "dev": "next dev",
+    "prebuild": "pnpm tokens:build",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
@@ -58,6 +61,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.10",
     "next-devtools-mcp": "^0.4.0",
+    "style-dictionary": "^5.5.0",
     "tailwindcss": "^4.3.2",
     "typescript": "^5",
     "vitest": "^4.1.10"

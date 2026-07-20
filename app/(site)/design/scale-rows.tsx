@@ -2,8 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 
-// Single source of truth: the --text-* vars emitted by @theme in globals.css.
-// Values shown are computed live, so they track responsive overrides too.
+// Reads --text-* theme vars (mapped from Style Dictionary --type-* in tokens.css).
 const SCALE_KEYS = ['display', 'h1', 'h2', 'h3', 'h4', 'body-lg', 'body', 'small'] as const
 
 function ScaleRow({ scaleKey }: { scaleKey: (typeof SCALE_KEYS)[number] }) {
@@ -19,8 +18,8 @@ function ScaleRow({ scaleKey }: { scaleKey: (typeof SCALE_KEYS)[number] }) {
   }, [])
 
   return (
-    <section className="border rounded-lg p-4">
-      <div className="flex flex-col gap-2 mb-3">
+    <section className="border border-border p-4">
+      <div className="mb-3 flex flex-col gap-2">
         <div className="text-xs opacity-80">
           <span className="font-mono">{`text-${scaleKey}`}</span>
         </div>
@@ -38,7 +37,7 @@ function ScaleRow({ scaleKey }: { scaleKey: (typeof SCALE_KEYS)[number] }) {
         </div>
       </div>
 
-      <div className="text-sm opacity-80 font-mono">{meta}</div>
+      <div className="font-mono text-sm opacity-80">{meta}</div>
     </section>
   )
 }

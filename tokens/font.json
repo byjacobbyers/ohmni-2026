@@ -1,0 +1,16 @@
+{
+  "font": {
+    "sans": {
+      "$value": "Inter, ui-sans-serif, sans-serif, system-ui",
+      "$type": "fontFamily"
+    },
+    "serif": {
+      "$value": "ui-serif, Georgia, Cambria, \"Times New Roman\", Times, serif",
+      "$type": "fontFamily"
+    },
+    "mono": {
+      "$value": "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace",
+      "$type": "fontFamily"
+    }
+  }
+}

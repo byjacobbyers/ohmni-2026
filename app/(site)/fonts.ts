@@ -1,7 +1,7 @@
 import { Inter } from "next/font/google";
 
-// `globals.css` defines the font stacks via CSS variables (e.g. `--font-sans: Inter, ...`).
-// Here we load Inter so the `--font-sans` variable points to the actual webfont.
+// Token `--font-sans` (tokens/font.json → generated/tokens.css) names Inter.
+// Here we load Inter so the layout class can point `--font-sans` at the webfont.
 export const sans = Inter({
   subsets: ["latin"],
   display: "swap",
@@ -9,7 +9,6 @@ export const sans = Inter({
   weight: ["300", "400", "500", "600", "700"],
 });
 
-// For serif/mono, `globals.css` uses system stacks (`ui-serif`, `ui-monospace`).
-// Avoid overriding them here so the styling stays consistent with `globals.css`.
+// Serif/mono stacks come from tokens (system ui-serif / ui-monospace).
 export const serif = { variable: "" } as const;
 export const mono = { variable: "" } as const;
