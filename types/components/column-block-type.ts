@@ -13,7 +13,11 @@ export type ColumnBlockProps = {
   active?: boolean
   componentIndex?: number
   anchor?: string
+  backgroundColor?: string
+  cardStyle?: 'logo' | 'project' | string
   title?: string
   columnsPerRow?: number
   columns?: ColumnBlockColumn[]
+  /** @deprecated Dual-render from projectColumnsBlock */
+  projects?: ColumnBlockColumn[]
 }

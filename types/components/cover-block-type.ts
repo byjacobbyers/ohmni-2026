@@ -23,7 +23,7 @@ export type CoverBlockProps = {
   active?: boolean
   componentIndex?: number
   anchor?: string
-  backgroundType?: 'image' | 'color'
+  backgroundType?: 'image' | 'color' | 'video' | string
   image?: CoverBlockImage
   imageMobile?: CoverBlockImageMobile | null
   backgroundColor?: string
@@ -34,4 +34,13 @@ export type CoverBlockProps = {
   contentHalfWidth?: boolean
   content?: unknown
   cta?: { active?: boolean; route?: unknown } | null
+  videoProvider?: string
+  muxUrl?: unknown
+  muxUrlMobile?: unknown
+  vimeoUrl?: string
+  vimeoUrlMobile?: string
+  autoplay?: boolean
+  loop?: boolean
+  muted?: boolean
+  controls?: boolean
 }

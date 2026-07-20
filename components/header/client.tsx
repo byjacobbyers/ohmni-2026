@@ -100,6 +100,7 @@ export default function Header({ navigation, brandName, brandTagline }: HeaderPr
   const [dimensions, setDimensions] = useState({ height: 64 })
   const [headerAuroraActive, setHeaderAuroraActive] = useState(false)
   const [headerAuroraMounted, setHeaderAuroraMounted] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
 
   useEffect(() => {
     const measure = () => {
@@ -110,6 +111,15 @@ export default function Header({ navigation, brandName, brandTagline }: HeaderPr
     measure()
     window.addEventListener('resize', measure)
     return () => window.removeEventListener('resize', measure)
+  }, [])
+
+  useEffect(() => {
+    const onScroll = () => {
+      setScrolled(window.scrollY > 16)
+    }
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
   useEffect(() => {
@@ -131,12 +141,16 @@ export default function Header({ navigation, brandName, brandTagline }: HeaderPr
     <>
       <header
         ref={headerRef}
-        className="sticky top-0 z-50 w-full border-b-4 border-primary px-5 isolate overflow-hidden"
+        className={cn(
+          'sticky top-0 z-50 w-full border-b-4 border-primary px-5 isolate overflow-hidden transition-shadow duration-200 ease-out',
+          scrolled && 'shadow-md'
+        )}
       >
         <div
           aria-hidden
           className={cn(
-            'pointer-events-none absolute inset-0 z-0 bg-background transition-opacity duration-300 ease-out',
+            'pointer-events-none absolute inset-0 z-0 bg-background transition-opacity duration-200 ease-out',
+            scrolled ? 'opacity-100' : 'opacity-80',
             headerAuroraActive && 'opacity-0 motion-reduce:opacity-100'
           )}
         />

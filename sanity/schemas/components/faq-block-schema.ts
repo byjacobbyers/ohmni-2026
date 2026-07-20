@@ -2,7 +2,7 @@ import { defineType, defineField } from 'sanity'
 import {ErrorOutlineIcon} from '@sanity/icons/ErrorOutline'
 
 export default defineType({
-  title: 'FAQ Block',
+  title: 'FAQ',
   name: 'faqBlock',
   type: 'object',
   icon: ErrorOutlineIcon,

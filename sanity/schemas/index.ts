@@ -35,6 +35,9 @@ import postsBlock from './components/posts-block-schema'
 import eventsBlock from './components/events-block-schema'
 import splitFormBlock from './components/split-form-block-schema'
 import teamMemberBlock from './components/team-member-block-schema'
+import logoBarBlock from './components/logo-bar-block-schema'
+import quoteBlock from './components/quote-block-schema'
+import statsBlock from './components/stats-block-schema'
 
 import column from './objects/column-schema'
 import project from './objects/project-schema'
@@ -86,6 +89,9 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     eventsBlock,
     splitFormBlock,
     teamMemberBlock,
+    logoBarBlock,
+    quoteBlock,
+    statsBlock,
     column,
     project,
     defaultImage,

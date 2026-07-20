@@ -3,10 +3,11 @@ import {ImageIcon} from '@sanity/icons/Image'
 import ContentPositionInput from '../inputs/content-position-input'
 
 export default defineType({
-  title: 'Cover Block',
+  title: 'Hero',
   name: 'coverBlock',
   type: 'object',
   icon: ImageIcon,
+  description: 'Full-bleed hero: image, video, or color background with overlay content.',
   fields: [
     defineField({
       title: 'Active?',
@@ -27,6 +28,7 @@ export default defineType({
       options: {
         list: [
           { title: 'Image', value: 'image' },
+          { title: 'Video', value: 'video' },
           { title: 'Color', value: 'color' },
         ],
         layout: 'dropdown',
@@ -37,14 +39,85 @@ export default defineType({
       title: 'Background Image',
       name: 'image',
       type: 'defaultImage',
-      hidden: ({ parent }) => parent?.backgroundType === 'color',
+      hidden: ({ parent }) => parent?.backgroundType !== 'image',
     }),
     defineField({
       title: 'Background Image (Mobile)',
       name: 'imageMobile',
       type: 'defaultImage',
       description: 'Optional. Falls back to desktop image if empty.',
-      hidden: ({ parent }) => parent?.backgroundType === 'color',
+      hidden: ({ parent }) => parent?.backgroundType !== 'image',
+    }),
+    defineField({
+      title: 'Video Provider',
+      name: 'videoProvider',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Mux', value: 'mux' },
+          { title: 'Vimeo', value: 'vimeo' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'mux',
+      hidden: ({ parent }) => parent?.backgroundType !== 'video',
+    }),
+    defineField({
+      title: 'Mux Video',
+      name: 'muxUrl',
+      type: 'mux.video',
+      hidden: ({ parent }) =>
+        parent?.backgroundType !== 'video' || parent?.videoProvider !== 'mux',
+    }),
+    defineField({
+      title: 'Mux Video (Mobile)',
+      name: 'muxUrlMobile',
+      type: 'mux.video',
+      description: 'Optional. Falls back to desktop if empty.',
+      hidden: ({ parent }) =>
+        parent?.backgroundType !== 'video' || parent?.videoProvider !== 'mux',
+    }),
+    defineField({
+      title: 'Vimeo URL',
+      name: 'vimeoUrl',
+      type: 'url',
+      hidden: ({ parent }) =>
+        parent?.backgroundType !== 'video' || parent?.videoProvider !== 'vimeo',
+    }),
+    defineField({
+      title: 'Vimeo URL (Mobile)',
+      name: 'vimeoUrlMobile',
+      type: 'url',
+      hidden: ({ parent }) =>
+        parent?.backgroundType !== 'video' || parent?.videoProvider !== 'vimeo',
+    }),
+    defineField({
+      title: 'Autoplay',
+      name: 'autoplay',
+      type: 'boolean',
+      initialValue: true,
+      hidden: ({ parent }) => parent?.backgroundType !== 'video',
+    }),
+    defineField({
+      title: 'Loop',
+      name: 'loop',
+      type: 'boolean',
+      initialValue: true,
+      hidden: ({ parent }) => parent?.backgroundType !== 'video',
+    }),
+    defineField({
+      title: 'Muted',
+      name: 'muted',
+      type: 'boolean',
+      initialValue: true,
+      hidden: ({ parent }) => parent?.backgroundType !== 'video',
+    }),
+    defineField({
+      title: 'Show Controls',
+      name: 'controls',
+      type: 'boolean',
+      initialValue: false,
+      hidden: ({ parent }) => parent?.backgroundType !== 'video',
     }),
     defineField({
       title: 'Background Color',
@@ -59,7 +132,7 @@ export default defineType({
         layout: 'dropdown',
       },
       initialValue: 'primary',
-      hidden: ({ parent }) => parent?.backgroundType === 'image',
+      hidden: ({ parent }) => parent?.backgroundType !== 'color',
     }),
     defineField({
       title: 'Height',
@@ -79,7 +152,7 @@ export default defineType({
       title: 'Overlay Color',
       name: 'overlayColor',
       type: 'string',
-      description: 'Color overlay on the background image',
+      description: 'Color overlay on the background image or video',
       options: {
         list: [
           { title: 'None', value: 'none' },
@@ -133,7 +206,7 @@ export default defineType({
     prepare({ active, height, backgroundType }) {
       const h = height === 'full' ? 'Full' : height === 'half' ? 'Half' : 'Auto'
       return {
-        title: 'Cover Block',
+        title: 'Hero',
         subtitle: `${active ? 'Active' : 'Inactive'} - ${backgroundType || 'image'} - ${h}`,
       }
     },

@@ -1,5 +1,5 @@
 import { defineType, defineField } from 'sanity'
-import {ImageIcon} from '@sanity/icons/Image'
+import { ImageIcon } from '@sanity/icons/Image'
 
 const maxWidthOptions = [
   { title: 'Small (24rem)', value: 'max-w-sm' },
@@ -15,8 +15,9 @@ const maxWidthOptions = [
   { title: 'Full width', value: 'max-w-full' },
 ]
 
+/** Media — image or video single asset. */
 export default defineType({
-  title: 'Image Block',
+  title: 'Media',
   name: 'imageBlock',
   type: 'object',
   icon: ImageIcon,
@@ -28,12 +29,101 @@ export default defineType({
       initialValue: true,
     }),
     defineField({ title: 'Anchor', name: 'anchor', type: 'string' }),
-    defineField({ title: 'Image', name: 'image', type: 'defaultImage' }),
+    defineField({
+      title: 'Media type',
+      name: 'mediaType',
+      type: 'string',
+      initialValue: 'image',
+      options: {
+        list: [
+          { title: 'Image', value: 'image' },
+          { title: 'Video', value: 'video' },
+        ],
+        layout: 'radio',
+      },
+    }),
+    defineField({
+      title: 'Image',
+      name: 'image',
+      type: 'defaultImage',
+      hidden: ({ parent }) => parent?.mediaType === 'video',
+    }),
     defineField({
       title: 'Image (Mobile)',
       name: 'imageMobile',
       type: 'defaultImage',
       description: 'Optional. Shown on small screens; falls back to main image if empty.',
+      hidden: ({ parent }) => parent?.mediaType === 'video',
+    }),
+    defineField({
+      title: 'Video Provider',
+      name: 'videoProvider',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Mux', value: 'mux' },
+          { title: 'Vimeo', value: 'vimeo' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'mux',
+      hidden: ({ parent }) => parent?.mediaType !== 'video',
+    }),
+    defineField({
+      title: 'Mux Video',
+      name: 'muxUrl',
+      type: 'mux.video',
+      hidden: ({ parent }) =>
+        parent?.mediaType !== 'video' || parent?.videoProvider !== 'mux',
+    }),
+    defineField({
+      title: 'Mux Video (Mobile)',
+      name: 'muxUrlMobile',
+      type: 'mux.video',
+      hidden: ({ parent }) =>
+        parent?.mediaType !== 'video' || parent?.videoProvider !== 'mux',
+    }),
+    defineField({
+      title: 'Vimeo URL',
+      name: 'vimeoUrl',
+      type: 'url',
+      hidden: ({ parent }) =>
+        parent?.mediaType !== 'video' || parent?.videoProvider !== 'vimeo',
+    }),
+    defineField({
+      title: 'Vimeo URL (Mobile)',
+      name: 'vimeoUrlMobile',
+      type: 'url',
+      hidden: ({ parent }) =>
+        parent?.mediaType !== 'video' || parent?.videoProvider !== 'vimeo',
+    }),
+    defineField({
+      title: 'Autoplay',
+      name: 'autoplay',
+      type: 'boolean',
+      initialValue: true,
+      hidden: ({ parent }) => parent?.mediaType !== 'video',
+    }),
+    defineField({
+      title: 'Loop',
+      name: 'loop',
+      type: 'boolean',
+      initialValue: true,
+      hidden: ({ parent }) => parent?.mediaType !== 'video',
+    }),
+    defineField({
+      title: 'Muted',
+      name: 'muted',
+      type: 'boolean',
+      initialValue: true,
+      hidden: ({ parent }) => parent?.mediaType !== 'video',
+    }),
+    defineField({
+      title: 'Show Controls',
+      name: 'controls',
+      type: 'boolean',
+      initialValue: true,
+      hidden: ({ parent }) => parent?.mediaType !== 'video',
     }),
     defineField({
       title: 'Max Width',
@@ -47,9 +137,12 @@ export default defineType({
     }),
   ],
   preview: {
-    select: { active: 'active' },
-    prepare({ active }) {
-      return { title: 'Image Block', subtitle: active ? 'Active' : 'Inactive' }
+    select: { active: 'active', mediaType: 'mediaType' },
+    prepare({ active, mediaType }) {
+      return {
+        title: 'Media',
+        subtitle: `${active === false ? 'Inactive' : 'Active'} · ${mediaType || 'image'}`,
+      }
     },
   },
 })

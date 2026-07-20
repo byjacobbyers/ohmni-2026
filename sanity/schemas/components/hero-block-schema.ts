@@ -2,10 +2,11 @@ import { defineType, defineField } from 'sanity'
 import {RocketIcon} from '@sanity/icons/Rocket'
 
 export default defineType({
-  title: 'Hero Block',
+  title: 'Feature',
   name: 'heroBlock',
   type: 'object',
   icon: RocketIcon,
+  description: 'Split content + media (left/right). For full-bleed, use Hero.',
   fields: [
     defineField({
       title: 'Active?',
@@ -37,7 +38,7 @@ export default defineType({
   preview: {
     select: { active: 'active', layout: 'layout' },
     prepare({ active, layout }) {
-      return { title: 'Hero', subtitle: `${active ? 'Active' : 'Inactive'} - ${layout}` }
+      return { title: 'Feature', subtitle: `${active ? 'Active' : 'Inactive'} - ${layout}` }
     },
   },
 })

@@ -3,10 +3,11 @@ import { UsersIcon } from '@sanity/icons/Users'
 
 /** Page builder block that references a single team member (bio / About). */
 export default defineType({
-  title: 'Team Member',
+  title: 'Team Member (add-on)',
   name: 'teamMemberBlock',
   type: 'object',
   icon: UsersIcon,
+  description: 'Single-person embed for About / founder bios.',
   fields: [
     defineField({
       title: 'Active?',

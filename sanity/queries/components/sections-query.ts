@@ -97,8 +97,11 @@ export const sectionsQuery = groq`
     _type == 'imageBlock' => {
       ...,
       image { ${imageQuery} },
-      imageMobile { ${imageQuery} }
+      imageMobile { ${imageQuery} },
+      muxUrl { asset-> { playbackId } },
+      muxUrlMobile { asset-> { playbackId } }
     },
+
     _type == 'columnBlock' => {
       ...,
       columns[] {
@@ -147,6 +150,46 @@ export const sectionsQuery = groq`
         phone,
         socials,
         image { ${imageQuery} },
+        content[] {
+          ...,
+          markDefs[] {
+            ...,
+            ${linkWithRouteMarkDef}
+          }
+        }
+      }
+    },
+    _type == 'logoBarBlock' => {
+      ...,
+      logos[] {
+        ...,
+        logo { ${imageQuery} }
+      }
+    },
+    _type == 'quoteBlock' => {
+      ...,
+      image { ${imageQuery} },
+      quote[] {
+        ...,
+        markDefs[] {
+          ...,
+          ${linkWithRouteMarkDef}
+        }
+      },
+      cta { ..., route { ${routeQuery} } }
+    },
+    _type == 'statsBlock' => {
+      ...,
+      heading[] {
+        ...,
+        markDefs[] {
+          ...,
+          ${linkWithRouteMarkDef}
+        }
+      },
+      image { ${imageQuery} },
+      stats[] {
+        ...,
         content[] {
           ...,
           markDefs[] {

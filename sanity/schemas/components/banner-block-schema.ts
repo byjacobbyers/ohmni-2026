@@ -2,10 +2,11 @@ import { defineType, defineField } from 'sanity'
 import {BlockElementIcon} from '@sanity/icons/BlockElement'
 
 export default defineType({
-  title: 'Banner Block',
+  title: 'Banner (branded)',
   name: 'bannerBlock',
   type: 'object',
   icon: BlockElementIcon,
+  description: 'Signature aurora CTA strip. Prefer Form or CTA for standard conversion bands.',
   fields: [
     defineField({
       title: 'Active?',

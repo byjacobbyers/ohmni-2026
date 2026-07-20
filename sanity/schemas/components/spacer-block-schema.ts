@@ -1,8 +1,9 @@
 import { defineType, defineField } from 'sanity'
-import {BlockElementIcon} from '@sanity/icons/BlockElement'
+import { BlockElementIcon } from '@sanity/icons/BlockElement'
 
+/** @deprecated Prefer dividerBlock (Spacing) with style="gap". Kept for dual-render. */
 export default defineType({
-  title: 'Spacer Block',
+  title: 'Spacer (legacy)',
   name: 'spacerBlock',
   type: 'object',
   icon: BlockElementIcon,
@@ -16,6 +17,7 @@ export default defineType({
       initialValue: 'medium',
       options: {
         list: [
+          { title: 'Zero', value: 'zero' },
           { title: 'Small', value: 'small' },
           { title: 'Medium', value: 'medium' },
           { title: 'Large', value: 'large' },
@@ -26,7 +28,10 @@ export default defineType({
   preview: {
     select: { size: 'size', active: 'active' },
     prepare({ size, active }) {
-      return { title: 'Spacer', subtitle: `${active ? 'Active' : 'Inactive'} - ${size}` }
+      return {
+        title: 'Spacer (legacy)',
+        subtitle: `${active === false ? 'Inactive' : 'Active'} · ${size || 'medium'}`,
+      }
     },
   },
 })

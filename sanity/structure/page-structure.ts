@@ -8,6 +8,7 @@ const Page = (S: StructureBuilder) =>
     .child(
       S.documentList()
         .title('Pages')
+        .apiVersion('v2025-02-19')
         .menuItems(S.documentTypeList('page').getMenuItems())
         .filter('_type == "page"')
         .defaultOrdering([{ field: '_createdAt', direction: 'desc' }])

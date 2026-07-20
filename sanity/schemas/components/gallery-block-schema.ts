@@ -3,7 +3,7 @@ import {ImagesIcon} from '@sanity/icons/Images'
 import ImagesPerRowInput from '../inputs/images-per-row-input'
 
 const galleryBlock = defineType({
-  title: 'Gallery Block',
+  title: 'Gallery',
   name: 'galleryBlock',
   type: 'object',
   icon: ImagesIcon,

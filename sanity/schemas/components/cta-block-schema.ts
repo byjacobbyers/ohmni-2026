@@ -2,7 +2,7 @@ import { defineType, defineField } from 'sanity'
 import {PresentationIcon} from '@sanity/icons/Presentation'
 
 export default defineType({
-  title: 'CTA Block',
+  title: 'CTA',
   name: 'ctaBlock',
   type: 'object',
   icon: PresentationIcon,

@@ -3,6 +3,7 @@
 import type { CSSProperties } from 'react'
 import { preload } from 'react-dom'
 import SimpleText from '@/components/simple-text'
+import CoverVideo from '@/components/cover-video'
 import { useIsMobile } from '@/lib/use-is-mobile'
 import TextureSectionBackdrop from '@/components/texture-section-backdrop'
 import CtaRouteButton from '@/components/cta-route-button'
@@ -21,6 +22,7 @@ import type {
   CoverBlockProps,
   CoverColorBg,
 } from '@/types/components/cover-block-type'
+import type { CoverVideoProps } from '@/types/components/cover-video-type'
 
 function normalizeCoverBackgroundColor(raw?: string): CoverColorBg {
   const v = cleanStega(typeof raw === 'string' ? raw : '').toLowerCase()
@@ -58,10 +60,49 @@ export default function CoverBlock({
   contentHalfWidth = false,
   content,
   cta,
+  videoProvider,
+  muxUrl,
+  muxUrlMobile,
+  vimeoUrl,
+  vimeoUrlMobile,
+  autoplay,
+  loop,
+  muted,
+  controls,
 }: CoverBlockProps) {
   const isMobile = useIsMobile()
 
   if (active === false) return null
+
+  if (backgroundType === 'video') {
+    return (
+      <CoverVideo
+        active={active}
+        componentIndex={componentIndex}
+        anchor={anchor}
+        videoProvider={
+          videoProvider === 'vimeo' || videoProvider === 'mux'
+            ? videoProvider
+            : 'mux'
+        }
+        muxUrl={muxUrl as CoverVideoProps['muxUrl']}
+        muxUrlMobile={muxUrlMobile as CoverVideoProps['muxUrlMobile']}
+        vimeoUrl={vimeoUrl}
+        vimeoUrlMobile={vimeoUrlMobile}
+        height={height}
+        overlayColor={overlayColor}
+        overlayOpacity={overlayOpacity}
+        contentPosition={contentPosition}
+        contentHalfWidth={contentHalfWidth}
+        content={content}
+        cta={cta}
+        autoplay={autoplay}
+        loop={loop}
+        muted={muted}
+        controls={controls}
+      />
+    )
+  }
 
   const colorBg = normalizeCoverBackgroundColor(backgroundColor)
 

@@ -1,8 +1,9 @@
 import { defineType, defineField } from 'sanity'
-import {BlockElementIcon} from '@sanity/icons/BlockElement'
+import { BlockElementIcon } from '@sanity/icons/BlockElement'
 
+/** Spacing — gap (spacer) or horizontal rule. */
 export default defineType({
-  title: 'Divider Block',
+  title: 'Spacing',
   name: 'dividerBlock',
   type: 'object',
   icon: BlockElementIcon,
@@ -10,10 +11,22 @@ export default defineType({
     defineField({ title: 'Active?', name: 'active', type: 'boolean', initialValue: true }),
     defineField({ title: 'Anchor', name: 'anchor', type: 'string' }),
     defineField({
-      title: 'Padding',
+      title: 'Style',
+      name: 'style',
+      type: 'string',
+      initialValue: 'rule',
+      options: {
+        list: [
+          { title: 'Horizontal rule', value: 'rule' },
+          { title: 'Gap only', value: 'gap' },
+        ],
+      },
+    }),
+    defineField({
+      title: 'Size',
       name: 'size',
       type: 'string',
-      initialValue: 'zero',
+      initialValue: 'medium',
       options: {
         list: [
           { title: 'Zero', value: 'zero' },
@@ -25,9 +38,12 @@ export default defineType({
     }),
   ],
   preview: {
-    select: { size: 'size', active: 'active' },
-    prepare({ size, active }) {
-      return { title: 'Divider', subtitle: `${active ? 'Active' : 'Inactive'} - ${size}` }
+    select: { size: 'size', active: 'active', style: 'style' },
+    prepare({ size, active, style }) {
+      return {
+        title: 'Spacing',
+        subtitle: `${active === false ? 'Inactive' : 'Active'} · ${style || 'rule'} · ${size || 'medium'}`,
+      }
     },
   },
 })

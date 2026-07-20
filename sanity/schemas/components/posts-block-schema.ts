@@ -2,10 +2,11 @@ import { defineType, defineField } from 'sanity'
 import { DocumentTextIcon } from '@sanity/icons/DocumentText'
 
 const postsBlock = defineType({
-  title: 'Posts Block',
+  title: 'Posts (add-on)',
   name: 'postsBlock',
   type: 'object',
   icon: DocumentTextIcon,
+  description: 'Blog listing. Enable when the client has posts.',
   fields: [
     defineField({
       title: 'Active?',

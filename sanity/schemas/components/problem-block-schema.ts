@@ -2,10 +2,11 @@ import { defineType, defineField } from 'sanity'
 import {BlockElementIcon} from '@sanity/icons/BlockElement'
 
 export default defineType({
-  title: 'Problem Block',
+  title: 'Problem (add-on)',
   name: 'problemBlock',
   type: 'object',
   icon: BlockElementIcon,
+  description: 'Icon columns for pain/solution narrative. Prefer Cards for standard grids.',
   fields: [
     defineField({
       title: 'Active?',

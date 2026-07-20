@@ -16,7 +16,7 @@ const maxWidthOptions = [
 ]
 
 export default defineType({
-  title: 'Embed Block',
+  title: 'Embed',
   name: 'embedBlock',
   type: 'object',
   icon: CodeIcon,

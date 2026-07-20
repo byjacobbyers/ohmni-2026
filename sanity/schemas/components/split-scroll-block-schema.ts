@@ -2,10 +2,11 @@ import { defineType, defineField } from 'sanity'
 import {InlineElementIcon} from '@sanity/icons/InlineElement'
 
 export default defineType({
-  title: 'Split Scroll Block',
+  title: 'Split Scroll (add-on)',
   name: 'splitScrollBlock',
   type: 'object',
   icon: InlineElementIcon,
+  description: 'Signature narrative scroll. Ohmni/client add-on — not a core kit symbol.',
   fields: [
     defineField({
       title: 'Active?',

@@ -2,10 +2,11 @@ import { defineType, defineField } from 'sanity'
 import { CalendarIcon } from '@sanity/icons/Calendar'
 
 const eventsBlock = defineType({
-  title: 'Events Block',
+  title: 'Events (add-on)',
   name: 'eventsBlock',
   type: 'object',
   icon: CalendarIcon,
+  description: 'Events listing. Enable when the client has events.',
   fields: [
     defineField({
       title: 'Active?',

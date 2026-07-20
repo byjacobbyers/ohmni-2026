@@ -16,8 +16,9 @@ const maxWidthOptions = [
 ]
 
 export default defineType({
-  title: 'Video Block',
+  title: 'Video (legacy)',
   name: 'videoBlock',
+  description: 'Prefer Media (imageBlock) with mediaType=video. Kept for dual-render.',
   type: 'object',
   icon: VideoIcon,
   fields: [

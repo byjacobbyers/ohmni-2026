@@ -1,9 +1,7 @@
+import DividerBlock from '@/components/divider-block'
 import type { SpacerBlockProps } from '@/types/components/spacer-block-type'
 
-export default function SpacerBlock({ active = true, size = 'medium' }: SpacerBlockProps) {
-  if (active === false) return null
-
-  const height = size === 'small' ? 'h-8' : size === 'large' ? 'h-24' : 'h-12'
-
-  return <div className={`w-full ${height}`} aria-hidden="true" />
+/** @deprecated Prefer dividerBlock (Spacing) with style="gap". Dual-render alias. */
+export default function SpacerBlock(props: SpacerBlockProps) {
+  return <DividerBlock {...props} style="gap" size={props.size || 'medium'} />
 }

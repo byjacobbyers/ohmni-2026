@@ -1,11 +1,9 @@
 'use client'
 
+import { Clock, Code2, Layers } from 'lucide-react'
 import { motion } from 'motion/react'
 import SimpleText from '@/components/simple-text'
 import SanityImage from '@/components/sanity-image'
-import Radar from '@/components/animations/radar'
-import LetterGlitch from '@/components/animations/letter-glitch'
-import FaultyTerminal from '@/components/animations/faulty-terminal'
 import type {
   ProblemBlockColumn,
   ProblemBlockIcon,
@@ -14,74 +12,17 @@ import type {
 
 function ProblemIconVisual({ icon }: { icon: ProblemBlockIcon }) {
   const shell =
-    'relative h-12 w-12 shrink-0 overflow-hidden rounded-full pointer-events-none border border-destructive'
+    'relative flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full border border-destructive text-destructive'
 
-  switch (icon) {
-    case 'LuClock':
-      return (
-        <div className={shell} aria-hidden>
-          <div className="absolute inset-0 size-full min-h-12 min-w-12">
-            <Radar
-              speed={0.2}
-              scale={0.5}
-              ringCount={10}
-              spokeCount={10}
-              ringThickness={0.05}
-              spokeThickness={0.01}
-              sweepSpeed={0.3}
-              sweepWidth={2}
-              sweepLobes={1}
-              color="#EF4444"
-              backgroundColor="#000000"
-              falloff={2}
-              brightness={1}
-              enableMouseInteraction={false}
-              mouseInfluence={0.1}
-            />
-          </div>
-        </div>
-      )
-    case 'LuCode':
-      return (
-        <div className={shell} aria-hidden>
-          <LetterGlitch
-            glitchColors={['#f97316', '#f43f5e', '#3b82f6']}
-            glitchSpeed={50}
-            centerVignette={false}
-            outerVignette={true}
-            smooth
-            characters="ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$&*()-_+=/[]{};:<>.,0123456789"
-          />
-        </div>
-      )
-    case 'LuLayers':
-      return (
-        <div className={shell} aria-hidden>
-          <FaultyTerminal
-            className="absolute inset-0 size-full min-h-12 min-w-12"
-            scale={2.1}
-            gridMul={[2, 1]}
-            digitSize={1}
-            timeScale={0.5}
-            pause={false}
-            scanlineIntensity={0.5}
-            glitchAmount={1}
-            flickerAmount={1}
-            noiseAmp={1}
-            chromaticAberration={0}
-            dither={0}
-            curvature={0.1}
-            tint="#EF4444"
-            mouseReact={false}
-            mouseStrength={0.5}
-            pageLoadAnimation={false}
-            brightness={1}
-          />
-        </div>
-      )
-    default:
-      return null
-  }
+  const Icon =
+    icon === 'LuClock' ? Clock : icon === 'LuCode' ? Code2 : icon === 'LuLayers' ? Layers : null
+
+  if (!Icon) return null
+  return (
+    <div className={shell} aria-hidden>
+      <Icon className="h-6 w-6" strokeWidth={1.75} />
+    </div>
+  )
 }
 
 function ProblemColumnVisual({ column }: { column: ProblemBlockColumn }) {

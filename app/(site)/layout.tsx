@@ -8,15 +8,18 @@ import "./globals.css"
 import Template from "./template"
 import { sanityFetch, SanityLive } from "@/sanity/lib/live"
 import { SiteQuery } from "@/sanity/queries/documents/site-query"
+import { AnnouncementQuery } from "@/sanity/queries/documents/announcement-query"
 import { PreviewBar } from "@/components/preview-bar"
 import { VisualEditing } from "next-sanity/visual-editing"
 import { draftMode } from "next/headers"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
+import AnnouncementBar from "@/components/announcement"
 import SmoothScrollProvider from "@/components/providers/smooth-scroll-provider"
 import { Providers } from "@/components/providers"
 import OrganizationJsonLd from "@/components/organization-jsonld"
 import type { SiteType } from "@/lib/seo"
+import type { AnnouncementType } from "@/types/documents/announcement-type"
 
 export const revalidate = 60
 
@@ -41,8 +44,18 @@ export default async function SiteLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   const { isEnabled } = await draftMode()
-  const { data: siteData } = await sanityFetch({ query: SiteQuery })
+  const now = new Date()
+  const todayLocal = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`
+
+  const [{ data: siteData }, announcementRes] = await Promise.all([
+    sanityFetch({ query: SiteQuery }),
+    sanityFetch({
+      query: AnnouncementQuery,
+      params: { today: todayLocal },
+    }).catch(() => ({ data: null })),
+  ])
   const site = siteData as React.ComponentProps<typeof OrganizationJsonLd>["site"]
+  const announcement = (announcementRes.data ?? null) as AnnouncementType | null
 
   return (
     <div className={cn(sans.variable, mono.variable, serif.variable, "min-h-screen antialiased bg-background text-foreground font-sans", isEnabled && "body-preview-mode")}>
@@ -101,6 +114,7 @@ export default async function SiteLayout({
         {site && <OrganizationJsonLd site={site} />}
         {isEnabled && <PreviewBar />}
         <SmoothScrollProvider>
+          <AnnouncementBar announcement={announcement} />
           <Header />
           <Template>
             {children}
