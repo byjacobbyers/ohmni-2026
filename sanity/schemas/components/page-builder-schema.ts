@@ -2,8 +2,6 @@ import { defineField } from 'sanity'
 
 /**
  * Page builder: core symbols first, Ohmni/client add-ons last.
- * Deprecated aliases (coverVideo, splitForm, projectColumns, spacer) stay
- * registered in schema/index for dual-render but are omitted from the picker.
  */
 export default defineField({
   title: 'Page sections',
@@ -28,7 +26,6 @@ export default defineField({
     { type: 'embedBlock' },
     // Add-ons
     { type: 'splitScrollBlock' },
-    { type: 'problemBlock' },
     { type: 'postsBlock' },
     { type: 'eventsBlock' },
     { type: 'teamMemberBlock' },

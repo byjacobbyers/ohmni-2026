@@ -1,13 +1,20 @@
 'use client'
 
 import SanityImage from '@/components/sanity-image'
+import TextureSectionBackdrop from '@/components/texture-section-backdrop'
 import { useState } from 'react'
+import { cn } from '@/lib/utils'
+import {
+  normalizeSectionBackground,
+  sectionBackgroundClasses,
+} from '@/lib/section-background'
 import type { GalleryBlockProps } from '@/types/components/gallery-block-type'
 
 export default function GalleryBlock({
   active = true,
   componentIndex = 0,
   anchor,
+  backgroundColor = 'primary',
   images,
   imagesPerRow = 3,
   enableLightbox = true,
@@ -26,13 +33,20 @@ export default function GalleryBlock({
 
   if (!images || images.length === 0) return null
 
+  const bg = normalizeSectionBackground(backgroundColor)
+  const { sectionClass, innerLiftClass, showTexture } = sectionBackgroundClasses(bg)
+
   return (
     <>
       <section
         id={anchor || `gallery-block-${componentIndex}`}
-        className="gallery-block w-full py-20 flex justify-center px-5"
+        className={cn(
+          'gallery-block w-full py-20 flex justify-center px-5',
+          sectionClass
+        )}
       >
-        <div className="container">
+        {showTexture ? <TextureSectionBackdrop /> : null}
+        <div className={cn('container', innerLiftClass)}>
           <div className="flex flex-wrap -mx-[15px]">
             <div className="flex-[0_0_100%] max-w-full px-[15px]">
               <div className={`grid ${gridCols} gap-4`}>

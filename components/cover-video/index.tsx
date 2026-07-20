@@ -7,6 +7,7 @@ import SimpleText from '@/components/simple-text'
 import CtaRouteButton from '@/components/cta-route-button'
 import { isActiveCta } from '@/lib/cta'
 import {
+  coverHeightClass,
   coverOverlayButtonVariant,
   coverOverlayCssColor,
   coverOverlayTextClass,
@@ -40,7 +41,7 @@ export default function CoverVideo({
   muxUrlMobile,
   vimeoUrl,
   vimeoUrlMobile,
-  height = 'half',
+  height = 'full',
   overlayColor = 'none',
   overlayOpacity = 50,
   contentPosition = 'center',
@@ -57,14 +58,7 @@ export default function CoverVideo({
   if (active === false) return null
 
   const isAutoHeight = height === 'auto'
-  const heightClass =
-    height === 'full'
-      ? 'min-h-screen'
-      : height === 'half'
-        ? 'min-h-[50vh]'
-        : isAutoHeight
-          ? ''
-          : 'min-h-[50vh]'
+  const heightClass = coverHeightClass(height)
 
   const overlayColorValue = coverOverlayCssColor(overlayColor)
   const contentTextClass = coverOverlayTextClass(overlayColor)

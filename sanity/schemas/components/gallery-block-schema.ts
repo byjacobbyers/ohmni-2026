@@ -1,42 +1,43 @@
 import { defineType, defineField } from 'sanity'
-import {ImagesIcon} from '@sanity/icons/Images'
+import { ImagesIcon } from '@sanity/icons/Images'
 import ImagesPerRowInput from '../inputs/images-per-row-input'
+import {
+  sectionActiveField,
+  sectionAnchorField,
+  sectionBackgroundField,
+} from '../lib/section-chrome'
 
 const galleryBlock = defineType({
   title: 'Gallery',
   name: 'galleryBlock',
   type: 'object',
   icon: ImagesIcon,
+  description: 'Multi-image grid with optional lightbox.',
+  groups: [
+    { name: 'content', title: 'Content', default: true },
+    { name: 'section', title: 'Section' },
+  ],
   fields: [
-    defineField({
-      title: 'Active?',
-      name: 'active',
-      type: 'boolean',
-      description: 'Set to false if you need to remove from page but not delete',
-      initialValue: true,
-    }),
-    defineField({
-      title: 'Anchor',
-      name: 'anchor',
-      type: 'string',
-      description: 'The anchor for the section. No hash symbols. Optional.',
-    }),
+    sectionActiveField('section'),
+    sectionAnchorField('section'),
+    sectionBackgroundField('section'),
     defineField({
       title: 'Images',
       name: 'images',
       type: 'array',
+      group: 'content',
       of: [{ type: 'defaultImage' }],
       description: 'Add images to the gallery',
-      validation: (Rule) => Rule.min(1).required().error('At least one image is required'),
+      validation: (Rule) =>
+        Rule.min(1).required().error('At least one image is required'),
     }),
     defineField({
       title: 'Images Per Row',
       name: 'imagesPerRow',
       type: 'number',
+      group: 'content',
       description: 'Number of images to display per row (2-4)',
-      components: {
-        input: ImagesPerRowInput,
-      },
+      components: { input: ImagesPerRowInput },
       validation: (Rule) => Rule.min(2).max(4),
       initialValue: 3,
     }),
@@ -44,6 +45,7 @@ const galleryBlock = defineType({
       title: 'Enable Lightbox',
       name: 'enableLightbox',
       type: 'boolean',
+      group: 'content',
       description: 'Allow users to click images to view full size',
       initialValue: true,
     }),
@@ -53,12 +55,14 @@ const galleryBlock = defineType({
       active: 'active',
       imagesPerRow: 'imagesPerRow',
       media: 'images.0',
+      images: 'images',
     },
-    prepare({ active, imagesPerRow, media }) {
+    prepare({ active, imagesPerRow, media, images }) {
       const perRow = imagesPerRow ?? 3
+      const count = Array.isArray(images) ? images.length : 0
       return {
-        title: 'Gallery Block',
-        subtitle: `${active ? 'Active' : 'Not Active'} - ${perRow} per row`,
+        title: 'Gallery',
+        subtitle: `${active === false ? 'Inactive' : 'Active'} · ${count} · ${perRow}/row`,
         media: media || ImagesIcon,
       }
     },

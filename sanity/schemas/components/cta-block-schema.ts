@@ -1,23 +1,28 @@
 import { defineType, defineField } from 'sanity'
-import {PresentationIcon} from '@sanity/icons/Presentation'
+import { PresentationIcon } from '@sanity/icons/Presentation'
+import {
+  sectionActiveField,
+  sectionAnchorField,
+} from '../lib/section-chrome'
 
 export default defineType({
   title: 'CTA',
   name: 'ctaBlock',
   type: 'object',
   icon: PresentationIcon,
+  description: 'Conversion band with copy and a button.',
+  groups: [
+    { name: 'content', title: 'Content', default: true },
+    { name: 'section', title: 'Section' },
+  ],
   fields: [
-    defineField({
-      title: 'Active?',
-      name: 'active',
-      type: 'boolean',
-      initialValue: true,
-    }),
-    defineField({ title: 'Anchor', name: 'anchor', type: 'string' }),
+    sectionActiveField('section'),
+    sectionAnchorField('section'),
     defineField({
       title: 'Background Color',
       name: 'backgroundColor',
       type: 'string',
+      group: 'section',
       options: {
         list: [
           { title: 'Primary', value: 'primary' },
@@ -30,6 +35,7 @@ export default defineType({
       title: 'Alignment',
       name: 'alignment',
       type: 'string',
+      group: 'content',
       options: {
         list: [
           { title: 'Left', value: 'text-left' },
@@ -43,14 +49,31 @@ export default defineType({
       name: 'content',
       title: 'Content',
       type: 'simpleText',
+      group: 'content',
       description: 'Text displayed above the button',
     }),
-    defineField({ title: 'CTA', name: 'cta', type: 'cta' }),
+    defineField({
+      title: 'CTA',
+      name: 'cta',
+      type: 'cta',
+      group: 'content',
+    }),
   ],
   preview: {
-    select: { active: 'active' },
-    prepare({ active }) {
-      return { title: 'CTA', subtitle: active ? 'Active' : 'Inactive' }
+    select: {
+      active: 'active',
+      content: 'content',
+      ctaTitle: 'cta.route.title',
+    },
+    prepare({ active, content, ctaTitle }) {
+      const excerpt =
+        Array.isArray(content) && content[0]?.children?.[0]?.text
+          ? content[0].children[0].text
+          : ctaTitle || 'No CTA'
+      return {
+        title: 'CTA',
+        subtitle: `${active === false ? 'Inactive' : 'Active'} · ${excerpt}`,
+      }
     },
   },
 })

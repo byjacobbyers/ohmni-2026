@@ -1,3 +1,4 @@
+import { Clock, Code2, Layers } from 'lucide-react'
 import AppearAnimation from '@/components/appear-animation'
 import SimpleText from '@/components/simple-text'
 import SanityImage from '@/components/sanity-image'
@@ -10,7 +11,67 @@ import {
   normalizeSectionBackground,
   sectionBackgroundClasses,
 } from '@/lib/section-background'
-import type { ColumnBlockProps } from '@/types/components/column-block-type'
+import type {
+  ColumnBlockColumn,
+  ColumnBlockProps,
+} from '@/types/components/column-block-type'
+
+function CardIcon({ icon }: { icon?: string }) {
+  const Icon =
+    icon === 'LuClock' ? Clock : icon === 'LuCode' ? Code2 : icon === 'LuLayers' ? Layers : null
+  if (!Icon) return null
+  return (
+    <div
+      className="mb-2 flex h-12 w-12 items-center justify-center rounded-full border border-destructive text-destructive"
+      aria-hidden
+    >
+      <Icon className="h-6 w-6" strokeWidth={1.75} />
+    </div>
+  )
+}
+
+function CardMedia({
+  column,
+  style,
+}: {
+  column: ColumnBlockColumn
+  style: 'logo' | 'project' | string
+}) {
+  if (column.image) {
+    if (style === 'project') {
+      return (
+        <div className="relative aspect-video w-full shrink-0 overflow-hidden bg-foreground">
+          <SanityImage
+            image={column.image}
+            fill
+            sizes="(max-width: 768px) 100vw, 33vw"
+            className="object-cover object-center"
+          />
+        </div>
+      )
+    }
+    return (
+      <div className="w-full shrink-0 px-5 pt-3 pb-3">
+        <div
+          className={`relative mx-auto w-full max-w-full overflow-hidden ${
+            column.title === 'TerraTrue' ? 'h-6' : 'h-8'
+          }`}
+        >
+          <SanityImage
+            image={column.image}
+            fill
+            sizes="(max-width: 768px) 100vw, 400px"
+            className="object-contain object-center"
+          />
+        </div>
+      </div>
+    )
+  }
+  if (style !== 'project' && column.icon) {
+    return <CardIcon icon={column.icon} />
+  }
+  return null
+}
 
 export default function ColumnBlock({
   active = true,
@@ -19,16 +80,17 @@ export default function ColumnBlock({
   backgroundColor = 'primary',
   cardStyle = 'logo',
   title,
+  intro,
+  content,
+  excerpt,
   columnsPerRow = 3,
   columns,
-  projects,
 }: ColumnBlockProps) {
   if (active === false) return null
 
-  const items = (columns?.length ? columns : projects) || []
-  const style = cardStyle === 'project' || (!columns?.length && projects?.length)
-    ? 'project'
-    : 'logo'
+  const items = columns || []
+  const style = cardStyle === 'project' ? 'project' : 'logo'
+  const heading = intro && Array.isArray(intro) && intro.length > 0 ? intro : content
 
   const bg = normalizeSectionBackground(backgroundColor)
   const { sectionClass, innerLiftClass, showTexture } = sectionBackgroundClasses(bg)
@@ -52,13 +114,18 @@ export default function ColumnBlock({
       {showTexture ? <TextureSectionBackdrop /> : null}
       <AppearAnimation
         className={cn(
-          'relative z-10 container flex w-full flex-col items-center justify-center content',
+          'relative z-10 container flex w-full flex-col items-center justify-center',
           innerLiftClass
         )}
       >
-        {title ? (
+        {heading && Array.isArray(heading) && heading.length > 0 ? (
+          <div className="content mb-10 w-full text-center text-balance">
+            <SimpleText content={heading} />
+          </div>
+        ) : title ? (
           <h2 className="mb-8 w-full text-center md:mb-12">{title}</h2>
         ) : null}
+
         {items.length > 0 ? (
           <div
             className={`grid w-full gap-x-6 gap-y-5 lg:mx-auto 2xl:max-w-[75vw] ${gridCols}`}
@@ -83,33 +150,7 @@ export default function ColumnBlock({
                         : 'bg-muted/40 py-6 md:py-8'
                   )}
                 >
-                  {column.image ? (
-                    style === 'project' ? (
-                      <div className="relative aspect-video w-full shrink-0 overflow-hidden bg-foreground">
-                        <SanityImage
-                          image={column.image}
-                          fill
-                          sizes="(max-width: 768px) 100vw, 33vw"
-                          className="object-cover object-center"
-                        />
-                      </div>
-                    ) : (
-                      <div className="w-full shrink-0 px-5 pt-3 pb-3">
-                        <div
-                          className={`relative mx-auto w-full max-w-full overflow-hidden ${
-                            column.title === 'TerraTrue' ? 'h-6' : 'h-8'
-                          }`}
-                        >
-                          <SanityImage
-                            image={column.image}
-                            fill
-                            sizes="(max-width: 768px) 100vw, 400px"
-                            className="object-contain object-center"
-                          />
-                        </div>
-                      </div>
-                    )
-                  ) : null}
+                  <CardMedia column={column} style={style} />
                   {column.content && Array.isArray(column.content) ? (
                     <CardContent
                       className={cn(
@@ -135,6 +176,12 @@ export default function ColumnBlock({
                 </Card>
               )
             })}
+          </div>
+        ) : null}
+
+        {excerpt && Array.isArray(excerpt) && excerpt.length > 0 ? (
+          <div className="content mt-10 w-full text-center text-balance">
+            <SimpleText content={excerpt} />
           </div>
         ) : null}
       </AppearAnimation>

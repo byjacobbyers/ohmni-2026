@@ -1,4 +1,24 @@
-/** Shared cover / cover-video layout tokens (position + overlay). */
+/** Shared cover / cover-video layout tokens (position + overlay + height). */
+
+export type CoverHeight = 'auto' | 'full' | 'threeQuarter' | 'half' | string
+
+/**
+ * Viewport height classes for Hero / Cover Video.
+ * `full` uses min-h-screen (at least 100vh) so tall copy can still grow.
+ */
+export function coverHeightClass(
+  height?: CoverHeight,
+  options?: { isAutoColorFallback?: boolean }
+): string {
+  if (height === 'full') return 'min-h-screen'
+  if (height === 'threeQuarter') return 'min-h-[75dvh]'
+  if (height === 'half') return 'min-h-[50dvh]'
+  if (height === 'auto') {
+    return options?.isAutoColorFallback ? 'min-h-[50dvh]' : ''
+  }
+  // Unknown / missing — treat like half so short heroes don't collapse
+  return 'min-h-[50dvh]'
+}
 
 const POSITION_CLASSES: Record<string, string> = {
   'top-left': 'items-start justify-start text-left',

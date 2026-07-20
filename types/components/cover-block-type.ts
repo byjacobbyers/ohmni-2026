@@ -27,7 +27,7 @@ export type CoverBlockProps = {
   image?: CoverBlockImage
   imageMobile?: CoverBlockImageMobile | null
   backgroundColor?: string
-  height?: 'auto' | 'full' | 'half'
+  height?: 'auto' | 'full' | 'threeQuarter' | 'half' | string
   overlayColor?: 'none' | 'black' | 'white' | 'primary'
   overlayOpacity?: number
   contentPosition?: string

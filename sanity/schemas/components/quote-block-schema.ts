@@ -1,41 +1,51 @@
 import { defineType, defineField } from 'sanity'
 import { BlockElementIcon } from '@sanity/icons/BlockElement'
+import {
+  sectionActiveField,
+  sectionAnchorField,
+  sectionBackgroundField,
+} from '../lib/section-chrome'
 
 export default defineType({
   title: 'Quote',
   name: 'quoteBlock',
   type: 'object',
   icon: BlockElementIcon,
+  description: 'Testimonial with optional person portrait and attribution.',
+  groups: [
+    { name: 'content', title: 'Content', default: true },
+    { name: 'section', title: 'Section' },
+  ],
   fields: [
-    defineField({
-      title: 'Active?',
-      name: 'active',
-      type: 'boolean',
-      initialValue: true,
-    }),
-    defineField({ title: 'Anchor', name: 'anchor', type: 'string' }),
-    defineField({
-      title: 'Background Image',
-      name: 'image',
-      type: 'defaultImage',
-      description: 'Full-bleed background behind the quote',
-    }),
+    sectionActiveField('section'),
+    sectionAnchorField('section'),
+    sectionBackgroundField('section'),
     defineField({
       title: 'Quote',
       name: 'quote',
       type: 'simpleText',
+      group: 'content',
       validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      title: 'Portrait',
+      name: 'image',
+      type: 'defaultImage',
+      group: 'content',
+      description: 'Photo of the person giving the quote (shown as an avatar).',
     }),
     defineField({
       title: 'Attribution',
       name: 'title',
       type: 'string',
-      description: 'Name / role under the quote',
+      group: 'content',
+      description: 'Name and role under the quote (e.g. Jane Doe, VP Marketing)',
     }),
     defineField({
       title: 'CTA',
       name: 'cta',
       type: 'cta',
+      group: 'content',
     }),
   ],
   preview: {

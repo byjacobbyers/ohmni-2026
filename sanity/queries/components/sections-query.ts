@@ -25,17 +25,6 @@ export const sectionsQuery = groq`
       ...,
       image { ${imageQuery} },
       imageMobile { ${imageQuery} },
-      content[] {
-        ...,
-        markDefs[] {
-          ...,
-          ${linkWithRouteMarkDef}
-        }
-      },
-      cta { ..., route { ${routeQuery} } }
-    },
-    _type == 'coverVideo' => {
-      ...,
       muxUrl {
         _type,
         asset-> {
@@ -89,11 +78,6 @@ export const sectionsQuery = groq`
       ${portableTextWithLinks},
       form-> ${formDocumentProjection}
     },
-    _type == 'splitFormBlock' => {
-      ...,
-      ${portableTextWithLinks},
-      form-> ${formDocumentProjection}
-    },
     _type == 'imageBlock' => {
       ...,
       image { ${imageQuery} },
@@ -104,22 +88,28 @@ export const sectionsQuery = groq`
 
     _type == 'columnBlock' => {
       ...,
-      columns[] {
+      intro[] {
         ...,
-        content[] {
+        markDefs[] {
           ...,
-          markDefs[] {
-            ...,
-            ${linkWithRouteMarkDef}
-          }
-        },
-        image { ${imageQuery} },
-        cta { ..., route { ${routeQuery} } }
-      }
-    },
-    _type == 'projectColumnsBlock' => {
-      ...,
-      projects[] {
+          ${linkWithRouteMarkDef}
+        }
+      },
+      content[] {
+        ...,
+        markDefs[] {
+          ...,
+          ${linkWithRouteMarkDef}
+        }
+      },
+      excerpt[] {
+        ...,
+        markDefs[] {
+          ...,
+          ${linkWithRouteMarkDef}
+        }
+      },
+      columns[] {
         ...,
         content[] {
           ...,
@@ -203,11 +193,6 @@ export const sectionsQuery = groq`
       ...,
       images[] { ${imageQuery} }
     },
-    _type == 'videoBlock' => {
-      ...,
-      muxUrl { asset-> { playbackId } },
-      muxUrlMobile { asset-> { playbackId } }
-    },
     _type == 'faqBlock' => {
       ...,
       faqs[] {
@@ -239,34 +224,6 @@ export const sectionsQuery = groq`
             ...,
             ${linkWithRouteMarkDef}
           }
-        }
-      }
-    },
-    _type == 'problemBlock' => {
-      ...,
-      content[] {
-        ...,
-        markDefs[] {
-          ...,
-          ${linkWithRouteMarkDef}
-        }
-      },
-      columns[] {
-        ...,
-        image { ${imageQuery} },
-        content[] {
-          ...,
-          markDefs[] {
-            ...,
-            ${linkWithRouteMarkDef}
-          }
-        }
-      },
-      excerpt[] {
-        ...,
-        markDefs[] {
-          ...,
-          ${linkWithRouteMarkDef}
         }
       }
     }

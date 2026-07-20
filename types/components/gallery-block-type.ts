@@ -7,6 +7,7 @@ export type GalleryBlockProps = {
   active?: boolean
   componentIndex?: number
   anchor?: string
+  backgroundColor?: string
   images?: GalleryBlockImage[]
   imagesPerRow?: number
   enableLightbox?: boolean

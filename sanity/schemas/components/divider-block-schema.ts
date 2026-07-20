@@ -1,5 +1,9 @@
 import { defineType, defineField } from 'sanity'
 import { BlockElementIcon } from '@sanity/icons/BlockElement'
+import {
+  sectionActiveField,
+  sectionAnchorField,
+} from '../lib/section-chrome'
 
 /** Spacing — gap (spacer) or horizontal rule. */
 export default defineType({
@@ -7,25 +11,33 @@ export default defineType({
   name: 'dividerBlock',
   type: 'object',
   icon: BlockElementIcon,
+  description: 'Vertical gap or a horizontal rule between sections.',
+  groups: [
+    { name: 'content', title: 'Content', default: true },
+    { name: 'section', title: 'Section' },
+  ],
   fields: [
-    defineField({ title: 'Active?', name: 'active', type: 'boolean', initialValue: true }),
-    defineField({ title: 'Anchor', name: 'anchor', type: 'string' }),
+    sectionActiveField('section'),
+    sectionAnchorField('section'),
     defineField({
       title: 'Style',
       name: 'style',
       type: 'string',
+      group: 'content',
       initialValue: 'rule',
       options: {
         list: [
           { title: 'Horizontal rule', value: 'rule' },
           { title: 'Gap only', value: 'gap' },
         ],
+        layout: 'radio',
       },
     }),
     defineField({
       title: 'Size',
       name: 'size',
       type: 'string',
+      group: 'content',
       initialValue: 'medium',
       options: {
         list: [

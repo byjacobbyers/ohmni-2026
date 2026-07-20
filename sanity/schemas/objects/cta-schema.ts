@@ -11,7 +11,7 @@ export default defineType({
       title: 'Active?',
       name: 'active',
       type: 'boolean',
-      initialValue: false,
+      initialValue: true,
     }),
     defineField({
       title: 'Route',

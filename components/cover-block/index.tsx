@@ -9,6 +9,7 @@ import TextureSectionBackdrop from '@/components/texture-section-backdrop'
 import CtaRouteButton from '@/components/cta-route-button'
 import { isActiveCta } from '@/lib/cta'
 import {
+  coverHeightClass,
   coverOverlayButtonVariant,
   coverOverlayCssColor,
   coverOverlayTextClass,
@@ -53,7 +54,7 @@ export default function CoverBlock({
   image,
   imageMobile,
   backgroundColor = 'primary',
-  height = 'half',
+  height = 'full',
   overlayColor = 'none',
   overlayOpacity = 50,
   contentPosition = 'center',
@@ -107,16 +108,9 @@ export default function CoverBlock({
   const colorBg = normalizeCoverBackgroundColor(backgroundColor)
 
   const isAutoHeight = height === 'auto'
-  const heightClass =
-    height === 'full'
-      ? 'min-h-screen'
-      : height === 'half'
-        ? 'min-h-[50vh]'
-        : isAutoHeight && backgroundType === 'color'
-          ? 'min-h-[50vh]'
-          : isAutoHeight
-            ? ''
-            : 'min-h-[50vh]'
+  const heightClass = coverHeightClass(height, {
+    isAutoColorFallback: isAutoHeight && backgroundType === 'color',
+  })
 
   const bgClass =
     colorBg === 'legacyBlack'

@@ -6,6 +6,7 @@ export type QuoteBlockProps = {
   active?: boolean
   componentIndex?: number
   anchor?: string
+  backgroundColor?: string
   image?: SanityImageSource | null
   quote?: PortableTextBlock[] | unknown
   title?: string

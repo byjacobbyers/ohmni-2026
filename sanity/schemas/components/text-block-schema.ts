@@ -1,23 +1,28 @@
 import { defineType, defineField } from 'sanity'
-import {BlockContentIcon} from '@sanity/icons/BlockContent'
+import { BlockContentIcon } from '@sanity/icons/BlockContent'
+import {
+  sectionActiveField,
+  sectionAnchorField,
+} from '../lib/section-chrome'
 
 export default defineType({
   title: 'Text',
   type: 'object',
   icon: BlockContentIcon,
   name: 'textBlock',
+  description: 'Rich text section with alignment and background.',
+  groups: [
+    { name: 'content', title: 'Content', default: true },
+    { name: 'section', title: 'Section' },
+  ],
   fields: [
-    defineField({
-      title: 'Active?',
-      name: 'active',
-      type: 'boolean',
-      initialValue: true,
-    }),
-    defineField({ title: 'Anchor', name: 'anchor', type: 'string' }),
+    sectionActiveField('section'),
+    sectionAnchorField('section'),
     defineField({
       title: 'Background Color',
       name: 'backgroundColor',
       type: 'string',
+      group: 'section',
       options: {
         list: [
           { title: 'Primary', value: 'primary' },
@@ -31,6 +36,7 @@ export default defineType({
       title: 'Content Alignment',
       name: 'contentAlignment',
       type: 'string',
+      group: 'content',
       initialValue: 'left',
       options: {
         list: [
@@ -40,12 +46,24 @@ export default defineType({
         ],
       },
     }),
-    defineField({ title: 'Content', name: 'content', type: 'normalText' }),
+    defineField({
+      title: 'Content',
+      name: 'content',
+      type: 'normalText',
+      group: 'content',
+    }),
   ],
   preview: {
-    select: { active: 'active' },
-    prepare({ active }) {
-      return { title: 'Text', subtitle: active ? 'Active' : 'Inactive' }
+    select: { active: 'active', content: 'content' },
+    prepare({ active, content }) {
+      const excerpt =
+        Array.isArray(content) && content[0]?.children?.[0]?.text
+          ? content[0].children[0].text
+          : 'Empty'
+      return {
+        title: 'Text',
+        subtitle: `${active === false ? 'Inactive' : 'Active'} · ${excerpt}`,
+      }
     },
   },
 })

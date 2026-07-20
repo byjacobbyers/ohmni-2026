@@ -1,23 +1,28 @@
 import { defineType, defineField } from 'sanity'
 import { BlockElementIcon } from '@sanity/icons/BlockElement'
+import {
+  sectionActiveField,
+  sectionAnchorField,
+} from '../lib/section-chrome'
 
 export default defineType({
   title: 'Stats',
   name: 'statsBlock',
   type: 'object',
   icon: BlockElementIcon,
+  description: 'Metric proof with optional image and heading.',
+  groups: [
+    { name: 'content', title: 'Content', default: true },
+    { name: 'section', title: 'Section' },
+  ],
   fields: [
-    defineField({
-      title: 'Active?',
-      name: 'active',
-      type: 'boolean',
-      initialValue: true,
-    }),
-    defineField({ title: 'Anchor', name: 'anchor', type: 'string' }),
+    sectionActiveField('section'),
+    sectionAnchorField('section'),
     defineField({
       title: 'Background Color',
       name: 'backgroundColor',
       type: 'string',
+      group: 'section',
       options: {
         list: [
           { title: 'Primary', value: 'primary' },
@@ -31,29 +36,34 @@ export default defineType({
       title: 'Heading',
       name: 'heading',
       type: 'simpleText',
+      group: 'content',
       description: 'Title + intro above the image/stats split',
     }),
     defineField({
       title: 'Image',
       name: 'image',
       type: 'defaultImage',
+      group: 'content',
     }),
     defineField({
       title: 'Layout',
       name: 'layout',
       type: 'string',
+      group: 'content',
       initialValue: 'image-left',
       options: {
         list: [
           { title: 'Image Left', value: 'image-left' },
           { title: 'Image Right', value: 'image-right' },
         ],
+        layout: 'radio',
       },
     }),
     defineField({
       title: 'Stats',
       name: 'stats',
       type: 'array',
+      group: 'content',
       of: [
         {
           type: 'object',
@@ -78,12 +88,13 @@ export default defineType({
     }),
   ],
   preview: {
-    select: { active: 'active', stats: 'stats' },
-    prepare({ active, stats }) {
+    select: { active: 'active', stats: 'stats', media: 'image' },
+    prepare({ active, stats, media }) {
       const count = Array.isArray(stats) ? stats.length : 0
       return {
         title: 'Stats',
         subtitle: `${active === false ? 'Inactive' : 'Active'} · ${count} stat${count === 1 ? '' : 's'}`,
+        media,
       }
     },
   },

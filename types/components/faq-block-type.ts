@@ -7,5 +7,6 @@ export type FaqBlockProps = {
   active?: boolean
   componentIndex?: number
   anchor?: string
+  backgroundColor?: string
   faqs?: FaqBlockFaq[]
 }

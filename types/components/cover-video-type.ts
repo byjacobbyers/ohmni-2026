@@ -11,7 +11,7 @@ export type CoverVideoProps = {
   } | null
   vimeoUrl?: string | null
   vimeoUrlMobile?: string | null
-  height?: 'auto' | 'full' | 'half'
+  height?: 'auto' | 'full' | 'threeQuarter' | 'half' | string
   overlayColor?: 'none' | 'black' | 'white' | 'primary'
   overlayOpacity?: number
   contentPosition?: string

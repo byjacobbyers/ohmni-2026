@@ -1,8 +1,8 @@
 import { defineType, defineField } from 'sanity'
-import {InlineIcon} from '@sanity/icons/Inline'
+import { InlineIcon } from '@sanity/icons/Inline'
 
 const column = defineType({
-  title: 'Column',
+  title: 'Card',
   type: 'object',
   name: 'column',
   icon: InlineIcon,
@@ -11,19 +11,32 @@ const column = defineType({
       title: 'Title',
       name: 'title',
       type: 'string',
-      description: 'Optional title for this column',
+      description: 'Optional title for this card',
     }),
     defineField({
       title: 'Content',
       name: 'content',
       type: 'simpleText',
-      description: 'Main content for the column',
+      description: 'Main content for the card',
+    }),
+    defineField({
+      title: 'Icon',
+      name: 'icon',
+      type: 'string',
+      description: 'Optional Lucide icon when there is no image (logo-style cards).',
+      options: {
+        list: [
+          { title: 'Clock', value: 'LuClock' },
+          { title: 'Code', value: 'LuCode' },
+          { title: 'Layers', value: 'LuLayers' },
+        ],
+      },
     }),
     defineField({
       title: 'Image',
       name: 'image',
       type: 'defaultImage',
-      description: 'Optional image for this column',
+      description: 'Optional image for this card',
     }),
     defineField({
       title: 'CTA',
@@ -36,12 +49,14 @@ const column = defineType({
     select: {
       title: 'title',
       content: 'content',
+      media: 'image',
     },
     prepare(selection) {
-      const { title, content } = selection
+      const { title, content, media } = selection
       return {
-        title: title || 'Column',
+        title: title || 'Card',
         subtitle: content ? content[0]?.children[0]?.text || 'No Content' : 'No Content',
+        media,
       }
     },
   },
