@@ -35,11 +35,13 @@ Verification floor: `pnpm build`, `pnpm lint`, and `pnpm test` must pass.
 
 ### Design tokens
 
-Edit DTCG JSON under `tokens/`, then run `pnpm tokens:build` (also hooked to
-`predev` / `prebuild`). Generated CSS is committed at
-`app/(site)/generated/tokens.css`. Review at `/design` (colors, type, space)
+Theme authored via [tweakcn](https://tweakcn.com/); **source of truth is `tokens/`**,
+not pasted CSS. Edit DTCG JSON under `tokens/`, then run `pnpm tokens:build` (also
+hooked to `predev` / `prebuild`). Generated CSS is committed at
+`app/(site)/generated/tokens.css`. Review at `/design` (colors, type, space, shadows)
 and `/design/components` (UI primitives). Page-builder blocks: `/design/sections`.
-`/type-scale` redirects to `/design`.
+`/type-scale` redirects to `/design`. When re-importing a tweakcn export, map into
+`tokens/*` and sync `lib/brand-palette.ts` if light colors change.
 
 ## Caching / freshness
 
