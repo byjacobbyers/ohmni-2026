@@ -15,9 +15,12 @@ import {media} from 'sanity-plugin-media'
 import {apiVersion, dataset, projectId} from './sanity/env'
 import {schema} from './sanity/schemas'
 import {structure} from './sanity/structure'
+import { browseSectionGalleryAction } from './sanity/actions/browse-section-gallery-action'
 import { brand } from '@/lib/brand'
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+
+const SECTION_DOC_TYPES = new Set(['page', 'post', 'event'])
 
 export default defineConfig({
   name: 'default',
@@ -63,6 +66,12 @@ export default defineConfig({
     visionTool({defaultApiVersion: apiVersion}),
   ],
   document: {
+    actions: (prev, context) => {
+      if (SECTION_DOC_TYPES.has(context.schemaType)) {
+        return [...prev, browseSectionGalleryAction]
+      }
+      return prev
+    },
     newDocumentOptions: (prev, { creationContext }) => {
       if (creationContext.type === 'global') {
         return prev.filter((template) => template.templateId !== 'mux.videoAsset')
