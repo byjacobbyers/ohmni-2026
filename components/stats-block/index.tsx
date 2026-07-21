@@ -30,6 +30,8 @@ export default function StatsBlock({
   const isProof = cleanStega(typeof variant === 'string' ? variant : '') === 'proof'
 
   if (isProof) {
+    const count = Math.min(Math.max(stats.length, 1), 6)
+
     return (
       <section
         id={anchor || `stats-block-${componentIndex}`}
@@ -51,7 +53,15 @@ export default function StatsBlock({
             </div>
           ) : null}
 
-          <div className="grid w-full min-w-0 gap-8 text-left md:grid-cols-2 md:gap-6 xl:grid-cols-4">
+          <div
+            className={cn(
+              'mx-auto grid w-full min-w-0 gap-8 text-left md:gap-6',
+              count === 1 && 'max-w-xs grid-cols-1',
+              count === 2 && 'max-w-2xl grid-cols-1 sm:grid-cols-2',
+              count === 3 && 'max-w-4xl grid-cols-1 sm:grid-cols-3',
+              count >= 4 && 'grid-cols-1 sm:grid-cols-2 xl:grid-cols-4'
+            )}
+          >
             {stats.map((stat, i) => (
               <div
                 key={stat._key || `stat-${i}`}

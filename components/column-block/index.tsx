@@ -1,4 +1,13 @@
-import { Clock, Code2, Layers } from 'lucide-react'
+import {
+  ChartColumn,
+  Clock,
+  Code2,
+  Layers,
+  MailX,
+  SearchX,
+  Sparkles,
+  type LucideIcon,
+} from 'lucide-react'
 import AppearAnimation from '@/components/appear-animation'
 import SimpleText from '@/components/simple-text'
 import SanityImage from '@/components/sanity-image'
@@ -17,9 +26,19 @@ import type {
   ColumnBlockProps,
 } from '@/types/components/column-block-type'
 
+/** Keep in sync with the icon list in sanity/schemas/objects/column-schema.ts */
+const CARD_ICONS: Record<string, LucideIcon> = {
+  LuClock: Clock,
+  LuCode: Code2,
+  LuLayers: Layers,
+  LuMailX: MailX,
+  LuChartColumn: ChartColumn,
+  LuSearchX: SearchX,
+  LuSparkles: Sparkles,
+}
+
 function CardIcon({ icon }: { icon?: string }) {
-  const Icon =
-    icon === 'LuClock' ? Clock : icon === 'LuCode' ? Code2 : icon === 'LuLayers' ? Layers : null
+  const Icon = icon ? CARD_ICONS[icon] : null
   if (!Icon) return null
   return (
     <div

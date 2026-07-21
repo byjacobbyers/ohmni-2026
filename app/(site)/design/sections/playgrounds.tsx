@@ -532,8 +532,10 @@ export function StatsPlayground() {
   const [values, onChange] = useVariantState({
     backgroundColor: 'primary',
     layout: 'image-left',
-    variant: 'cards',
+    variant: 'proof',
   })
+
+  const isProof = values.variant === 'proof'
 
   const groups: ControlGroup[] = [
     BG_GROUP,
@@ -545,48 +547,84 @@ export function StatsPlayground() {
         { value: 'proof', label: 'Proof strip' },
       ],
     },
-    {
-      key: 'layout',
-      label: 'Layout',
-      options: [
-        { value: 'image-left', label: 'Image left' },
-        { value: 'image-right', label: 'Image right' },
-      ],
-    },
+    ...(isProof
+      ? []
+      : [
+          {
+            key: 'layout',
+            label: 'Layout',
+            options: [
+              { value: 'image-left', label: 'Image left' },
+              { value: 'image-right', label: 'Image right' },
+            ],
+          } satisfies ControlGroup,
+        ]),
   ]
 
   return (
     <SectionChrome
       id="stats"
       type="statsBlock"
-      note={`${values.variant} · ${values.layout} · ${values.backgroundColor}`}
+      note={`${values.variant}${isProof ? '' : ` · ${values.layout}`} · ${values.backgroundColor}`}
     >
       <SectionControls groups={groups} values={values} onChange={onChange} />
       <CtaLocationProvider value="statsBlock">
         <StatsBlock
+          key={values.variant}
           componentIndex={8}
           backgroundColor={values.backgroundColor}
           layout={values.layout}
           variant={values.variant}
-          showImagePlaceholder
-          heading={pt('Stats block', 'h2')}
-          stats={[
-            {
-              _key: 's1',
-              statValue: '3×',
-              content: pt('Faster campaign launches with a composable web stack.'),
-            },
-            {
-              _key: 's2',
-              statValue: '60d',
-              content: pt('Typical window to ship a modern marketing site foundation.'),
-            },
-            {
-              _key: 's3',
-              statValue: '1',
-              content: pt('Partner instead of a full-time web engineering hire.'),
-            },
-          ]}
+          showImagePlaceholder={!isProof}
+          heading={pt(isProof ? "Here's what fast looks like." : 'Stats block', 'h2')}
+          stats={
+            isProof
+              ? [
+                  {
+                    _key: 's1',
+                    statValue: 'Minutes',
+                    content: pt('Landing pages publish in minutes. No deploy, no ticket.'),
+                  },
+                  {
+                    _key: 's2',
+                    statValue: '60 sec',
+                    content: pt(
+                      'Every form submission lands in your CRM with follow-up sent inside 60 seconds.'
+                    ),
+                  },
+                  {
+                    _key: 's3',
+                    statValue: '1st-party',
+                    content: pt('Analytics that ad blockers cannot erase.'),
+                  },
+                  {
+                    _key: 's4',
+                    statValue: 'AI-ready',
+                    content: pt(
+                      'Content structured for AI search: readable by ChatGPT, Perplexity, and Google AI results.'
+                    ),
+                  },
+                ]
+              : [
+                  {
+                    _key: 's1',
+                    statValue: '3×',
+                    content: pt('Faster campaign launches with a composable web stack.'),
+                  },
+                  {
+                    _key: 's2',
+                    statValue: '60d',
+                    content: pt(
+                      'Typical window to ship a modern marketing site foundation.'
+                    ),
+                  },
+                  {
+                    _key: 's3',
+                    statValue: '1',
+                    content: pt('Partner instead of a full-time web engineering hire.'),
+                  },
+                ]
+          }
         />
       </CtaLocationProvider>
     </SectionChrome>

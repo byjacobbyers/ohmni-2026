@@ -1,5 +1,9 @@
 import { defineType, defineField } from 'sanity'
-import {InlineElementIcon} from '@sanity/icons/InlineElement'
+import { InlineElementIcon } from '@sanity/icons/InlineElement'
+import {
+  sectionActiveField,
+  sectionAnchorField,
+} from '../lib/section-chrome'
 
 export default defineType({
   title: 'Split Scroll (add-on)',
@@ -7,23 +11,18 @@ export default defineType({
   type: 'object',
   icon: InlineElementIcon,
   description: 'Signature narrative scroll. Ohmni/client add-on — not a core kit symbol.',
+  groups: [
+    { name: 'content', title: 'Content', default: true },
+    { name: 'section', title: 'Section' },
+  ],
   fields: [
-    defineField({
-      title: 'Active?',
-      name: 'active',
-      type: 'boolean',
-      initialValue: true,
-    }),
-    defineField({
-      title: 'Anchor',
-      name: 'anchor',
-      type: 'string',
-      description: 'Section id for in-page links. No hash symbols.',
-    }),
+    sectionActiveField('section'),
+    sectionAnchorField('section'),
     defineField({
       title: 'Background Color',
       name: 'backgroundColor',
       type: 'string',
+      group: 'section',
       options: {
         list: [
           { title: 'Primary', value: 'primary' },
@@ -37,12 +36,14 @@ export default defineType({
       title: 'Title',
       name: 'title',
       type: 'simpleText',
+      group: 'content',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       title: 'Items',
       name: 'items',
       type: 'array',
+      group: 'content',
       of: [
         {
           type: 'object',
