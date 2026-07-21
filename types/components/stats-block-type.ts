@@ -17,5 +17,7 @@ export type StatsBlockProps = {
   /** Design gallery: wireframe slot when no Sanity image */
   showImagePlaceholder?: boolean
   layout?: 'image-left' | 'image-right' | string
+  /** cards = stat tiles with optional image; proof = claims-first strip */
+  variant?: 'cards' | 'proof' | string
   stats?: StatsBlockStat[]
 }

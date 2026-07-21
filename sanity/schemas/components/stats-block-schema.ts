@@ -46,11 +46,28 @@ export default defineType({
       group: 'content',
     }),
     defineField({
+      title: 'Style',
+      name: 'variant',
+      type: 'string',
+      group: 'content',
+      initialValue: 'cards',
+      description:
+        'Cards: big stat tiles with optional image. Proof strip: claims-first row with small labels; ignores the image.',
+      options: {
+        list: [
+          { title: 'Stat cards', value: 'cards' },
+          { title: 'Proof strip', value: 'proof' },
+        ],
+        layout: 'radio',
+      },
+    }),
+    defineField({
       title: 'Layout',
       name: 'layout',
       type: 'string',
       group: 'content',
       initialValue: 'image-left',
+      hidden: ({ parent }) => parent?.variant === 'proof',
       options: {
         list: [
           { title: 'Image Left', value: 'image-left' },

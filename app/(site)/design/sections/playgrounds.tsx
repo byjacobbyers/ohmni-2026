@@ -532,10 +532,19 @@ export function StatsPlayground() {
   const [values, onChange] = useVariantState({
     backgroundColor: 'primary',
     layout: 'image-left',
+    variant: 'cards',
   })
 
   const groups: ControlGroup[] = [
     BG_GROUP,
+    {
+      key: 'variant',
+      label: 'Style',
+      options: [
+        { value: 'cards', label: 'Stat cards' },
+        { value: 'proof', label: 'Proof strip' },
+      ],
+    },
     {
       key: 'layout',
       label: 'Layout',
@@ -550,7 +559,7 @@ export function StatsPlayground() {
     <SectionChrome
       id="stats"
       type="statsBlock"
-      note={`${values.layout} · ${values.backgroundColor}`}
+      note={`${values.variant} · ${values.layout} · ${values.backgroundColor}`}
     >
       <SectionControls groups={groups} values={values} onChange={onChange} />
       <CtaLocationProvider value="statsBlock">
@@ -558,6 +567,7 @@ export function StatsPlayground() {
           componentIndex={8}
           backgroundColor={values.backgroundColor}
           layout={values.layout}
+          variant={values.variant}
           showImagePlaceholder
           heading={pt('Stats block', 'h2')}
           stats={[

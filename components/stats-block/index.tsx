@@ -7,6 +7,7 @@ import {
   normalizeSectionBackground,
   sectionBackgroundClasses,
 } from '@/lib/section-background'
+import { cleanStega } from '@/lib/stega'
 import { cn } from '@/lib/utils'
 import type { StatsBlockProps } from '@/types/components/stats-block-type'
 
@@ -19,12 +20,60 @@ export default function StatsBlock({
   image,
   showImagePlaceholder = false,
   layout = 'image-left',
+  variant = 'cards',
   stats = [],
 }: StatsBlockProps) {
   if (active === false) return null
 
   const bg = normalizeSectionBackground(backgroundColor)
   const { sectionClass, innerLiftClass, showTexture } = sectionBackgroundClasses(bg)
+  const isProof = cleanStega(typeof variant === 'string' ? variant : '') === 'proof'
+
+  if (isProof) {
+    return (
+      <section
+        id={anchor || `stats-block-${componentIndex}`}
+        className={cn(
+          'stats-block stats-block--proof flex w-full max-w-full justify-center overflow-x-hidden px-5 py-16 md:py-24',
+          sectionClass
+        )}
+      >
+        {showTexture ? <TextureSectionBackdrop /> : null}
+        <AppearAnimation
+          className={cn(
+            'container flex w-full min-w-0 flex-col items-center gap-10 md:gap-12',
+            innerLiftClass
+          )}
+        >
+          {heading ? (
+            <div className="content mx-auto max-w-5xl text-center">
+              <SimpleText content={heading} />
+            </div>
+          ) : null}
+
+          <div className="grid w-full min-w-0 gap-8 text-left md:grid-cols-2 md:gap-6 xl:grid-cols-4">
+            {stats.map((stat, i) => (
+              <div
+                key={stat._key || `stat-${i}`}
+                className="flex min-w-0 flex-col gap-2 border-l-2 border-primary pl-5"
+              >
+                {stat.statValue ? (
+                  <div className="text-sm font-semibold uppercase tracking-wider text-primary">
+                    {stat.statValue}
+                  </div>
+                ) : null}
+                {stat.content ? (
+                  <div className="min-w-0 wrap-break-word text-base leading-relaxed text-foreground">
+                    <SimpleText content={stat.content} />
+                  </div>
+                ) : null}
+              </div>
+            ))}
+          </div>
+        </AppearAnimation>
+      </section>
+    )
+  }
   const rowDirectionClass =
     layout === 'image-right' ? 'xl:flex-row-reverse' : 'xl:flex-row'
   const imageColumnGutterClass =

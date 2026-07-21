@@ -25,6 +25,7 @@ const STEGA_LOGIC_FIELDS = new Set([
   'layout',
   'overlayColor',
   'size',
+  'variant',
   'videoProvider',
 ])
 
