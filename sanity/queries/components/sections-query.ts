@@ -57,6 +57,11 @@ export const sectionsQuery = groq`
       cta { ..., route { ${routeQuery} } },
       ${portableTextWithLinks}
     },
+    _type == 'bannerBlock' => {
+      ...,
+      cta { ..., route { ${routeQuery} } },
+      ${portableTextWithLinks}
+    },
     _type == 'ctaBlock' => {
       ...,
       cta { ..., route { ${routeQuery} } },

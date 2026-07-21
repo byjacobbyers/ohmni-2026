@@ -155,7 +155,9 @@ export default function ColumnBlock({
             <SimpleText content={heading} />
           </div>
         ) : title ? (
-          <h2 className="mb-8 w-full text-center md:mb-12">{title}</h2>
+          <div className="content mb-10 w-full text-center text-balance">
+            <h2>{title}</h2>
+          </div>
         ) : null}
 
         {items.length > 0 ? (
@@ -174,7 +176,7 @@ export default function ColumnBlock({
                 <Card
                   key={column._key || index}
                   className={cn(
-                    'flex w-full min-h-0 min-w-0 max-w-none flex-col items-center justify-center overflow-hidden rounded-md border-0',
+                    'flex w-full min-h-0 min-w-0 max-w-none flex-col items-center justify-start overflow-hidden rounded-md border-0',
                     style === 'project'
                       ? 'bg-card text-card-foreground'
                       : isEmphasized
