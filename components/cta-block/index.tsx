@@ -23,6 +23,12 @@ export default function CtaBlock({
       : copyAlignClass === 'text-right'
         ? 'items-end'
         : 'items-center'
+  const buttonJustifyClass =
+    copyAlignClass === 'text-left'
+      ? 'justify-start'
+      : copyAlignClass === 'text-right'
+        ? 'justify-end'
+        : 'justify-center'
   const buttonVariant = backgroundColor === 'secondary' ? 'secondary' : 'huge'
 
   return (
@@ -39,7 +45,7 @@ export default function CtaBlock({
           </div>
         ) : null}
         {isActiveCta(cta) ? (
-          <div className="w-full flex justify-center md:justify-start pt-5">
+          <div className={`flex w-full pt-5 ${buttonJustifyClass}`}>
             <CtaRouteButton route={cta.route} variant={buttonVariant} />
           </div>
         ) : null}

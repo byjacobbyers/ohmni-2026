@@ -2,6 +2,7 @@ import AppearAnimation from '@/components/appear-animation'
 import SimpleText from '@/components/simple-text'
 import SanityImage from '@/components/sanity-image'
 import TextureSectionBackdrop from '@/components/texture-section-backdrop'
+import { ImagePlaceholder } from '@/components/ui/image-placeholder'
 import {
   normalizeSectionBackground,
   sectionBackgroundClasses,
@@ -15,6 +16,7 @@ export default function SplitScrollBlock({
   backgroundColor = 'primary',
   title,
   items = [],
+  showImagePlaceholder = false,
 }: SplitScrollBlockProps) {
   if (active === false || !items?.length) return null
 
@@ -52,6 +54,13 @@ export default function SplitScrollBlock({
                     className="object-cover"
                   />
                 </div>
+              ) : showImagePlaceholder ? (
+                <ImagePlaceholder
+                  aspect="square"
+                  marks={false}
+                  label={`${i + 1}`}
+                  className="h-12 w-12 shrink-0 rounded-lg"
+                />
               ) : null}
               {item.content && Array.isArray(item.content) ? (
                 <div className="content">

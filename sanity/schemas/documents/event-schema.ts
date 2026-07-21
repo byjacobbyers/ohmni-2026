@@ -34,19 +34,12 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      title: 'Event Type',
-      name: 'eventType',
-      type: 'string',
+      title: 'Category',
+      name: 'category',
+      type: 'reference',
+      to: [{ type: 'eventCategory' }],
       group: 'event',
-      initialValue: 'series',
-      options: {
-        list: [
-          { title: 'Series', value: 'series' },
-          { title: 'Workshop', value: 'workshop' },
-          { title: 'Jam / Practice', value: 'jam' },
-        ],
-        layout: 'radio',
-      },
+      description: 'Create categories under Events → Categories in the Studio sidebar.',
     }),
     defineField({
       title: 'Sold Out',
@@ -95,11 +88,18 @@ export default defineType({
     }),
   ],
   preview: {
-    select: { title: 'title', startDate: 'startDate' },
-    prepare({ title, startDate }) {
+    select: {
+      title: 'title',
+      startDate: 'startDate',
+      categoryTitle: 'category->title',
+    },
+    prepare({ title, startDate, categoryTitle }) {
+      const date = startDate
+        ? new Date(startDate + 'T12:00:00').toLocaleDateString()
+        : 'No date'
       return {
         title,
-        subtitle: startDate ? new Date(startDate + 'T12:00:00').toLocaleDateString() : 'No date',
+        subtitle: categoryTitle ? `${date} · ${categoryTitle}` : date,
       }
     },
   },

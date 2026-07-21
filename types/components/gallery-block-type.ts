@@ -11,4 +11,8 @@ export type GalleryBlockProps = {
   images?: GalleryBlockImage[]
   imagesPerRow?: number
   enableLightbox?: boolean
+  /** Design gallery: wireframe tiles when no Sanity images */
+  showImagePlaceholder?: boolean
+  /** How many placeholder tiles (default 6) */
+  placeholderCount?: number
 }

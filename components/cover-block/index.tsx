@@ -17,6 +17,7 @@ import {
 } from '@/lib/cover-layout'
 import { cleanStega } from '@/lib/stega'
 import { urlFor } from '@/sanity/lib/image'
+import { ImagePlaceholder } from '@/components/ui/image-placeholder'
 import type {
   CoverBlockImage,
   CoverBlockImageMobile,
@@ -70,6 +71,7 @@ export default function CoverBlock({
   loop,
   muted,
   controls,
+  showImagePlaceholder = false,
 }: CoverBlockProps) {
   const isMobile = useIsMobile()
 
@@ -207,6 +209,15 @@ export default function CoverBlock({
       {backgroundType === 'color' && colorBg === 'texture' ? (
         <div className="pointer-events-none absolute inset-0 z-1 overflow-hidden">
           <TextureSectionBackdrop />
+        </div>
+      ) : null}
+      {backgroundType === 'image' && showImagePlaceholder && !backgroundImageUrl ? (
+        <div className="pointer-events-none absolute inset-0 z-0">
+          <ImagePlaceholder
+            aspect="auto"
+            caption="Cover media"
+            className="h-full min-h-[50vh] rounded-none border-0 border-b border-dashed border-primary/35"
+          />
         </div>
       ) : null}
       {backgroundType === 'image' && mobileBackgroundImageUrl && (

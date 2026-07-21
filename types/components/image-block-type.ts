@@ -5,4 +5,6 @@ export type ImageBlockProps = {
   image?: { asset?: { url?: string }; alt?: string; crop?: unknown; hotspot?: unknown } | null
   imageMobile?: { asset?: { url?: string }; alt?: string; crop?: unknown; hotspot?: unknown } | null
   maxWidth?: string
+  /** Design gallery: wireframe slot when no Sanity image */
+  showImagePlaceholder?: boolean
 }

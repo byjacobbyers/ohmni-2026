@@ -47,7 +47,6 @@ export default defineType({
         ],
       },
       initialValue: 'primary',
-      hidden: ({ parent }) => parent?.layout !== 'split',
     }),
     defineField({
       name: 'content',

@@ -7,6 +7,7 @@ import SanityImage from '@/components/sanity-image'
 import TextureSectionBackdrop from '@/components/texture-section-backdrop'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
+import { ImagePlaceholder } from '@/components/ui/image-placeholder'
 import { formatShortDate, parseSanityDate } from '@/lib/format-date'
 import {
   normalizeSectionBackground,
@@ -32,6 +33,7 @@ export default function EventsBlock({
   title,
   count = DEFAULT_PAGE_SIZE,
   initialEvents,
+  showImagePlaceholder = false,
 }: EventsBlockProps) {
   if (active === false) return null
 
@@ -68,16 +70,16 @@ export default function EventsBlock({
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
-        className={`relative z-10 container flex w-full max-w-3xl flex-col items-stretch content ${innerLiftClass}`}
+        className={`relative z-10 container flex w-full max-w-3xl flex-col items-stretch ${innerLiftClass}`}
       >
         {title ? (
           <h2 className="mb-8 w-full text-center md:mb-12">{title}</h2>
         ) : null}
 
-        <ul className="flex w-full flex-col gap-6">
+        <ul className="flex w-full list-none flex-col gap-6 p-0">
           {displayedEvents.map((event) => {
             const meta = [
-              event.eventType,
+              event.category,
               formatEventDates(event.startDate, event.endDate),
               event.timeString,
               event.location,
@@ -86,34 +88,43 @@ export default function EventsBlock({
               .join(' · ')
 
             return (
-              <li key={event._id}>
-                <Link href={`/events/${event.slug}`} className="group block">
+              <li key={event._id} className="list-none">
+                <Link href={`/events/${event.slug}`} className="group block no-underline">
                   <Card className="flex w-full flex-col overflow-hidden rounded-md border border-border bg-card text-card-foreground transition-colors group-hover:border-primary sm:flex-row">
-                    {event.image ? (
+                    {event.image || showImagePlaceholder ? (
                       <div className="relative aspect-video w-full shrink-0 overflow-hidden bg-foreground sm:aspect-square sm:w-40 md:w-48">
-                        <SanityImage
-                          image={event.image as SanityImageSource}
-                          fill
-                          sizes="(max-width: 640px) 100vw, 192px"
-                          className="object-cover object-center transition-transform duration-300 group-hover:scale-105"
-                        />
+                        {event.image ? (
+                          <SanityImage
+                            image={event.image as SanityImageSource}
+                            fill
+                            sizes="(max-width: 640px) 100vw, 192px"
+                            className="object-cover object-center transition-transform duration-300 group-hover:scale-105"
+                          />
+                        ) : (
+                          <ImagePlaceholder
+                            aspect="auto"
+                            marks={false}
+                            label="IMG"
+                            className="absolute inset-0 h-full rounded-none border-0"
+                          />
+                        )}
                       </div>
                     ) : null}
                     <CardContent className="flex w-full flex-col justify-center gap-2 px-4 py-5 sm:px-6">
                       <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
                         {meta ? (
-                          <p className="text-sm text-muted-foreground uppercase tracking-wide">
+                          <p className="text-sm tracking-wide text-muted-foreground uppercase no-underline">
                             {meta}
                           </p>
                         ) : null}
                         {event.soldOut ? (
-                          <span className="text-sm font-semibold uppercase tracking-wide text-destructive">
+                          <span className="text-sm font-semibold tracking-wide text-destructive uppercase no-underline">
                             Sold out
                           </span>
                         ) : null}
                       </div>
-                      <h3 className="text-h4 group-hover:underline">{event.title}</h3>
-                      <span className="mt-1 text-sm font-medium uppercase tracking-wider text-primary">
+                      <h3 className="text-h4 no-underline">{event.title}</h3>
+                      <span className="mt-1 text-sm font-medium tracking-wider text-primary uppercase no-underline">
                         Learn more
                       </span>
                     </CardContent>

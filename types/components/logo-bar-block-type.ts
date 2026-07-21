@@ -13,4 +13,6 @@ export type LogoBarBlockProps = {
   backgroundColor?: string
   eyebrow?: string
   logos?: LogoBarEntry[]
+  /** Design gallery: wireframe logos when assets are missing */
+  showImagePlaceholder?: boolean
 }

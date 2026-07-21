@@ -66,10 +66,11 @@ export default async function FormBlock({
   return (
     <section
       id={anchor || `form-${componentIndex}`}
-      className="form-block form-block--stacked w-full flex justify-center px-5 py-16 lg:py-24 bg-primary text-primary-foreground"
+      className={`form-block form-block--stacked w-full flex justify-center px-5 py-16 lg:py-24 ${sectionClass}`}
     >
+      {showTexture ? <TextureSectionBackdrop /> : null}
       <AppearAnimation
-        className="container flex w-full max-w-2xl flex-col justify-center mx-auto"
+        className={`relative z-10 container mx-auto flex w-full max-w-2xl flex-col justify-center ${innerLiftClass}`}
         scale
         transition={{
           delay: componentIndex !== 0 ? 0.5 : 0,
@@ -84,7 +85,7 @@ export default async function FormBlock({
         ) : null}
 
         {config ? (
-          <div className="bg-background text-foreground shadow-lg mt-8">
+          <div className="mt-8 bg-background text-foreground shadow-lg">
             <LeadForm config={config} />
           </div>
         ) : null}

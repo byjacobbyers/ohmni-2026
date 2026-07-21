@@ -14,6 +14,8 @@ export type StatsBlockProps = {
   backgroundColor?: string
   heading?: PortableTextBlock[] | unknown
   image?: SanityImageSource | null
+  /** Design gallery: wireframe slot when no Sanity image */
+  showImagePlaceholder?: boolean
   layout?: 'image-left' | 'image-right' | string
   stats?: StatsBlockStat[]
 }

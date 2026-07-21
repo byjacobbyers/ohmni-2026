@@ -5,7 +5,7 @@ export type EventCard = {
   startDate?: string
   endDate?: string
   timeString?: string
-  eventType?: string
+  category?: string
   soldOut?: boolean
   location?: string
   image?: unknown
@@ -21,4 +21,6 @@ export type EventsBlockProps = {
   count?: number
   /** Server-fetched list (preferred for SEO). */
   initialEvents?: EventCard[]
+  /** Design gallery: wireframe thumbs when events have no image */
+  showImagePlaceholder?: boolean
 }

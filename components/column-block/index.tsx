@@ -6,6 +6,7 @@ import TextureSectionBackdrop from '@/components/texture-section-backdrop'
 import CtaRouteButton from '@/components/cta-route-button'
 import { isActiveCta } from '@/lib/cta'
 import { Card, CardContent, CardFooter } from '@/components/ui/card'
+import { ImagePlaceholder } from '@/components/ui/image-placeholder'
 import { cn } from '@/lib/utils'
 import {
   normalizeSectionBackground,
@@ -33,9 +34,11 @@ function CardIcon({ icon }: { icon?: string }) {
 function CardMedia({
   column,
   style,
+  showImagePlaceholder,
 }: {
   column: ColumnBlockColumn
   style: 'logo' | 'project' | string
+  showImagePlaceholder?: boolean
 }) {
   if (column.image) {
     if (style === 'project') {
@@ -67,6 +70,15 @@ function CardMedia({
       </div>
     )
   }
+  if (style === 'project' && showImagePlaceholder) {
+    return (
+      <ImagePlaceholder
+        aspect="video"
+        caption={column.title || 'Project media'}
+        className="shrink-0 rounded-none border-x-0 border-t-0"
+      />
+    )
+  }
   if (style !== 'project' && column.icon) {
     return <CardIcon icon={column.icon} />
   }
@@ -85,6 +97,7 @@ export default function ColumnBlock({
   excerpt,
   columnsPerRow = 3,
   columns,
+  showImagePlaceholder = false,
 }: ColumnBlockProps) {
   if (active === false) return null
 
@@ -107,7 +120,7 @@ export default function ColumnBlock({
     <section
       id={anchor || `cards-block-${componentIndex}`}
       className={cn(
-        'column-block cards-block w-full overflow-x-hidden px-5 py-16 md:py-24 flex justify-center',
+        'column-block cards-block flex w-full justify-center overflow-x-hidden px-5 py-16 md:py-24',
         sectionClass
       )}
     >
@@ -150,7 +163,11 @@ export default function ColumnBlock({
                         : 'bg-muted/40 py-6 md:py-8'
                   )}
                 >
-                  <CardMedia column={column} style={style} />
+                  <CardMedia
+                    column={column}
+                    style={style}
+                    showImagePlaceholder={showImagePlaceholder}
+                  />
                   {column.content && Array.isArray(column.content) ? (
                     <CardContent
                       className={cn(

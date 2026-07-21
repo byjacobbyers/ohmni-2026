@@ -6,6 +6,7 @@ import AutoScroll from 'embla-carousel-auto-scroll'
 import AppearAnimation from '@/components/appear-animation'
 import SanityImage from '@/components/sanity-image'
 import TextureSectionBackdrop from '@/components/texture-section-backdrop'
+import { ImagePlaceholder } from '@/components/ui/image-placeholder'
 import {
   normalizeSectionBackground,
   sectionBackgroundClasses,
@@ -20,6 +21,7 @@ export default function LogoBarBlock({
   backgroundColor = 'primary',
   eyebrow,
   logos = [],
+  showImagePlaceholder = false,
 }: LogoBarBlockProps) {
   const multiLogo = logos.length > 1
   const autoScrollPlugin = useMemo(
@@ -89,6 +91,13 @@ export default function LogoBarBlock({
                           fill
                           className="object-contain"
                           sizes="(max-width: 768px) 50vw, 16vw"
+                        />
+                      ) : showImagePlaceholder ? (
+                        <ImagePlaceholder
+                          aspect="auto"
+                          marks={false}
+                          label={entry.name || 'LOGO'}
+                          className="absolute inset-0 h-full rounded-sm border-primary/25"
                         />
                       ) : null}
                     </div>

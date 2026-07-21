@@ -4,7 +4,9 @@ import page from './documents/page-schema'
 import site from './documents/site-schema'
 import announcement from './documents/announcement-schema'
 import event from './documents/event-schema'
+import eventCategory from './documents/event-category-schema'
 import post from './documents/post-schema'
+import postCategory from './documents/post-category-schema'
 import redirect from './documents/redirect-schema'
 import navigation from './documents/navigation-schema'
 import form from './documents/form-schema'
@@ -52,7 +54,9 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     site,
     announcement,
     event,
+    eventCategory,
     post,
+    postCategory,
     team,
     redirect,
     navigation,

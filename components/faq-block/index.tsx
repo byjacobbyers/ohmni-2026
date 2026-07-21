@@ -35,24 +35,24 @@ export default function FaqBlock({
       )}
     >
       {showTexture ? <TextureSectionBackdrop /> : null}
-      <AppearAnimation
-        className={cn('container relative z-10 w-full max-w-full', innerLiftClass)}
-      >
-        <Accordion type="single" collapsible defaultValue="faq-0">
-          {faqs.map((faq, i) => (
-            <AccordionItem key={i} value={`faq-${i}`}>
-              <AccordionTrigger>{faq.question}</AccordionTrigger>
-              <AccordionContent>
-                {faq.answer && Array.isArray(faq.answer) ? (
-                  <div className="content compact input-size">
-                    <SimpleText content={faq.answer} />
-                  </div>
-                ) : null}
-              </AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
-      </AppearAnimation>
+      <div className={cn('container relative z-10 w-full', innerLiftClass)}>
+        <AppearAnimation className="w-full">
+          <Accordion type="single" collapsible defaultValue="faq-0">
+            {faqs.map((faq, i) => (
+              <AccordionItem key={i} value={`faq-${i}`}>
+                <AccordionTrigger>{faq.question}</AccordionTrigger>
+                <AccordionContent>
+                  {faq.answer && Array.isArray(faq.answer) ? (
+                    <div className="content compact input-size">
+                      <SimpleText content={faq.answer} />
+                    </div>
+                  ) : null}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </AppearAnimation>
+      </div>
     </section>
   )
 }

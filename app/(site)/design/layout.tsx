@@ -14,6 +14,7 @@ const NAV = [
   { href: '/design#fonts', label: 'Fonts' },
   { href: '/design#space', label: 'Space' },
   { href: '/design/components', label: 'Components' },
+  { href: '/design/sections', label: 'Sections' },
 ] as const
 
 export default function DesignLayout({

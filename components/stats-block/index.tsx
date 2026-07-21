@@ -2,6 +2,7 @@ import AppearAnimation from '@/components/appear-animation'
 import SanityImage from '@/components/sanity-image'
 import SimpleText from '@/components/simple-text'
 import TextureSectionBackdrop from '@/components/texture-section-backdrop'
+import { ImagePlaceholder } from '@/components/ui/image-placeholder'
 import {
   normalizeSectionBackground,
   sectionBackgroundClasses,
@@ -16,6 +17,7 @@ export default function StatsBlock({
   backgroundColor = 'primary',
   heading,
   image,
+  showImagePlaceholder = false,
   layout = 'image-left',
   stats = [],
 }: StatsBlockProps) {
@@ -30,6 +32,7 @@ export default function StatsBlock({
   const hasImage = Boolean(
     image && typeof image === 'object' && 'asset' in image && image.asset
   )
+  const showMedia = hasImage || showImagePlaceholder
 
   return (
     <section
@@ -41,56 +44,69 @@ export default function StatsBlock({
     >
       {showTexture ? <TextureSectionBackdrop /> : null}
       <AppearAnimation
-        className={cn('container flex w-full min-w-0 flex-col gap-8', innerLiftClass)}
+        className={cn(
+          'container flex w-full min-w-0 flex-col items-center gap-8 text-center',
+          innerLiftClass
+        )}
       >
         {heading ? (
-          <div className="content max-w-5xl">
+          <div className="content mx-auto max-w-5xl text-center">
             <SimpleText content={heading} />
           </div>
         ) : null}
 
         <div
           className={cn(
-            'flex w-full min-w-0 flex-col gap-4 xl:items-stretch',
+            'flex w-full min-w-0 flex-col items-center gap-4 xl:items-stretch',
             rowDirectionClass
           )}
         >
-          {hasImage ? (
+          {showMedia ? (
             <div
               className={cn(
-                'relative w-full min-w-0 overflow-hidden rounded-md aspect-square md:aspect-auto xl:min-h-[420px] xl:w-1/3 xl:self-stretch',
+                'relative aspect-square w-full min-w-0 overflow-hidden rounded-md md:aspect-auto xl:min-h-[420px] xl:w-1/3 xl:self-stretch',
                 imageColumnGutterClass
               )}
             >
-              <div className="absolute inset-0 md:hidden">
-                <SanityImage
-                  image={image!}
-                  fill
-                  className="object-cover object-top"
-                  sizes="100vw"
+              {hasImage ? (
+                <>
+                  <div className="absolute inset-0 md:hidden">
+                    <SanityImage
+                      image={image!}
+                      fill
+                      className="object-cover object-top"
+                      sizes="100vw"
+                    />
+                  </div>
+                  <div className="relative hidden aspect-4/5 w-full md:block xl:absolute xl:inset-0 xl:aspect-auto">
+                    <SanityImage
+                      image={image!}
+                      fill
+                      className="rounded-md object-cover object-top"
+                      sizes="(max-width: 1279px) 100vw, 33vw"
+                    />
+                  </div>
+                </>
+              ) : (
+                <ImagePlaceholder
+                  aspect="portrait"
+                  caption="Stats media"
+                  className="h-full min-h-[280px] xl:absolute xl:inset-0 xl:min-h-0"
                 />
-              </div>
-              <div className="relative hidden aspect-4/5 w-full md:block xl:absolute xl:inset-0 xl:aspect-auto">
-                <SanityImage
-                  image={image!}
-                  fill
-                  className="rounded-md object-cover object-top"
-                  sizes="(max-width: 1279px) 100vw, 33vw"
-                />
-              </div>
+              )}
             </div>
           ) : null}
 
           <div
             className={cn(
-              'flex w-full min-w-0 max-w-full flex-wrap gap-4',
-              hasImage ? 'xl:w-2/3' : 'xl:w-full'
+              'flex w-full min-w-0 max-w-full flex-wrap justify-center gap-4',
+              showMedia ? 'xl:w-2/3' : 'xl:w-full'
             )}
           >
             {stats.map((stat, i) => (
               <div
                 key={stat._key || `stat-${i}`}
-                className="flex min-w-0 w-full max-w-full flex-col gap-2 rounded-md bg-muted/50 px-6 pb-6 pt-10 xl:w-[calc(50%-0.5rem)] xl:max-w-[calc(50%-0.5rem)]"
+                className="flex min-w-0 w-full max-w-full flex-col items-center gap-2 rounded-md bg-muted/50 px-6 pb-6 pt-10 text-center xl:w-[calc(50%-0.5rem)] xl:max-w-[calc(50%-0.5rem)]"
               >
                 {stat.statValue ? (
                   <div className="text-5xl font-bold text-primary">{stat.statValue}</div>

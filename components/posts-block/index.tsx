@@ -7,6 +7,7 @@ import SanityImage from '@/components/sanity-image'
 import TextureSectionBackdrop from '@/components/texture-section-backdrop'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
+import { ImagePlaceholder } from '@/components/ui/image-placeholder'
 import { formatShortDate, parseSanityDate } from '@/lib/format-date'
 import {
   normalizeSectionBackground,
@@ -26,6 +27,7 @@ export default function PostsBlock({
   count = DEFAULT_PAGE_SIZE,
   initialPosts,
   posts,
+  showImagePlaceholder = false,
 }: PostsBlockProps) {
   if (active === false) return null
 
@@ -62,13 +64,13 @@ export default function PostsBlock({
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
-        className={`relative z-10 container flex w-full max-w-3xl flex-col items-stretch content ${innerLiftClass}`}
+        className={`relative z-10 container flex w-full max-w-3xl flex-col items-stretch ${innerLiftClass}`}
       >
         {title ? (
           <h2 className="mb-8 w-full text-center md:mb-12">{title}</h2>
         ) : null}
 
-        <ul className="flex w-full flex-col gap-6">
+        <ul className="flex w-full list-none flex-col gap-6 p-0">
           {displayedPosts.map((post) => {
             const authorName =
               typeof post.author === 'string'
@@ -83,32 +85,41 @@ export default function PostsBlock({
               .join(' · ')
 
             return (
-              <li key={post._id}>
-                <Link href={`/posts/${post.slug}`} className="group block">
+              <li key={post._id} className="list-none">
+                <Link href={`/posts/${post.slug}`} className="group block no-underline">
                   <Card className="flex w-full flex-col overflow-hidden rounded-md border border-border bg-card text-card-foreground transition-colors group-hover:border-primary sm:flex-row">
-                    {post.image ? (
+                    {post.image || showImagePlaceholder ? (
                       <div className="relative aspect-video w-full shrink-0 overflow-hidden bg-foreground sm:aspect-square sm:w-40 md:w-48">
-                        <SanityImage
-                          image={post.image as SanityImageSource}
-                          fill
-                          sizes="(max-width: 640px) 100vw, 192px"
-                          className="object-cover object-center transition-transform duration-300 group-hover:scale-105"
-                        />
+                        {post.image ? (
+                          <SanityImage
+                            image={post.image as SanityImageSource}
+                            fill
+                            sizes="(max-width: 640px) 100vw, 192px"
+                            className="object-cover object-center transition-transform duration-300 group-hover:scale-105"
+                          />
+                        ) : (
+                          <ImagePlaceholder
+                            aspect="auto"
+                            marks={false}
+                            label="IMG"
+                            className="absolute inset-0 h-full rounded-none border-0"
+                          />
+                        )}
                       </div>
                     ) : null}
                     <CardContent className="flex w-full flex-col justify-center gap-2 px-4 py-5 sm:px-6">
                       {meta ? (
-                        <p className="text-sm text-muted-foreground uppercase tracking-wide">
+                        <p className="text-sm tracking-wide text-muted-foreground uppercase no-underline">
                           {meta}
                         </p>
                       ) : null}
-                      <h3 className="text-h4 group-hover:underline">{post.title}</h3>
+                      <h3 className="text-h4 no-underline">{post.title}</h3>
                       {post.excerpt ? (
-                        <p className="text-base text-muted-foreground line-clamp-2">
+                        <p className="line-clamp-2 text-base text-muted-foreground no-underline">
                           {post.excerpt}
                         </p>
                       ) : null}
-                      <span className="mt-1 text-sm font-medium uppercase tracking-wider text-primary">
+                      <span className="mt-1 text-sm font-medium tracking-wider text-primary uppercase no-underline">
                         Read more
                       </span>
                     </CardContent>

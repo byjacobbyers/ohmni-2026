@@ -54,7 +54,7 @@ export default function QuoteBlock({
       )}
     >
       {showTexture ? <TextureSectionBackdrop /> : null}
-      <div className={cn('container mx-auto max-w-2xl', innerLiftClass)}>
+      <div className={cn('container', innerLiftClass)}>
         <AppearAnimation className="flex flex-col gap-8">
           {quote ? (
             <blockquote className="text-3xl leading-tight text-balance md:text-4xl lg:text-5xl">

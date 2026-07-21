@@ -167,7 +167,7 @@ export default function LeadForm({ config }: LeadFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 p-6" data-form-name={formName}>
+    <form onSubmit={handleSubmit} className="space-y-6" data-form-name={formName}>
       <div className="space-y-2">
         <Label htmlFor="name">Name *</Label>
         <Input

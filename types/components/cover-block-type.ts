@@ -43,4 +43,6 @@ export type CoverBlockProps = {
   loop?: boolean
   muted?: boolean
   controls?: boolean
+  /** Design gallery: wireframe when image background has no asset */
+  showImagePlaceholder?: boolean
 }

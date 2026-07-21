@@ -2,6 +2,7 @@ import AppearAnimation from '@/components/appear-animation'
 import SanityImage from '@/components/sanity-image'
 import SimpleText from '@/components/simple-text'
 import TextureSectionBackdrop from '@/components/texture-section-backdrop'
+import { ImagePlaceholder } from '@/components/ui/image-placeholder'
 import {
   normalizeSectionBackground,
   sectionBackgroundClasses,
@@ -24,6 +25,7 @@ export default function TeamMemberBlock({
   anchor,
   backgroundColor = 'primary',
   member,
+  showImagePlaceholder = false,
 }: TeamMemberBlockProps) {
   if (active === false || !member?.title) return null
 
@@ -48,7 +50,7 @@ export default function TeamMemberBlock({
     >
       {showTexture ? <TextureSectionBackdrop /> : null}
       <AppearAnimation
-        className={`container grid max-w-4xl gap-10 md:grid-cols-[minmax(0,14rem)_1fr] md:items-start ${innerLiftClass}`}
+        className={`container grid gap-10 md:grid-cols-[minmax(0,14rem)_1fr] items-center ${innerLiftClass}`}
       >
         {member.image ? (
           <div className="relative mx-auto aspect-square w-full max-w-56 overflow-hidden rounded-md bg-muted">
@@ -59,20 +61,26 @@ export default function TeamMemberBlock({
               className="object-cover object-center"
             />
           </div>
+        ) : showImagePlaceholder ? (
+          <ImagePlaceholder
+            aspect="square"
+            caption="Portrait"
+            className="mx-auto w-full max-w-56"
+          />
         ) : null}
-        <div className="content flex flex-col gap-4 text-left">
-          <div>
-            <h2 className="mb-2">{member.title}</h2>
+        <div className="flex flex-col gap-4 text-left">
+          <div className="content">
+            <h2>{member.title}</h2>
             {jobLine ? (
-              <p className="text-lg text-muted-foreground">{jobLine}</p>
+              <p className="text-lg text-muted-foreground mt-0">{jobLine}</p>
             ) : null}
+            {member.content ? <SimpleText content={member.content} /> : null}
           </div>
-          {member.content ? <SimpleText content={member.content} /> : null}
           {(member.email || socialLinks.length > 0) && (
-            <ul className="flex flex-wrap gap-x-4 gap-y-2 text-sm text-muted-foreground">
+            <ul className="flex list-none flex-wrap gap-x-4 gap-y-2 p-0 text-sm">
               {member.email ? (
                 <li>
-                  <a href={`mailto:${member.email}`} className="underline-offset-4 hover:underline">
+                  <a href={`mailto:${member.email}`} className="text-primary no-underline hover:no-underline">
                     {member.email}
                   </a>
                 </li>
@@ -83,7 +91,7 @@ export default function TeamMemberBlock({
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="underline-offset-4 hover:underline"
+                    className="text-primary no-underline hover:no-underline"
                   >
                     {label}
                   </a>

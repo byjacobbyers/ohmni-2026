@@ -26,4 +26,6 @@ export type SplitScrollBlockProps = {
   backgroundColor?: 'primary' | 'secondary' | 'texture'
   title?: unknown
   items?: SplitScrollBlockItem[]
+  /** Design gallery: wireframe icons when item images are missing */
+  showImagePlaceholder?: boolean
 }

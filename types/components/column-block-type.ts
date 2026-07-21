@@ -25,4 +25,6 @@ export type ColumnBlockProps = {
   excerpt?: unknown
   columnsPerRow?: number
   columns?: ColumnBlockColumn[]
+  /** Design gallery: wireframe media when project cards have no image */
+  showImagePlaceholder?: boolean
 }

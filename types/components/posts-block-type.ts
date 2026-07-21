@@ -21,4 +21,6 @@ export type PostsBlockProps = {
   initialPosts?: PostCard[]
   /** @deprecated Prefer initialPosts from the server wrapper */
   posts?: PostCard[]
+  /** Design gallery: wireframe thumbs when posts have no image */
+  showImagePlaceholder?: boolean
 }

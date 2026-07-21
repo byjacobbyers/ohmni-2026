@@ -10,7 +10,7 @@ export const eventsQuery = groq`*[_type == "event" && defined(slug.current)] | o
   startDate,
   endDate,
   timeString,
-  eventType,
+  "category": category->title,
   soldOut,
   location,
   image { ${imageQuery} }
@@ -26,7 +26,7 @@ export const eventQuery = groq`*[_type == "event" && slug.current == $slug][0] {
   startDate,
   endDate,
   timeString,
-  eventType,
+  "category": category->title,
   soldOut,
   location,
   seo {

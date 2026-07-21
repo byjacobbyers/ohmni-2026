@@ -51,8 +51,10 @@ export default defineType({
     defineField({
       title: 'Category',
       name: 'category',
-      type: 'string',
+      type: 'reference',
+      to: [{ type: 'postCategory' }],
       group: 'post',
+      description: 'Create categories under Posts → Categories in the Studio sidebar.',
     }),
     defineField({
       title: 'Excerpt',
@@ -86,14 +88,18 @@ export default defineType({
     }),
   ],
   preview: {
-    select: { title: 'title', publishedAt: 'publishedAt', category: 'category' },
-    prepare({ title, publishedAt, category }) {
+    select: {
+      title: 'title',
+      publishedAt: 'publishedAt',
+      categoryTitle: 'category->title',
+    },
+    prepare({ title, publishedAt, categoryTitle }) {
       const date = publishedAt
         ? new Date(publishedAt + 'T12:00:00').toLocaleDateString()
         : 'No date'
       return {
         title,
-        subtitle: category ? `${date} - ${category}` : date,
+        subtitle: categoryTitle ? `${date} - ${categoryTitle}` : date,
       }
     },
   },

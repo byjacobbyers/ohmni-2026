@@ -4,6 +4,7 @@ import { isActiveCta } from '@/lib/cta'
 import SanityImage from '@/components/sanity-image'
 import SimpleText from '@/components/simple-text'
 import TextureSectionBackdrop from '@/components/texture-section-backdrop'
+import { ImagePlaceholder } from '@/components/ui/image-placeholder'
 import { cn } from '@/lib/utils'
 import {
   normalizeSectionBackground,
@@ -18,6 +19,7 @@ export default function HeroBlock({
   anchor,
   backgroundColor = 'primary',
   image,
+  showImagePlaceholder = false,
   content,
   cta,
 }: HeroBlockProps) {
@@ -27,6 +29,8 @@ export default function HeroBlock({
   const delay = componentIndex !== 0 ? 0.5 : 0
   const bg = normalizeSectionBackground(backgroundColor)
   const { sectionClass, innerLiftClass, showTexture } = sectionBackgroundClasses(bg)
+  const hasImage = Boolean(image)
+  const showMedia = hasImage || showImagePlaceholder
 
   return (
     <section
@@ -60,17 +64,21 @@ export default function HeroBlock({
             </div>
           ) : null}
         </AppearAnimation>
-        <AppearAnimation className="w-full md:w-1/2 relative" scale delay={delay}>
-          {image ? (
-            <SanityImage
-              image={image}
-              fill={false}
-              alt={image.alt || 'Feature'}
-              className="w-full h-auto object-cover"
-              sizes="(max-width: 768px) 100vw, 50vw"
-            />
-          ) : null}
-        </AppearAnimation>
+        {showMedia ? (
+          <AppearAnimation className="relative w-full md:w-1/2" scale delay={delay}>
+            {hasImage ? (
+              <SanityImage
+                image={image}
+                fill={false}
+                alt={image?.alt || 'Feature'}
+                className="h-auto w-full object-cover"
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
+            ) : (
+              <ImagePlaceholder aspect="video" caption="Hero media" />
+            )}
+          </AppearAnimation>
+        ) : null}
       </div>
     </section>
   )

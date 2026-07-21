@@ -1,16 +1,37 @@
 import type { StructureBuilder } from 'sanity/structure'
-import {DocumentTextIcon} from '@sanity/icons/DocumentText'
+import { DocumentTextIcon } from '@sanity/icons/DocumentText'
+import { TagIcon } from '@sanity/icons/Tag'
 
 export default function Post(S: StructureBuilder) {
   return S.listItem()
     .title('Posts')
     .icon(DocumentTextIcon)
     .child(
-      S.documentTypeList('post')
+      S.list()
         .title('Posts')
-        .defaultOrdering([{ field: 'publishedAt', direction: 'desc' }])
-        .child((documentId) =>
-          S.document().documentId(documentId).schemaType('post')
-        )
+        .items([
+          S.listItem()
+            .title('All posts')
+            .icon(DocumentTextIcon)
+            .child(
+              S.documentTypeList('post')
+                .title('Posts')
+                .defaultOrdering([{ field: 'publishedAt', direction: 'desc' }])
+                .child((documentId) =>
+                  S.document().documentId(documentId).schemaType('post')
+                )
+            ),
+          S.listItem()
+            .title('Categories')
+            .icon(TagIcon)
+            .child(
+              S.documentTypeList('postCategory')
+                .title('Post categories')
+                .defaultOrdering([{ field: 'title', direction: 'asc' }])
+                .child((documentId) =>
+                  S.document().documentId(documentId).schemaType('postCategory')
+                )
+            ),
+        ])
     )
 }

@@ -25,6 +25,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
+import { ImagePlaceholder } from '@/components/ui/image-placeholder'
 
 function GallerySection({
   title,
@@ -51,7 +52,7 @@ export default function DesignComponentsPage() {
       <h1 className="mb-2 text-h2 font-bold">Components</h1>
       <p className="mb-10 max-w-2xl text-body text-muted-foreground">
         Live UI primitives from <code className="font-mono text-sm">components/ui/</code>. Page-builder
-        sections ship later under <code className="font-mono text-sm">/design/sections</code>.
+        blocks live under <code className="font-mono text-sm">/design/sections</code>.
       </p>
 
       <GallerySection title="Button">
@@ -130,6 +131,27 @@ export default function DesignComponentsPage() {
           <div className="flex flex-col gap-2">
             <Label htmlFor="design-message">Message</Label>
             <Textarea id="design-message" placeholder="Tell us a bit about the project…" />
+          </div>
+        </div>
+      </GallerySection>
+
+      <GallerySection title="ImagePlaceholder">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+          <div>
+            <VariantLabel>video · 16∶9</VariantLabel>
+            <ImagePlaceholder aspect="video" caption="Default media slot" />
+          </div>
+          <div>
+            <VariantLabel>square</VariantLabel>
+            <ImagePlaceholder aspect="square" caption="1∶1 crop" />
+          </div>
+          <div>
+            <VariantLabel>portrait · 3∶4</VariantLabel>
+            <ImagePlaceholder aspect="portrait" caption="Portrait media" />
+          </div>
+          <div>
+            <VariantLabel>wide · 21∶9</VariantLabel>
+            <ImagePlaceholder aspect="wide" caption="Cinematic / cover" />
           </div>
         </div>
       </GallerySection>

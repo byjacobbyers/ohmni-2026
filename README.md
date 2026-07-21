@@ -38,7 +38,8 @@ Verification floor: `pnpm build`, `pnpm lint`, and `pnpm test` must pass.
 Edit DTCG JSON under `tokens/`, then run `pnpm tokens:build` (also hooked to
 `predev` / `prebuild`). Generated CSS is committed at
 `app/(site)/generated/tokens.css`. Review at `/design` (colors, type, space)
-and `/design/components` (UI primitives). `/type-scale` redirects to `/design`.
+and `/design/components` (UI primitives). Page-builder blocks: `/design/sections`.
+`/type-scale` redirects to `/design`.
 
 ## Caching / freshness
 

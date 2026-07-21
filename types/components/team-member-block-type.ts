@@ -26,4 +26,6 @@ export type TeamMemberBlockProps = {
   anchor?: string
   backgroundColor?: string
   member?: TeamMemberData | null
+  /** Design gallery: wireframe portrait when no image */
+  showImagePlaceholder?: boolean
 }
