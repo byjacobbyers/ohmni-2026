@@ -1,8 +1,8 @@
-import { groq } from 'next-sanity'
+import { defineQuery } from 'next-sanity'
 import { imageQuery } from '../objects/image-query'
 import { teamPersonProjection } from './team-query'
 
-export const SiteQuery = groq`*[_type == "site"][0] {
+export const SiteQuery = defineQuery(`*[_type == "site"][0] {
   _id,
   _createdAt,
   _updatedAt,
@@ -35,4 +35,4 @@ export const SiteQuery = groq`*[_type == "site"][0] {
     telephone,
     priceRange
   }
-}`
+}`)

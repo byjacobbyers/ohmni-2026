@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import { SanityDocument } from 'next-sanity'
 import { sanityFetch } from '@/sanity/lib/live'
 import { pageQuery } from '@/sanity/queries/documents/page-query'
 import { SiteQuery } from '@/sanity/queries/documents/site-query'
@@ -11,38 +10,44 @@ import {
   type PageJsonLdOverrides,
   type SeoType,
 } from '@/lib/seo'
+import type { PageQueryResult, SiteQueryResult } from '@/sanity.types'
 
 type SectionLike = {
-  _type?: string
-  active?: boolean
-  faqs?: Array<{ question: string; answer: unknown }>
+  _type?: string | null
+  active?: boolean | null
+  faqs?: Array<{ question?: string | null; answer?: unknown }> | null
 }
 
 type PageLike = {
-  title?: string
-  seo?: SeoType
+  title?: string | null
+  /** Generated SEO shapes are wider than hand-written SeoType; bridge at call sites. */
+  seo?: unknown
   jsonLd?: PageJsonLdOverrides | null
-  sections?: SectionLike[]
-  _updatedAt?: string
+  sections?: SectionLike[] | null
+  _updatedAt?: string | null
 }
 
 /** Collect FAQ JSON-LD from active faqBlock sections on a page/post/event. */
-export function faqJsonLdFromSections(sections?: SectionLike[]) {
+export function faqJsonLdFromSections(sections?: SectionLike[] | null) {
   const faqBlocks =
     sections?.filter((s) => s._type === 'faqBlock' && s.active !== false) || []
-  const allFaqs = faqBlocks.flatMap((b) => b.faqs || [])
+  const allFaqs = faqBlocks.flatMap((b) =>
+    (b.faqs || [])
+      .filter((f): f is { question: string; answer: unknown } => Boolean(f?.question))
+      .map((f) => ({ question: f.question as string, answer: f.answer }))
+  )
   return generateFAQJsonLd(allFaqs)
 }
 
 export function webPageSchemas(page: PageLike, url: string) {
   const schemas: unknown[] = []
-  const pageSeo = page?.seo || {}
+  const pageSeo = (page?.seo || {}) as SeoType
   schemas.push(
     generateWebPageJsonLd({
       title: page.title || 'Untitled',
-      description: pageSeo.metaDesc,
+      description: pageSeo.metaDesc ?? undefined,
       url,
-      _updatedAt: page._updatedAt,
+      _updatedAt: page._updatedAt ?? undefined,
       jsonLd: page.jsonLd,
     })
   )
@@ -69,20 +74,26 @@ export function JsonLdScript({
 }
 
 /** Fetch a CMS page + site settings for metadata (stega off). */
-export async function fetchPageAndSite(slug: string) {
-  const [{ data: page }, { data: global }] = (await Promise.all([
+export async function fetchPageAndSite(slug: string): Promise<{
+  page: PageQueryResult | null
+  global: SiteQueryResult | null
+}> {
+  const [{ data: page }, { data: global }] = await Promise.all([
     sanityFetch({ query: pageQuery, params: { slug }, stega: false }),
     sanityFetch({ query: SiteQuery, stega: false }),
-  ])) as Array<{ data: SanityDocument | null }>
-  return { page, global }
+  ])
+  return {
+    page: page as PageQueryResult | null,
+    global: global as SiteQueryResult | null,
+  }
 }
 
-export async function fetchPage(slug: string) {
-  const { data: page } = (await sanityFetch({
+export async function fetchPage(slug: string): Promise<PageQueryResult | null> {
+  const { data: page } = await sanityFetch({
     query: pageQuery,
     params: { slug },
-  })) as { data: SanityDocument | null }
-  return page
+  })
+  return page as PageQueryResult | null
 }
 
 /** Shared metadata for CMS-driven pages (home, [slug], posts/events indexes). */
@@ -101,8 +112,8 @@ export async function pageSeoMetadata(options: {
       return generateSeoMetadata(undefined, undefined, fallbackTitle)
     }
     return generateSeoMetadata(
-      useGlobalSeoOnly ? undefined : page?.seo,
-      global?.seo,
+      useGlobalSeoOnly ? undefined : ((page?.seo ?? undefined) as SeoType | undefined),
+      (global?.seo ?? undefined) as SeoType | undefined,
       useGlobalSeoOnly ? undefined : page?.title || fallbackTitle,
       undefined,
       {

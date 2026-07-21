@@ -1,8 +1,8 @@
-import { groq } from 'next-sanity'
+import { defineQuery } from 'next-sanity'
 import { imageQuery } from '../objects/image-query'
 import { sectionsQuery } from '../components/sections-query'
 
-export const eventsQuery = groq`*[_type == "event" && defined(slug.current)] | order(startDate desc) {
+export const eventsQuery = defineQuery(`*[_type == "event" && defined(slug.current)] | order(startDate desc) {
   _id,
   _type,
   title,
@@ -14,9 +14,9 @@ export const eventsQuery = groq`*[_type == "event" && defined(slug.current)] | o
   soldOut,
   location,
   image { ${imageQuery} }
-}`
+}`)
 
-export const eventQuery = groq`*[_type == "event" && slug.current == $slug][0] {
+export const eventQuery = defineQuery(`*[_type == "event" && slug.current == $slug][0] {
   _id,
   _type,
   _updatedAt,
@@ -35,4 +35,4 @@ export const eventQuery = groq`*[_type == "event" && slug.current == $slug][0] {
   },
   jsonLd,
   ${sectionsQuery}
-}`
+}`)

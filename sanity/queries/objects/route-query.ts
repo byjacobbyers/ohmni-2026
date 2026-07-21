@@ -1,5 +1,7 @@
 import { groq } from 'next-sanity'
 
+/** Projection fragment only — not a standalone query. */
+// @sanity-typegen-ignore
 export const routeQuery = groq`
   _type,
   title,

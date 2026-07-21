@@ -49,13 +49,17 @@ and `/design/components` (UI primitives). Page-builder blocks: `/design/sections
 
 ## Sanity TypeGen
 
-Hand-written `types/` still exist. To generate query result types:
+Hand-written component props under `types/` remain. Query result types for
+page/post/event/site fetches come from TypeGen (`sanity.types.ts`, committed).
 
 ```bash
-pnpm typegen
+pnpm typegen   # schema extract + generate — run after schema or defineQuery changes
 ```
 
-Then migrate queries from `groq\`...\`` to `defineQuery(...)` and replace `SanityDocument` casts incrementally.
+Config lives in `sanity.cli.ts` (`typegen.path` → `sanity/queries/**`). Queries
+must use `defineQuery` from `next-sanity`. Projection fragments use
+`// @sanity-typegen-ignore`. Fetch helpers import result types from
+`sanity.types.ts` (committed); re-run `pnpm typegen` after schema/query changes.
 
 ## Layout
 

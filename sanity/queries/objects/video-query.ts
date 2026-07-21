@@ -1,5 +1,7 @@
 import { groq } from 'next-sanity'
 
+/** Projection fragment only — not a standalone query. */
+// @sanity-typegen-ignore
 export const muxAssetProjection = groq`
   _id,
   _type,
@@ -12,6 +14,8 @@ export const muxAssetProjection = groq`
   }
 `
 
+/** Projection fragment only — not a standalone query. */
+// @sanity-typegen-ignore
 export const videoQuery = groq`
   asset-> {
     ${muxAssetProjection}

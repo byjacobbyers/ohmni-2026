@@ -26,6 +26,7 @@
 
 # claude
 /.claude/
+/CLAUDE.md
 
 # private planning and business docs
 /plans/
@@ -61,4 +62,4 @@ next-env.d.ts
 
 # Sanity TypeGen artifacts (regenerate with `pnpm typegen`)
 /schema.json
-/sanity.types.ts
+# sanity.types.ts is committed so fetch sites stay typed without a local typegen run

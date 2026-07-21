@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import { QueryParams, SanityDocument } from 'next-sanity'
+import { QueryParams } from 'next-sanity'
 import { sanityFetch } from '@/sanity/lib/live'
 import { notFound } from 'next/navigation'
 import { pagesQuery } from '@/sanity/queries/documents/page-query'
@@ -12,6 +12,7 @@ import {
   webPageSchemas,
 } from '@/lib/content-page'
 import { generateMetadata as generateSeoMetadata } from '@/lib/seo'
+import type { PagesQueryResult } from '@/sanity.types'
 
 export async function generateStaticParams() {
   try {
@@ -20,12 +21,13 @@ export async function generateStaticParams() {
       perspective: 'published',
       stega: false,
     })
-    return ((posts || []) as SanityDocument[])
-      .filter((p: SanityDocument) => {
+    const pages = (posts ?? []) as PagesQueryResult
+    return pages
+      .filter((p) => {
         const slug = p?.slug
         return slug && typeof slug === 'string' && !EXCLUDED_PAGE_SLUGS.includes(slug)
       })
-      .map((p: SanityDocument) => ({ slug: p.slug }))
+      .map((p) => ({ slug: p.slug as string }))
   } catch {
     return []
   }

@@ -18,6 +18,8 @@ const portableTextWithLinks = `content[] {
   }
 }`
 
+/** Shared page-builder sections projection — fragment for page/post/event queries. */
+// @sanity-typegen-ignore
 export const sectionsQuery = groq`
   sections[] {
     ...,
