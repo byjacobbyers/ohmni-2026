@@ -3,6 +3,7 @@ import { BlockElementIcon } from '@sanity/icons/BlockElement'
 import {
   sectionActiveField,
   sectionAnchorField,
+  sectionBackgroundField,
 } from '../lib/section-chrome'
 
 /** Spacing — gap (spacer) or horizontal rule. */
@@ -19,6 +20,7 @@ export default defineType({
   fields: [
     sectionActiveField('section'),
     sectionAnchorField('section'),
+    sectionBackgroundField('section'),
     defineField({
       title: 'Style',
       name: 'style',

@@ -20,6 +20,22 @@ export default defineType({
     sectionActiveField('section'),
     sectionAnchorField('section'),
     defineField({
+      title: 'Background Color',
+      name: 'backgroundColor',
+      type: 'string',
+      group: 'section',
+      options: {
+        list: [
+          { title: 'Primary', value: 'primary' },
+          { title: 'Secondary', value: 'secondary' },
+          { title: 'Texture', value: 'texture' },
+          { title: 'Aurora', value: 'aurora' },
+        ],
+      },
+      /** SoftAurora branded look — default for this block. */
+      initialValue: 'aurora',
+    }),
+    defineField({
       title: 'Content',
       name: 'content',
       type: 'simpleText',

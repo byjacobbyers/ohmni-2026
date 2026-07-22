@@ -452,14 +452,7 @@ export function CtaPlayground() {
   })
 
   const groups: ControlGroup[] = [
-    {
-      key: 'backgroundColor',
-      label: 'Background',
-      options: [
-        { value: 'primary', label: 'Primary' },
-        { value: 'secondary', label: 'Secondary' },
-      ],
-    },
+    BG_GROUP,
     {
       key: 'alignment',
       label: 'Align',
@@ -481,7 +474,7 @@ export function CtaPlayground() {
       <CtaLocationProvider value="ctaBlock">
         <CtaBlock
           componentIndex={5}
-          backgroundColor={values.backgroundColor as 'primary' | 'secondary'}
+          backgroundColor={values.backgroundColor}
           alignment={values.alignment}
           content={ptBlocks([
             { text: 'Ready to move faster?', style: 'h2' },
@@ -797,9 +790,22 @@ export function TeamPlayground() {
 }
 
 export function BannerPlayground() {
-  const [values, onChange] = useVariantState({ cta: 'on' })
+  const [values, onChange] = useVariantState({
+    backgroundColor: 'aurora',
+    cta: 'on',
+  })
 
   const groups: ControlGroup[] = [
+    {
+      key: 'backgroundColor',
+      label: 'Background',
+      options: [
+        { value: 'primary', label: 'Primary' },
+        { value: 'secondary', label: 'Secondary' },
+        { value: 'texture', label: 'Texture' },
+        { value: 'aurora', label: 'Aurora' },
+      ],
+    },
     {
       key: 'cta',
       label: 'CTA',
@@ -811,11 +817,16 @@ export function BannerPlayground() {
   ]
 
   return (
-    <SectionChrome id="banner" type="bannerBlock" note={`cta ${values.cta}`}>
+    <SectionChrome
+      id="banner"
+      type="bannerBlock"
+      note={`${values.backgroundColor} · cta ${values.cta}`}
+    >
       <SectionControls groups={groups} values={values} onChange={onChange} />
       <CtaLocationProvider value="bannerBlock">
         <BannerBlock
           componentIndex={0}
+          backgroundColor={values.backgroundColor}
           content={ptBlocks([
             { text: 'Marketing Moves Fast.', style: 'h2' },
             { text: 'Your website should too — fixture banner copy for design review.' },
@@ -828,9 +839,13 @@ export function BannerPlayground() {
 }
 
 export function ImagePlayground() {
-  const [values, onChange] = useVariantState({ maxWidth: 'max-w-2xl' })
+  const [values, onChange] = useVariantState({
+    backgroundColor: 'primary',
+    maxWidth: 'max-w-2xl',
+  })
 
   const groups: ControlGroup[] = [
+    BG_GROUP,
     {
       key: 'maxWidth',
       label: 'Max width',
@@ -844,11 +859,16 @@ export function ImagePlayground() {
   ]
 
   return (
-    <SectionChrome id="image" type="imageBlock" note={values.maxWidth}>
+    <SectionChrome
+      id="image"
+      type="imageBlock"
+      note={`${values.maxWidth} · ${values.backgroundColor}`}
+    >
       <SectionControls groups={groups} values={values} onChange={onChange} />
       <CtaLocationProvider value="imageBlock">
         <ImageBlock
           componentIndex={2}
+          backgroundColor={values.backgroundColor}
           showImagePlaceholder
           maxWidth={values.maxWidth}
         />
@@ -994,11 +1014,13 @@ export function EventsPlayground() {
 
 export function DividerPlayground() {
   const [values, onChange] = useVariantState({
+    backgroundColor: 'primary',
     style: 'rule',
     size: 'medium',
   })
 
   const groups: ControlGroup[] = [
+    BG_GROUP,
     {
       key: 'style',
       label: 'Style',
@@ -1023,13 +1045,15 @@ export function DividerPlayground() {
     <SectionChrome
       id="divider"
       type="dividerBlock"
-      note={`${values.style} · ${values.size}`}
+      note={`${values.style} · ${values.size} · ${values.backgroundColor}`}
     >
       <SectionControls groups={groups} values={values} onChange={onChange} />
       <CtaLocationProvider value="dividerBlock">
-        <div className="bg-muted/20">
-          <DividerBlock size={values.size} style={values.style} />
-        </div>
+        <DividerBlock
+          backgroundColor={values.backgroundColor}
+          size={values.size}
+          style={values.style}
+        />
       </CtaLocationProvider>
     </SectionChrome>
   )

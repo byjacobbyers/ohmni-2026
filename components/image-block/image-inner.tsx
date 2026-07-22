@@ -1,12 +1,19 @@
 import AppearAnimation from '@/components/appear-animation'
 import SanityImage from '@/components/sanity-image'
+import TextureSectionBackdrop from '@/components/texture-section-backdrop'
 import { ImagePlaceholder } from '@/components/ui/image-placeholder'
+import {
+  normalizeSectionBackground,
+  sectionBackgroundClasses,
+} from '@/lib/section-background'
+import { cn } from '@/lib/utils'
 import type { ImageBlockProps } from '@/types/components/image-block-type'
 
 export default function ImageBlockInner({
   active = true,
   componentIndex = 0,
   anchor,
+  backgroundColor = 'primary',
   image,
   imageMobile,
   maxWidth = 'max-w-2xl',
@@ -18,13 +25,24 @@ export default function ImageBlockInner({
   const hasMedia = Boolean(image || mobileImage)
   if (!hasMedia && !showImagePlaceholder) return null
 
+  const bg = normalizeSectionBackground(backgroundColor)
+  const { sectionClass, innerLiftClass, showTexture } = sectionBackgroundClasses(bg)
+
   return (
     <section
       id={anchor || `image-block-${componentIndex}`}
-      className="image-block flex w-full justify-center px-5 py-16 md:py-24"
+      className={cn(
+        'image-block relative flex w-full justify-center px-5 py-16 md:py-24',
+        sectionClass
+      )}
     >
+      {showTexture ? <TextureSectionBackdrop /> : null}
       <AppearAnimation
-        className={`container relative mx-auto flex w-full flex-col items-center gap-6 ${maxWidth}`}
+        className={cn(
+          'container relative z-10 mx-auto flex w-full flex-col items-center gap-6',
+          maxWidth,
+          innerLiftClass
+        )}
       >
         {hasMedia ? (
           <>

@@ -1,5 +1,10 @@
 import { defineType, defineField } from 'sanity'
 import { UsersIcon } from '@sanity/icons/Users'
+import {
+  sectionActiveField,
+  sectionAnchorField,
+  sectionBackgroundField,
+} from '../lib/section-chrome'
 
 /** Page builder block that references a single team member (bio / About). */
 export default defineType({
@@ -8,31 +13,20 @@ export default defineType({
   type: 'object',
   icon: UsersIcon,
   description: 'Single-person embed for About / founder bios.',
+  groups: [
+    { name: 'content', title: 'Content', default: true },
+    { name: 'section', title: 'Section' },
+  ],
   fields: [
-    defineField({
-      title: 'Active?',
-      name: 'active',
-      type: 'boolean',
-      initialValue: true,
-    }),
-    defineField({ title: 'Anchor', name: 'anchor', type: 'string' }),
-    defineField({
-      title: 'Background Color',
-      name: 'backgroundColor',
-      type: 'string',
-      options: {
-        list: [
-          { title: 'Primary', value: 'primary' },
-          { title: 'Secondary', value: 'secondary' },
-        ],
-      },
-      initialValue: 'primary',
-    }),
+    sectionActiveField('section'),
+    sectionAnchorField('section'),
+    sectionBackgroundField('section'),
     defineField({
       title: 'Team Member',
       name: 'member',
       type: 'reference',
       to: [{ type: 'team' }],
+      group: 'content',
       validation: (Rule) => Rule.required(),
     }),
   ],

@@ -3,6 +3,7 @@ import { ImageIcon } from '@sanity/icons/Image'
 import {
   sectionActiveField,
   sectionAnchorField,
+  sectionBackgroundField,
   simpleMaxWidthOptions,
 } from '../lib/section-chrome'
 
@@ -21,6 +22,7 @@ export default defineType({
   fields: [
     sectionActiveField('section'),
     sectionAnchorField('section'),
+    sectionBackgroundField('section'),
 
     defineField({
       title: 'Media type',
