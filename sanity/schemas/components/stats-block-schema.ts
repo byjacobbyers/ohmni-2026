@@ -103,6 +103,13 @@ export default defineType({
       ],
       validation: (Rule) => Rule.min(1).max(6),
     }),
+    defineField({
+      title: 'Footnote',
+      name: 'footnote',
+      type: 'simpleText',
+      group: 'content',
+      description: 'Small line rendered under the stats, e.g. scope notes or caveats.',
+    }),
   ],
   preview: {
     select: { active: 'active', stats: 'stats', media: 'image' },

@@ -625,6 +625,15 @@ export function StatsPlayground() {
                   },
                 ]
           }
+          footnote={
+            isProof
+              ? pt(
+                  'Email templates, journey steps, and new page sections count too. Scope conversations happen in the open, not in surprise invoices.',
+                  'small',
+                  'fn'
+                )
+              : undefined
+          }
         />
       </CtaLocationProvider>
     </SectionChrome>

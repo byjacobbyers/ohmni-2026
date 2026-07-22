@@ -20,4 +20,6 @@ export type StatsBlockProps = {
   /** cards = stat tiles with optional image; proof = claims-first strip */
   variant?: 'cards' | 'proof' | string
   stats?: StatsBlockStat[]
+  /** Small line under the stats (scope notes, caveats) */
+  footnote?: PortableTextBlock[] | unknown
 }

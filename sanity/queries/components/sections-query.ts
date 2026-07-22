@@ -194,6 +194,13 @@ export const sectionsQuery = groq`
             ${linkWithRouteMarkDef}
           }
         }
+      },
+      footnote[] {
+        ...,
+        markDefs[] {
+          ...,
+          ${linkWithRouteMarkDef}
+        }
       }
     },
     _type == 'galleryBlock' => {

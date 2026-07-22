@@ -22,6 +22,7 @@ export default function StatsBlock({
   layout = 'image-left',
   variant = 'cards',
   stats = [],
+  footnote,
 }: StatsBlockProps) {
   if (active === false) return null
 
@@ -80,6 +81,12 @@ export default function StatsBlock({
               </div>
             ))}
           </div>
+
+          {footnote && Array.isArray(footnote) && footnote.length > 0 ? (
+            <div className="content w-full max-w-3xl text-center text-balance text-muted-foreground">
+              <SimpleText content={footnote} />
+            </div>
+          ) : null}
         </AppearAnimation>
       </section>
     )
