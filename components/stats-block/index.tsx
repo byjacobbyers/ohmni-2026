@@ -83,7 +83,7 @@ export default function StatsBlock({
           </div>
 
           {footnote && Array.isArray(footnote) && footnote.length > 0 ? (
-            <div className="content w-full max-w-3xl text-center text-balance text-muted-foreground">
+            <div className="content w-full max-w-6xl text-center text-balance text-muted-foreground">
               <SimpleText content={footnote} />
             </div>
           ) : null}
