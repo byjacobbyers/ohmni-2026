@@ -74,7 +74,7 @@ export default function StatsBlock({
                   </div>
                 ) : null}
                 {stat.content ? (
-                  <div className="min-w-0 wrap-break-word text-base leading-relaxed text-foreground">
+                  <div className="min-w-0 wrap-break-word text-lg leading-relaxed text-foreground">
                     <SimpleText content={stat.content} />
                   </div>
                 ) : null}
