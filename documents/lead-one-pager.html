@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Ohmni — One Pager</title>
+<style>
+  /* Colors from lib/brand-palette.ts. Render: Chrome headless --print-to-pdf (see documents/README). */
+  @page { size: letter; margin: 0; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 8.5in; height: 11in; }
+  body {
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    color: #0a0a0a;
+    background: #ffffff;
+    padding: 0.55in 0.6in 0.45in;
+    display: flex;
+    flex-direction: column;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand svg { width: 40px; height: 40px; }
+  .brand-name { font-size: 21px; font-weight: 700; letter-spacing: -0.01em; }
+  .brand-tag { font-size: 10.5px; color: #737373; margin-top: 1px; }
+  .header-url { font-size: 11px; font-weight: 600; color: #3265fd; }
+
+  h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.015em; line-height: 1.15; margin-bottom: 10px; }
+  h1 .accent { color: #3265fd; }
+  .intro { font-size: 12.5px; line-height: 1.55; color: #0a0a0a; max-width: 6.6in; margin-bottom: 20px; }
+
+  .eyebrow {
+    font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em;
+    color: #3265fd; margin-bottom: 10px;
+  }
+
+  .stack-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 22px; margin-bottom: 20px; }
+  .stack-item { border-left: 2.5px solid #3265fd; padding-left: 12px; }
+  .stack-item h3 {
+    font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
+    margin-bottom: 3px;
+  }
+  .stack-item p { font-size: 11px; line-height: 1.45; color: #404040; }
+
+  .steps { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; margin-bottom: 20px; }
+  .step { position: relative; }
+  .step-num { font-size: 20px; font-weight: 700; color: #3265fd; margin-bottom: 4px; }
+  .step h3 { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 3px; }
+  .step p { font-size: 11px; line-height: 1.45; color: #404040; }
+
+  .own-box {
+    background: #f4f6f8; border: 1px solid #dadee4; padding: 14px 16px; margin-bottom: 14px;
+  }
+  .own-box h2 { font-size: 13px; font-weight: 700; margin-bottom: 5px; }
+  .own-box p { font-size: 11px; line-height: 1.5; color: #404040; }
+
+  .pricing { font-size: 12px; margin-bottom: 18px; }
+  .pricing strong { font-weight: 700; }
+  .pricing span { color: #737373; }
+
+  a { color: inherit; text-decoration: none; }
+  .cta {
+    margin-top: auto;
+    background: #3265fd; color: #fafbfa; padding: 16px 20px;
+    display: flex; align-items: center; justify-content: space-between; gap: 20px;
+  }
+  .cta h2 { font-size: 16px; font-weight: 700; margin-bottom: 2px; }
+  .cta p { font-size: 11px; line-height: 1.4; opacity: 0.92; }
+  .cta .url { font-size: 13px; font-weight: 700; white-space: nowrap; }
+
+  .footer { display: flex; justify-content: space-between; font-size: 9px; color: #737373; margin-top: 10px; }
+</style>
+</head>
+<body>
+  <div class="header">
+    <div class="brand">
+      <svg viewBox="0 0 1823 1823" xmlns="http://www.w3.org/2000/svg" style="fill-rule:evenodd;clip-rule:evenodd;">
+        <g transform="matrix(1,0,0,1,-651.055,-651.053)">
+          <g transform="matrix(4.16667,0,0,4.16667,0,0)">
+            <g transform="matrix(1,0,0,1,375.541,255.467)">
+              <path d="M0,239.071C-85.979,239.071 -155.937,174.947 -155.937,96.168C-155.937,17.39 -85.979,-46.699 0,-46.699C85.979,-46.699 155.937,17.39 155.937,96.168C155.937,174.947 85.979,239.071 0,239.071M-0.54,-74.89C-107.762,-74.89 -194.965,12.313 -194.965,119.535C-194.965,226.721 -107.762,313.961 -0.54,313.961C106.682,313.961 193.886,226.721 193.886,119.535C193.886,12.313 106.682,-74.89 -0.54,-74.89" style="fill:#0a0a0a;"/>
+            </g>
+          </g>
+          <g transform="matrix(4.16667,0,0,4.16667,0,0)">
+            <g transform="matrix(1,0,0,1,500.766,351.635)">
+              <path d="M0,0C0,61.388 -56.743,111.723 -109.887,116.115C-110.751,116.187 -111.579,116.259 -112.443,116.259C-114.243,116.367 -116.079,116.403 -117.915,116.403L-118.06,116.403C-119.896,116.403 -121.768,116.367 -123.568,116.259C-124.433,116.259 -125.261,116.187 -126.125,116.115C-179.304,111.723 -103.982,61.388 -103.982,0C-103.982,-61.388 -179.304,-111.723 -126.125,-116.079C-125.441,-116.151 -124.757,-116.223 -124.072,-116.223L-123.929,-116.223C-123.785,-116.259 -123.677,-116.259 -123.568,-116.259C-123.172,-116.259 -122.776,-116.295 -122.38,-116.295C-120.976,-116.367 -119.499,-116.403 -118.06,-116.403L-117.915,-116.403C-116.44,-116.403 -114.963,-116.367 -113.523,-116.295C-113.163,-116.295 -112.803,-116.259 -112.443,-116.259C-111.579,-116.223 -110.715,-116.151 -109.887,-116.079C-56.743,-111.723 0,-61.388 0,0" style="fill:#0a0a0a;"/>
+            </g>
+          </g>
+        </g>
+      </svg>
+      <div>
+        <div class="brand-name">Ohmni</div>
+        <div class="brand-tag">The Technical Partner for Marketing Teams</div>
+      </div>
+    </div>
+    <a class="header-url" href="https://www.ohmni.tech">www.ohmni.tech</a>
+  </div>
+
+  <h1>We run your marketing tech stack.<br /><span class="accent">You own every piece of it.</span></h1>
+  <p class="intro">
+    Ohmni is one senior technical partner for B2B marketing teams. We build and operate your
+    website, email, CRM, analytics, and SEO as one system, so changes ship in days, not sprints,
+    and your team stays on strategy instead of chasing tools and tickets.
+  </p>
+
+  <div class="eyebrow">What we run</div>
+  <div class="stack-grid">
+    <div class="stack-item">
+      <h3>Website</h3>
+      <p>A fast, composable site your team edits and publishes in minutes. No deploy, no ticket.</p>
+    </div>
+    <div class="stack-item">
+      <h3>Email</h3>
+      <p>Lifecycle flows connected to your CRM, built and operated end to end.</p>
+    </div>
+    <div class="stack-item">
+      <h3>CRM + Forms</h3>
+      <p>Every lead lands in your CRM with follow-up sent inside 60 seconds.</p>
+    </div>
+    <div class="stack-item">
+      <h3>Analytics</h3>
+      <p>First-party tracking that ad blockers cannot erase. Numbers you can take to a CFO.</p>
+    </div>
+    <div class="stack-item">
+      <h3>SEO + AI Search</h3>
+      <p>Content structured for Google, ChatGPT, and Perplexity, monitored quarter over quarter.</p>
+    </div>
+    <div class="stack-item">
+      <h3>One Operator</h3>
+      <p>One accountable partner across the whole stack. No agency handoffs, no vendor gaps.</p>
+    </div>
+  </div>
+
+  <div class="eyebrow">How it works</div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <h3>Audit</h3>
+      <p>We review your site and stack and hand you a prioritized list. Free, and yours either way.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <h3>Migrate</h3>
+      <p>The first weeks move you onto the system: site, analytics, forms, and follow-up.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <h3>Operate</h3>
+      <p>A monthly allowance of shipped deliverables: pages, integrations, SEO fixes, experiments.</p>
+    </div>
+  </div>
+
+  <div class="own-box">
+    <h2>You own everything, from day one</h2>
+    <p>
+      Every account and every line of code is created under your ownership. Tools are billed to
+      you at cost, no markup. If we ever part ways, you keep the site, CMS, CRM, analytics, and
+      email platform, and we hand over a runbook. Exit friendly is not a promise. It is how the
+      system is built.
+    </p>
+  </div>
+
+  <p class="pricing">
+    <strong>Engagements start at $5,000 per month.</strong>
+    <span>&nbsp;6-month minimum, then month to month. Full tiers at <a href="https://www.ohmni.tech/pricing">www.ohmni.tech/pricing</a>.</span>
+  </p>
+
+  <a class="cta" href="https://www.ohmni.tech">
+    <div>
+      <h2>Book a call</h2>
+      <p>Reply to the message this came with and we will find 15 minutes.</p>
+    </div>
+    <div class="url">www.ohmni.tech</div>
+  </a>
+
+  <div class="footer">
+    <span>Ohmni · The Technical Partner for Marketing Teams</span>
+    <span>www.ohmni.tech</span>
+  </div>
+</body>
+</html>
