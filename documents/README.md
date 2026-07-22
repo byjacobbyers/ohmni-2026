@@ -7,7 +7,7 @@ One template, two PDFs that differ only in the Book a call link:
 | File | CTA link | Use |
 |------|----------|-----|
 | `ohmni-one-pager.pdf` (also in `public/`, hosted at ohmni.tech/ohmni-one-pager.pdf) | calendly.com/ohmni/lets-talk | Jacob hands out / hosted link |
-| `ohmni-one-pager-leadgen.pdf` | calendly.com/ohmni/intro | Leadgen team attaches in outreach |
+| `ohmni-one-pager-leadgen.pdf` (also in `public/`, hosted at ohmni.tech/ohmni-one-pager-leadgen.pdf) | calendly.com/ohmni/intro | Leadgen team attaches or links in outreach |
 
 Edit `lead-one-pager.html` (colors from `lib/brand-palette.ts`), then regenerate both:
 
