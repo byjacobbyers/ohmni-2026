@@ -36,6 +36,8 @@ export default function TeamMemberBlock({
     .filter(Boolean)
     .join(' · ')
 
+  const hasMedia = Boolean(member.image) || showImagePlaceholder
+
   const socialLinks = SOCIAL_LABELS.flatMap(([key, label]) => {
     const href = member.socials?.[key]
     return typeof href === 'string' && href.trim()
@@ -50,7 +52,9 @@ export default function TeamMemberBlock({
     >
       {showTexture ? <TextureSectionBackdrop /> : null}
       <AppearAnimation
-        className={`container grid gap-10 md:grid-cols-[minmax(0,14rem)_1fr] items-center ${innerLiftClass}`}
+        className={`container grid gap-10 items-center ${
+          hasMedia ? 'md:grid-cols-[minmax(0,14rem)_1fr]' : ''
+        } ${innerLiftClass}`}
       >
         {member.image ? (
           <div className="relative mx-auto aspect-square w-full max-w-56 overflow-hidden rounded-md bg-muted">
