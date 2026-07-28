@@ -2,6 +2,7 @@
   "name": "ohmni",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "pnpm@10.29.3",
   "scripts": {
     "tokens:build": "style-dictionary build --config style-dictionary.config.mjs",
     "predev": "pnpm tokens:build",
