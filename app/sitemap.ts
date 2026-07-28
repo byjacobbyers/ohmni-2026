@@ -58,6 +58,12 @@ async function generateSitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'weekly',
       priority: 0.7,
     })
+    sitemap.push({
+      url: `${baseUrl}/past-events`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.6,
+    })
   }
 
   for (const event of eventRows || []) {

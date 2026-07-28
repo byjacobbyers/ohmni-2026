@@ -1,0 +1,8 @@
+# Tokens and styling
+
+- **Source of truth** — Edit DTCG JSON under `tokens/`. Run `pnpm tokens:build` (also on `predev` / `prebuild`). Do **not** hand-edit `app/(site)/generated/tokens.css`.
+- **Use tokens in UI** — Prefer theme utilities (`bg-primary`, `text-muted-foreground`, `text-h2`, `text-body`, radius/shadow tokens) over one-off hex, raw `px`, or new CSS variables.
+- **shadcn/ui first** — Build with `components/ui/*`. Check `/design/components` before inventing controls. If a needed primitive is missing, **install it with the shadcn CLI** (`pnpm dlx shadcn@latest add <component>`) using this repo’s `components.json` (New York, CSS variables, Lucide)—then reuse it. Do not hand-roll parallel Button/Input/Dialog/etc.
+- **Portable Text / section copy** — Wrap CMS rich text in `.content` so type and spacing stay consistent (`globals.css`).
+- **Email / PDF / invoice** — Use `lib/brand-palette.ts` (see `branded-documents.md`). Do not apply Tailwind or section shells on those surfaces.
+- **Theme origin** — Authored via [tweakcn](https://tweakcn.com/); see `tweakcn-theme.md`. Never paste exporter CSS into `globals.css` / `generated/tokens.css`.

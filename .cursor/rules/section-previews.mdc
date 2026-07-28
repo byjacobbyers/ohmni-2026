@@ -1,0 +1,35 @@
+---
+description: Prefer existing page-builder sections; when adding a new block, finish catalog + snapshot pipeline
+alwaysApply: true
+---
+
+# Page-builder sections
+
+## Prefer existing sections first
+
+When building pages or proposing content structure, **compose with existing blocks** before inventing a new `_type`. Check `/design/sections`, Studio insert thumbnails, and `sanity/schemas/components/page-builder-schema.ts`.
+
+Reuse / reconfigure when the need fits:
+
+- `coverBlock` / `heroBlock` / `bannerBlock` — heroes and promos
+- `textBlock` / `imageBlock` / `galleryBlock` / `columnBlock` — copy and media
+- `ctaBlock` / `formBlock` / `faqBlock` / `quoteBlock` / `statsBlock` — conversion and proof
+- `logoBarBlock` / `postsBlock` / `eventsBlock` / `teamMemberBlock` — lists and people
+- `dividerBlock` / `embedBlock` / `splitScrollBlock` — spacing and special layouts
+
+Only add a **new** section type when no existing block can cover it via content, layout, or background options. If unsure, say which existing blocks you considered and why they fall short.
+
+**Permission:** For content/copy/page planning, do **not** create a new section or component without asking first — see the content-ask-before-new rule.
+
+## New section checklist (required)
+
+When you **do** add or rename a block `_type`:
+
+1. **Schema** — `*-block-schema.ts` with icon + description; shared chrome via `sanity/schemas/lib/section-chrome.ts` (`active`, `anchor`, background when relevant). Register in `sanity/schemas/index.ts`.
+2. **Insert menu** — Add `_type` to `CORE_TYPES` or `ADDON_TYPES` in [`page-builder-schema.ts`](sanity/schemas/components/page-builder-schema.ts).
+3. **Frontend** — [`components/sections/index.tsx`](components/sections/index.tsx) + GROQ in `sections-query.ts` if needed.
+4. **Design playground** — Playground in `playgrounds.tsx` (`SectionChrome` id + type, controls, fixtures); wire `page.tsx` + `NAV`.
+5. **Snapshot map** — `[anchorId, schemaType]` in [`scripts/capture-section-previews.mjs`](scripts/capture-section-previews.mjs).
+6. **Capture** — Dev server up → `pnpm sections:previews` → commit `public/section-previews/{_type}.png`.
+
+Missing PNGs fall back to the schema icon—do not ship a new block without a snapshot once the playground exists.

@@ -10,6 +10,7 @@
     "12": { "$value": "6.75rem", "$type": "dimension" }
   },
   "spacing": {
+    "$description": "Overrides Tailwind's default --spacing (0.25rem) for every p-*/m-*/gap-* utility, because generated/tokens.css is imported unlayered after Tailwind. Deliberate: the whole site is scaled to this grid. Changing it resizes every layout.",
     "$value": "0.35rem",
     "$type": "dimension"
   },

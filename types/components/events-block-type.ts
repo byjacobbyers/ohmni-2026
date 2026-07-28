@@ -23,4 +23,6 @@ export type EventsBlockProps = {
   initialEvents?: EventCard[]
   /** Design gallery: wireframe thumbs when events have no image */
   showImagePlaceholder?: boolean
+  /** upcoming = current + future; past = ended 2+ days ago */
+  listMode?: 'upcoming' | 'past'
 }

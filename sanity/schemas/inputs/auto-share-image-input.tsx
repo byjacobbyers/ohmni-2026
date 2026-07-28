@@ -6,7 +6,7 @@
  * Production metadata still uses GET /api/og (CMS state only).
  */
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useSyncExternalStore } from 'react'
 import type { ObjectInputProps } from 'sanity'
 import { useFormValue } from 'sanity'
 import { Stack, Text, Box, Spinner } from '@sanity/ui'
@@ -16,15 +16,16 @@ function normalizeOrigin(url: string): string {
   return url.replace(/\/+$/, '')
 }
 
+/** Never changes after mount, so nothing to subscribe to. */
+const subscribeToNothing = () => () => {}
+
 /** Prefer the tab’s origin so /api/og/preview hits the same Next app as Studio (avoids env pointing at prod + 307 to CDN + CORS on blob). */
 function usePreviewOrigin(): string {
-  const [origin, setOrigin] = useState(() => normalizeOrigin(getPublicSiteUrl()))
-  useEffect(() => {
-    if (typeof window !== 'undefined' && window.location?.origin) {
-      setOrigin(normalizeOrigin(window.location.origin))
-    }
-  }, [])
-  return origin
+  return useSyncExternalStore(
+    subscribeToNothing,
+    () => normalizeOrigin(window.location.origin),
+    () => normalizeOrigin(getPublicSiteUrl())
+  )
 }
 
 function readSlug(doc: Record<string, unknown> | undefined): string {

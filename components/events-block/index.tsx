@@ -2,12 +2,17 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { motion } from 'motion/react'
 import SanityImage from '@/components/sanity-image'
+import AppearAnimation from '@/components/appear-animation'
 import TextureSectionBackdrop from '@/components/texture-section-backdrop'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { ImagePlaceholder } from '@/components/ui/image-placeholder'
+import {
+  classifyEventTiming,
+  filterAndSortPastEvents,
+  filterAndSortUpcomingEvents,
+} from '@/lib/event-timing'
 import { formatShortDate, parseSanityDate } from '@/lib/format-date'
 import {
   normalizeSectionBackground,
@@ -34,21 +39,47 @@ export default function EventsBlock({
   count = DEFAULT_PAGE_SIZE,
   initialEvents,
   showImagePlaceholder = false,
+  listMode = 'upcoming',
 }: EventsBlockProps) {
-  if (active === false) return null
-
-  const allEvents: EventCard[] = (initialEvents ?? []).filter((e) => e?.slug)
+  const raw = (initialEvents ?? []).filter((e) => e?.slug)
+  const allEvents: EventCard[] =
+    listMode === 'past' ? filterAndSortPastEvents(raw) : filterAndSortUpcomingEvents(raw)
   const pageSize = Math.max(1, count || DEFAULT_PAGE_SIZE)
 
+  // Hooks first: an early return above a hook breaks the rules of hooks.
   const [visibleCount, setVisibleCount] = useState(pageSize)
+
+  if (active === false) return null
+
+  const bg = normalizeSectionBackground(backgroundColor)
+  const { sectionClass, innerLiftClass, showTexture } = sectionBackgroundClasses(bg)
+  const buttonVariant = bg === 'secondary' ? 'secondary' : 'default'
+  const emptyCopy =
+    listMode === 'past' ? 'No past events yet.' : 'No upcoming events'
 
   if (allEvents.length === 0) {
     return (
       <section
         id={anchor || `events-block-${componentIndex}`}
-        className="events-block w-full px-5 py-16 md:py-24 flex justify-center"
+        className={`events-block w-full px-5 py-16 md:py-24 flex justify-center ${sectionClass}`}
       >
-        <p className="container text-center text-muted-foreground">No events published yet.</p>
+        {showTexture ? <TextureSectionBackdrop /> : null}
+        <div
+          className={`relative z-10 container flex w-full max-w-3xl flex-col items-stretch ${innerLiftClass}`}
+        >
+          {listMode === 'upcoming' ? (
+            <div className="mb-6 flex justify-center">
+              <Link
+                href="/past-events"
+                className="text-sm font-medium tracking-wider text-primary uppercase no-underline hover:underline"
+              >
+                View Past Events
+              </Link>
+            </div>
+          ) : null}
+          {title ? <h2 className="mb-8 w-full text-center md:mb-12">{title}</h2> : null}
+          <p className="text-center text-muted-foreground">{emptyCopy}</p>
+        </div>
       </section>
     )
   }
@@ -56,28 +87,35 @@ export default function EventsBlock({
   const displayedEvents = allEvents.slice(0, visibleCount)
   const hasMore = visibleCount < allEvents.length
 
-  const bg = normalizeSectionBackground(backgroundColor)
-  const { sectionClass, innerLiftClass, showTexture } = sectionBackgroundClasses(bg)
-  const buttonVariant = bg === 'secondary' ? 'secondary' : 'default'
-
   return (
     <section
       id={anchor || `events-block-${componentIndex}`}
       className={`events-block w-full overflow-x-hidden px-5 py-16 md:py-24 flex justify-center ${sectionClass}`}
     >
       {showTexture ? <TextureSectionBackdrop /> : null}
-      <motion.div
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
+      <AppearAnimation
         className={`relative z-10 container flex w-full max-w-3xl flex-col items-stretch ${innerLiftClass}`}
       >
+        {listMode === 'upcoming' ? (
+          <div className="mb-6 flex justify-center">
+            <Link
+              href="/past-events"
+              className="text-sm font-medium tracking-wider text-primary uppercase no-underline hover:underline"
+            >
+              View Past Events
+            </Link>
+          </div>
+        ) : null}
+
         {title ? (
           <h2 className="mb-8 w-full text-center md:mb-12">{title}</h2>
         ) : null}
 
         <ul className="flex w-full list-none flex-col gap-6 p-0">
           {displayedEvents.map((event) => {
+            const happening =
+              listMode === 'upcoming' &&
+              classifyEventTiming(event) === 'happening'
             const meta = [
               event.category,
               formatEventDates(event.startDate, event.endDate),
@@ -117,6 +155,11 @@ export default function EventsBlock({
                             {meta}
                           </p>
                         ) : null}
+                        {happening ? (
+                          <span className="text-sm font-semibold tracking-wide text-primary uppercase no-underline">
+                            Currently happening
+                          </span>
+                        ) : null}
                         {event.soldOut ? (
                           <span className="text-sm font-semibold tracking-wide text-destructive uppercase no-underline">
                             Sold out
@@ -146,7 +189,7 @@ export default function EventsBlock({
             </Button>
           </div>
         ) : null}
-      </motion.div>
+      </AppearAnimation>
     </section>
   )
 }

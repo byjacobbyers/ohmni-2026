@@ -28,7 +28,11 @@ export function getTargetsForDocument(body: WebhookPayload): RevalidateTarget[] 
       return [{ path: '/', type: 'layout' }]
     }
     case 'event': {
-      const targets: RevalidateTarget[] = [{ path: '/events' }, { path: '/' }]
+      const targets: RevalidateTarget[] = [
+        { path: '/events' },
+        { path: '/past-events' },
+        { path: '/' },
+      ]
       const eventSlug = slug?.current
       if (eventSlug) targets.unshift({ path: `/events/${eventSlug}` })
       return targets

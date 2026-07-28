@@ -1,0 +1,29 @@
+---
+description: Match Ohmni brand on emails, PDFs, invoices — use brandPalette, not site Tailwind/Motion
+alwaysApply: true
+---
+
+# Branded documents (email, PDF, invoice)
+
+Off-site documents must match Ohmni identity without copying the website CSS stack.
+
+## Source of truth
+
+- **Document colors/fonts:** [`lib/brand-palette.ts`](lib/brand-palette.ts) (sync with `tokens/color.json` light + `tokens/font.json`)
+- **Site tokens / review:** `tokens/*`, `/design`
+- **Names / from-address:** [`lib/brand.ts`](lib/brand.ts)
+- **Logo:** `public/ohmni.svg`
+
+## Medium rules
+
+- **Email** — Inline styles or `@react-email/components` under `emails/` (or update [`components/email-template`](components/email-template/index.tsx)). No Tailwind classes, no Motion, no texture heroes. CTAs = `primary` + `primaryForeground`.
+- **PDF / invoice** — PDF stack or print CSS; embed Inter-compatible fonts; scannable hierarchy (logo header, bill-to, line items, totals). Not page-builder sections.
+- **Don’t** invent a second palette; **do** update `brand-palette.ts` when light tokens change.
+
+## Checklist
+
+1. Read `brandPalette` + `brand`
+2. Pick email vs PDF vs print HTML
+3. Build with hex / React Email — not section shells
+4. Consistent Ohmni naming + logo
+5. Keep layout simple

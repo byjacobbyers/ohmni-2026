@@ -1,6 +1,12 @@
 'use client'
 
-import { LazyMotion, domAnimation, m, type Transition } from 'motion/react'
+import {
+  LazyMotion,
+  domAnimation,
+  m,
+  useReducedMotion,
+  type Transition,
+} from 'motion/react'
 import type { ReactNode } from 'react'
 
 export type AppearAnimationProps = {
@@ -24,6 +30,11 @@ export default function AppearAnimation({
   delay = 0,
   transition,
 }: AppearAnimationProps) {
+  // Respect prefers-reduced-motion: render content in its final state.
+  // Tailwind's motion-reduce: variants cannot reach Motion's inline styles.
+  const reduceMotion = useReducedMotion()
+  if (reduceMotion) return <div className={className}>{children}</div>
+
   return (
     <LazyMotion features={domAnimation}>
       <m.div

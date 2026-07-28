@@ -18,15 +18,11 @@
 /out/
 
 
-# cursor
-/.cursor/
-.cursor/
-.cursor
-
-
-# claude
-/.claude/
-/CLAUDE.md
+# Agent operating manual (CLAUDE.md, .claude/rules, .cursor/rules) is COMMITTED
+# on purpose: whoever owns this repo should inherit how to extend it.
+# Only machine-local settings and internal methodology stay out.
+.claude/settings.local.json
+.cursor/skills/ohmni-parity/
 
 # private planning and business docs
 /plans/

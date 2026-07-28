@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'motion/react'
+import { motion, useReducedMotion } from 'motion/react'
 import { useState } from 'react'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -30,6 +30,7 @@ export default function LeadForm({ config }: LeadFormProps) {
   } = config
 
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const reduceMotion = useReducedMotion()
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -246,7 +247,8 @@ export default function LeadForm({ config }: LeadFormProps) {
 
       {submitStatus === 'success' && (
         <motion.div
-          initial={{ opacity: 0, y: 10 }}
+          role="status"
+          initial={reduceMotion ? false : { opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           className="p-4 bg-green-50 border border-green-200 rounded-md"
         >
@@ -258,7 +260,8 @@ export default function LeadForm({ config }: LeadFormProps) {
 
       {submitStatus === 'error' && (
         <motion.div
-          initial={{ opacity: 0, y: 10 }}
+          role="alert"
+          initial={reduceMotion ? false : { opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           className="p-4 bg-red-50 border border-red-200 rounded-md"
         >

@@ -1,0 +1,13 @@
+---
+description: Theme originated on tweakcn — edit tokens/, never paste CSS exports into globals
+alwaysApply: true
+---
+
+# tweakcn theme provenance
+
+Theme was authored via [tweakcn.com](https://tweakcn.com/). **Source of truth is `tokens/`**, not pasted exporter CSS.
+
+- Edit DTCG JSON → `pnpm tokens:build` → review `/design`.
+- Re-import: map tweakcn CSS vars into `tokens/*` → build → sync [`lib/brand-palette.ts`](lib/brand-palette.ts) if light colors change → optional `pnpm sections:previews` if section defaults shift.
+- Preserve unless rebranding: radius `0`, Inter, primary `#3265fd`.
+- **Don’t** paste into `globals.css` / `generated/tokens.css` or invent a second palette.

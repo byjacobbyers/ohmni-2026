@@ -2,8 +2,8 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { motion } from 'motion/react'
 import SanityImage from '@/components/sanity-image'
+import AppearAnimation from '@/components/appear-animation'
 import TextureSectionBackdrop from '@/components/texture-section-backdrop'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
@@ -29,12 +29,13 @@ export default function PostsBlock({
   posts,
   showImagePlaceholder = false,
 }: PostsBlockProps) {
-  if (active === false) return null
-
   const allPosts: PostCard[] = (initialPosts ?? posts ?? []).filter((p) => p?.slug)
   const pageSize = Math.max(1, count || DEFAULT_PAGE_SIZE)
 
+  // Hooks first: an early return above a hook breaks the rules of hooks.
   const [visibleCount, setVisibleCount] = useState(pageSize)
+
+  if (active === false) return null
 
   if (allPosts.length === 0) {
     return (
@@ -60,10 +61,7 @@ export default function PostsBlock({
       className={`posts-block w-full overflow-x-hidden px-5 py-16 md:py-24 flex justify-center ${sectionClass}`}
     >
       {showTexture ? <TextureSectionBackdrop /> : null}
-      <motion.div
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
+      <AppearAnimation
         className={`relative z-10 container flex w-full max-w-3xl flex-col items-stretch ${innerLiftClass}`}
       >
         {title ? (
@@ -141,7 +139,7 @@ export default function PostsBlock({
             </Button>
           </div>
         ) : null}
-      </motion.div>
+      </AppearAnimation>
     </section>
   )
 }

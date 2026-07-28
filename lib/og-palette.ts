@@ -1,6 +1,15 @@
 /**
- * Surfaces aligned with app/(site)/globals.css :root / .dark tokens where noted.
+ * OG image surfaces. Shared values come from `lib/brand-palette.ts` so there is
+ * one place to change a brand hex; the two dark-surface literals below have no
+ * light-palette equivalent and are named against their token instead.
  */
+import { brandPalette } from './brand-palette'
+
+/** tokens/color.json → color.dark.background */
+const DARK_BACKGROUND = '#121117'
+/** tokens/color.json → color.light.secondary-foreground */
+const SECONDARY_FOREGROUND = '#171717'
+
 export type OgSurface = 'primary' | 'secondary' | 'black' | 'site'
 
 export function normalizeOgSurface(raw: string | undefined | null): OgSurface {
@@ -12,16 +21,16 @@ export function normalizeOgSurface(raw: string | undefined | null): OgSurface {
 
 export function ogSurfaceColors(surface: OgSurface): { background: string; color: string } {
   if (surface === 'secondary') {
-    return { background: '#e5e7eb', color: '#171717' }
+    return { background: brandPalette.muted, color: SECONDARY_FOREGROUND }
   }
   if (surface === 'black') {
-    return { background: '#121117', color: '#fafbfa' }
+    return { background: DARK_BACKGROUND, color: brandPalette.primaryForeground }
   }
   if (surface === 'site') {
-    return { background: '#ffffff', color: '#0a0a0a' }
+    return { background: brandPalette.background, color: brandPalette.foreground }
   }
-  return { background: '#3265fd', color: '#fafbfa' }
+  return { background: brandPalette.primary, color: brandPalette.primaryForeground }
 }
 
 /** Header border accent (--primary) */
-export const OG_BRAND_PRIMARY = '#3265fd'
+export const OG_BRAND_PRIMARY = brandPalette.primary

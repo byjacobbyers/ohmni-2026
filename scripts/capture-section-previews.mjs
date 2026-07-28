@@ -43,8 +43,9 @@ async function main() {
     deviceScaleFactor: 1,
   })
 
-  await page.goto(`${ORIGIN}/design/sections`, { waitUntil: 'networkidle' })
-  await page.waitForTimeout(800)
+  await page.goto(`${ORIGIN}/design/sections`, { waitUntil: 'load' })
+  // Next.js HMR / analytics often prevent `networkidle`; settle briefly after load.
+  await page.waitForTimeout(1200)
 
   // Clean catalog frames: no site chrome, cookie bar, or playground controls.
   // Force AppearAnimation content visible (whileInView can lag behind scroll).

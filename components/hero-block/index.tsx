@@ -73,6 +73,8 @@ export default function HeroBlock({
                 alt={image?.alt || 'Feature'}
                 className="h-auto w-full object-cover"
                 sizes="(max-width: 768px) 100vw, 50vw"
+                /* First block on the page is the LCP candidate */
+                priority={componentIndex === 0}
               />
             ) : (
               <ImagePlaceholder aspect="video" caption="Hero media" />

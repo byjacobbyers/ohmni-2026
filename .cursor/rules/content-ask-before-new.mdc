@@ -1,0 +1,14 @@
+---
+description: When writing content, use existing sections; ask permission before any new component or code change
+alwaysApply: true
+---
+
+# Content writing — ask before new components
+
+When asked to **write content**, draft copy, or plan a page:
+
+1. **Propose content + which existing sections to use** first. Prefer CMS composition over code.
+2. **Reuse** page-builder blocks (`/design/sections`) and `components/ui/*` — do not invent a new `_type` or component by default.
+3. **Do not change app code** unless the user asked for implementation or approved a proposed change.
+
+**Before** creating a new section type, React component, or “needed” UI primitive: **stop, ask permission**, and explain why existing options fall short (name what you considered). Wait for an explicit yes.

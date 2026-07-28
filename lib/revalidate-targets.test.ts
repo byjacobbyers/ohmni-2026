@@ -16,6 +16,15 @@ describe('getTargetsForDocument', () => {
     ])
   })
 
+  it('maps event to detail + lists + home', () => {
+    expect(getTargetsForDocument({ _type: 'event', slug: { current: 'show' } })).toEqual([
+      { path: '/events/show' },
+      { path: '/events' },
+      { path: '/past-events' },
+      { path: '/' },
+    ])
+  })
+
   it('busts layout for site/nav', () => {
     expect(getTargetsForDocument({ _type: 'site' })).toEqual([
       { path: '/', type: 'layout' },

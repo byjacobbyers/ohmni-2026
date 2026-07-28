@@ -47,7 +47,7 @@ export default function GalleryBlock({
       <section
         id={anchor || `gallery-block-${componentIndex}`}
         className={cn(
-          'gallery-block w-full py-20 flex justify-center px-5',
+          'gallery-block w-full py-16 md:py-24 flex justify-center px-5',
           sectionClass
         )}
       >

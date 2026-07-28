@@ -66,7 +66,7 @@ export default async function FormBlock({
   return (
     <section
       id={anchor || `form-${componentIndex}`}
-      className={`form-block form-block--stacked w-full flex justify-center px-5 py-16 lg:py-24 ${sectionClass}`}
+      className={`form-block form-block--stacked w-full flex justify-center px-5 py-16 md:py-24 ${sectionClass}`}
     >
       {showTexture ? <TextureSectionBackdrop /> : null}
       <AppearAnimation
