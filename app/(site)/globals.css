@@ -289,6 +289,39 @@
   }
 }
 
+
+/* Long-form reading context (posts).
+   Section shells are tuned for landing pages: full-width measure and big
+   vertical slabs. Continuous prose needs the opposite. Declared unlayered so
+   it overrides the Tailwind utilities the section shells apply. */
+.reading-layout .container {
+  /* ~65 characters at the body size, the readable measure for long text */
+  max-width: 44rem;
+}
+
+.reading-layout section {
+  padding-top: 2.75rem;
+  padding-bottom: 2.75rem;
+}
+
+@media (min-width: 768px) {
+  .reading-layout section {
+    padding-top: 3.5rem;
+    padding-bottom: 3.5rem;
+  }
+}
+
+/* Non-prose sections keep their presence and their own width */
+.reading-layout .stats-block,
+.reading-layout .cta-block {
+  padding-top: 4.5rem;
+  padding-bottom: 4.5rem;
+}
+
+.reading-layout .stats-block .container {
+  max-width: 64rem;
+}
+
 /* Banner block pattern overlay - uses theme colors */
 .futuristic-pattern {
   width: 100%;
