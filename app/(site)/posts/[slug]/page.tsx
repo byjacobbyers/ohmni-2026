@@ -9,6 +9,7 @@ import type { PostSingleData } from '@/types/components/post-single-type'
 
 import { resolveBrand, type BrandSiteInput } from '@/lib/brand'
 import {
+  buildUrl,
   generateArticleJsonLd,
   generateBreadcrumbJsonLd,
   generateMetadata as generateSeoMetadata,
@@ -82,12 +83,14 @@ export default async function PostPage({ params }: { params: Promise<QueryParams
   if (!slug || typeof slug !== 'string') notFound()
 
   let post: PostQueryResult | null = null
+  let global: SiteQueryResult | null = null
   try {
-    const { data } = await sanityFetch({
-      query: postQuery,
-      params: { slug },
-    })
-    post = data as PostQueryResult | null
+    const [postData, siteData] = await Promise.all([
+      sanityFetch({ query: postQuery, params: { slug } }),
+      sanityFetch({ query: SiteQuery, stega: false }),
+    ])
+    post = postData.data as PostQueryResult | null
+    global = siteData.data as SiteQueryResult | null
   } catch {
     notFound()
   }
@@ -113,6 +116,8 @@ export default async function PostPage({ params }: { params: Promise<QueryParams
       image: (post.image ?? undefined) as { asset?: { url?: string } } | undefined,
       _updatedAt: post._updatedAt,
       jsonLd: post.jsonLd,
+      publisherName: resolveBrand(global as BrandSiteInput | null).name,
+      publisherLogoUrl: buildUrl('/ohmni.svg'),
     })
   )
   const breadcrumb = generateBreadcrumbJsonLd([
@@ -125,7 +130,11 @@ export default async function PostPage({ params }: { params: Promise<QueryParams
   return (
     <>
       <JsonLdScript id="post-jsonld" schemas={schemas} />
-      <PostSingle post={post as PostSingleData} key={post._id} />
+      <PostSingle
+        post={{ ...post, shareUrl: buildUrl(`/posts/${slug}`) } as PostSingleData}
+        defaultCta={global?.postCta ?? null}
+        key={post._id}
+      />
     </>
   )
 }

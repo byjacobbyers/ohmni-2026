@@ -1,4 +1,6 @@
+import AppearAnimation from "@/components/appear-animation"
 import SanityImage from "@/components/sanity-image"
+import ShareLinks from "@/components/share-links"
 import SimpleText from "@/components/simple-text"
 import CtaRouteButton from "@/components/cta-route-button"
 import { isActiveCta } from "@/lib/cta"
@@ -11,15 +13,18 @@ import {
 import type { SanityImageSource } from "@/types/components/sanity-image-type"
 import type { BaseRouteType } from "@/types/objects/route-type"
 
+/** Shared section shell, same rhythm and container as the page-builder blocks. */
+const SECTION = "w-full flex justify-center px-5 py-16 md:py-24"
+
 /**
- * Article layout: centered masthead, byline, banner, then a single reading
- * column. Posts are long-form, so they deliberately do NOT use the page-builder
- * section shell, which is tuned for landing pages.
+ * Article layout. An <article> parent holding standard section shells, so posts
+ * follow the same structure as page sections. Typography comes from `.content`;
+ * the only article-specific rule is the reading measure on the body column.
  */
-export default function PostSingle({ post }: PostSingleProps) {
+export default function PostSingle({ post, defaultCta }: PostSingleProps) {
   if (!post) {
     return (
-      <article className="flex min-h-screen flex-col items-center gap-y-24 pb-12">
+      <article className={SECTION}>
         <div className="container text-center">
           <p className="text-lg text-muted-foreground">Post not found</p>
         </div>
@@ -27,59 +32,82 @@ export default function PostSingle({ post }: PostSingleProps) {
     )
   }
 
-  const { title, publishedAt, author, category, excerpt, image, body, cta } = post
+  const { title, publishedAt, author, category, excerpt, image, body, cta, shareUrl } = post
   const authorName = authorDisplayName(author)
   const person = authorObject(author)
   const dateLine = publishedAt ? formatFullDate(parseSanityDate(publishedAt)) : null
-  const credit = [person?.primaryJobTitle, dateLine].filter(Boolean).join(' · ')
+  const credit = [person?.primaryJobTitle, dateLine].filter(Boolean).join(" · ")
+
+  // Post CTA wins; otherwise fall back to the site-wide default.
+  const closingCta = isActiveCta(cta) ? cta : isActiveCta(defaultCta) ? defaultCta : null
 
   return (
-    <article className="post-article w-full pb-16">
-      <header className="post-masthead">
-        {category ? <p className="post-eyebrow">{category}</p> : null}
-        <h1 className="post-title">{title || 'Untitled Post'}</h1>
-        {excerpt ? <p className="post-lead">{excerpt}</p> : null}
-
-        {authorName || dateLine ? (
-          <div className="post-byline">
-            {person?.image ? (
-              <span className="post-avatar">
-                <SanityImage
-                  image={person.image as SanityImageSource}
-                  fill
-                  sizes="48px"
-                  className="object-cover object-center"
-                />
-              </span>
-            ) : null}
-            <span className="post-byline-text">
-              {authorName ? <strong>{authorName}</strong> : null}
-              {credit ? <span className="post-credit">{credit}</span> : null}
-            </span>
+    <article className="post-article w-full">
+      <section className={`post-header-block ${SECTION} pb-8 md:pb-10`}>
+        <div className="container flex flex-col items-center text-center">
+          <div className="content items-center">
+            {category ? <small className="post-eyebrow">{category}</small> : null}
+            <h1 className="text-balance">{title || "Untitled Post"}</h1>
+            {excerpt ? <p className="text-pretty">{excerpt}</p> : null}
           </div>
-        ) : null}
-      </header>
+
+          {authorName || dateLine ? (
+            <div className="post-byline mt-8">
+              {person?.image ? (
+                <span className="post-avatar">
+                  <SanityImage
+                    image={person.image as SanityImageSource}
+                    fill
+                    sizes="48px"
+                    className="object-cover object-center"
+                  />
+                </span>
+              ) : null}
+              <span className="flex flex-col items-start text-left">
+                {authorName ? <strong>{authorName}</strong> : null}
+                {credit ? (
+                  <span className="text-sm text-muted-foreground">{credit}</span>
+                ) : null}
+              </span>
+            </div>
+          ) : null}
+
+          {shareUrl ? (
+            <ShareLinks url={shareUrl} title={title || "Article"} className="mt-8" />
+          ) : null}
+        </div>
+      </section>
 
       {image ? (
-        <figure className="post-banner">
-          <SanityImage
-            image={image as SanityImageSource}
-            fill
-            priority
-            sizes="(max-width: 1200px) 100vw, 1200px"
-            className="object-cover object-center"
-          />
-        </figure>
+        <section className={`post-banner-block w-full flex justify-center px-5 pb-8 md:pb-12`}>
+          <AppearAnimation className="container">
+            <figure className="post-banner">
+              <SanityImage
+                image={image as SanityImageSource}
+                fill
+                priority
+                sizes="(max-width: 1400px) 100vw, 1400px"
+                className="object-cover object-center"
+              />
+            </figure>
+          </AppearAnimation>
+        </section>
       ) : null}
 
-      <div className="post-body content">
-        <SimpleText content={body} />
-      </div>
-
-      {isActiveCta(cta) ? (
-        <div className="post-cta">
-          <CtaRouteButton route={cta.route as BaseRouteType} />
+      <section className={`post-body-block ${SECTION} pt-4 md:pt-6`}>
+        <div className="container post-body">
+          <div className="content content-measure">
+            <SimpleText content={body} />
+          </div>
         </div>
+      </section>
+
+      {closingCta ? (
+        <section className={`post-cta-block ${SECTION} pt-0 md:pt-0`}>
+          <AppearAnimation className="container flex justify-center">
+            <CtaRouteButton route={closingCta.route as BaseRouteType} />
+          </AppearAnimation>
+        </section>
       ) : null}
     </article>
   )

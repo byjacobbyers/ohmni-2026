@@ -1,5 +1,6 @@
 import { defineQuery } from 'next-sanity'
 import { imageQuery } from '../objects/image-query'
+import { routeQuery } from '../objects/route-query'
 import { teamPersonProjection } from './team-query'
 
 export const SiteQuery = defineQuery(`*[_type == "site"][0] {
@@ -19,6 +20,7 @@ export const SiteQuery = defineQuery(`*[_type == "site"][0] {
   longitude,
   email,
   sameAs,
+  postCta { ..., route { ${routeQuery} } },
   "founders": *[_type == "team" && founder == true] | order(title asc) ${teamPersonProjection},
   seo {
     ...,

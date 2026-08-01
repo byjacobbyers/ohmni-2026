@@ -67,6 +67,14 @@ export default defineType({
       group: 'general',
     }),
     defineField({
+      name: 'postCta',
+      title: 'Default Article CTA',
+      type: 'cta',
+      group: 'general',
+      description:
+        'Shown at the end of every article. A post can override it with its own CTA.',
+    }),
+    defineField({
       title: 'Default Site SEO / Share Settings',
       name: 'seo',
       type: 'seo',

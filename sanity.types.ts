@@ -90,9 +90,9 @@ export type Social = {
 
 export type FormField = {
   _type: "formField";
-  fieldType?: "input" | "textarea";
-  label?: string;
-  name?: string;
+  fieldType: "input" | "textarea";
+  label: string;
+  name: string;
   placeholder?: string;
   required?: boolean;
   inputType?: "text" | "tel" | "url";
@@ -173,7 +173,7 @@ export type SanityFileAssetReference = {
 
 export type LinkWithRoute = {
   _type: "linkWithRoute";
-  linkType?:
+  linkType:
     | "page"
     | "event"
     | "post"
@@ -274,7 +274,14 @@ export type Column = {
   _type: "column";
   title?: string;
   content?: SimpleText;
-  icon?: "LuClock" | "LuCode" | "LuLayers";
+  icon?:
+    | "LuClock"
+    | "LuCode"
+    | "LuLayers"
+    | "LuMailX"
+    | "LuChartColumn"
+    | "LuSearchX"
+    | "LuSparkles";
   image?: DefaultImage;
   cta?: Cta;
 };
@@ -286,6 +293,7 @@ export type StatsBlock = {
   backgroundColor?: "primary" | "secondary" | "texture";
   heading?: SimpleText;
   image?: DefaultImage;
+  variant?: "cards" | "proof";
   layout?: "image-left" | "image-right";
   stats?: Array<{
     statValue?: string;
@@ -293,6 +301,7 @@ export type StatsBlock = {
     _type: "stat";
     _key: string;
   }>;
+  footnote?: SimpleText;
 };
 
 export type QuoteBlock = {
@@ -300,7 +309,7 @@ export type QuoteBlock = {
   active?: boolean;
   anchor?: string;
   backgroundColor?: "primary" | "secondary" | "texture";
-  quote?: SimpleText;
+  quote: SimpleText;
   image?: DefaultImage;
   title?: string;
   cta?: Cta;
@@ -331,8 +340,8 @@ export type TeamMemberBlock = {
   _type: "teamMemberBlock";
   active?: boolean;
   anchor?: string;
-  backgroundColor?: "primary" | "secondary";
-  member?: TeamReference;
+  backgroundColor?: "primary" | "secondary" | "texture";
+  member: TeamReference;
 };
 
 export type EventsBlock = {
@@ -358,10 +367,10 @@ export type SplitScrollBlock = {
   active?: boolean;
   anchor?: string;
   backgroundColor?: "primary" | "secondary" | "texture";
-  title?: SimpleText;
+  title: SimpleText;
   items?: Array<{
     image?: DefaultImage;
-    content?: SimpleText;
+    content: SimpleText;
     _key: string;
   }>;
 };
@@ -370,6 +379,7 @@ export type DividerBlock = {
   _type: "dividerBlock";
   active?: boolean;
   anchor?: string;
+  backgroundColor?: "primary" | "secondary" | "texture";
   style?: "rule" | "gap";
   size?: "zero" | "small" | "medium" | "large";
 };
@@ -379,7 +389,7 @@ export type GalleryBlock = {
   active?: boolean;
   anchor?: string;
   backgroundColor?: "primary" | "secondary" | "texture";
-  images?: Array<
+  images: Array<
     {
       _key: string;
     } & DefaultImage
@@ -420,7 +430,7 @@ export type FormBlock = {
   layout?: "stacked" | "split";
   backgroundColor?: "primary" | "secondary" | "texture";
   content?: NormalText;
-  form?: FormReference;
+  form: FormReference;
 };
 
 export type EmbedBlock = {
@@ -437,6 +447,7 @@ export type ImageBlock = {
   _type: "imageBlock";
   active?: boolean;
   anchor?: string;
+  backgroundColor?: "primary" | "secondary" | "texture";
   mediaType?: "image" | "video";
   image?: DefaultImage;
   imageMobile?: DefaultImage;
@@ -458,8 +469,8 @@ export type FaqBlock = {
   anchor?: string;
   backgroundColor?: "primary" | "secondary" | "texture";
   faqs?: Array<{
-    question?: string;
-    answer?: SimpleText;
+    question: string;
+    answer: SimpleText;
     _key: string;
   }>;
 };
@@ -477,7 +488,7 @@ export type CtaBlock = {
   _type: "ctaBlock";
   active?: boolean;
   anchor?: string;
-  backgroundColor?: "primary" | "secondary";
+  backgroundColor?: "primary" | "secondary" | "texture";
   alignment?: "text-left" | "text-center" | "text-right";
   content?: SimpleText;
   cta?: Cta;
@@ -524,6 +535,7 @@ export type BannerBlock = {
   _type: "bannerBlock";
   active?: boolean;
   anchor?: string;
+  backgroundColor?: "primary" | "secondary" | "texture" | "aurora";
   content?: SimpleText;
   cta?: Cta;
 };
@@ -605,10 +617,10 @@ export type FormSettings = {
   _updatedAt: string;
   _rev: string;
   disclaimer?: SimpleText;
-  optInLabel?: string;
+  optInLabel: string;
   optInDefault?: boolean;
   showOptInByDefault?: boolean;
-  defaultSubmitLabel?: string;
+  defaultSubmitLabel: string;
 };
 
 export type Form = {
@@ -617,8 +629,8 @@ export type Form = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  title?: string;
-  slug?: Slug;
+  title: string;
+  slug: Slug;
   active?: boolean;
   fields?: Array<
     {
@@ -633,7 +645,7 @@ export type Form = {
 
 export type Slug = {
   _type: "slug";
-  current?: string;
+  current: string;
   source?: string;
 };
 
@@ -657,8 +669,8 @@ export type Redirect = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  source?: string;
-  destination?: string;
+  source: string;
+  destination: string;
   permanent?: boolean;
 };
 
@@ -676,13 +688,14 @@ export type Post = {
   _updatedAt: string;
   _rev: string;
   image?: DefaultImage;
-  title?: string;
-  slug?: Slug;
-  publishedAt?: string;
+  title: string;
+  slug: Slug;
+  publishedAt: string;
   author?: TeamReference;
   category?: PostCategoryReference;
   excerpt?: string;
-  sections?: Sections;
+  body?: NormalText;
+  cta?: Cta;
   seo?: Seo;
   jsonLd?: ArticleJsonLd;
 };
@@ -693,8 +706,8 @@ export type PostCategory = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  title?: string;
-  slug?: Slug;
+  title: string;
+  slug: Slug;
 };
 
 export type Team = {
@@ -704,8 +717,8 @@ export type Team = {
   _updatedAt: string;
   _rev: string;
   founder?: boolean;
-  title?: string;
-  slug?: Slug;
+  title: string;
+  slug: Slug;
   image?: DefaultImage;
   primaryJobTitle?: string;
   secondaryJobTitle?: string;
@@ -729,12 +742,12 @@ export type Event = {
   _updatedAt: string;
   _rev: string;
   image?: DefaultImage;
-  title?: string;
-  slug?: Slug;
+  title: string;
+  slug: Slug;
   category?: EventCategoryReference;
   soldOut?: boolean;
   location?: string;
-  startDate?: string;
+  startDate: string;
   endDate?: string;
   timeString?: string;
   sections?: Sections;
@@ -748,8 +761,8 @@ export type EventCategory = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  title?: string;
-  slug?: Slug;
+  title: string;
+  slug: Slug;
 };
 
 export type Announcement = {
@@ -761,8 +774,8 @@ export type Announcement = {
   title?: string;
   active?: boolean;
   message?: string;
-  startDate?: string;
-  endDate?: string;
+  startDate: string;
+  endDate: string;
   route?: Route;
 };
 
@@ -784,6 +797,7 @@ export type Site = {
   latitude?: number;
   longitude?: number;
   email?: string;
+  postCta?: Cta;
   seo?: Seo;
   sameAs?: Array<string>;
   organizationJsonLd?: {
@@ -804,8 +818,8 @@ export type Page = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  title?: string;
-  slug?: Slug;
+  title: string;
+  slug: Slug;
   backgroundColor?: "primary" | "secondary";
   sections?: Sections;
   homeSeoNotice?: string;
@@ -835,18 +849,18 @@ export type MuxVideo = {
 
 export type SanityImageCrop = {
   _type: "sanity.imageCrop";
-  top?: number;
-  bottom?: number;
-  left?: number;
-  right?: number;
+  top: number;
+  bottom: number;
+  left: number;
+  right: number;
 };
 
 export type SanityImageHotspot = {
   _type: "sanity.imageHotspot";
-  x?: number;
-  y?: number;
-  height?: number;
-  width?: number;
+  x: number;
+  y: number;
+  height: number;
+  width: number;
 };
 
 export type MuxVideoAsset = {
@@ -977,9 +991,9 @@ export type SanityImagePalette = {
 
 export type SanityImageDimensions = {
   _type: "sanity.imageDimensions";
-  height?: number;
-  width?: number;
-  aspectRatio?: number;
+  height: number;
+  width: number;
+  aspectRatio: number;
 };
 
 export type SanityImageMetadata = {
@@ -1005,14 +1019,14 @@ export type SanityFileAsset = {
   title?: string;
   description?: string;
   altText?: string;
-  sha1hash?: string;
-  extension?: string;
-  mimeType?: string;
-  size?: number;
-  assetId?: string;
+  sha1hash: string;
+  extension: string;
+  mimeType: string;
+  size: number;
+  assetId: string;
   uploadId?: string;
-  path?: string;
-  url?: string;
+  path: string;
+  url: string;
   source?: SanityAssetSourceData;
 };
 
@@ -1034,14 +1048,14 @@ export type SanityImageAsset = {
   title?: string;
   description?: string;
   altText?: string;
-  sha1hash?: string;
-  extension?: string;
-  mimeType?: string;
-  size?: number;
-  assetId?: string;
+  sha1hash: string;
+  extension: string;
+  mimeType: string;
+  size: number;
+  assetId: string;
   uploadId?: string;
-  path?: string;
-  url?: string;
+  path: string;
+  url: string;
   metadata?: SanityImageMetadata;
   source?: SanityAssetSourceData;
 };
@@ -1155,19 +1169,19 @@ export type HeaderQueryResult = {
       | null;
     pageRoute: {
       _type: "page";
-      slug: string | null;
+      slug: string;
     } | null;
     eventRoute: {
       _type: "event";
-      slug: string | null;
+      slug: string;
     } | null;
     postRoute: {
       _type: "post";
-      slug: string | null;
+      slug: string;
     } | null;
     fileRoute: {
       asset: {
-        url: string | null;
+        url: string;
         originalFilename: string | null;
       } | null;
     } | null;
@@ -1217,19 +1231,19 @@ export type FooterQueryResult = {
       | null;
     pageRoute: {
       _type: "page";
-      slug: string | null;
+      slug: string;
     } | null;
     eventRoute: {
       _type: "event";
-      slug: string | null;
+      slug: string;
     } | null;
     postRoute: {
       _type: "post";
-      slug: string | null;
+      slug: string;
     } | null;
     fileRoute: {
       asset: {
-        url: string | null;
+        url: string;
         originalFilename: string | null;
       } | null;
     } | null;
@@ -1280,19 +1294,19 @@ export type AnnouncementQueryResult = {
       | null;
     pageRoute: {
       _type: "page";
-      slug: string | null;
+      slug: string;
     } | null;
     eventRoute: {
       _type: "event";
-      slug: string | null;
+      slug: string;
     } | null;
     postRoute: {
       _type: "post";
-      slug: string | null;
+      slug: string;
     } | null;
     fileRoute: {
       asset: {
-        url: string | null;
+        url: string;
         originalFilename: string | null;
       } | null;
     } | null;
@@ -1327,9 +1341,9 @@ export type AnnouncementQueryResult = {
 export type EventsQueryResult = Array<{
   _id: string;
   _type: "event";
-  title: string | null;
-  slug: string | null;
-  startDate: string | null;
+  title: string;
+  slug: string;
+  startDate: string;
   endDate: string | null;
   timeString: string | null;
   category: string | null;
@@ -1339,23 +1353,23 @@ export type EventsQueryResult = Array<{
     alt: string | null;
     crop: {
       _type: "sanity.imageCrop";
-      top?: number;
-      bottom?: number;
-      left?: number;
-      right?: number;
+      top: number;
+      bottom: number;
+      left: number;
+      right: number;
     } | null;
     hotspot: {
-      x: number | null;
-      y: number | null;
+      x: number;
+      y: number;
     } | null;
     asset: {
       _id: string;
-      url: string | null;
+      url: string;
       metadata: {
         dimensions: {
-          aspectRatio: number | null;
-          height: number | null;
-          width: number | null;
+          aspectRatio: number;
+          height: number;
+          width: number;
         } | null;
         lqip: string | null;
       } | null;
@@ -1365,40 +1379,40 @@ export type EventsQueryResult = Array<{
 
 // Source: sanity/queries/documents/event-query.ts
 // Variable: eventQuery
-// Query: *[_type == "event" && slug.current == $slug][0] {  _id,  _type,  _updatedAt,  title,  slug,  image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },  startDate,  endDate,  timeString,  "category": category->title,  soldOut,  location,  seo {    ...,    shareGraphic {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } }  },  jsonLd,    sections[] {    ...,    _type == 'coverBlock' => {      ...,      image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      imageMobile {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      muxUrl {        _type,        asset-> {            _id,  _type,  _ref,  playbackId,  status,  data {    duration,    aspect_ratio  }        },        thumbTime      },      muxUrlMobile {        _type,        asset-> {            _id,  _type,  _ref,  playbackId,  status,  data {    duration,    aspect_ratio  }        },        thumbTime      },      content[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      cta { ..., route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } } }    },    _type == 'heroBlock' => {      ...,      image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      video {   asset-> {      _id,  _type,  _ref,  playbackId,  status,  data {    duration,    aspect_ratio  }  } },      cta { ..., route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } } },      content[] {  ...,  markDefs[] {    ...,    _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })  }}    },    _type == 'ctaBlock' => {      ...,      cta { ..., route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } } },      content[] {  ...,  markDefs[] {    ...,    _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })  }}    },    _type == 'textBlock' => {      ...,      content[] {  ...,  markDefs[] {    ...,    _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })  }}    },    _type == 'embedBlock' => {      ...,      embedCode {        _type,        code,        language,        filename      }    },    _type == 'formBlock' => {      ...,      content[] {  ...,  markDefs[] {    ...,    _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })  }},      form-> {  _id,  title,  "slug": slug.current,  active,  submitLabel,  showOptIn,  optInLabel,  fields[] {    _key,    fieldType,    label,    name,    placeholder,    required,    inputType  },  disclaimer[] {  ...,  markDefs[] { ... }}}    },    _type == 'imageBlock' => {      ...,      image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      imageMobile {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      muxUrl { asset-> { playbackId } },      muxUrlMobile { asset-> { playbackId } }    },    _type == 'columnBlock' => {      ...,      intro[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      content[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      excerpt[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      columns[] {        ...,        content[] {          ...,          markDefs[] {            ...,            _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })          }        },        image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },        cta { ..., route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } } }      }    },    _type == 'postsBlock' => {      ...    },    _type == 'eventsBlock' => {      ...    },    _type == 'teamMemberBlock' => {      ...,      member-> {        _id,        title,        "slug": slug.current,        primaryJobTitle,        secondaryJobTitle,        email,        phone,        socials,        image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },        content[] {          ...,          markDefs[] {            ...,            _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })          }        }      }    },    _type == 'logoBarBlock' => {      ...,      logos[] {        ...,        logo {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } }      }    },    _type == 'quoteBlock' => {      ...,      image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      quote[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      cta { ..., route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } } }    },    _type == 'statsBlock' => {      ...,      heading[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      stats[] {        ...,        content[] {          ...,          markDefs[] {            ...,            _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })          }        }      }    },    _type == 'galleryBlock' => {      ...,      images[] {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } }    },    _type == 'faqBlock' => {      ...,      faqs[] {        question,        answer[] {          ...,          markDefs[] {            ...,            _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })          }        }      }    },    _type == 'splitScrollBlock' => {      ...,      title[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      items[] {        ...,        image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },        content[] {          ...,          markDefs[] {            ...,            _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })          }        }      }    }  }}
+// Query: *[_type == "event" && slug.current == $slug][0] {  _id,  _type,  _updatedAt,  title,  slug,  image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },  startDate,  endDate,  timeString,  "category": category->title,  soldOut,  location,  seo {    ...,    shareGraphic {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } }  },  jsonLd,    sections[] {    ...,    _type == 'coverBlock' => {      ...,      image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      imageMobile {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      muxUrl {        _type,        asset-> {            _id,  _type,  _ref,  playbackId,  status,  data {    duration,    aspect_ratio  }        },        thumbTime      },      muxUrlMobile {        _type,        asset-> {            _id,  _type,  _ref,  playbackId,  status,  data {    duration,    aspect_ratio  }        },        thumbTime      },      content[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      cta { ..., route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } } }    },    _type == 'heroBlock' => {      ...,      image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      video {   asset-> {      _id,  _type,  _ref,  playbackId,  status,  data {    duration,    aspect_ratio  }  } },      cta { ..., route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } } },      content[] {  ...,  markDefs[] {    ...,    _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })  }}    },    _type == 'bannerBlock' => {      ...,      cta { ..., route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } } },      content[] {  ...,  markDefs[] {    ...,    _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })  }}    },    _type == 'ctaBlock' => {      ...,      cta { ..., route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } } },      content[] {  ...,  markDefs[] {    ...,    _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })  }}    },    _type == 'textBlock' => {      ...,      content[] {  ...,  markDefs[] {    ...,    _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })  }}    },    _type == 'embedBlock' => {      ...,      embedCode {        _type,        code,        language,        filename      }    },    _type == 'formBlock' => {      ...,      content[] {  ...,  markDefs[] {    ...,    _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })  }},      form-> {  _id,  title,  "slug": slug.current,  active,  submitLabel,  showOptIn,  optInLabel,  fields[] {    _key,    fieldType,    label,    name,    placeholder,    required,    inputType  },  disclaimer[] {  ...,  markDefs[] { ... }}}    },    _type == 'imageBlock' => {      ...,      image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      imageMobile {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      muxUrl { asset-> { playbackId } },      muxUrlMobile { asset-> { playbackId } }    },    _type == 'columnBlock' => {      ...,      intro[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      content[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      excerpt[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      columns[] {        ...,        content[] {          ...,          markDefs[] {            ...,            _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })          }        },        image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },        cta { ..., route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } } }      }    },    _type == 'postsBlock' => {      ...    },    _type == 'eventsBlock' => {      ...    },    _type == 'teamMemberBlock' => {      ...,      member-> {        _id,        title,        "slug": slug.current,        primaryJobTitle,        secondaryJobTitle,        email,        phone,        socials,        image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },        content[] {          ...,          markDefs[] {            ...,            _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })          }        }      }    },    _type == 'logoBarBlock' => {      ...,      logos[] {        ...,        logo {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } }      }    },    _type == 'quoteBlock' => {      ...,      image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      quote[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      cta { ..., route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } } }    },    _type == 'statsBlock' => {      ...,      heading[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      stats[] {        ...,        content[] {          ...,          markDefs[] {            ...,            _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })          }        }      },      footnote[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      }    },    _type == 'galleryBlock' => {      ...,      images[] {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } }    },    _type == 'faqBlock' => {      ...,      faqs[] {        question,        answer[] {          ...,          markDefs[] {            ...,            _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })          }        }      }    },    _type == 'splitScrollBlock' => {      ...,      title[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      items[] {        ...,        image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },        content[] {          ...,          markDefs[] {            ...,            _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })          }        }      }    }  }}
 export type EventQueryResult = {
   _id: string;
   _type: "event";
   _updatedAt: string;
-  title: string | null;
-  slug: Slug | null;
+  title: string;
+  slug: Slug;
   image: {
     alt: string | null;
     crop: {
       _type: "sanity.imageCrop";
-      top?: number;
-      bottom?: number;
-      left?: number;
-      right?: number;
+      top: number;
+      bottom: number;
+      left: number;
+      right: number;
     } | null;
     hotspot: {
-      x: number | null;
-      y: number | null;
+      x: number;
+      y: number;
     } | null;
     asset: {
       _id: string;
-      url: string | null;
+      url: string;
       metadata: {
         dimensions: {
-          aspectRatio: number | null;
-          height: number | null;
-          width: number | null;
+          aspectRatio: number;
+          height: number;
+          width: number;
         } | null;
         lqip: string | null;
       } | null;
     } | null;
   } | null;
-  startDate: string | null;
+  startDate: string;
   endDate: string | null;
   timeString: string | null;
   category: string | null;
@@ -1415,23 +1429,23 @@ export type EventQueryResult = {
       alt: string | null;
       crop: {
         _type: "sanity.imageCrop";
-        top?: number;
-        bottom?: number;
-        left?: number;
-        right?: number;
+        top: number;
+        bottom: number;
+        left: number;
+        right: number;
       } | null;
       hotspot: {
-        x: number | null;
-        y: number | null;
+        x: number;
+        y: number;
       } | null;
       asset: {
         _id: string;
-        url: string | null;
+        url: string;
         metadata: {
           dimensions: {
-            aspectRatio: number | null;
-            height: number | null;
-            width: number | null;
+            aspectRatio: number;
+            height: number;
+            width: number;
           } | null;
           lqip: string | null;
         } | null;
@@ -1445,8 +1459,142 @@ export type EventQueryResult = {
         _type: "bannerBlock";
         active?: boolean;
         anchor?: string;
-        content?: SimpleText;
-        cta?: Cta;
+        backgroundColor?: "aurora" | "primary" | "secondary" | "texture";
+        content: Array<{
+          children?: Array<{
+            marks?: Array<string>;
+            text?: string;
+            _type: "span";
+            _key: string;
+          }>;
+          style?:
+            | "blockquote"
+            | "h1"
+            | "h2"
+            | "h3"
+            | "h4"
+            | "large"
+            | "normal"
+            | "small";
+          listItem?: "bullet" | "number";
+          markDefs: Array<{
+            _key: string;
+            _type: "linkWithRoute";
+            linkType:
+              | "anchor"
+              | "email"
+              | "event"
+              | "external"
+              | "file"
+              | "page"
+              | "path"
+              | "post"
+              | "telephone";
+            pageRoute: {
+              _type: "page";
+              slug: string;
+            } | null;
+            eventRoute: {
+              _type: "event";
+              slug: string;
+            } | null;
+            postRoute: {
+              _type: "post";
+              slug: string;
+            } | null;
+            fileRoute: {
+              asset: {
+                url: string;
+                originalFilename: string | null;
+              } | null;
+            } | null;
+            route: string | null;
+            anchor: string | null;
+            link: string | null;
+            email: string | null;
+            telephone: string | null;
+            blank: boolean | null;
+            utm: {
+              source: string | null;
+              medium: string | null;
+              campaign: string | null;
+              term: string | null;
+              content: string | null;
+            } | null;
+            trackingId: string | null;
+            ariaLabel: string | null;
+            relAttributes: Array<string> | null;
+            titleAttr: string | null;
+            dataAttributes: Array<{
+              key: string | null;
+              value: string | null;
+              _key: string;
+            }> | null;
+            title: null;
+          }> | null;
+          level?: number;
+          _type: "block";
+          _key: string;
+        }> | null;
+        cta: {
+          _type: "cta";
+          active?: boolean;
+          route: {
+            _type: "route";
+            title: string | null;
+            linkType:
+              | "anchor"
+              | "email"
+              | "event"
+              | "external"
+              | "file"
+              | "page"
+              | "path"
+              | "post"
+              | "telephone"
+              | null;
+            pageRoute: {
+              _type: "page";
+              slug: string;
+            } | null;
+            eventRoute: {
+              _type: "event";
+              slug: string;
+            } | null;
+            postRoute: {
+              _type: "post";
+              slug: string;
+            } | null;
+            fileRoute: {
+              asset: {
+                url: string;
+                originalFilename: string | null;
+              } | null;
+            } | null;
+            route: string | null;
+            anchor: string | null;
+            link: string | null;
+            email: string | null;
+            telephone: string | null;
+            blank: boolean | null;
+            titleAttr: string | null;
+            ariaLabel: string | null;
+            utm: {
+              source: string | null;
+              medium: string | null;
+              campaign: string | null;
+              term: string | null;
+              content: string | null;
+            } | null;
+            trackingId: string | null;
+            relAttributes: Array<string> | null;
+            dataAttributes: Array<{
+              key: string | null;
+              value: string | null;
+              _key: string;
+            }> | null;
+          } | null;
+        } | null;
       }
     | {
         _key: string;
@@ -1473,102 +1621,61 @@ export type EventQueryResult = {
             | "normal"
             | "small";
           listItem?: "bullet" | "number";
-          markDefs: Array<
-            | {
-                _key: string;
-                _type: "linkWithRoute";
-                linkType?:
-                  | "anchor"
-                  | "email"
-                  | "event"
-                  | "external"
-                  | "file"
-                  | "page"
-                  | "path"
-                  | "post"
-                  | "telephone";
-                pageRoute?: PageReference;
-                eventRoute?: EventReference;
-                postRoute?: PostReference;
-                fileRoute?: {
-                  asset?: SanityFileAssetReference;
-                  media?: unknown;
-                  _type: "file";
-                };
-                route?: string;
-                anchor?: string;
-                link?: string;
-                email?: string;
-                telephone?: string;
-                blank?: boolean;
-                utm?: Utm;
-                trackingId?: string;
-                ariaLabel?: string;
-                relAttributes?: Array<string>;
-                titleAttr?: string;
-                dataAttributes?: Array<{
-                  key?: string;
-                  value?: string;
-                  _key: string;
-                }>;
-              }
-            | {
-                _key: string;
-                _type: "linkWithRoute";
-                linkType:
-                  | "anchor"
-                  | "email"
-                  | "event"
-                  | "external"
-                  | "file"
-                  | "page"
-                  | "path"
-                  | "post"
-                  | "telephone"
-                  | null;
-                pageRoute: {
-                  _type: "page";
-                  slug: string | null;
-                } | null;
-                eventRoute: {
-                  _type: "event";
-                  slug: string | null;
-                } | null;
-                postRoute: {
-                  _type: "post";
-                  slug: string | null;
-                } | null;
-                fileRoute: {
-                  asset: {
-                    url: string | null;
-                    originalFilename: string | null;
-                  } | null;
-                } | null;
-                route: string | null;
-                anchor: string | null;
-                link: string | null;
-                email: string | null;
-                telephone: string | null;
-                blank: boolean | null;
-                utm: {
-                  source: string | null;
-                  medium: string | null;
-                  campaign: string | null;
-                  term: string | null;
-                  content: string | null;
-                } | null;
-                trackingId: string | null;
-                ariaLabel: string | null;
-                relAttributes: Array<string> | null;
-                titleAttr: string | null;
-                dataAttributes: Array<{
-                  key: string | null;
-                  value: string | null;
-                  _key: string;
-                }> | null;
-                title: null;
-              }
-          > | null;
+          markDefs: Array<{
+            _key: string;
+            _type: "linkWithRoute";
+            linkType:
+              | "anchor"
+              | "email"
+              | "event"
+              | "external"
+              | "file"
+              | "page"
+              | "path"
+              | "post"
+              | "telephone";
+            pageRoute: {
+              _type: "page";
+              slug: string;
+            } | null;
+            eventRoute: {
+              _type: "event";
+              slug: string;
+            } | null;
+            postRoute: {
+              _type: "post";
+              slug: string;
+            } | null;
+            fileRoute: {
+              asset: {
+                url: string;
+                originalFilename: string | null;
+              } | null;
+            } | null;
+            route: string | null;
+            anchor: string | null;
+            link: string | null;
+            email: string | null;
+            telephone: string | null;
+            blank: boolean | null;
+            utm: {
+              source: string | null;
+              medium: string | null;
+              campaign: string | null;
+              term: string | null;
+              content: string | null;
+            } | null;
+            trackingId: string | null;
+            ariaLabel: string | null;
+            relAttributes: Array<string> | null;
+            titleAttr: string | null;
+            dataAttributes: Array<{
+              key: string | null;
+              value: string | null;
+              _key: string;
+            }> | null;
+            title: null;
+          }> | null;
           level?: number;
           _type: "block";
           _key: string;
@@ -1590,102 +1697,61 @@ export type EventQueryResult = {
             | "normal"
             | "small";
           listItem?: "bullet" | "number";
-          markDefs: Array<
-            | {
-                _key: string;
-                _type: "linkWithRoute";
-                linkType?:
-                  | "anchor"
-                  | "email"
-                  | "event"
-                  | "external"
-                  | "file"
-                  | "page"
-                  | "path"
-                  | "post"
-                  | "telephone";
-                pageRoute?: PageReference;
-                eventRoute?: EventReference;
-                postRoute?: PostReference;
-                fileRoute?: {
-                  asset?: SanityFileAssetReference;
-                  media?: unknown;
-                  _type: "file";
-                };
-                route?: string;
-                anchor?: string;
-                link?: string;
-                email?: string;
-                telephone?: string;
-                blank?: boolean;
-                utm?: Utm;
-                trackingId?: string;
-                ariaLabel?: string;
-                relAttributes?: Array<string>;
-                titleAttr?: string;
-                dataAttributes?: Array<{
-                  key?: string;
-                  value?: string;
-                  _key: string;
-                }>;
-              }
-            | {
-                _key: string;
-                _type: "linkWithRoute";
-                linkType:
-                  | "anchor"
-                  | "email"
-                  | "event"
-                  | "external"
-                  | "file"
-                  | "page"
-                  | "path"
-                  | "post"
-                  | "telephone"
-                  | null;
-                pageRoute: {
-                  _type: "page";
-                  slug: string | null;
-                } | null;
-                eventRoute: {
-                  _type: "event";
-                  slug: string | null;
-                } | null;
-                postRoute: {
-                  _type: "post";
-                  slug: string | null;
-                } | null;
-                fileRoute: {
-                  asset: {
-                    url: string | null;
-                    originalFilename: string | null;
-                  } | null;
-                } | null;
-                route: string | null;
-                anchor: string | null;
-                link: string | null;
-                email: string | null;
-                telephone: string | null;
-                blank: boolean | null;
-                utm: {
-                  source: string | null;
-                  medium: string | null;
-                  campaign: string | null;
-                  term: string | null;
-                  content: string | null;
-                } | null;
-                trackingId: string | null;
-                ariaLabel: string | null;
-                relAttributes: Array<string> | null;
-                titleAttr: string | null;
-                dataAttributes: Array<{
-                  key: string | null;
-                  value: string | null;
-                  _key: string;
-                }> | null;
-                title: null;
-              }
-          > | null;
+          markDefs: Array<{
+            _key: string;
+            _type: "linkWithRoute";
+            linkType:
+              | "anchor"
+              | "email"
+              | "event"
+              | "external"
+              | "file"
+              | "page"
+              | "path"
+              | "post"
+              | "telephone";
+            pageRoute: {
+              _type: "page";
+              slug: string;
+            } | null;
+            eventRoute: {
+              _type: "event";
+              slug: string;
+            } | null;
+            postRoute: {
+              _type: "post";
+              slug: string;
+            } | null;
+            fileRoute: {
+              asset: {
+                url: string;
+                originalFilename: string | null;
+              } | null;
+            } | null;
+            route: string | null;
+            anchor: string | null;
+            link: string | null;
+            email: string | null;
+            telephone: string | null;
+            blank: boolean | null;
+            utm: {
+              source: string | null;
+              medium: string | null;
+              campaign: string | null;
+              term: string | null;
+              content: string | null;
+            } | null;
+            trackingId: string | null;
+            ariaLabel: string | null;
+            relAttributes: Array<string> | null;
+            titleAttr: string | null;
+            dataAttributes: Array<{
+              key: string | null;
+              value: string | null;
+              _key: string;
+            }> | null;
+            title: null;
+          }> | null;
           level?: number;
           _type: "block";
           _key: string;
@@ -1711,128 +1777,94 @@ export type EventQueryResult = {
               | "normal"
               | "small";
             listItem?: "bullet" | "number";
-            markDefs: Array<
-              | {
-                  _key: string;
-                  _type: "linkWithRoute";
-                  linkType?:
-                    | "anchor"
-                    | "email"
-                    | "event"
-                    | "external"
-                    | "file"
-                    | "page"
-                    | "path"
-                    | "post"
-                    | "telephone";
-                  pageRoute?: PageReference;
-                  eventRoute?: EventReference;
-                  postRoute?: PostReference;
-                  fileRoute?: {
-                    asset?: SanityFileAssetReference;
-                    media?: unknown;
-                    _type: "file";
-                  };
-                  route?: string;
-                  anchor?: string;
-                  link?: string;
-                  email?: string;
-                  telephone?: string;
-                  blank?: boolean;
-                  utm?: Utm;
-                  trackingId?: string;
-                  ariaLabel?: string;
-                  relAttributes?: Array<string>;
-                  titleAttr?: string;
-                  dataAttributes?: Array<{
-                    key?: string;
-                    value?: string;
-                    _key: string;
-                  }>;
-                }
-              | {
-                  _key: string;
-                  _type: "linkWithRoute";
-                  linkType:
-                    | "anchor"
-                    | "email"
-                    | "event"
-                    | "external"
-                    | "file"
-                    | "page"
-                    | "path"
-                    | "post"
-                    | "telephone"
-                    | null;
-                  pageRoute: {
-                    _type: "page";
-                    slug: string | null;
-                  } | null;
-                  eventRoute: {
-                    _type: "event";
-                    slug: string | null;
-                  } | null;
-                  postRoute: {
-                    _type: "post";
-                    slug: string | null;
-                  } | null;
-                  fileRoute: {
-                    asset: {
-                      url: string | null;
-                      originalFilename: string | null;
-                    } | null;
-                  } | null;
-                  route: string | null;
-                  anchor: string | null;
-                  link: string | null;
-                  email: string | null;
-                  telephone: string | null;
-                  blank: boolean | null;
-                  utm: {
-                    source: string | null;
-                    medium: string | null;
-                    campaign: string | null;
-                    term: string | null;
-                    content: string | null;
-                  } | null;
-                  trackingId: string | null;
-                  ariaLabel: string | null;
-                  relAttributes: Array<string> | null;
-                  titleAttr: string | null;
-                  dataAttributes: Array<{
-                    key: string | null;
-                    value: string | null;
-                    _key: string;
-                  }> | null;
-                  title: null;
-                }
-            > | null;
+            markDefs: Array<{
+              _key: string;
+              _type: "linkWithRoute";
+              linkType:
+                | "anchor"
+                | "email"
+                | "event"
+                | "external"
+                | "file"
+                | "page"
+                | "path"
+                | "post"
+                | "telephone";
+              pageRoute: {
+                _type: "page";
+                slug: string;
+              } | null;
+              eventRoute: {
+                _type: "event";
+                slug: string;
+              } | null;
+              postRoute: {
+                _type: "post";
+                slug: string;
+              } | null;
+              fileRoute: {
+                asset: {
+                  url: string;
+                  originalFilename: string | null;
+                } | null;
+              } | null;
+              route: string | null;
+              anchor: string | null;
+              link: string | null;
+              email: string | null;
+              telephone: string | null;
+              blank: boolean | null;
+              utm: {
+                source: string | null;
+                medium: string | null;
+                campaign: string | null;
+                term: string | null;
+                content: string | null;
+              } | null;
+              trackingId: string | null;
+              ariaLabel: string | null;
+              relAttributes: Array<string> | null;
+              titleAttr: string | null;
+              dataAttributes: Array<{
+                key: string | null;
+                value: string | null;
+                _key: string;
+              }> | null;
+              title: null;
+            }> | null;
             level?: number;
             _type: "block";
             _key: string;
           }> | null;
-          icon?: "LuClock" | "LuCode" | "LuLayers";
+          icon?:
+            | "LuChartColumn"
+            | "LuClock"
+            | "LuCode"
+            | "LuLayers"
+            | "LuMailX"
+            | "LuSearchX"
+            | "LuSparkles";
           image: {
             alt: string | null;
             crop: {
               _type: "sanity.imageCrop";
-              top?: number;
-              bottom?: number;
-              left?: number;
-              right?: number;
+              top: number;
+              bottom: number;
+              left: number;
+              right: number;
             } | null;
             hotspot: {
-              x: number | null;
-              y: number | null;
+              x: number;
+              y: number;
             } | null;
             asset: {
               _id: string;
-              url: string | null;
+              url: string;
               metadata: {
                 dimensions: {
-                  aspectRatio: number | null;
-                  height: number | null;
-                  width: number | null;
+                  aspectRatio: number;
+                  height: number;
+                  width: number;
                 } | null;
                 lqip: string | null;
               } | null;
@@ -1857,19 +1889,19 @@ export type EventQueryResult = {
                 | null;
               pageRoute: {
                 _type: "page";
-                slug: string | null;
+                slug: string;
               } | null;
               eventRoute: {
                 _type: "event";
-                slug: string | null;
+                slug: string;
               } | null;
               postRoute: {
                 _type: "post";
-                slug: string | null;
+                slug: string;
               } | null;
               fileRoute: {
                 asset: {
-                  url: string | null;
+                  url: string;
                   originalFilename: string | null;
                 } | null;
               } | null;
@@ -1915,102 +1947,61 @@ export type EventQueryResult = {
             | "normal"
             | "small";
           listItem?: "bullet" | "number";
-          markDefs: Array<
-            | {
-                _key: string;
-                _type: "linkWithRoute";
-                linkType?:
-                  | "anchor"
-                  | "email"
-                  | "event"
-                  | "external"
-                  | "file"
-                  | "page"
-                  | "path"
-                  | "post"
-                  | "telephone";
-                pageRoute?: PageReference;
-                eventRoute?: EventReference;
-                postRoute?: PostReference;
-                fileRoute?: {
-                  asset?: SanityFileAssetReference;
-                  media?: unknown;
-                  _type: "file";
-                };
-                route?: string;
-                anchor?: string;
-                link?: string;
-                email?: string;
-                telephone?: string;
-                blank?: boolean;
-                utm?: Utm;
-                trackingId?: string;
-                ariaLabel?: string;
-                relAttributes?: Array<string>;
-                titleAttr?: string;
-                dataAttributes?: Array<{
-                  key?: string;
-                  value?: string;
-                  _key: string;
-                }>;
-              }
-            | {
-                _key: string;
-                _type: "linkWithRoute";
-                linkType:
-                  | "anchor"
-                  | "email"
-                  | "event"
-                  | "external"
-                  | "file"
-                  | "page"
-                  | "path"
-                  | "post"
-                  | "telephone"
-                  | null;
-                pageRoute: {
-                  _type: "page";
-                  slug: string | null;
-                } | null;
-                eventRoute: {
-                  _type: "event";
-                  slug: string | null;
-                } | null;
-                postRoute: {
-                  _type: "post";
-                  slug: string | null;
-                } | null;
-                fileRoute: {
-                  asset: {
-                    url: string | null;
-                    originalFilename: string | null;
-                  } | null;
-                } | null;
-                route: string | null;
-                anchor: string | null;
-                link: string | null;
-                email: string | null;
-                telephone: string | null;
-                blank: boolean | null;
-                utm: {
-                  source: string | null;
-                  medium: string | null;
-                  campaign: string | null;
-                  term: string | null;
-                  content: string | null;
-                } | null;
-                trackingId: string | null;
-                ariaLabel: string | null;
-                relAttributes: Array<string> | null;
-                titleAttr: string | null;
-                dataAttributes: Array<{
-                  key: string | null;
-                  value: string | null;
-                  _key: string;
-                }> | null;
-                title: null;
-              }
-          > | null;
+          markDefs: Array<{
+            _key: string;
+            _type: "linkWithRoute";
+            linkType:
+              | "anchor"
+              | "email"
+              | "event"
+              | "external"
+              | "file"
+              | "page"
+              | "path"
+              | "post"
+              | "telephone";
+            pageRoute: {
+              _type: "page";
+              slug: string;
+            } | null;
+            eventRoute: {
+              _type: "event";
+              slug: string;
+            } | null;
+            postRoute: {
+              _type: "post";
+              slug: string;
+            } | null;
+            fileRoute: {
+              asset: {
+                url: string;
+                originalFilename: string | null;
+              } | null;
+            } | null;
+            route: string | null;
+            anchor: string | null;
+            link: string | null;
+            email: string | null;
+            telephone: string | null;
+            blank: boolean | null;
+            utm: {
+              source: string | null;
+              medium: string | null;
+              campaign: string | null;
+              term: string | null;
+              content: string | null;
+            } | null;
+            trackingId: string | null;
+            ariaLabel: string | null;
+            relAttributes: Array<string> | null;
+            titleAttr: string | null;
+            dataAttributes: Array<{
+              key: string | null;
+              value: string | null;
+              _key: string;
+            }> | null;
+            title: null;
+          }> | null;
           level?: number;
           _type: "block";
           _key: string;
@@ -2039,102 +2030,61 @@ export type EventQueryResult = {
             | "normal"
             | "small";
           listItem?: "bullet" | "number";
-          markDefs: Array<
-            | {
-                _key: string;
-                _type: "linkWithRoute";
-                linkType?:
-                  | "anchor"
-                  | "email"
-                  | "event"
-                  | "external"
-                  | "file"
-                  | "page"
-                  | "path"
-                  | "post"
-                  | "telephone";
-                pageRoute?: PageReference;
-                eventRoute?: EventReference;
-                postRoute?: PostReference;
-                fileRoute?: {
-                  asset?: SanityFileAssetReference;
-                  media?: unknown;
-                  _type: "file";
-                };
-                route?: string;
-                anchor?: string;
-                link?: string;
-                email?: string;
-                telephone?: string;
-                blank?: boolean;
-                utm?: Utm;
-                trackingId?: string;
-                ariaLabel?: string;
-                relAttributes?: Array<string>;
-                titleAttr?: string;
-                dataAttributes?: Array<{
-                  key?: string;
-                  value?: string;
-                  _key: string;
-                }>;
-              }
-            | {
-                _key: string;
-                _type: "linkWithRoute";
-                linkType:
-                  | "anchor"
-                  | "email"
-                  | "event"
-                  | "external"
-                  | "file"
-                  | "page"
-                  | "path"
-                  | "post"
-                  | "telephone"
-                  | null;
-                pageRoute: {
-                  _type: "page";
-                  slug: string | null;
-                } | null;
-                eventRoute: {
-                  _type: "event";
-                  slug: string | null;
-                } | null;
-                postRoute: {
-                  _type: "post";
-                  slug: string | null;
-                } | null;
-                fileRoute: {
-                  asset: {
-                    url: string | null;
-                    originalFilename: string | null;
-                  } | null;
-                } | null;
-                route: string | null;
-                anchor: string | null;
-                link: string | null;
-                email: string | null;
-                telephone: string | null;
-                blank: boolean | null;
-                utm: {
-                  source: string | null;
-                  medium: string | null;
-                  campaign: string | null;
-                  term: string | null;
-                  content: string | null;
-                } | null;
-                trackingId: string | null;
-                ariaLabel: string | null;
-                relAttributes: Array<string> | null;
-                titleAttr: string | null;
-                dataAttributes: Array<{
-                  key: string | null;
-                  value: string | null;
-                  _key: string;
-                }> | null;
-                title: null;
-              }
-          > | null;
+          markDefs: Array<{
+            _key: string;
+            _type: "linkWithRoute";
+            linkType:
+              | "anchor"
+              | "email"
+              | "event"
+              | "external"
+              | "file"
+              | "page"
+              | "path"
+              | "post"
+              | "telephone";
+            pageRoute: {
+              _type: "page";
+              slug: string;
+            } | null;
+            eventRoute: {
+              _type: "event";
+              slug: string;
+            } | null;
+            postRoute: {
+              _type: "post";
+              slug: string;
+            } | null;
+            fileRoute: {
+              asset: {
+                url: string;
+                originalFilename: string | null;
+              } | null;
+            } | null;
+            route: string | null;
+            anchor: string | null;
+            link: string | null;
+            email: string | null;
+            telephone: string | null;
+            blank: boolean | null;
+            utm: {
+              source: string | null;
+              medium: string | null;
+              campaign: string | null;
+              term: string | null;
+              content: string | null;
+            } | null;
+            trackingId: string | null;
+            ariaLabel: string | null;
+            relAttributes: Array<string> | null;
+            titleAttr: string | null;
+            dataAttributes: Array<{
+              key: string | null;
+              value: string | null;
+              _key: string;
+            }> | null;
+            title: null;
+          }> | null;
           level?: number;
           _type: "block";
           _key: string;
@@ -2158,19 +2108,19 @@ export type EventQueryResult = {
               | null;
             pageRoute: {
               _type: "page";
-              slug: string | null;
+              slug: string;
             } | null;
             eventRoute: {
               _type: "event";
-              slug: string | null;
+              slug: string;
             } | null;
             postRoute: {
               _type: "post";
-              slug: string | null;
+              slug: string;
             } | null;
             fileRoute: {
               asset: {
-                url: string | null;
+                url: string;
                 originalFilename: string | null;
               } | null;
             } | null;
@@ -2203,23 +2153,23 @@ export type EventQueryResult = {
           alt: string | null;
           crop: {
             _type: "sanity.imageCrop";
-            top?: number;
-            bottom?: number;
-            left?: number;
-            right?: number;
+            top: number;
+            bottom: number;
+            left: number;
+            right: number;
           } | null;
           hotspot: {
-            x: number | null;
-            y: number | null;
+            x: number;
+            y: number;
           } | null;
           asset: {
             _id: string;
-            url: string | null;
+            url: string;
             metadata: {
               dimensions: {
-                aspectRatio: number | null;
-                height: number | null;
-                width: number | null;
+                aspectRatio: number;
+                height: number;
+                width: number;
               } | null;
               lqip: string | null;
             } | null;
@@ -2229,23 +2179,23 @@ export type EventQueryResult = {
           alt: string | null;
           crop: {
             _type: "sanity.imageCrop";
-            top?: number;
-            bottom?: number;
-            left?: number;
-            right?: number;
+            top: number;
+            bottom: number;
+            left: number;
+            right: number;
           } | null;
           hotspot: {
-            x: number | null;
-            y: number | null;
+            x: number;
+            y: number;
           } | null;
           asset: {
             _id: string;
-            url: string | null;
+            url: string;
             metadata: {
               dimensions: {
-                aspectRatio: number | null;
-                height: number | null;
-                width: number | null;
+                aspectRatio: number;
+                height: number;
+                width: number;
               } | null;
               lqip: string | null;
             } | null;
@@ -2300,7 +2250,7 @@ export type EventQueryResult = {
         _type: "ctaBlock";
         active?: boolean;
         anchor?: string;
-        backgroundColor?: "primary" | "secondary";
+        backgroundColor?: "primary" | "secondary" | "texture";
         alignment?: "text-center" | "text-left" | "text-right";
         content: Array<{
           children?: Array<{
@@ -2319,102 +2269,61 @@ export type EventQueryResult = {
             | "normal"
             | "small";
           listItem?: "bullet" | "number";
-          markDefs: Array<
-            | {
-                _key: string;
-                _type: "linkWithRoute";
-                linkType?:
-                  | "anchor"
-                  | "email"
-                  | "event"
-                  | "external"
-                  | "file"
-                  | "page"
-                  | "path"
-                  | "post"
-                  | "telephone";
-                pageRoute?: PageReference;
-                eventRoute?: EventReference;
-                postRoute?: PostReference;
-                fileRoute?: {
-                  asset?: SanityFileAssetReference;
-                  media?: unknown;
-                  _type: "file";
-                };
-                route?: string;
-                anchor?: string;
-                link?: string;
-                email?: string;
-                telephone?: string;
-                blank?: boolean;
-                utm?: Utm;
-                trackingId?: string;
-                ariaLabel?: string;
-                relAttributes?: Array<string>;
-                titleAttr?: string;
-                dataAttributes?: Array<{
-                  key?: string;
-                  value?: string;
-                  _key: string;
-                }>;
-              }
-            | {
-                _key: string;
-                _type: "linkWithRoute";
-                linkType:
-                  | "anchor"
-                  | "email"
-                  | "event"
-                  | "external"
-                  | "file"
-                  | "page"
-                  | "path"
-                  | "post"
-                  | "telephone"
-                  | null;
-                pageRoute: {
-                  _type: "page";
-                  slug: string | null;
-                } | null;
-                eventRoute: {
-                  _type: "event";
-                  slug: string | null;
-                } | null;
-                postRoute: {
-                  _type: "post";
-                  slug: string | null;
-                } | null;
-                fileRoute: {
-                  asset: {
-                    url: string | null;
-                    originalFilename: string | null;
-                  } | null;
-                } | null;
-                route: string | null;
-                anchor: string | null;
-                link: string | null;
-                email: string | null;
-                telephone: string | null;
-                blank: boolean | null;
-                utm: {
-                  source: string | null;
-                  medium: string | null;
-                  campaign: string | null;
-                  term: string | null;
-                  content: string | null;
-                } | null;
-                trackingId: string | null;
-                ariaLabel: string | null;
-                relAttributes: Array<string> | null;
-                titleAttr: string | null;
-                dataAttributes: Array<{
-                  key: string | null;
-                  value: string | null;
-                  _key: string;
-                }> | null;
-                title: null;
-              }
-          > | null;
+          markDefs: Array<{
+            _key: string;
+            _type: "linkWithRoute";
+            linkType:
+              | "anchor"
+              | "email"
+              | "event"
+              | "external"
+              | "file"
+              | "page"
+              | "path"
+              | "post"
+              | "telephone";
+            pageRoute: {
+              _type: "page";
+              slug: string;
+            } | null;
+            eventRoute: {
+              _type: "event";
+              slug: string;
+            } | null;
+            postRoute: {
+              _type: "post";
+              slug: string;
+            } | null;
+            fileRoute: {
+              asset: {
+                url: string;
+                originalFilename: string | null;
+              } | null;
+            } | null;
+            route: string | null;
+            anchor: string | null;
+            link: string | null;
+            email: string | null;
+            telephone: string | null;
+            blank: boolean | null;
+            utm: {
+              source: string | null;
+              medium: string | null;
+              campaign: string | null;
+              term: string | null;
+              content: string | null;
+            } | null;
+            trackingId: string | null;
+            ariaLabel: string | null;
+            relAttributes: Array<string> | null;
+            titleAttr: string | null;
+            dataAttributes: Array<{
+              key: string | null;
+              value: string | null;
+              _key: string;
+            }> | null;
+            title: null;
+          }> | null;
           level?: number;
           _type: "block";
           _key: string;
@@ -2438,19 +2347,19 @@ export type EventQueryResult = {
               | null;
             pageRoute: {
               _type: "page";
-              slug: string | null;
+              slug: string;
             } | null;
             eventRoute: {
               _type: "event";
-              slug: string | null;
+              slug: string;
             } | null;
             postRoute: {
               _type: "post";
-              slug: string | null;
+              slug: string;
             } | null;
             fileRoute: {
               asset: {
-                url: string | null;
+                url: string;
                 originalFilename: string | null;
               } | null;
             } | null;
@@ -2484,6 +2393,7 @@ export type EventQueryResult = {
         _type: "dividerBlock";
         active?: boolean;
         anchor?: string;
+        backgroundColor?: "primary" | "secondary" | "texture";
         style?: "gap" | "rule";
         size?: "large" | "medium" | "small" | "zero";
       }
@@ -2518,7 +2428,7 @@ export type EventQueryResult = {
         anchor?: string;
         backgroundColor?: "primary" | "secondary" | "texture";
         faqs: Array<{
-          question: string | null;
+          question: string;
           answer: Array<{
             children?: Array<{
               marks?: Array<string>;
@@ -2536,106 +2446,65 @@ export type EventQueryResult = {
               | "normal"
               | "small";
             listItem?: "bullet" | "number";
-            markDefs: Array<
-              | {
-                  _key: string;
-                  _type: "linkWithRoute";
-                  linkType?:
-                    | "anchor"
-                    | "email"
-                    | "event"
-                    | "external"
-                    | "file"
-                    | "page"
-                    | "path"
-                    | "post"
-                    | "telephone";
-                  pageRoute?: PageReference;
-                  eventRoute?: EventReference;
-                  postRoute?: PostReference;
-                  fileRoute?: {
-                    asset?: SanityFileAssetReference;
-                    media?: unknown;
-                    _type: "file";
-                  };
-                  route?: string;
-                  anchor?: string;
-                  link?: string;
-                  email?: string;
-                  telephone?: string;
-                  blank?: boolean;
-                  utm?: Utm;
-                  trackingId?: string;
-                  ariaLabel?: string;
-                  relAttributes?: Array<string>;
-                  titleAttr?: string;
-                  dataAttributes?: Array<{
-                    key?: string;
-                    value?: string;
-                    _key: string;
-                  }>;
-                }
-              | {
-                  _key: string;
-                  _type: "linkWithRoute";
-                  linkType:
-                    | "anchor"
-                    | "email"
-                    | "event"
-                    | "external"
-                    | "file"
-                    | "page"
-                    | "path"
-                    | "post"
-                    | "telephone"
-                    | null;
-                  pageRoute: {
-                    _type: "page";
-                    slug: string | null;
-                  } | null;
-                  eventRoute: {
-                    _type: "event";
-                    slug: string | null;
-                  } | null;
-                  postRoute: {
-                    _type: "post";
-                    slug: string | null;
-                  } | null;
-                  fileRoute: {
-                    asset: {
-                      url: string | null;
-                      originalFilename: string | null;
-                    } | null;
-                  } | null;
-                  route: string | null;
-                  anchor: string | null;
-                  link: string | null;
-                  email: string | null;
-                  telephone: string | null;
-                  blank: boolean | null;
-                  utm: {
-                    source: string | null;
-                    medium: string | null;
-                    campaign: string | null;
-                    term: string | null;
-                    content: string | null;
-                  } | null;
-                  trackingId: string | null;
-                  ariaLabel: string | null;
-                  relAttributes: Array<string> | null;
-                  titleAttr: string | null;
-                  dataAttributes: Array<{
-                    key: string | null;
-                    value: string | null;
-                    _key: string;
-                  }> | null;
-                  title: null;
-                }
-            > | null;
+            markDefs: Array<{
+              _key: string;
+              _type: "linkWithRoute";
+              linkType:
+                | "anchor"
+                | "email"
+                | "event"
+                | "external"
+                | "file"
+                | "page"
+                | "path"
+                | "post"
+                | "telephone";
+              pageRoute: {
+                _type: "page";
+                slug: string;
+              } | null;
+              eventRoute: {
+                _type: "event";
+                slug: string;
+              } | null;
+              postRoute: {
+                _type: "post";
+                slug: string;
+              } | null;
+              fileRoute: {
+                asset: {
+                  url: string;
+                  originalFilename: string | null;
+                } | null;
+              } | null;
+              route: string | null;
+              anchor: string | null;
+              link: string | null;
+              email: string | null;
+              telephone: string | null;
+              blank: boolean | null;
+              utm: {
+                source: string | null;
+                medium: string | null;
+                campaign: string | null;
+                term: string | null;
+                content: string | null;
+              } | null;
+              trackingId: string | null;
+              ariaLabel: string | null;
+              relAttributes: Array<string> | null;
+              titleAttr: string | null;
+              dataAttributes: Array<{
+                key: string | null;
+                value: string | null;
+                _key: string;
+              }> | null;
+              title: null;
+            }> | null;
             level?: number;
             _type: "block";
             _key: string;
-          }> | null;
+          }>;
         }> | null;
       }
     | {
@@ -2663,102 +2532,61 @@ export type EventQueryResult = {
                 | "normal"
                 | "small";
               listItem?: "bullet" | "number";
-              markDefs: Array<
-                | {
-                    _key: string;
-                    _type: "linkWithRoute";
-                    linkType?:
-                      | "anchor"
-                      | "email"
-                      | "event"
-                      | "external"
-                      | "file"
-                      | "page"
-                      | "path"
-                      | "post"
-                      | "telephone";
-                    pageRoute?: PageReference;
-                    eventRoute?: EventReference;
-                    postRoute?: PostReference;
-                    fileRoute?: {
-                      asset?: SanityFileAssetReference;
-                      media?: unknown;
-                      _type: "file";
-                    };
-                    route?: string;
-                    anchor?: string;
-                    link?: string;
-                    email?: string;
-                    telephone?: string;
-                    blank?: boolean;
-                    utm?: Utm;
-                    trackingId?: string;
-                    ariaLabel?: string;
-                    relAttributes?: Array<string>;
-                    titleAttr?: string;
-                    dataAttributes?: Array<{
-                      key?: string;
-                      value?: string;
-                      _key: string;
-                    }>;
-                  }
-                | {
-                    _key: string;
-                    _type: "linkWithRoute";
-                    linkType:
-                      | "anchor"
-                      | "email"
-                      | "event"
-                      | "external"
-                      | "file"
-                      | "page"
-                      | "path"
-                      | "post"
-                      | "telephone"
-                      | null;
-                    pageRoute: {
-                      _type: "page";
-                      slug: string | null;
-                    } | null;
-                    eventRoute: {
-                      _type: "event";
-                      slug: string | null;
-                    } | null;
-                    postRoute: {
-                      _type: "post";
-                      slug: string | null;
-                    } | null;
-                    fileRoute: {
-                      asset: {
-                        url: string | null;
-                        originalFilename: string | null;
-                      } | null;
-                    } | null;
-                    route: string | null;
-                    anchor: string | null;
-                    link: string | null;
-                    email: string | null;
-                    telephone: string | null;
-                    blank: boolean | null;
-                    utm: {
-                      source: string | null;
-                      medium: string | null;
-                      campaign: string | null;
-                      term: string | null;
-                      content: string | null;
-                    } | null;
-                    trackingId: string | null;
-                    ariaLabel: string | null;
-                    relAttributes: Array<string> | null;
-                    titleAttr: string | null;
-                    dataAttributes: Array<{
-                      key: string | null;
-                      value: string | null;
-                      _key: string;
-                    }> | null;
-                    title: null;
-                  }
-              > | null;
+              markDefs: Array<{
+                _key: string;
+                _type: "linkWithRoute";
+                linkType:
+                  | "anchor"
+                  | "email"
+                  | "event"
+                  | "external"
+                  | "file"
+                  | "page"
+                  | "path"
+                  | "post"
+                  | "telephone";
+                pageRoute: {
+                  _type: "page";
+                  slug: string;
+                } | null;
+                eventRoute: {
+                  _type: "event";
+                  slug: string;
+                } | null;
+                postRoute: {
+                  _type: "post";
+                  slug: string;
+                } | null;
+                fileRoute: {
+                  asset: {
+                    url: string;
+                    originalFilename: string | null;
+                  } | null;
+                } | null;
+                route: string | null;
+                anchor: string | null;
+                link: string | null;
+                email: string | null;
+                telephone: string | null;
+                blank: boolean | null;
+                utm: {
+                  source: string | null;
+                  medium: string | null;
+                  campaign: string | null;
+                  term: string | null;
+                  content: string | null;
+                } | null;
+                trackingId: string | null;
+                ariaLabel: string | null;
+                relAttributes: Array<string> | null;
+                titleAttr: string | null;
+                dataAttributes: Array<{
+                  key: string | null;
+                  value: string | null;
+                  _key: string;
+                }> | null;
+                title: null;
+              }> | null;
               level?: number;
               _type: "block";
               _key: string;
@@ -2776,17 +2604,17 @@ export type EventQueryResult = {
         > | null;
         form: {
           _id: string;
-          title: string | null;
-          slug: string | null;
+          title: string;
+          slug: string;
           active: boolean | null;
           submitLabel: string | null;
           showOptIn: "hide" | "inherit" | "show" | null;
           optInLabel: string | null;
           fields: Array<{
             _key: string;
-            fieldType: "input" | "textarea" | null;
-            label: string | null;
-            name: string | null;
+            fieldType: "input" | "textarea";
+            label: string;
+            name: string;
             placeholder: string | null;
             required: boolean | null;
             inputType: "tel" | "text" | "url" | null;
@@ -2811,7 +2639,7 @@ export type EventQueryResult = {
             markDefs: Array<{
               _key: string;
               _type: "linkWithRoute";
-              linkType?:
+              linkType:
                 | "anchor"
                 | "email"
                 | "event"
@@ -2850,7 +2678,7 @@ export type EventQueryResult = {
             _type: "block";
             _key: string;
           }> | null;
-        } | null;
+        };
       }
     | {
         _key: string;
@@ -2862,28 +2690,28 @@ export type EventQueryResult = {
           alt: string | null;
           crop: {
             _type: "sanity.imageCrop";
-            top?: number;
-            bottom?: number;
-            left?: number;
-            right?: number;
+            top: number;
+            bottom: number;
+            left: number;
+            right: number;
           } | null;
           hotspot: {
-            x: number | null;
-            y: number | null;
+            x: number;
+            y: number;
           } | null;
           asset: {
             _id: string;
-            url: string | null;
+            url: string;
             metadata: {
               dimensions: {
-                aspectRatio: number | null;
-                height: number | null;
-                width: number | null;
+                aspectRatio: number;
+                height: number;
+                width: number;
               } | null;
               lqip: string | null;
             } | null;
           } | null;
-        }> | null;
+        }>;
         imagesPerRow?: number;
         enableLightbox?: boolean;
       }
@@ -2898,23 +2726,23 @@ export type EventQueryResult = {
           alt: string | null;
           crop: {
             _type: "sanity.imageCrop";
-            top?: number;
-            bottom?: number;
-            left?: number;
-            right?: number;
+            top: number;
+            bottom: number;
+            left: number;
+            right: number;
           } | null;
           hotspot: {
-            x: number | null;
-            y: number | null;
+            x: number;
+            y: number;
           } | null;
           asset: {
             _id: string;
-            url: string | null;
+            url: string;
             metadata: {
               dimensions: {
-                aspectRatio: number | null;
-                height: number | null;
-                width: number | null;
+                aspectRatio: number;
+                height: number;
+                width: number;
               } | null;
               lqip: string | null;
             } | null;
@@ -2937,102 +2765,61 @@ export type EventQueryResult = {
             | "normal"
             | "small";
           listItem?: "bullet" | "number";
-          markDefs: Array<
-            | {
-                _key: string;
-                _type: "linkWithRoute";
-                linkType?:
-                  | "anchor"
-                  | "email"
-                  | "event"
-                  | "external"
-                  | "file"
-                  | "page"
-                  | "path"
-                  | "post"
-                  | "telephone";
-                pageRoute?: PageReference;
-                eventRoute?: EventReference;
-                postRoute?: PostReference;
-                fileRoute?: {
-                  asset?: SanityFileAssetReference;
-                  media?: unknown;
-                  _type: "file";
-                };
-                route?: string;
-                anchor?: string;
-                link?: string;
-                email?: string;
-                telephone?: string;
-                blank?: boolean;
-                utm?: Utm;
-                trackingId?: string;
-                ariaLabel?: string;
-                relAttributes?: Array<string>;
-                titleAttr?: string;
-                dataAttributes?: Array<{
-                  key?: string;
-                  value?: string;
-                  _key: string;
-                }>;
-              }
-            | {
-                _key: string;
-                _type: "linkWithRoute";
-                linkType:
-                  | "anchor"
-                  | "email"
-                  | "event"
-                  | "external"
-                  | "file"
-                  | "page"
-                  | "path"
-                  | "post"
-                  | "telephone"
-                  | null;
-                pageRoute: {
-                  _type: "page";
-                  slug: string | null;
-                } | null;
-                eventRoute: {
-                  _type: "event";
-                  slug: string | null;
-                } | null;
-                postRoute: {
-                  _type: "post";
-                  slug: string | null;
-                } | null;
-                fileRoute: {
-                  asset: {
-                    url: string | null;
-                    originalFilename: string | null;
-                  } | null;
-                } | null;
-                route: string | null;
-                anchor: string | null;
-                link: string | null;
-                email: string | null;
-                telephone: string | null;
-                blank: boolean | null;
-                utm: {
-                  source: string | null;
-                  medium: string | null;
-                  campaign: string | null;
-                  term: string | null;
-                  content: string | null;
-                } | null;
-                trackingId: string | null;
-                ariaLabel: string | null;
-                relAttributes: Array<string> | null;
-                titleAttr: string | null;
-                dataAttributes: Array<{
-                  key: string | null;
-                  value: string | null;
-                  _key: string;
-                }> | null;
-                title: null;
-              }
-          > | null;
+          markDefs: Array<{
+            _key: string;
+            _type: "linkWithRoute";
+            linkType:
+              | "anchor"
+              | "email"
+              | "event"
+              | "external"
+              | "file"
+              | "page"
+              | "path"
+              | "post"
+              | "telephone";
+            pageRoute: {
+              _type: "page";
+              slug: string;
+            } | null;
+            eventRoute: {
+              _type: "event";
+              slug: string;
+            } | null;
+            postRoute: {
+              _type: "post";
+              slug: string;
+            } | null;
+            fileRoute: {
+              asset: {
+                url: string;
+                originalFilename: string | null;
+              } | null;
+            } | null;
+            route: string | null;
+            anchor: string | null;
+            link: string | null;
+            email: string | null;
+            telephone: string | null;
+            blank: boolean | null;
+            utm: {
+              source: string | null;
+              medium: string | null;
+              campaign: string | null;
+              term: string | null;
+              content: string | null;
+            } | null;
+            trackingId: string | null;
+            ariaLabel: string | null;
+            relAttributes: Array<string> | null;
+            titleAttr: string | null;
+            dataAttributes: Array<{
+              key: string | null;
+              value: string | null;
+              _key: string;
+            }> | null;
+            title: null;
+          }> | null;
           level?: number;
           _type: "block";
           _key: string;
@@ -3056,19 +2843,19 @@ export type EventQueryResult = {
               | null;
             pageRoute: {
               _type: "page";
-              slug: string | null;
+              slug: string;
             } | null;
             eventRoute: {
               _type: "event";
-              slug: string | null;
+              slug: string;
             } | null;
             postRoute: {
               _type: "post";
-              slug: string | null;
+              slug: string;
             } | null;
             fileRoute: {
               asset: {
-                url: string | null;
+                url: string;
                 originalFilename: string | null;
               } | null;
             } | null;
@@ -3103,28 +2890,29 @@ export type EventQueryResult = {
         _type: "imageBlock";
         active?: boolean;
         anchor?: string;
+        backgroundColor?: "primary" | "secondary" | "texture";
         mediaType?: "image" | "video";
         image: {
           alt: string | null;
           crop: {
             _type: "sanity.imageCrop";
-            top?: number;
-            bottom?: number;
-            left?: number;
-            right?: number;
+            top: number;
+            bottom: number;
+            left: number;
+            right: number;
           } | null;
           hotspot: {
-            x: number | null;
-            y: number | null;
+            x: number;
+            y: number;
           } | null;
           asset: {
             _id: string;
-            url: string | null;
+            url: string;
             metadata: {
               dimensions: {
-                aspectRatio: number | null;
-                height: number | null;
-                width: number | null;
+                aspectRatio: number;
+                height: number;
+                width: number;
               } | null;
               lqip: string | null;
             } | null;
@@ -3134,23 +2922,23 @@ export type EventQueryResult = {
           alt: string | null;
           crop: {
             _type: "sanity.imageCrop";
-            top?: number;
-            bottom?: number;
-            left?: number;
-            right?: number;
+            top: number;
+            bottom: number;
+            left: number;
+            right: number;
           } | null;
           hotspot: {
-            x: number | null;
-            y: number | null;
+            x: number;
+            y: number;
           } | null;
           asset: {
             _id: string;
-            url: string | null;
+            url: string;
             metadata: {
               dimensions: {
-                aspectRatio: number | null;
-                height: number | null;
-                width: number | null;
+                aspectRatio: number;
+                height: number;
+                width: number;
               } | null;
               lqip: string | null;
             } | null;
@@ -3187,23 +2975,23 @@ export type EventQueryResult = {
             alt: string | null;
             crop: {
               _type: "sanity.imageCrop";
-              top?: number;
-              bottom?: number;
-              left?: number;
-              right?: number;
+              top: number;
+              bottom: number;
+              left: number;
+              right: number;
             } | null;
             hotspot: {
-              x: number | null;
-              y: number | null;
+              x: number;
+              y: number;
             } | null;
             asset: {
               _id: string;
-              url: string | null;
+              url: string;
               metadata: {
                 dimensions: {
-                  aspectRatio: number | null;
-                  height: number | null;
-                  width: number | null;
+                  aspectRatio: number;
+                  height: number;
+                  width: number;
                 } | null;
                 lqip: string | null;
               } | null;
@@ -3246,127 +3034,86 @@ export type EventQueryResult = {
             | "normal"
             | "small";
           listItem?: "bullet" | "number";
-          markDefs: Array<
-            | {
-                _key: string;
-                _type: "linkWithRoute";
-                linkType?:
-                  | "anchor"
-                  | "email"
-                  | "event"
-                  | "external"
-                  | "file"
-                  | "page"
-                  | "path"
-                  | "post"
-                  | "telephone";
-                pageRoute?: PageReference;
-                eventRoute?: EventReference;
-                postRoute?: PostReference;
-                fileRoute?: {
-                  asset?: SanityFileAssetReference;
-                  media?: unknown;
-                  _type: "file";
-                };
-                route?: string;
-                anchor?: string;
-                link?: string;
-                email?: string;
-                telephone?: string;
-                blank?: boolean;
-                utm?: Utm;
-                trackingId?: string;
-                ariaLabel?: string;
-                relAttributes?: Array<string>;
-                titleAttr?: string;
-                dataAttributes?: Array<{
-                  key?: string;
-                  value?: string;
-                  _key: string;
-                }>;
-              }
-            | {
-                _key: string;
-                _type: "linkWithRoute";
-                linkType:
-                  | "anchor"
-                  | "email"
-                  | "event"
-                  | "external"
-                  | "file"
-                  | "page"
-                  | "path"
-                  | "post"
-                  | "telephone"
-                  | null;
-                pageRoute: {
-                  _type: "page";
-                  slug: string | null;
-                } | null;
-                eventRoute: {
-                  _type: "event";
-                  slug: string | null;
-                } | null;
-                postRoute: {
-                  _type: "post";
-                  slug: string | null;
-                } | null;
-                fileRoute: {
-                  asset: {
-                    url: string | null;
-                    originalFilename: string | null;
-                  } | null;
-                } | null;
-                route: string | null;
-                anchor: string | null;
-                link: string | null;
-                email: string | null;
-                telephone: string | null;
-                blank: boolean | null;
-                utm: {
-                  source: string | null;
-                  medium: string | null;
-                  campaign: string | null;
-                  term: string | null;
-                  content: string | null;
-                } | null;
-                trackingId: string | null;
-                ariaLabel: string | null;
-                relAttributes: Array<string> | null;
-                titleAttr: string | null;
-                dataAttributes: Array<{
-                  key: string | null;
-                  value: string | null;
-                  _key: string;
-                }> | null;
-                title: null;
-              }
-          > | null;
+          markDefs: Array<{
+            _key: string;
+            _type: "linkWithRoute";
+            linkType:
+              | "anchor"
+              | "email"
+              | "event"
+              | "external"
+              | "file"
+              | "page"
+              | "path"
+              | "post"
+              | "telephone";
+            pageRoute: {
+              _type: "page";
+              slug: string;
+            } | null;
+            eventRoute: {
+              _type: "event";
+              slug: string;
+            } | null;
+            postRoute: {
+              _type: "post";
+              slug: string;
+            } | null;
+            fileRoute: {
+              asset: {
+                url: string;
+                originalFilename: string | null;
+              } | null;
+            } | null;
+            route: string | null;
+            anchor: string | null;
+            link: string | null;
+            email: string | null;
+            telephone: string | null;
+            blank: boolean | null;
+            utm: {
+              source: string | null;
+              medium: string | null;
+              campaign: string | null;
+              term: string | null;
+              content: string | null;
+            } | null;
+            trackingId: string | null;
+            ariaLabel: string | null;
+            relAttributes: Array<string> | null;
+            titleAttr: string | null;
+            dataAttributes: Array<{
+              key: string | null;
+              value: string | null;
+              _key: string;
+            }> | null;
+            title: null;
+          }> | null;
           level?: number;
           _type: "block";
           _key: string;
-        }> | null;
+        }>;
         image: {
           alt: string | null;
           crop: {
             _type: "sanity.imageCrop";
-            top?: number;
-            bottom?: number;
-            left?: number;
-            right?: number;
+            top: number;
+            bottom: number;
+            left: number;
+            right: number;
           } | null;
           hotspot: {
-            x: number | null;
-            y: number | null;
+            x: number;
+            y: number;
           } | null;
           asset: {
             _id: string;
-            url: string | null;
+            url: string;
             metadata: {
               dimensions: {
-                aspectRatio: number | null;
-                height: number | null;
-                width: number | null;
+                aspectRatio: number;
+                height: number;
+                width: number;
               } | null;
               lqip: string | null;
             } | null;
@@ -3392,19 +3139,19 @@ export type EventQueryResult = {
               | null;
             pageRoute: {
               _type: "page";
-              slug: string | null;
+              slug: string;
             } | null;
             eventRoute: {
               _type: "event";
-              slug: string | null;
+              slug: string;
             } | null;
             postRoute: {
               _type: "post";
-              slug: string | null;
+              slug: string;
             } | null;
             fileRoute: {
               asset: {
-                url: string | null;
+                url: string;
                 originalFilename: string | null;
               } | null;
             } | null;
@@ -3456,128 +3203,87 @@ export type EventQueryResult = {
             | "normal"
             | "small";
           listItem?: "bullet" | "number";
-          markDefs: Array<
-            | {
-                _key: string;
-                _type: "linkWithRoute";
-                linkType?:
-                  | "anchor"
-                  | "email"
-                  | "event"
-                  | "external"
-                  | "file"
-                  | "page"
-                  | "path"
-                  | "post"
-                  | "telephone";
-                pageRoute?: PageReference;
-                eventRoute?: EventReference;
-                postRoute?: PostReference;
-                fileRoute?: {
-                  asset?: SanityFileAssetReference;
-                  media?: unknown;
-                  _type: "file";
-                };
-                route?: string;
-                anchor?: string;
-                link?: string;
-                email?: string;
-                telephone?: string;
-                blank?: boolean;
-                utm?: Utm;
-                trackingId?: string;
-                ariaLabel?: string;
-                relAttributes?: Array<string>;
-                titleAttr?: string;
-                dataAttributes?: Array<{
-                  key?: string;
-                  value?: string;
-                  _key: string;
-                }>;
-              }
-            | {
-                _key: string;
-                _type: "linkWithRoute";
-                linkType:
-                  | "anchor"
-                  | "email"
-                  | "event"
-                  | "external"
-                  | "file"
-                  | "page"
-                  | "path"
-                  | "post"
-                  | "telephone"
-                  | null;
-                pageRoute: {
-                  _type: "page";
-                  slug: string | null;
-                } | null;
-                eventRoute: {
-                  _type: "event";
-                  slug: string | null;
-                } | null;
-                postRoute: {
-                  _type: "post";
-                  slug: string | null;
-                } | null;
-                fileRoute: {
-                  asset: {
-                    url: string | null;
-                    originalFilename: string | null;
-                  } | null;
-                } | null;
-                route: string | null;
-                anchor: string | null;
-                link: string | null;
-                email: string | null;
-                telephone: string | null;
-                blank: boolean | null;
-                utm: {
-                  source: string | null;
-                  medium: string | null;
-                  campaign: string | null;
-                  term: string | null;
-                  content: string | null;
-                } | null;
-                trackingId: string | null;
-                ariaLabel: string | null;
-                relAttributes: Array<string> | null;
-                titleAttr: string | null;
-                dataAttributes: Array<{
-                  key: string | null;
-                  value: string | null;
-                  _key: string;
-                }> | null;
-                title: null;
-              }
-          > | null;
+          markDefs: Array<{
+            _key: string;
+            _type: "linkWithRoute";
+            linkType:
+              | "anchor"
+              | "email"
+              | "event"
+              | "external"
+              | "file"
+              | "page"
+              | "path"
+              | "post"
+              | "telephone";
+            pageRoute: {
+              _type: "page";
+              slug: string;
+            } | null;
+            eventRoute: {
+              _type: "event";
+              slug: string;
+            } | null;
+            postRoute: {
+              _type: "post";
+              slug: string;
+            } | null;
+            fileRoute: {
+              asset: {
+                url: string;
+                originalFilename: string | null;
+              } | null;
+            } | null;
+            route: string | null;
+            anchor: string | null;
+            link: string | null;
+            email: string | null;
+            telephone: string | null;
+            blank: boolean | null;
+            utm: {
+              source: string | null;
+              medium: string | null;
+              campaign: string | null;
+              term: string | null;
+              content: string | null;
+            } | null;
+            trackingId: string | null;
+            ariaLabel: string | null;
+            relAttributes: Array<string> | null;
+            titleAttr: string | null;
+            dataAttributes: Array<{
+              key: string | null;
+              value: string | null;
+              _key: string;
+            }> | null;
+            title: null;
+          }> | null;
           level?: number;
           _type: "block";
           _key: string;
-        }> | null;
+        }>;
         items: Array<{
           image: {
             alt: string | null;
             crop: {
               _type: "sanity.imageCrop";
-              top?: number;
-              bottom?: number;
-              left?: number;
-              right?: number;
+              top: number;
+              bottom: number;
+              left: number;
+              right: number;
             } | null;
             hotspot: {
-              x: number | null;
-              y: number | null;
+              x: number;
+              y: number;
             } | null;
             asset: {
               _id: string;
-              url: string | null;
+              url: string;
               metadata: {
                 dimensions: {
-                  aspectRatio: number | null;
-                  height: number | null;
-                  width: number | null;
+                  aspectRatio: number;
+                  height: number;
+                  width: number;
                 } | null;
                 lqip: string | null;
               } | null;
@@ -3600,106 +3306,65 @@ export type EventQueryResult = {
               | "normal"
               | "small";
             listItem?: "bullet" | "number";
-            markDefs: Array<
-              | {
-                  _key: string;
-                  _type: "linkWithRoute";
-                  linkType?:
-                    | "anchor"
-                    | "email"
-                    | "event"
-                    | "external"
-                    | "file"
-                    | "page"
-                    | "path"
-                    | "post"
-                    | "telephone";
-                  pageRoute?: PageReference;
-                  eventRoute?: EventReference;
-                  postRoute?: PostReference;
-                  fileRoute?: {
-                    asset?: SanityFileAssetReference;
-                    media?: unknown;
-                    _type: "file";
-                  };
-                  route?: string;
-                  anchor?: string;
-                  link?: string;
-                  email?: string;
-                  telephone?: string;
-                  blank?: boolean;
-                  utm?: Utm;
-                  trackingId?: string;
-                  ariaLabel?: string;
-                  relAttributes?: Array<string>;
-                  titleAttr?: string;
-                  dataAttributes?: Array<{
-                    key?: string;
-                    value?: string;
-                    _key: string;
-                  }>;
-                }
-              | {
-                  _key: string;
-                  _type: "linkWithRoute";
-                  linkType:
-                    | "anchor"
-                    | "email"
-                    | "event"
-                    | "external"
-                    | "file"
-                    | "page"
-                    | "path"
-                    | "post"
-                    | "telephone"
-                    | null;
-                  pageRoute: {
-                    _type: "page";
-                    slug: string | null;
-                  } | null;
-                  eventRoute: {
-                    _type: "event";
-                    slug: string | null;
-                  } | null;
-                  postRoute: {
-                    _type: "post";
-                    slug: string | null;
-                  } | null;
-                  fileRoute: {
-                    asset: {
-                      url: string | null;
-                      originalFilename: string | null;
-                    } | null;
-                  } | null;
-                  route: string | null;
-                  anchor: string | null;
-                  link: string | null;
-                  email: string | null;
-                  telephone: string | null;
-                  blank: boolean | null;
-                  utm: {
-                    source: string | null;
-                    medium: string | null;
-                    campaign: string | null;
-                    term: string | null;
-                    content: string | null;
-                  } | null;
-                  trackingId: string | null;
-                  ariaLabel: string | null;
-                  relAttributes: Array<string> | null;
-                  titleAttr: string | null;
-                  dataAttributes: Array<{
-                    key: string | null;
-                    value: string | null;
-                    _key: string;
-                  }> | null;
-                  title: null;
-                }
-            > | null;
+            markDefs: Array<{
+              _key: string;
+              _type: "linkWithRoute";
+              linkType:
+                | "anchor"
+                | "email"
+                | "event"
+                | "external"
+                | "file"
+                | "page"
+                | "path"
+                | "post"
+                | "telephone";
+              pageRoute: {
+                _type: "page";
+                slug: string;
+              } | null;
+              eventRoute: {
+                _type: "event";
+                slug: string;
+              } | null;
+              postRoute: {
+                _type: "post";
+                slug: string;
+              } | null;
+              fileRoute: {
+                asset: {
+                  url: string;
+                  originalFilename: string | null;
+                } | null;
+              } | null;
+              route: string | null;
+              anchor: string | null;
+              link: string | null;
+              email: string | null;
+              telephone: string | null;
+              blank: boolean | null;
+              utm: {
+                source: string | null;
+                medium: string | null;
+                campaign: string | null;
+                term: string | null;
+                content: string | null;
+              } | null;
+              trackingId: string | null;
+              ariaLabel: string | null;
+              relAttributes: Array<string> | null;
+              titleAttr: string | null;
+              dataAttributes: Array<{
+                key: string | null;
+                value: string | null;
+                _key: string;
+              }> | null;
+              title: null;
+            }> | null;
             level?: number;
             _type: "block";
             _key: string;
-          }> | null;
+          }>;
           _key: string;
         }> | null;
       }
@@ -3726,102 +3391,61 @@ export type EventQueryResult = {
             | "normal"
             | "small";
           listItem?: "bullet" | "number";
-          markDefs: Array<
-            | {
-                _key: string;
-                _type: "linkWithRoute";
-                linkType?:
-                  | "anchor"
-                  | "email"
-                  | "event"
-                  | "external"
-                  | "file"
-                  | "page"
-                  | "path"
-                  | "post"
-                  | "telephone";
-                pageRoute?: PageReference;
-                eventRoute?: EventReference;
-                postRoute?: PostReference;
-                fileRoute?: {
-                  asset?: SanityFileAssetReference;
-                  media?: unknown;
-                  _type: "file";
-                };
-                route?: string;
-                anchor?: string;
-                link?: string;
-                email?: string;
-                telephone?: string;
-                blank?: boolean;
-                utm?: Utm;
-                trackingId?: string;
-                ariaLabel?: string;
-                relAttributes?: Array<string>;
-                titleAttr?: string;
-                dataAttributes?: Array<{
-                  key?: string;
-                  value?: string;
-                  _key: string;
-                }>;
-              }
-            | {
-                _key: string;
-                _type: "linkWithRoute";
-                linkType:
-                  | "anchor"
-                  | "email"
-                  | "event"
-                  | "external"
-                  | "file"
-                  | "page"
-                  | "path"
-                  | "post"
-                  | "telephone"
-                  | null;
-                pageRoute: {
-                  _type: "page";
-                  slug: string | null;
-                } | null;
-                eventRoute: {
-                  _type: "event";
-                  slug: string | null;
-                } | null;
-                postRoute: {
-                  _type: "post";
-                  slug: string | null;
-                } | null;
-                fileRoute: {
-                  asset: {
-                    url: string | null;
-                    originalFilename: string | null;
-                  } | null;
-                } | null;
-                route: string | null;
-                anchor: string | null;
-                link: string | null;
-                email: string | null;
-                telephone: string | null;
-                blank: boolean | null;
-                utm: {
-                  source: string | null;
-                  medium: string | null;
-                  campaign: string | null;
-                  term: string | null;
-                  content: string | null;
-                } | null;
-                trackingId: string | null;
-                ariaLabel: string | null;
-                relAttributes: Array<string> | null;
-                titleAttr: string | null;
-                dataAttributes: Array<{
-                  key: string | null;
-                  value: string | null;
-                  _key: string;
-                }> | null;
-                title: null;
-              }
-          > | null;
+          markDefs: Array<{
+            _key: string;
+            _type: "linkWithRoute";
+            linkType:
+              | "anchor"
+              | "email"
+              | "event"
+              | "external"
+              | "file"
+              | "page"
+              | "path"
+              | "post"
+              | "telephone";
+            pageRoute: {
+              _type: "page";
+              slug: string;
+            } | null;
+            eventRoute: {
+              _type: "event";
+              slug: string;
+            } | null;
+            postRoute: {
+              _type: "post";
+              slug: string;
+            } | null;
+            fileRoute: {
+              asset: {
+                url: string;
+                originalFilename: string | null;
+              } | null;
+            } | null;
+            route: string | null;
+            anchor: string | null;
+            link: string | null;
+            email: string | null;
+            telephone: string | null;
+            blank: boolean | null;
+            utm: {
+              source: string | null;
+              medium: string | null;
+              campaign: string | null;
+              term: string | null;
+              content: string | null;
+            } | null;
+            trackingId: string | null;
+            ariaLabel: string | null;
+            relAttributes: Array<string> | null;
+            titleAttr: string | null;
+            dataAttributes: Array<{
+              key: string | null;
+              value: string | null;
+              _key: string;
+            }> | null;
+            title: null;
+          }> | null;
           level?: number;
           _type: "block";
           _key: string;
@@ -3830,28 +3454,29 @@ export type EventQueryResult = {
           alt: string | null;
           crop: {
             _type: "sanity.imageCrop";
-            top?: number;
-            bottom?: number;
-            left?: number;
-            right?: number;
+            top: number;
+            bottom: number;
+            left: number;
+            right: number;
           } | null;
           hotspot: {
-            x: number | null;
-            y: number | null;
+            x: number;
+            y: number;
           } | null;
           asset: {
             _id: string;
-            url: string | null;
+            url: string;
             metadata: {
               dimensions: {
-                aspectRatio: number | null;
-                height: number | null;
-                width: number | null;
+                aspectRatio: number;
+                height: number;
+                width: number;
               } | null;
               lqip: string | null;
             } | null;
           } | null;
         } | null;
+        variant?: "cards" | "proof";
         layout?: "image-left" | "image-right";
         stats: Array<{
           statValue?: string;
@@ -3872,46 +3497,205 @@ export type EventQueryResult = {
               | "normal"
               | "small";
             listItem?: "bullet" | "number";
-            markDefs: Array<
-              | {
+            markDefs: Array<{
+              _key: string;
+              _type: "linkWithRoute";
+              linkType:
+                | "anchor"
+                | "email"
+                | "event"
+                | "external"
+                | "file"
+                | "page"
+                | "path"
+                | "post"
+                | "telephone";
+              pageRoute: {
+                _type: "page";
+                slug: string;
+              } | null;
+              eventRoute: {
+                _type: "event";
+                slug: string;
+              } | null;
+              postRoute: {
+                _type: "post";
+                slug: string;
+              } | null;
+              fileRoute: {
+                asset: {
+                  url: string;
+                  originalFilename: string | null;
+                } | null;
+              } | null;
+              route: string | null;
+              anchor: string | null;
+              link: string | null;
+              email: string | null;
+              telephone: string | null;
+              blank: boolean | null;
+              utm: {
+                source: string | null;
+                medium: string | null;
+                campaign: string | null;
+                term: string | null;
+                content: string | null;
+              } | null;
+              trackingId: string | null;
+              ariaLabel: string | null;
+              relAttributes: Array<string> | null;
+              titleAttr: string | null;
+              dataAttributes: Array<{
+                key: string | null;
+                value: string | null;
+                _key: string;
+              }> | null;
+              title: null;
+            }> | null;
+            level?: number;
+            _type: "block";
+            _key: string;
+          }> | null;
+          _type: "stat";
+          _key: string;
+        }> | null;
+        footnote: Array<{
+          children?: Array<{
+            marks?: Array<string>;
+            text?: string;
+            _type: "span";
+            _key: string;
+          }>;
+          style?:
+            | "blockquote"
+            | "h1"
+            | "h2"
+            | "h3"
+            | "h4"
+            | "large"
+            | "normal"
+            | "small";
+          listItem?: "bullet" | "number";
+          markDefs: Array<{
+            _key: string;
+            _type: "linkWithRoute";
+            linkType:
+              | "anchor"
+              | "email"
+              | "event"
+              | "external"
+              | "file"
+              | "page"
+              | "path"
+              | "post"
+              | "telephone";
+            pageRoute: {
+              _type: "page";
+              slug: string;
+            } | null;
+            eventRoute: {
+              _type: "event";
+              slug: string;
+            } | null;
+            postRoute: {
+              _type: "post";
+              slug: string;
+            } | null;
+            fileRoute: {
+              asset: {
+                url: string;
+                originalFilename: string | null;
+              } | null;
+            } | null;
+            route: string | null;
+            anchor: string | null;
+            link: string | null;
+            email: string | null;
+            telephone: string | null;
+            blank: boolean | null;
+            utm: {
+              source: string | null;
+              medium: string | null;
+              campaign: string | null;
+              term: string | null;
+              content: string | null;
+            } | null;
+            trackingId: string | null;
+            ariaLabel: string | null;
+            relAttributes: Array<string> | null;
+            titleAttr: string | null;
+            dataAttributes: Array<{
+              key: string | null;
+              value: string | null;
+              _key: string;
+            }> | null;
+            title: null;
+          }> | null;
+          level?: number;
+          _type: "block";
+          _key: string;
+        }> | null;
+      }
+    | {
+        _key: string;
+        _type: "teamMemberBlock";
+        active?: boolean;
+        anchor?: string;
+        backgroundColor?: "primary" | "secondary" | "texture";
+        member: {
+          _id: string;
+          title: string;
+          slug: string;
+          primaryJobTitle: string | null;
+          secondaryJobTitle: string | null;
+          email: string | null;
+          phone: string | null;
+          socials: Social | null;
+          image: {
+            alt: string | null;
+            crop: {
+              _type: "sanity.imageCrop";
+              top: number;
+              bottom: number;
+              left: number;
+              right: number;
+            } | null;
+            hotspot: {
+              x: number;
+              y: number;
+            } | null;
+            asset: {
+              _id: string;
+              url: string;
+              metadata: {
+                dimensions: {
+                  aspectRatio: number;
+                  height: number;
+                  width: number;
+                } | null;
+                lqip: string | null;
+              } | null;
+            } | null;
+          } | null;
+          content: Array<
+            | {
+                children?: Array<{
+                  marks?: Array<string>;
+                  text?: string;
+                  _type: "span";
                   _key: string;
-                  _type: "linkWithRoute";
-                  linkType?:
-                    | "anchor"
-                    | "email"
-                    | "event"
-                    | "external"
-                    | "file"
-                    | "page"
-                    | "path"
-                    | "post"
-                    | "telephone";
-                  pageRoute?: PageReference;
-                  eventRoute?: EventReference;
-                  postRoute?: PostReference;
-                  fileRoute?: {
-                    asset?: SanityFileAssetReference;
-                    media?: unknown;
-                    _type: "file";
-                  };
-                  route?: string;
-                  anchor?: string;
-                  link?: string;
-                  email?: string;
-                  telephone?: string;
-                  blank?: boolean;
-                  utm?: Utm;
-                  trackingId?: string;
-                  ariaLabel?: string;
-                  relAttributes?: Array<string>;
-                  titleAttr?: string;
-                  dataAttributes?: Array<{
-                    key?: string;
-                    value?: string;
-                    _key: string;
-                  }>;
-                }
-              | {
+                }>;
+                style?:
+                  | "blockquote"
+                  | "h1"
+                  | "h2"
+                  | "h3"
+                  | "h4"
+                  | "large"
+                  | "normal"
+                  | "small";
+                listItem?: "bullet" | "number";
+                markDefs: Array<{
                   _key: string;
                   _type: "linkWithRoute";
                   linkType:
@@ -3923,23 +3707,22 @@ export type EventQueryResult = {
                     | "page"
                     | "path"
                     | "post"
-                    | "telephone"
-                    | null;
+                    | "telephone";
                   pageRoute: {
                     _type: "page";
-                    slug: string | null;
+                    slug: string;
                   } | null;
                   eventRoute: {
                     _type: "event";
-                    slug: string | null;
+                    slug: string;
                   } | null;
                   postRoute: {
                     _type: "post";
-                    slug: string | null;
+                    slug: string;
                   } | null;
                   fileRoute: {
                     asset: {
-                      url: string | null;
+                      url: string;
                       originalFilename: string | null;
                     } | null;
                   } | null;
@@ -3966,171 +3749,7 @@ export type EventQueryResult = {
                     _key: string;
                   }> | null;
                   title: null;
-                }
-            > | null;
-            level?: number;
-            _type: "block";
-            _key: string;
-          }> | null;
-          _type: "stat";
-          _key: string;
-        }> | null;
-      }
-    | {
-        _key: string;
-        _type: "teamMemberBlock";
-        active?: boolean;
-        anchor?: string;
-        backgroundColor?: "primary" | "secondary";
-        member: {
-          _id: string;
-          title: string | null;
-          slug: string | null;
-          primaryJobTitle: string | null;
-          secondaryJobTitle: string | null;
-          email: string | null;
-          phone: string | null;
-          socials: Social | null;
-          image: {
-            alt: string | null;
-            crop: {
-              _type: "sanity.imageCrop";
-              top?: number;
-              bottom?: number;
-              left?: number;
-              right?: number;
-            } | null;
-            hotspot: {
-              x: number | null;
-              y: number | null;
-            } | null;
-            asset: {
-              _id: string;
-              url: string | null;
-              metadata: {
-                dimensions: {
-                  aspectRatio: number | null;
-                  height: number | null;
-                  width: number | null;
-                } | null;
-                lqip: string | null;
-              } | null;
-            } | null;
-          } | null;
-          content: Array<
-            | {
-                children?: Array<{
-                  marks?: Array<string>;
-                  text?: string;
-                  _type: "span";
-                  _key: string;
-                }>;
-                style?:
-                  | "blockquote"
-                  | "h1"
-                  | "h2"
-                  | "h3"
-                  | "h4"
-                  | "large"
-                  | "normal"
-                  | "small";
-                listItem?: "bullet" | "number";
-                markDefs: Array<
-                  | {
-                      _key: string;
-                      _type: "linkWithRoute";
-                      linkType?:
-                        | "anchor"
-                        | "email"
-                        | "event"
-                        | "external"
-                        | "file"
-                        | "page"
-                        | "path"
-                        | "post"
-                        | "telephone";
-                      pageRoute?: PageReference;
-                      eventRoute?: EventReference;
-                      postRoute?: PostReference;
-                      fileRoute?: {
-                        asset?: SanityFileAssetReference;
-                        media?: unknown;
-                        _type: "file";
-                      };
-                      route?: string;
-                      anchor?: string;
-                      link?: string;
-                      email?: string;
-                      telephone?: string;
-                      blank?: boolean;
-                      utm?: Utm;
-                      trackingId?: string;
-                      ariaLabel?: string;
-                      relAttributes?: Array<string>;
-                      titleAttr?: string;
-                      dataAttributes?: Array<{
-                        key?: string;
-                        value?: string;
-                        _key: string;
-                      }>;
-                    }
-                  | {
-                      _key: string;
-                      _type: "linkWithRoute";
-                      linkType:
-                        | "anchor"
-                        | "email"
-                        | "event"
-                        | "external"
-                        | "file"
-                        | "page"
-                        | "path"
-                        | "post"
-                        | "telephone"
-                        | null;
-                      pageRoute: {
-                        _type: "page";
-                        slug: string | null;
-                      } | null;
-                      eventRoute: {
-                        _type: "event";
-                        slug: string | null;
-                      } | null;
-                      postRoute: {
-                        _type: "post";
-                        slug: string | null;
-                      } | null;
-                      fileRoute: {
-                        asset: {
-                          url: string | null;
-                          originalFilename: string | null;
-                        } | null;
-                      } | null;
-                      route: string | null;
-                      anchor: string | null;
-                      link: string | null;
-                      email: string | null;
-                      telephone: string | null;
-                      blank: boolean | null;
-                      utm: {
-                        source: string | null;
-                        medium: string | null;
-                        campaign: string | null;
-                        term: string | null;
-                        content: string | null;
-                      } | null;
-                      trackingId: string | null;
-                      ariaLabel: string | null;
-                      relAttributes: Array<string> | null;
-                      titleAttr: string | null;
-                      dataAttributes: Array<{
-                        key: string | null;
-                        value: string | null;
-                        _key: string;
-                      }> | null;
-                      title: null;
-                    }
-                > | null;
+                }> | null;
                 level?: number;
                 _type: "block";
                 _key: string;
@@ -4146,7 +3765,7 @@ export type EventQueryResult = {
                 markDefs: null;
               }
           > | null;
-        } | null;
+        };
       }
     | {
         _key: string;
@@ -4173,102 +3792,61 @@ export type EventQueryResult = {
                 | "normal"
                 | "small";
               listItem?: "bullet" | "number";
-              markDefs: Array<
-                | {
-                    _key: string;
-                    _type: "linkWithRoute";
-                    linkType?:
-                      | "anchor"
-                      | "email"
-                      | "event"
-                      | "external"
-                      | "file"
-                      | "page"
-                      | "path"
-                      | "post"
-                      | "telephone";
-                    pageRoute?: PageReference;
-                    eventRoute?: EventReference;
-                    postRoute?: PostReference;
-                    fileRoute?: {
-                      asset?: SanityFileAssetReference;
-                      media?: unknown;
-                      _type: "file";
-                    };
-                    route?: string;
-                    anchor?: string;
-                    link?: string;
-                    email?: string;
-                    telephone?: string;
-                    blank?: boolean;
-                    utm?: Utm;
-                    trackingId?: string;
-                    ariaLabel?: string;
-                    relAttributes?: Array<string>;
-                    titleAttr?: string;
-                    dataAttributes?: Array<{
-                      key?: string;
-                      value?: string;
-                      _key: string;
-                    }>;
-                  }
-                | {
-                    _key: string;
-                    _type: "linkWithRoute";
-                    linkType:
-                      | "anchor"
-                      | "email"
-                      | "event"
-                      | "external"
-                      | "file"
-                      | "page"
-                      | "path"
-                      | "post"
-                      | "telephone"
-                      | null;
-                    pageRoute: {
-                      _type: "page";
-                      slug: string | null;
-                    } | null;
-                    eventRoute: {
-                      _type: "event";
-                      slug: string | null;
-                    } | null;
-                    postRoute: {
-                      _type: "post";
-                      slug: string | null;
-                    } | null;
-                    fileRoute: {
-                      asset: {
-                        url: string | null;
-                        originalFilename: string | null;
-                      } | null;
-                    } | null;
-                    route: string | null;
-                    anchor: string | null;
-                    link: string | null;
-                    email: string | null;
-                    telephone: string | null;
-                    blank: boolean | null;
-                    utm: {
-                      source: string | null;
-                      medium: string | null;
-                      campaign: string | null;
-                      term: string | null;
-                      content: string | null;
-                    } | null;
-                    trackingId: string | null;
-                    ariaLabel: string | null;
-                    relAttributes: Array<string> | null;
-                    titleAttr: string | null;
-                    dataAttributes: Array<{
-                      key: string | null;
-                      value: string | null;
-                      _key: string;
-                    }> | null;
-                    title: null;
-                  }
-              > | null;
+              markDefs: Array<{
+                _key: string;
+                _type: "linkWithRoute";
+                linkType:
+                  | "anchor"
+                  | "email"
+                  | "event"
+                  | "external"
+                  | "file"
+                  | "page"
+                  | "path"
+                  | "post"
+                  | "telephone";
+                pageRoute: {
+                  _type: "page";
+                  slug: string;
+                } | null;
+                eventRoute: {
+                  _type: "event";
+                  slug: string;
+                } | null;
+                postRoute: {
+                  _type: "post";
+                  slug: string;
+                } | null;
+                fileRoute: {
+                  asset: {
+                    url: string;
+                    originalFilename: string | null;
+                  } | null;
+                } | null;
+                route: string | null;
+                anchor: string | null;
+                link: string | null;
+                email: string | null;
+                telephone: string | null;
+                blank: boolean | null;
+                utm: {
+                  source: string | null;
+                  medium: string | null;
+                  campaign: string | null;
+                  term: string | null;
+                  content: string | null;
+                } | null;
+                trackingId: string | null;
+                ariaLabel: string | null;
+                relAttributes: Array<string> | null;
+                titleAttr: string | null;
+                dataAttributes: Array<{
+                  key: string | null;
+                  value: string | null;
+                  _key: string;
+                }> | null;
+                title: null;
+              }> | null;
               level?: number;
               _type: "block";
               _key: string;
@@ -4292,10 +3870,10 @@ export type EventQueryResult = {
 // Variable: formSettingsQuery
 // Query: *[_type == "formSettings"][0] {  optInLabel,  optInDefault,  showOptInByDefault,  defaultSubmitLabel,  disclaimer[] {  ...,  markDefs[] { ... }}}
 export type FormSettingsQueryResult = {
-  optInLabel: string | null;
+  optInLabel: string;
   optInDefault: boolean | null;
   showOptInByDefault: boolean | null;
-  defaultSubmitLabel: string | null;
+  defaultSubmitLabel: string;
   disclaimer: Array<{
     children?: Array<{
       marks?: Array<string>;
@@ -4309,7 +3887,7 @@ export type FormSettingsQueryResult = {
     markDefs: Array<{
       _key: string;
       _type: "linkWithRoute";
-      linkType?:
+      linkType:
         | "anchor"
         | "email"
         | "event"
@@ -4371,8 +3949,50 @@ export type OgRouteDataQueryResult = {
         seo: null;
       }
     | {
+        title: string;
+        seo: null;
+      }
+    | {
         title: string | null;
         seo: null;
+      }
+    | {
+        title: string;
+        seo: {
+          metaTitle: string | null;
+          ogImageHeading: SimpleText | null;
+          ogImageBackground: "black" | "primary" | "secondary" | "site" | null;
+          shareGraphic: {
+            alt: string | null;
+            crop: {
+              _type: "sanity.imageCrop";
+              top: number;
+              bottom: number;
+              left: number;
+              right: number;
+            } | null;
+            hotspot: {
+              x: number;
+              y: number;
+            } | null;
+            asset: {
+              _id: string;
+              url: string;
+              metadata: {
+                dimensions: {
+                  aspectRatio: number;
+                  height: number;
+                  width: number;
+                } | null;
+                lqip: string | null;
+              } | null;
+            } | null;
+          } | null;
+          autoShareImage: {
+            heading: SimpleText | null;
+            background: "black" | "primary" | "secondary" | "site" | null;
+          } | null;
+        } | null;
       }
     | {
         title: string | null;
@@ -4384,23 +4004,23 @@ export type OgRouteDataQueryResult = {
             alt: string | null;
             crop: {
               _type: "sanity.imageCrop";
-              top?: number;
-              bottom?: number;
-              left?: number;
-              right?: number;
+              top: number;
+              bottom: number;
+              left: number;
+              right: number;
             } | null;
             hotspot: {
-              x: number | null;
-              y: number | null;
+              x: number;
+              y: number;
             } | null;
             asset: {
               _id: string;
-              url: string | null;
+              url: string;
               metadata: {
                 dimensions: {
-                  aspectRatio: number | null;
-                  height: number | null;
-                  width: number | null;
+                  aspectRatio: number;
+                  height: number;
+                  width: number;
                 } | null;
                 lqip: string | null;
               } | null;
@@ -4428,23 +4048,23 @@ export type OgRouteDataQueryResult = {
         alt: string | null;
         crop: {
           _type: "sanity.imageCrop";
-          top?: number;
-          bottom?: number;
-          left?: number;
-          right?: number;
+          top: number;
+          bottom: number;
+          left: number;
+          right: number;
         } | null;
         hotspot: {
-          x: number | null;
-          y: number | null;
+          x: number;
+          y: number;
         } | null;
         asset: {
           _id: string;
-          url: string | null;
+          url: string;
           metadata: {
             dimensions: {
-              aspectRatio: number | null;
-              height: number | null;
-              width: number | null;
+              aspectRatio: number;
+              height: number;
+              width: number;
             } | null;
             lqip: string | null;
           } | null;
@@ -4463,18 +4083,18 @@ export type OgRouteDataQueryResult = {
 // Query: *[_type == "page" && defined(slug.current)] {  _id,  title,  "slug": slug.current}
 export type PagesQueryResult = Array<{
   _id: string;
-  title: string | null;
-  slug: string | null;
+  title: string;
+  slug: string;
 }>;
 
 // Source: sanity/queries/documents/page-query.ts
 // Variable: pageQuery
-// Query: *[_type == "page" && slug.current == $slug][0] {  _id,  _updatedAt,  title,  "slug": slug.current,  backgroundColor,  seo {    ...,    shareGraphic {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } }  },  jsonLd,    sections[] {    ...,    _type == 'coverBlock' => {      ...,      image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      imageMobile {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      muxUrl {        _type,        asset-> {            _id,  _type,  _ref,  playbackId,  status,  data {    duration,    aspect_ratio  }        },        thumbTime      },      muxUrlMobile {        _type,        asset-> {            _id,  _type,  _ref,  playbackId,  status,  data {    duration,    aspect_ratio  }        },        thumbTime      },      content[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      cta { ..., route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } } }    },    _type == 'heroBlock' => {      ...,      image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      video {   asset-> {      _id,  _type,  _ref,  playbackId,  status,  data {    duration,    aspect_ratio  }  } },      cta { ..., route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } } },      content[] {  ...,  markDefs[] {    ...,    _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })  }}    },    _type == 'ctaBlock' => {      ...,      cta { ..., route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } } },      content[] {  ...,  markDefs[] {    ...,    _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })  }}    },    _type == 'textBlock' => {      ...,      content[] {  ...,  markDefs[] {    ...,    _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })  }}    },    _type == 'embedBlock' => {      ...,      embedCode {        _type,        code,        language,        filename      }    },    _type == 'formBlock' => {      ...,      content[] {  ...,  markDefs[] {    ...,    _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })  }},      form-> {  _id,  title,  "slug": slug.current,  active,  submitLabel,  showOptIn,  optInLabel,  fields[] {    _key,    fieldType,    label,    name,    placeholder,    required,    inputType  },  disclaimer[] {  ...,  markDefs[] { ... }}}    },    _type == 'imageBlock' => {      ...,      image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      imageMobile {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      muxUrl { asset-> { playbackId } },      muxUrlMobile { asset-> { playbackId } }    },    _type == 'columnBlock' => {      ...,      intro[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      content[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      excerpt[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      columns[] {        ...,        content[] {          ...,          markDefs[] {            ...,            _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })          }        },        image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },        cta { ..., route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } } }      }    },    _type == 'postsBlock' => {      ...    },    _type == 'eventsBlock' => {      ...    },    _type == 'teamMemberBlock' => {      ...,      member-> {        _id,        title,        "slug": slug.current,        primaryJobTitle,        secondaryJobTitle,        email,        phone,        socials,        image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },        content[] {          ...,          markDefs[] {            ...,            _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })          }        }      }    },    _type == 'logoBarBlock' => {      ...,      logos[] {        ...,        logo {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } }      }    },    _type == 'quoteBlock' => {      ...,      image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      quote[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      cta { ..., route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } } }    },    _type == 'statsBlock' => {      ...,      heading[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      stats[] {        ...,        content[] {          ...,          markDefs[] {            ...,            _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })          }        }      }    },    _type == 'galleryBlock' => {      ...,      images[] {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } }    },    _type == 'faqBlock' => {      ...,      faqs[] {        question,        answer[] {          ...,          markDefs[] {            ...,            _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })          }        }      }    },    _type == 'splitScrollBlock' => {      ...,      title[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      items[] {        ...,        image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },        content[] {          ...,          markDefs[] {            ...,            _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })          }        }      }    }  }}
+// Query: *[_type == "page" && slug.current == $slug][0] {  _id,  _updatedAt,  title,  "slug": slug.current,  backgroundColor,  seo {    ...,    shareGraphic {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } }  },  jsonLd,    sections[] {    ...,    _type == 'coverBlock' => {      ...,      image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      imageMobile {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      muxUrl {        _type,        asset-> {            _id,  _type,  _ref,  playbackId,  status,  data {    duration,    aspect_ratio  }        },        thumbTime      },      muxUrlMobile {        _type,        asset-> {            _id,  _type,  _ref,  playbackId,  status,  data {    duration,    aspect_ratio  }        },        thumbTime      },      content[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      cta { ..., route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } } }    },    _type == 'heroBlock' => {      ...,      image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      video {   asset-> {      _id,  _type,  _ref,  playbackId,  status,  data {    duration,    aspect_ratio  }  } },      cta { ..., route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } } },      content[] {  ...,  markDefs[] {    ...,    _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })  }}    },    _type == 'bannerBlock' => {      ...,      cta { ..., route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } } },      content[] {  ...,  markDefs[] {    ...,    _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })  }}    },    _type == 'ctaBlock' => {      ...,      cta { ..., route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } } },      content[] {  ...,  markDefs[] {    ...,    _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })  }}    },    _type == 'textBlock' => {      ...,      content[] {  ...,  markDefs[] {    ...,    _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })  }}    },    _type == 'embedBlock' => {      ...,      embedCode {        _type,        code,        language,        filename      }    },    _type == 'formBlock' => {      ...,      content[] {  ...,  markDefs[] {    ...,    _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })  }},      form-> {  _id,  title,  "slug": slug.current,  active,  submitLabel,  showOptIn,  optInLabel,  fields[] {    _key,    fieldType,    label,    name,    placeholder,    required,    inputType  },  disclaimer[] {  ...,  markDefs[] { ... }}}    },    _type == 'imageBlock' => {      ...,      image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      imageMobile {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      muxUrl { asset-> { playbackId } },      muxUrlMobile { asset-> { playbackId } }    },    _type == 'columnBlock' => {      ...,      intro[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      content[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      excerpt[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      columns[] {        ...,        content[] {          ...,          markDefs[] {            ...,            _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })          }        },        image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },        cta { ..., route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } } }      }    },    _type == 'postsBlock' => {      ...    },    _type == 'eventsBlock' => {      ...    },    _type == 'teamMemberBlock' => {      ...,      member-> {        _id,        title,        "slug": slug.current,        primaryJobTitle,        secondaryJobTitle,        email,        phone,        socials,        image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },        content[] {          ...,          markDefs[] {            ...,            _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })          }        }      }    },    _type == 'logoBarBlock' => {      ...,      logos[] {        ...,        logo {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } }      }    },    _type == 'quoteBlock' => {      ...,      image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      quote[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      cta { ..., route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } } }    },    _type == 'statsBlock' => {      ...,      heading[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      stats[] {        ...,        content[] {          ...,          markDefs[] {            ...,            _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })          }        }      },      footnote[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      }    },    _type == 'galleryBlock' => {      ...,      images[] {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } }    },    _type == 'faqBlock' => {      ...,      faqs[] {        question,        answer[] {          ...,          markDefs[] {            ...,            _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })          }        }      }    },    _type == 'splitScrollBlock' => {      ...,      title[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      items[] {        ...,        image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },        content[] {          ...,          markDefs[] {            ...,            _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })          }        }      }    }  }}
 export type PageQueryResult = {
   _id: string;
   _updatedAt: string;
-  title: string | null;
-  slug: string | null;
+  title: string;
+  slug: string;
   backgroundColor: "primary" | "secondary" | null;
   seo: {
     _type: "seo";
@@ -4487,23 +4107,23 @@ export type PageQueryResult = {
       alt: string | null;
       crop: {
         _type: "sanity.imageCrop";
-        top?: number;
-        bottom?: number;
-        left?: number;
-        right?: number;
+        top: number;
+        bottom: number;
+        left: number;
+        right: number;
       } | null;
       hotspot: {
-        x: number | null;
-        y: number | null;
+        x: number;
+        y: number;
       } | null;
       asset: {
         _id: string;
-        url: string | null;
+        url: string;
         metadata: {
           dimensions: {
-            aspectRatio: number | null;
-            height: number | null;
-            width: number | null;
+            aspectRatio: number;
+            height: number;
+            width: number;
           } | null;
           lqip: string | null;
         } | null;
@@ -4517,8 +4137,142 @@ export type PageQueryResult = {
         _type: "bannerBlock";
         active?: boolean;
         anchor?: string;
-        content?: SimpleText;
-        cta?: Cta;
+        backgroundColor?: "aurora" | "primary" | "secondary" | "texture";
+        content: Array<{
+          children?: Array<{
+            marks?: Array<string>;
+            text?: string;
+            _type: "span";
+            _key: string;
+          }>;
+          style?:
+            | "blockquote"
+            | "h1"
+            | "h2"
+            | "h3"
+            | "h4"
+            | "large"
+            | "normal"
+            | "small";
+          listItem?: "bullet" | "number";
+          markDefs: Array<{
+            _key: string;
+            _type: "linkWithRoute";
+            linkType:
+              | "anchor"
+              | "email"
+              | "event"
+              | "external"
+              | "file"
+              | "page"
+              | "path"
+              | "post"
+              | "telephone";
+            pageRoute: {
+              _type: "page";
+              slug: string;
+            } | null;
+            eventRoute: {
+              _type: "event";
+              slug: string;
+            } | null;
+            postRoute: {
+              _type: "post";
+              slug: string;
+            } | null;
+            fileRoute: {
+              asset: {
+                url: string;
+                originalFilename: string | null;
+              } | null;
+            } | null;
+            route: string | null;
+            anchor: string | null;
+            link: string | null;
+            email: string | null;
+            telephone: string | null;
+            blank: boolean | null;
+            utm: {
+              source: string | null;
+              medium: string | null;
+              campaign: string | null;
+              term: string | null;
+              content: string | null;
+            } | null;
+            trackingId: string | null;
+            ariaLabel: string | null;
+            relAttributes: Array<string> | null;
+            titleAttr: string | null;
+            dataAttributes: Array<{
+              key: string | null;
+              value: string | null;
+              _key: string;
+            }> | null;
+            title: null;
+          }> | null;
+          level?: number;
+          _type: "block";
+          _key: string;
+        }> | null;
+        cta: {
+          _type: "cta";
+          active?: boolean;
+          route: {
+            _type: "route";
+            title: string | null;
+            linkType:
+              | "anchor"
+              | "email"
+              | "event"
+              | "external"
+              | "file"
+              | "page"
+              | "path"
+              | "post"
+              | "telephone"
+              | null;
+            pageRoute: {
+              _type: "page";
+              slug: string;
+            } | null;
+            eventRoute: {
+              _type: "event";
+              slug: string;
+            } | null;
+            postRoute: {
+              _type: "post";
+              slug: string;
+            } | null;
+            fileRoute: {
+              asset: {
+                url: string;
+                originalFilename: string | null;
+              } | null;
+            } | null;
+            route: string | null;
+            anchor: string | null;
+            link: string | null;
+            email: string | null;
+            telephone: string | null;
+            blank: boolean | null;
+            titleAttr: string | null;
+            ariaLabel: string | null;
+            utm: {
+              source: string | null;
+              medium: string | null;
+              campaign: string | null;
+              term: string | null;
+              content: string | null;
+            } | null;
+            trackingId: string | null;
+            relAttributes: Array<string> | null;
+            dataAttributes: Array<{
+              key: string | null;
+              value: string | null;
+              _key: string;
+            }> | null;
+          } | null;
+        } | null;
       }
     | {
         _key: string;
@@ -4545,102 +4299,61 @@ export type PageQueryResult = {
             | "normal"
             | "small";
           listItem?: "bullet" | "number";
-          markDefs: Array<
-            | {
-                _key: string;
-                _type: "linkWithRoute";
-                linkType?:
-                  | "anchor"
-                  | "email"
-                  | "event"
-                  | "external"
-                  | "file"
-                  | "page"
-                  | "path"
-                  | "post"
-                  | "telephone";
-                pageRoute?: PageReference;
-                eventRoute?: EventReference;
-                postRoute?: PostReference;
-                fileRoute?: {
-                  asset?: SanityFileAssetReference;
-                  media?: unknown;
-                  _type: "file";
-                };
-                route?: string;
-                anchor?: string;
-                link?: string;
-                email?: string;
-                telephone?: string;
-                blank?: boolean;
-                utm?: Utm;
-                trackingId?: string;
-                ariaLabel?: string;
-                relAttributes?: Array<string>;
-                titleAttr?: string;
-                dataAttributes?: Array<{
-                  key?: string;
-                  value?: string;
-                  _key: string;
-                }>;
-              }
-            | {
-                _key: string;
-                _type: "linkWithRoute";
-                linkType:
-                  | "anchor"
-                  | "email"
-                  | "event"
-                  | "external"
-                  | "file"
-                  | "page"
-                  | "path"
-                  | "post"
-                  | "telephone"
-                  | null;
-                pageRoute: {
-                  _type: "page";
-                  slug: string | null;
-                } | null;
-                eventRoute: {
-                  _type: "event";
-                  slug: string | null;
-                } | null;
-                postRoute: {
-                  _type: "post";
-                  slug: string | null;
-                } | null;
-                fileRoute: {
-                  asset: {
-                    url: string | null;
-                    originalFilename: string | null;
-                  } | null;
-                } | null;
-                route: string | null;
-                anchor: string | null;
-                link: string | null;
-                email: string | null;
-                telephone: string | null;
-                blank: boolean | null;
-                utm: {
-                  source: string | null;
-                  medium: string | null;
-                  campaign: string | null;
-                  term: string | null;
-                  content: string | null;
-                } | null;
-                trackingId: string | null;
-                ariaLabel: string | null;
-                relAttributes: Array<string> | null;
-                titleAttr: string | null;
-                dataAttributes: Array<{
-                  key: string | null;
-                  value: string | null;
-                  _key: string;
-                }> | null;
-                title: null;
-              }
-          > | null;
+          markDefs: Array<{
+            _key: string;
+            _type: "linkWithRoute";
+            linkType:
+              | "anchor"
+              | "email"
+              | "event"
+              | "external"
+              | "file"
+              | "page"
+              | "path"
+              | "post"
+              | "telephone";
+            pageRoute: {
+              _type: "page";
+              slug: string;
+            } | null;
+            eventRoute: {
+              _type: "event";
+              slug: string;
+            } | null;
+            postRoute: {
+              _type: "post";
+              slug: string;
+            } | null;
+            fileRoute: {
+              asset: {
+                url: string;
+                originalFilename: string | null;
+              } | null;
+            } | null;
+            route: string | null;
+            anchor: string | null;
+            link: string | null;
+            email: string | null;
+            telephone: string | null;
+            blank: boolean | null;
+            utm: {
+              source: string | null;
+              medium: string | null;
+              campaign: string | null;
+              term: string | null;
+              content: string | null;
+            } | null;
+            trackingId: string | null;
+            ariaLabel: string | null;
+            relAttributes: Array<string> | null;
+            titleAttr: string | null;
+            dataAttributes: Array<{
+              key: string | null;
+              value: string | null;
+              _key: string;
+            }> | null;
+            title: null;
+          }> | null;
           level?: number;
           _type: "block";
           _key: string;
@@ -4662,102 +4375,61 @@ export type PageQueryResult = {
             | "normal"
             | "small";
           listItem?: "bullet" | "number";
-          markDefs: Array<
-            | {
-                _key: string;
-                _type: "linkWithRoute";
-                linkType?:
-                  | "anchor"
-                  | "email"
-                  | "event"
-                  | "external"
-                  | "file"
-                  | "page"
-                  | "path"
-                  | "post"
-                  | "telephone";
-                pageRoute?: PageReference;
-                eventRoute?: EventReference;
-                postRoute?: PostReference;
-                fileRoute?: {
-                  asset?: SanityFileAssetReference;
-                  media?: unknown;
-                  _type: "file";
-                };
-                route?: string;
-                anchor?: string;
-                link?: string;
-                email?: string;
-                telephone?: string;
-                blank?: boolean;
-                utm?: Utm;
-                trackingId?: string;
-                ariaLabel?: string;
-                relAttributes?: Array<string>;
-                titleAttr?: string;
-                dataAttributes?: Array<{
-                  key?: string;
-                  value?: string;
-                  _key: string;
-                }>;
-              }
-            | {
-                _key: string;
-                _type: "linkWithRoute";
-                linkType:
-                  | "anchor"
-                  | "email"
-                  | "event"
-                  | "external"
-                  | "file"
-                  | "page"
-                  | "path"
-                  | "post"
-                  | "telephone"
-                  | null;
-                pageRoute: {
-                  _type: "page";
-                  slug: string | null;
-                } | null;
-                eventRoute: {
-                  _type: "event";
-                  slug: string | null;
-                } | null;
-                postRoute: {
-                  _type: "post";
-                  slug: string | null;
-                } | null;
-                fileRoute: {
-                  asset: {
-                    url: string | null;
-                    originalFilename: string | null;
-                  } | null;
-                } | null;
-                route: string | null;
-                anchor: string | null;
-                link: string | null;
-                email: string | null;
-                telephone: string | null;
-                blank: boolean | null;
-                utm: {
-                  source: string | null;
-                  medium: string | null;
-                  campaign: string | null;
-                  term: string | null;
-                  content: string | null;
-                } | null;
-                trackingId: string | null;
-                ariaLabel: string | null;
-                relAttributes: Array<string> | null;
-                titleAttr: string | null;
-                dataAttributes: Array<{
-                  key: string | null;
-                  value: string | null;
-                  _key: string;
-                }> | null;
-                title: null;
-              }
-          > | null;
+          markDefs: Array<{
+            _key: string;
+            _type: "linkWithRoute";
+            linkType:
+              | "anchor"
+              | "email"
+              | "event"
+              | "external"
+              | "file"
+              | "page"
+              | "path"
+              | "post"
+              | "telephone";
+            pageRoute: {
+              _type: "page";
+              slug: string;
+            } | null;
+            eventRoute: {
+              _type: "event";
+              slug: string;
+            } | null;
+            postRoute: {
+              _type: "post";
+              slug: string;
+            } | null;
+            fileRoute: {
+              asset: {
+                url: string;
+                originalFilename: string | null;
+              } | null;
+            } | null;
+            route: string | null;
+            anchor: string | null;
+            link: string | null;
+            email: string | null;
+            telephone: string | null;
+            blank: boolean | null;
+            utm: {
+              source: string | null;
+              medium: string | null;
+              campaign: string | null;
+              term: string | null;
+              content: string | null;
+            } | null;
+            trackingId: string | null;
+            ariaLabel: string | null;
+            relAttributes: Array<string> | null;
+            titleAttr: string | null;
+            dataAttributes: Array<{
+              key: string | null;
+              value: string | null;
+              _key: string;
+            }> | null;
+            title: null;
+          }> | null;
           level?: number;
           _type: "block";
           _key: string;
@@ -4783,128 +4455,94 @@ export type PageQueryResult = {
               | "normal"
               | "small";
             listItem?: "bullet" | "number";
-            markDefs: Array<
-              | {
-                  _key: string;
-                  _type: "linkWithRoute";
-                  linkType?:
-                    | "anchor"
-                    | "email"
-                    | "event"
-                    | "external"
-                    | "file"
-                    | "page"
-                    | "path"
-                    | "post"
-                    | "telephone";
-                  pageRoute?: PageReference;
-                  eventRoute?: EventReference;
-                  postRoute?: PostReference;
-                  fileRoute?: {
-                    asset?: SanityFileAssetReference;
-                    media?: unknown;
-                    _type: "file";
-                  };
-                  route?: string;
-                  anchor?: string;
-                  link?: string;
-                  email?: string;
-                  telephone?: string;
-                  blank?: boolean;
-                  utm?: Utm;
-                  trackingId?: string;
-                  ariaLabel?: string;
-                  relAttributes?: Array<string>;
-                  titleAttr?: string;
-                  dataAttributes?: Array<{
-                    key?: string;
-                    value?: string;
-                    _key: string;
-                  }>;
-                }
-              | {
-                  _key: string;
-                  _type: "linkWithRoute";
-                  linkType:
-                    | "anchor"
-                    | "email"
-                    | "event"
-                    | "external"
-                    | "file"
-                    | "page"
-                    | "path"
-                    | "post"
-                    | "telephone"
-                    | null;
-                  pageRoute: {
-                    _type: "page";
-                    slug: string | null;
-                  } | null;
-                  eventRoute: {
-                    _type: "event";
-                    slug: string | null;
-                  } | null;
-                  postRoute: {
-                    _type: "post";
-                    slug: string | null;
-                  } | null;
-                  fileRoute: {
-                    asset: {
-                      url: string | null;
-                      originalFilename: string | null;
-                    } | null;
-                  } | null;
-                  route: string | null;
-                  anchor: string | null;
-                  link: string | null;
-                  email: string | null;
-                  telephone: string | null;
-                  blank: boolean | null;
-                  utm: {
-                    source: string | null;
-                    medium: string | null;
-                    campaign: string | null;
-                    term: string | null;
-                    content: string | null;
-                  } | null;
-                  trackingId: string | null;
-                  ariaLabel: string | null;
-                  relAttributes: Array<string> | null;
-                  titleAttr: string | null;
-                  dataAttributes: Array<{
-                    key: string | null;
-                    value: string | null;
-                    _key: string;
-                  }> | null;
-                  title: null;
-                }
-            > | null;
+            markDefs: Array<{
+              _key: string;
+              _type: "linkWithRoute";
+              linkType:
+                | "anchor"
+                | "email"
+                | "event"
+                | "external"
+                | "file"
+                | "page"
+                | "path"
+                | "post"
+                | "telephone";
+              pageRoute: {
+                _type: "page";
+                slug: string;
+              } | null;
+              eventRoute: {
+                _type: "event";
+                slug: string;
+              } | null;
+              postRoute: {
+                _type: "post";
+                slug: string;
+              } | null;
+              fileRoute: {
+                asset: {
+                  url: string;
+                  originalFilename: string | null;
+                } | null;
+              } | null;
+              route: string | null;
+              anchor: string | null;
+              link: string | null;
+              email: string | null;
+              telephone: string | null;
+              blank: boolean | null;
+              utm: {
+                source: string | null;
+                medium: string | null;
+                campaign: string | null;
+                term: string | null;
+                content: string | null;
+              } | null;
+              trackingId: string | null;
+              ariaLabel: string | null;
+              relAttributes: Array<string> | null;
+              titleAttr: string | null;
+              dataAttributes: Array<{
+                key: string | null;
+                value: string | null;
+                _key: string;
+              }> | null;
+              title: null;
+            }> | null;
             level?: number;
             _type: "block";
             _key: string;
           }> | null;
-          icon?: "LuClock" | "LuCode" | "LuLayers";
+          icon?:
+            | "LuChartColumn"
+            | "LuClock"
+            | "LuCode"
+            | "LuLayers"
+            | "LuMailX"
+            | "LuSearchX"
+            | "LuSparkles";
           image: {
             alt: string | null;
             crop: {
               _type: "sanity.imageCrop";
-              top?: number;
-              bottom?: number;
-              left?: number;
-              right?: number;
+              top: number;
+              bottom: number;
+              left: number;
+              right: number;
             } | null;
             hotspot: {
-              x: number | null;
-              y: number | null;
+              x: number;
+              y: number;
             } | null;
             asset: {
               _id: string;
-              url: string | null;
+              url: string;
               metadata: {
                 dimensions: {
-                  aspectRatio: number | null;
-                  height: number | null;
-                  width: number | null;
+                  aspectRatio: number;
+                  height: number;
+                  width: number;
                 } | null;
                 lqip: string | null;
               } | null;
@@ -4929,19 +4567,19 @@ export type PageQueryResult = {
                 | null;
               pageRoute: {
                 _type: "page";
-                slug: string | null;
+                slug: string;
               } | null;
               eventRoute: {
                 _type: "event";
-                slug: string | null;
+                slug: string;
               } | null;
               postRoute: {
                 _type: "post";
-                slug: string | null;
+                slug: string;
               } | null;
               fileRoute: {
                 asset: {
-                  url: string | null;
+                  url: string;
                   originalFilename: string | null;
                 } | null;
               } | null;
@@ -4987,102 +4625,61 @@ export type PageQueryResult = {
             | "normal"
             | "small";
           listItem?: "bullet" | "number";
-          markDefs: Array<
-            | {
-                _key: string;
-                _type: "linkWithRoute";
-                linkType?:
-                  | "anchor"
-                  | "email"
-                  | "event"
-                  | "external"
-                  | "file"
-                  | "page"
-                  | "path"
-                  | "post"
-                  | "telephone";
-                pageRoute?: PageReference;
-                eventRoute?: EventReference;
-                postRoute?: PostReference;
-                fileRoute?: {
-                  asset?: SanityFileAssetReference;
-                  media?: unknown;
-                  _type: "file";
-                };
-                route?: string;
-                anchor?: string;
-                link?: string;
-                email?: string;
-                telephone?: string;
-                blank?: boolean;
-                utm?: Utm;
-                trackingId?: string;
-                ariaLabel?: string;
-                relAttributes?: Array<string>;
-                titleAttr?: string;
-                dataAttributes?: Array<{
-                  key?: string;
-                  value?: string;
-                  _key: string;
-                }>;
-              }
-            | {
-                _key: string;
-                _type: "linkWithRoute";
-                linkType:
-                  | "anchor"
-                  | "email"
-                  | "event"
-                  | "external"
-                  | "file"
-                  | "page"
-                  | "path"
-                  | "post"
-                  | "telephone"
-                  | null;
-                pageRoute: {
-                  _type: "page";
-                  slug: string | null;
-                } | null;
-                eventRoute: {
-                  _type: "event";
-                  slug: string | null;
-                } | null;
-                postRoute: {
-                  _type: "post";
-                  slug: string | null;
-                } | null;
-                fileRoute: {
-                  asset: {
-                    url: string | null;
-                    originalFilename: string | null;
-                  } | null;
-                } | null;
-                route: string | null;
-                anchor: string | null;
-                link: string | null;
-                email: string | null;
-                telephone: string | null;
-                blank: boolean | null;
-                utm: {
-                  source: string | null;
-                  medium: string | null;
-                  campaign: string | null;
-                  term: string | null;
-                  content: string | null;
-                } | null;
-                trackingId: string | null;
-                ariaLabel: string | null;
-                relAttributes: Array<string> | null;
-                titleAttr: string | null;
-                dataAttributes: Array<{
-                  key: string | null;
-                  value: string | null;
-                  _key: string;
-                }> | null;
-                title: null;
-              }
-          > | null;
+          markDefs: Array<{
+            _key: string;
+            _type: "linkWithRoute";
+            linkType:
+              | "anchor"
+              | "email"
+              | "event"
+              | "external"
+              | "file"
+              | "page"
+              | "path"
+              | "post"
+              | "telephone";
+            pageRoute: {
+              _type: "page";
+              slug: string;
+            } | null;
+            eventRoute: {
+              _type: "event";
+              slug: string;
+            } | null;
+            postRoute: {
+              _type: "post";
+              slug: string;
+            } | null;
+            fileRoute: {
+              asset: {
+                url: string;
+                originalFilename: string | null;
+              } | null;
+            } | null;
+            route: string | null;
+            anchor: string | null;
+            link: string | null;
+            email: string | null;
+            telephone: string | null;
+            blank: boolean | null;
+            utm: {
+              source: string | null;
+              medium: string | null;
+              campaign: string | null;
+              term: string | null;
+              content: string | null;
+            } | null;
+            trackingId: string | null;
+            ariaLabel: string | null;
+            relAttributes: Array<string> | null;
+            titleAttr: string | null;
+            dataAttributes: Array<{
+              key: string | null;
+              value: string | null;
+              _key: string;
+            }> | null;
+            title: null;
+          }> | null;
           level?: number;
           _type: "block";
           _key: string;
@@ -5111,102 +4708,61 @@ export type PageQueryResult = {
             | "normal"
             | "small";
           listItem?: "bullet" | "number";
-          markDefs: Array<
-            | {
-                _key: string;
-                _type: "linkWithRoute";
-                linkType?:
-                  | "anchor"
-                  | "email"
-                  | "event"
-                  | "external"
-                  | "file"
-                  | "page"
-                  | "path"
-                  | "post"
-                  | "telephone";
-                pageRoute?: PageReference;
-                eventRoute?: EventReference;
-                postRoute?: PostReference;
-                fileRoute?: {
-                  asset?: SanityFileAssetReference;
-                  media?: unknown;
-                  _type: "file";
-                };
-                route?: string;
-                anchor?: string;
-                link?: string;
-                email?: string;
-                telephone?: string;
-                blank?: boolean;
-                utm?: Utm;
-                trackingId?: string;
-                ariaLabel?: string;
-                relAttributes?: Array<string>;
-                titleAttr?: string;
-                dataAttributes?: Array<{
-                  key?: string;
-                  value?: string;
-                  _key: string;
-                }>;
-              }
-            | {
-                _key: string;
-                _type: "linkWithRoute";
-                linkType:
-                  | "anchor"
-                  | "email"
-                  | "event"
-                  | "external"
-                  | "file"
-                  | "page"
-                  | "path"
-                  | "post"
-                  | "telephone"
-                  | null;
-                pageRoute: {
-                  _type: "page";
-                  slug: string | null;
-                } | null;
-                eventRoute: {
-                  _type: "event";
-                  slug: string | null;
-                } | null;
-                postRoute: {
-                  _type: "post";
-                  slug: string | null;
-                } | null;
-                fileRoute: {
-                  asset: {
-                    url: string | null;
-                    originalFilename: string | null;
-                  } | null;
-                } | null;
-                route: string | null;
-                anchor: string | null;
-                link: string | null;
-                email: string | null;
-                telephone: string | null;
-                blank: boolean | null;
-                utm: {
-                  source: string | null;
-                  medium: string | null;
-                  campaign: string | null;
-                  term: string | null;
-                  content: string | null;
-                } | null;
-                trackingId: string | null;
-                ariaLabel: string | null;
-                relAttributes: Array<string> | null;
-                titleAttr: string | null;
-                dataAttributes: Array<{
-                  key: string | null;
-                  value: string | null;
-                  _key: string;
-                }> | null;
-                title: null;
-              }
-          > | null;
+          markDefs: Array<{
+            _key: string;
+            _type: "linkWithRoute";
+            linkType:
+              | "anchor"
+              | "email"
+              | "event"
+              | "external"
+              | "file"
+              | "page"
+              | "path"
+              | "post"
+              | "telephone";
+            pageRoute: {
+              _type: "page";
+              slug: string;
+            } | null;
+            eventRoute: {
+              _type: "event";
+              slug: string;
+            } | null;
+            postRoute: {
+              _type: "post";
+              slug: string;
+            } | null;
+            fileRoute: {
+              asset: {
+                url: string;
+                originalFilename: string | null;
+              } | null;
+            } | null;
+            route: string | null;
+            anchor: string | null;
+            link: string | null;
+            email: string | null;
+            telephone: string | null;
+            blank: boolean | null;
+            utm: {
+              source: string | null;
+              medium: string | null;
+              campaign: string | null;
+              term: string | null;
+              content: string | null;
+            } | null;
+            trackingId: string | null;
+            ariaLabel: string | null;
+            relAttributes: Array<string> | null;
+            titleAttr: string | null;
+            dataAttributes: Array<{
+              key: string | null;
+              value: string | null;
+              _key: string;
+            }> | null;
+            title: null;
+          }> | null;
           level?: number;
           _type: "block";
           _key: string;
@@ -5230,19 +4786,19 @@ export type PageQueryResult = {
               | null;
             pageRoute: {
               _type: "page";
-              slug: string | null;
+              slug: string;
             } | null;
             eventRoute: {
               _type: "event";
-              slug: string | null;
+              slug: string;
             } | null;
             postRoute: {
               _type: "post";
-              slug: string | null;
+              slug: string;
             } | null;
             fileRoute: {
               asset: {
-                url: string | null;
+                url: string;
                 originalFilename: string | null;
               } | null;
             } | null;
@@ -5275,23 +4831,23 @@ export type PageQueryResult = {
           alt: string | null;
           crop: {
             _type: "sanity.imageCrop";
-            top?: number;
-            bottom?: number;
-            left?: number;
-            right?: number;
+            top: number;
+            bottom: number;
+            left: number;
+            right: number;
           } | null;
           hotspot: {
-            x: number | null;
-            y: number | null;
+            x: number;
+            y: number;
           } | null;
           asset: {
             _id: string;
-            url: string | null;
+            url: string;
             metadata: {
               dimensions: {
-                aspectRatio: number | null;
-                height: number | null;
-                width: number | null;
+                aspectRatio: number;
+                height: number;
+                width: number;
               } | null;
               lqip: string | null;
             } | null;
@@ -5301,23 +4857,23 @@ export type PageQueryResult = {
           alt: string | null;
           crop: {
             _type: "sanity.imageCrop";
-            top?: number;
-            bottom?: number;
-            left?: number;
-            right?: number;
+            top: number;
+            bottom: number;
+            left: number;
+            right: number;
           } | null;
           hotspot: {
-            x: number | null;
-            y: number | null;
+            x: number;
+            y: number;
           } | null;
           asset: {
             _id: string;
-            url: string | null;
+            url: string;
             metadata: {
               dimensions: {
-                aspectRatio: number | null;
-                height: number | null;
-                width: number | null;
+                aspectRatio: number;
+                height: number;
+                width: number;
               } | null;
               lqip: string | null;
             } | null;
@@ -5372,7 +4928,7 @@ export type PageQueryResult = {
         _type: "ctaBlock";
         active?: boolean;
         anchor?: string;
-        backgroundColor?: "primary" | "secondary";
+        backgroundColor?: "primary" | "secondary" | "texture";
         alignment?: "text-center" | "text-left" | "text-right";
         content: Array<{
           children?: Array<{
@@ -5391,102 +4947,61 @@ export type PageQueryResult = {
             | "normal"
             | "small";
           listItem?: "bullet" | "number";
-          markDefs: Array<
-            | {
-                _key: string;
-                _type: "linkWithRoute";
-                linkType?:
-                  | "anchor"
-                  | "email"
-                  | "event"
-                  | "external"
-                  | "file"
-                  | "page"
-                  | "path"
-                  | "post"
-                  | "telephone";
-                pageRoute?: PageReference;
-                eventRoute?: EventReference;
-                postRoute?: PostReference;
-                fileRoute?: {
-                  asset?: SanityFileAssetReference;
-                  media?: unknown;
-                  _type: "file";
-                };
-                route?: string;
-                anchor?: string;
-                link?: string;
-                email?: string;
-                telephone?: string;
-                blank?: boolean;
-                utm?: Utm;
-                trackingId?: string;
-                ariaLabel?: string;
-                relAttributes?: Array<string>;
-                titleAttr?: string;
-                dataAttributes?: Array<{
-                  key?: string;
-                  value?: string;
-                  _key: string;
-                }>;
-              }
-            | {
-                _key: string;
-                _type: "linkWithRoute";
-                linkType:
-                  | "anchor"
-                  | "email"
-                  | "event"
-                  | "external"
-                  | "file"
-                  | "page"
-                  | "path"
-                  | "post"
-                  | "telephone"
-                  | null;
-                pageRoute: {
-                  _type: "page";
-                  slug: string | null;
-                } | null;
-                eventRoute: {
-                  _type: "event";
-                  slug: string | null;
-                } | null;
-                postRoute: {
-                  _type: "post";
-                  slug: string | null;
-                } | null;
-                fileRoute: {
-                  asset: {
-                    url: string | null;
-                    originalFilename: string | null;
-                  } | null;
-                } | null;
-                route: string | null;
-                anchor: string | null;
-                link: string | null;
-                email: string | null;
-                telephone: string | null;
-                blank: boolean | null;
-                utm: {
-                  source: string | null;
-                  medium: string | null;
-                  campaign: string | null;
-                  term: string | null;
-                  content: string | null;
-                } | null;
-                trackingId: string | null;
-                ariaLabel: string | null;
-                relAttributes: Array<string> | null;
-                titleAttr: string | null;
-                dataAttributes: Array<{
-                  key: string | null;
-                  value: string | null;
-                  _key: string;
-                }> | null;
-                title: null;
-              }
-          > | null;
+          markDefs: Array<{
+            _key: string;
+            _type: "linkWithRoute";
+            linkType:
+              | "anchor"
+              | "email"
+              | "event"
+              | "external"
+              | "file"
+              | "page"
+              | "path"
+              | "post"
+              | "telephone";
+            pageRoute: {
+              _type: "page";
+              slug: string;
+            } | null;
+            eventRoute: {
+              _type: "event";
+              slug: string;
+            } | null;
+            postRoute: {
+              _type: "post";
+              slug: string;
+            } | null;
+            fileRoute: {
+              asset: {
+                url: string;
+                originalFilename: string | null;
+              } | null;
+            } | null;
+            route: string | null;
+            anchor: string | null;
+            link: string | null;
+            email: string | null;
+            telephone: string | null;
+            blank: boolean | null;
+            utm: {
+              source: string | null;
+              medium: string | null;
+              campaign: string | null;
+              term: string | null;
+              content: string | null;
+            } | null;
+            trackingId: string | null;
+            ariaLabel: string | null;
+            relAttributes: Array<string> | null;
+            titleAttr: string | null;
+            dataAttributes: Array<{
+              key: string | null;
+              value: string | null;
+              _key: string;
+            }> | null;
+            title: null;
+          }> | null;
           level?: number;
           _type: "block";
           _key: string;
@@ -5510,19 +5025,19 @@ export type PageQueryResult = {
               | null;
             pageRoute: {
               _type: "page";
-              slug: string | null;
+              slug: string;
             } | null;
             eventRoute: {
               _type: "event";
-              slug: string | null;
+              slug: string;
             } | null;
             postRoute: {
               _type: "post";
-              slug: string | null;
+              slug: string;
             } | null;
             fileRoute: {
               asset: {
-                url: string | null;
+                url: string;
                 originalFilename: string | null;
               } | null;
             } | null;
@@ -5556,6 +5071,7 @@ export type PageQueryResult = {
         _type: "dividerBlock";
         active?: boolean;
         anchor?: string;
+        backgroundColor?: "primary" | "secondary" | "texture";
         style?: "gap" | "rule";
         size?: "large" | "medium" | "small" | "zero";
       }
@@ -5590,7 +5106,7 @@ export type PageQueryResult = {
         anchor?: string;
         backgroundColor?: "primary" | "secondary" | "texture";
         faqs: Array<{
-          question: string | null;
+          question: string;
           answer: Array<{
             children?: Array<{
               marks?: Array<string>;
@@ -5608,106 +5124,65 @@ export type PageQueryResult = {
               | "normal"
               | "small";
             listItem?: "bullet" | "number";
-            markDefs: Array<
-              | {
-                  _key: string;
-                  _type: "linkWithRoute";
-                  linkType?:
-                    | "anchor"
-                    | "email"
-                    | "event"
-                    | "external"
-                    | "file"
-                    | "page"
-                    | "path"
-                    | "post"
-                    | "telephone";
-                  pageRoute?: PageReference;
-                  eventRoute?: EventReference;
-                  postRoute?: PostReference;
-                  fileRoute?: {
-                    asset?: SanityFileAssetReference;
-                    media?: unknown;
-                    _type: "file";
-                  };
-                  route?: string;
-                  anchor?: string;
-                  link?: string;
-                  email?: string;
-                  telephone?: string;
-                  blank?: boolean;
-                  utm?: Utm;
-                  trackingId?: string;
-                  ariaLabel?: string;
-                  relAttributes?: Array<string>;
-                  titleAttr?: string;
-                  dataAttributes?: Array<{
-                    key?: string;
-                    value?: string;
-                    _key: string;
-                  }>;
-                }
-              | {
-                  _key: string;
-                  _type: "linkWithRoute";
-                  linkType:
-                    | "anchor"
-                    | "email"
-                    | "event"
-                    | "external"
-                    | "file"
-                    | "page"
-                    | "path"
-                    | "post"
-                    | "telephone"
-                    | null;
-                  pageRoute: {
-                    _type: "page";
-                    slug: string | null;
-                  } | null;
-                  eventRoute: {
-                    _type: "event";
-                    slug: string | null;
-                  } | null;
-                  postRoute: {
-                    _type: "post";
-                    slug: string | null;
-                  } | null;
-                  fileRoute: {
-                    asset: {
-                      url: string | null;
-                      originalFilename: string | null;
-                    } | null;
-                  } | null;
-                  route: string | null;
-                  anchor: string | null;
-                  link: string | null;
-                  email: string | null;
-                  telephone: string | null;
-                  blank: boolean | null;
-                  utm: {
-                    source: string | null;
-                    medium: string | null;
-                    campaign: string | null;
-                    term: string | null;
-                    content: string | null;
-                  } | null;
-                  trackingId: string | null;
-                  ariaLabel: string | null;
-                  relAttributes: Array<string> | null;
-                  titleAttr: string | null;
-                  dataAttributes: Array<{
-                    key: string | null;
-                    value: string | null;
-                    _key: string;
-                  }> | null;
-                  title: null;
-                }
-            > | null;
+            markDefs: Array<{
+              _key: string;
+              _type: "linkWithRoute";
+              linkType:
+                | "anchor"
+                | "email"
+                | "event"
+                | "external"
+                | "file"
+                | "page"
+                | "path"
+                | "post"
+                | "telephone";
+              pageRoute: {
+                _type: "page";
+                slug: string;
+              } | null;
+              eventRoute: {
+                _type: "event";
+                slug: string;
+              } | null;
+              postRoute: {
+                _type: "post";
+                slug: string;
+              } | null;
+              fileRoute: {
+                asset: {
+                  url: string;
+                  originalFilename: string | null;
+                } | null;
+              } | null;
+              route: string | null;
+              anchor: string | null;
+              link: string | null;
+              email: string | null;
+              telephone: string | null;
+              blank: boolean | null;
+              utm: {
+                source: string | null;
+                medium: string | null;
+                campaign: string | null;
+                term: string | null;
+                content: string | null;
+              } | null;
+              trackingId: string | null;
+              ariaLabel: string | null;
+              relAttributes: Array<string> | null;
+              titleAttr: string | null;
+              dataAttributes: Array<{
+                key: string | null;
+                value: string | null;
+                _key: string;
+              }> | null;
+              title: null;
+            }> | null;
             level?: number;
             _type: "block";
             _key: string;
-          }> | null;
+          }>;
         }> | null;
       }
     | {
@@ -5735,102 +5210,61 @@ export type PageQueryResult = {
                 | "normal"
                 | "small";
               listItem?: "bullet" | "number";
-              markDefs: Array<
-                | {
-                    _key: string;
-                    _type: "linkWithRoute";
-                    linkType?:
-                      | "anchor"
-                      | "email"
-                      | "event"
-                      | "external"
-                      | "file"
-                      | "page"
-                      | "path"
-                      | "post"
-                      | "telephone";
-                    pageRoute?: PageReference;
-                    eventRoute?: EventReference;
-                    postRoute?: PostReference;
-                    fileRoute?: {
-                      asset?: SanityFileAssetReference;
-                      media?: unknown;
-                      _type: "file";
-                    };
-                    route?: string;
-                    anchor?: string;
-                    link?: string;
-                    email?: string;
-                    telephone?: string;
-                    blank?: boolean;
-                    utm?: Utm;
-                    trackingId?: string;
-                    ariaLabel?: string;
-                    relAttributes?: Array<string>;
-                    titleAttr?: string;
-                    dataAttributes?: Array<{
-                      key?: string;
-                      value?: string;
-                      _key: string;
-                    }>;
-                  }
-                | {
-                    _key: string;
-                    _type: "linkWithRoute";
-                    linkType:
-                      | "anchor"
-                      | "email"
-                      | "event"
-                      | "external"
-                      | "file"
-                      | "page"
-                      | "path"
-                      | "post"
-                      | "telephone"
-                      | null;
-                    pageRoute: {
-                      _type: "page";
-                      slug: string | null;
-                    } | null;
-                    eventRoute: {
-                      _type: "event";
-                      slug: string | null;
-                    } | null;
-                    postRoute: {
-                      _type: "post";
-                      slug: string | null;
-                    } | null;
-                    fileRoute: {
-                      asset: {
-                        url: string | null;
-                        originalFilename: string | null;
-                      } | null;
-                    } | null;
-                    route: string | null;
-                    anchor: string | null;
-                    link: string | null;
-                    email: string | null;
-                    telephone: string | null;
-                    blank: boolean | null;
-                    utm: {
-                      source: string | null;
-                      medium: string | null;
-                      campaign: string | null;
-                      term: string | null;
-                      content: string | null;
-                    } | null;
-                    trackingId: string | null;
-                    ariaLabel: string | null;
-                    relAttributes: Array<string> | null;
-                    titleAttr: string | null;
-                    dataAttributes: Array<{
-                      key: string | null;
-                      value: string | null;
-                      _key: string;
-                    }> | null;
-                    title: null;
-                  }
-              > | null;
+              markDefs: Array<{
+                _key: string;
+                _type: "linkWithRoute";
+                linkType:
+                  | "anchor"
+                  | "email"
+                  | "event"
+                  | "external"
+                  | "file"
+                  | "page"
+                  | "path"
+                  | "post"
+                  | "telephone";
+                pageRoute: {
+                  _type: "page";
+                  slug: string;
+                } | null;
+                eventRoute: {
+                  _type: "event";
+                  slug: string;
+                } | null;
+                postRoute: {
+                  _type: "post";
+                  slug: string;
+                } | null;
+                fileRoute: {
+                  asset: {
+                    url: string;
+                    originalFilename: string | null;
+                  } | null;
+                } | null;
+                route: string | null;
+                anchor: string | null;
+                link: string | null;
+                email: string | null;
+                telephone: string | null;
+                blank: boolean | null;
+                utm: {
+                  source: string | null;
+                  medium: string | null;
+                  campaign: string | null;
+                  term: string | null;
+                  content: string | null;
+                } | null;
+                trackingId: string | null;
+                ariaLabel: string | null;
+                relAttributes: Array<string> | null;
+                titleAttr: string | null;
+                dataAttributes: Array<{
+                  key: string | null;
+                  value: string | null;
+                  _key: string;
+                }> | null;
+                title: null;
+              }> | null;
               level?: number;
               _type: "block";
               _key: string;
@@ -5848,17 +5282,17 @@ export type PageQueryResult = {
         > | null;
         form: {
           _id: string;
-          title: string | null;
-          slug: string | null;
+          title: string;
+          slug: string;
           active: boolean | null;
           submitLabel: string | null;
           showOptIn: "hide" | "inherit" | "show" | null;
           optInLabel: string | null;
           fields: Array<{
             _key: string;
-            fieldType: "input" | "textarea" | null;
-            label: string | null;
-            name: string | null;
+            fieldType: "input" | "textarea";
+            label: string;
+            name: string;
             placeholder: string | null;
             required: boolean | null;
             inputType: "tel" | "text" | "url" | null;
@@ -5883,7 +5317,7 @@ export type PageQueryResult = {
             markDefs: Array<{
               _key: string;
               _type: "linkWithRoute";
-              linkType?:
+              linkType:
                 | "anchor"
                 | "email"
                 | "event"
@@ -5922,7 +5356,7 @@ export type PageQueryResult = {
             _type: "block";
             _key: string;
           }> | null;
-        } | null;
+        };
       }
     | {
         _key: string;
@@ -5934,28 +5368,28 @@ export type PageQueryResult = {
           alt: string | null;
           crop: {
             _type: "sanity.imageCrop";
-            top?: number;
-            bottom?: number;
-            left?: number;
-            right?: number;
+            top: number;
+            bottom: number;
+            left: number;
+            right: number;
           } | null;
           hotspot: {
-            x: number | null;
-            y: number | null;
+            x: number;
+            y: number;
           } | null;
           asset: {
             _id: string;
-            url: string | null;
+            url: string;
             metadata: {
               dimensions: {
-                aspectRatio: number | null;
-                height: number | null;
-                width: number | null;
+                aspectRatio: number;
+                height: number;
+                width: number;
               } | null;
               lqip: string | null;
             } | null;
           } | null;
-        }> | null;
+        }>;
         imagesPerRow?: number;
         enableLightbox?: boolean;
       }
@@ -5970,23 +5404,23 @@ export type PageQueryResult = {
           alt: string | null;
           crop: {
             _type: "sanity.imageCrop";
-            top?: number;
-            bottom?: number;
-            left?: number;
-            right?: number;
+            top: number;
+            bottom: number;
+            left: number;
+            right: number;
           } | null;
           hotspot: {
-            x: number | null;
-            y: number | null;
+            x: number;
+            y: number;
           } | null;
           asset: {
             _id: string;
-            url: string | null;
+            url: string;
             metadata: {
               dimensions: {
-                aspectRatio: number | null;
-                height: number | null;
-                width: number | null;
+                aspectRatio: number;
+                height: number;
+                width: number;
               } | null;
               lqip: string | null;
             } | null;
@@ -6009,102 +5443,61 @@ export type PageQueryResult = {
             | "normal"
             | "small";
           listItem?: "bullet" | "number";
-          markDefs: Array<
-            | {
-                _key: string;
-                _type: "linkWithRoute";
-                linkType?:
-                  | "anchor"
-                  | "email"
-                  | "event"
-                  | "external"
-                  | "file"
-                  | "page"
-                  | "path"
-                  | "post"
-                  | "telephone";
-                pageRoute?: PageReference;
-                eventRoute?: EventReference;
-                postRoute?: PostReference;
-                fileRoute?: {
-                  asset?: SanityFileAssetReference;
-                  media?: unknown;
-                  _type: "file";
-                };
-                route?: string;
-                anchor?: string;
-                link?: string;
-                email?: string;
-                telephone?: string;
-                blank?: boolean;
-                utm?: Utm;
-                trackingId?: string;
-                ariaLabel?: string;
-                relAttributes?: Array<string>;
-                titleAttr?: string;
-                dataAttributes?: Array<{
-                  key?: string;
-                  value?: string;
-                  _key: string;
-                }>;
-              }
-            | {
-                _key: string;
-                _type: "linkWithRoute";
-                linkType:
-                  | "anchor"
-                  | "email"
-                  | "event"
-                  | "external"
-                  | "file"
-                  | "page"
-                  | "path"
-                  | "post"
-                  | "telephone"
-                  | null;
-                pageRoute: {
-                  _type: "page";
-                  slug: string | null;
-                } | null;
-                eventRoute: {
-                  _type: "event";
-                  slug: string | null;
-                } | null;
-                postRoute: {
-                  _type: "post";
-                  slug: string | null;
-                } | null;
-                fileRoute: {
-                  asset: {
-                    url: string | null;
-                    originalFilename: string | null;
-                  } | null;
-                } | null;
-                route: string | null;
-                anchor: string | null;
-                link: string | null;
-                email: string | null;
-                telephone: string | null;
-                blank: boolean | null;
-                utm: {
-                  source: string | null;
-                  medium: string | null;
-                  campaign: string | null;
-                  term: string | null;
-                  content: string | null;
-                } | null;
-                trackingId: string | null;
-                ariaLabel: string | null;
-                relAttributes: Array<string> | null;
-                titleAttr: string | null;
-                dataAttributes: Array<{
-                  key: string | null;
-                  value: string | null;
-                  _key: string;
-                }> | null;
-                title: null;
-              }
-          > | null;
+          markDefs: Array<{
+            _key: string;
+            _type: "linkWithRoute";
+            linkType:
+              | "anchor"
+              | "email"
+              | "event"
+              | "external"
+              | "file"
+              | "page"
+              | "path"
+              | "post"
+              | "telephone";
+            pageRoute: {
+              _type: "page";
+              slug: string;
+            } | null;
+            eventRoute: {
+              _type: "event";
+              slug: string;
+            } | null;
+            postRoute: {
+              _type: "post";
+              slug: string;
+            } | null;
+            fileRoute: {
+              asset: {
+                url: string;
+                originalFilename: string | null;
+              } | null;
+            } | null;
+            route: string | null;
+            anchor: string | null;
+            link: string | null;
+            email: string | null;
+            telephone: string | null;
+            blank: boolean | null;
+            utm: {
+              source: string | null;
+              medium: string | null;
+              campaign: string | null;
+              term: string | null;
+              content: string | null;
+            } | null;
+            trackingId: string | null;
+            ariaLabel: string | null;
+            relAttributes: Array<string> | null;
+            titleAttr: string | null;
+            dataAttributes: Array<{
+              key: string | null;
+              value: string | null;
+              _key: string;
+            }> | null;
+            title: null;
+          }> | null;
           level?: number;
           _type: "block";
           _key: string;
@@ -6128,19 +5521,19 @@ export type PageQueryResult = {
               | null;
             pageRoute: {
               _type: "page";
-              slug: string | null;
+              slug: string;
             } | null;
             eventRoute: {
               _type: "event";
-              slug: string | null;
+              slug: string;
             } | null;
             postRoute: {
               _type: "post";
-              slug: string | null;
+              slug: string;
             } | null;
             fileRoute: {
               asset: {
-                url: string | null;
+                url: string;
                 originalFilename: string | null;
               } | null;
             } | null;
@@ -6175,28 +5568,29 @@ export type PageQueryResult = {
         _type: "imageBlock";
         active?: boolean;
         anchor?: string;
+        backgroundColor?: "primary" | "secondary" | "texture";
         mediaType?: "image" | "video";
         image: {
           alt: string | null;
           crop: {
             _type: "sanity.imageCrop";
-            top?: number;
-            bottom?: number;
-            left?: number;
-            right?: number;
+            top: number;
+            bottom: number;
+            left: number;
+            right: number;
           } | null;
           hotspot: {
-            x: number | null;
-            y: number | null;
+            x: number;
+            y: number;
           } | null;
           asset: {
             _id: string;
-            url: string | null;
+            url: string;
             metadata: {
               dimensions: {
-                aspectRatio: number | null;
-                height: number | null;
-                width: number | null;
+                aspectRatio: number;
+                height: number;
+                width: number;
               } | null;
               lqip: string | null;
             } | null;
@@ -6206,23 +5600,23 @@ export type PageQueryResult = {
           alt: string | null;
           crop: {
             _type: "sanity.imageCrop";
-            top?: number;
-            bottom?: number;
-            left?: number;
-            right?: number;
+            top: number;
+            bottom: number;
+            left: number;
+            right: number;
           } | null;
           hotspot: {
-            x: number | null;
-            y: number | null;
+            x: number;
+            y: number;
           } | null;
           asset: {
             _id: string;
-            url: string | null;
+            url: string;
             metadata: {
               dimensions: {
-                aspectRatio: number | null;
-                height: number | null;
-                width: number | null;
+                aspectRatio: number;
+                height: number;
+                width: number;
               } | null;
               lqip: string | null;
             } | null;
@@ -6259,23 +5653,23 @@ export type PageQueryResult = {
             alt: string | null;
             crop: {
               _type: "sanity.imageCrop";
-              top?: number;
-              bottom?: number;
-              left?: number;
-              right?: number;
+              top: number;
+              bottom: number;
+              left: number;
+              right: number;
             } | null;
             hotspot: {
-              x: number | null;
-              y: number | null;
+              x: number;
+              y: number;
             } | null;
             asset: {
               _id: string;
-              url: string | null;
+              url: string;
               metadata: {
                 dimensions: {
-                  aspectRatio: number | null;
-                  height: number | null;
-                  width: number | null;
+                  aspectRatio: number;
+                  height: number;
+                  width: number;
                 } | null;
                 lqip: string | null;
               } | null;
@@ -6318,127 +5712,86 @@ export type PageQueryResult = {
             | "normal"
             | "small";
           listItem?: "bullet" | "number";
-          markDefs: Array<
-            | {
-                _key: string;
-                _type: "linkWithRoute";
-                linkType?:
-                  | "anchor"
-                  | "email"
-                  | "event"
-                  | "external"
-                  | "file"
-                  | "page"
-                  | "path"
-                  | "post"
-                  | "telephone";
-                pageRoute?: PageReference;
-                eventRoute?: EventReference;
-                postRoute?: PostReference;
-                fileRoute?: {
-                  asset?: SanityFileAssetReference;
-                  media?: unknown;
-                  _type: "file";
-                };
-                route?: string;
-                anchor?: string;
-                link?: string;
-                email?: string;
-                telephone?: string;
-                blank?: boolean;
-                utm?: Utm;
-                trackingId?: string;
-                ariaLabel?: string;
-                relAttributes?: Array<string>;
-                titleAttr?: string;
-                dataAttributes?: Array<{
-                  key?: string;
-                  value?: string;
-                  _key: string;
-                }>;
-              }
-            | {
-                _key: string;
-                _type: "linkWithRoute";
-                linkType:
-                  | "anchor"
-                  | "email"
-                  | "event"
-                  | "external"
-                  | "file"
-                  | "page"
-                  | "path"
-                  | "post"
-                  | "telephone"
-                  | null;
-                pageRoute: {
-                  _type: "page";
-                  slug: string | null;
-                } | null;
-                eventRoute: {
-                  _type: "event";
-                  slug: string | null;
-                } | null;
-                postRoute: {
-                  _type: "post";
-                  slug: string | null;
-                } | null;
-                fileRoute: {
-                  asset: {
-                    url: string | null;
-                    originalFilename: string | null;
-                  } | null;
-                } | null;
-                route: string | null;
-                anchor: string | null;
-                link: string | null;
-                email: string | null;
-                telephone: string | null;
-                blank: boolean | null;
-                utm: {
-                  source: string | null;
-                  medium: string | null;
-                  campaign: string | null;
-                  term: string | null;
-                  content: string | null;
-                } | null;
-                trackingId: string | null;
-                ariaLabel: string | null;
-                relAttributes: Array<string> | null;
-                titleAttr: string | null;
-                dataAttributes: Array<{
-                  key: string | null;
-                  value: string | null;
-                  _key: string;
-                }> | null;
-                title: null;
-              }
-          > | null;
+          markDefs: Array<{
+            _key: string;
+            _type: "linkWithRoute";
+            linkType:
+              | "anchor"
+              | "email"
+              | "event"
+              | "external"
+              | "file"
+              | "page"
+              | "path"
+              | "post"
+              | "telephone";
+            pageRoute: {
+              _type: "page";
+              slug: string;
+            } | null;
+            eventRoute: {
+              _type: "event";
+              slug: string;
+            } | null;
+            postRoute: {
+              _type: "post";
+              slug: string;
+            } | null;
+            fileRoute: {
+              asset: {
+                url: string;
+                originalFilename: string | null;
+              } | null;
+            } | null;
+            route: string | null;
+            anchor: string | null;
+            link: string | null;
+            email: string | null;
+            telephone: string | null;
+            blank: boolean | null;
+            utm: {
+              source: string | null;
+              medium: string | null;
+              campaign: string | null;
+              term: string | null;
+              content: string | null;
+            } | null;
+            trackingId: string | null;
+            ariaLabel: string | null;
+            relAttributes: Array<string> | null;
+            titleAttr: string | null;
+            dataAttributes: Array<{
+              key: string | null;
+              value: string | null;
+              _key: string;
+            }> | null;
+            title: null;
+          }> | null;
           level?: number;
           _type: "block";
           _key: string;
-        }> | null;
+        }>;
         image: {
           alt: string | null;
           crop: {
             _type: "sanity.imageCrop";
-            top?: number;
-            bottom?: number;
-            left?: number;
-            right?: number;
+            top: number;
+            bottom: number;
+            left: number;
+            right: number;
           } | null;
           hotspot: {
-            x: number | null;
-            y: number | null;
+            x: number;
+            y: number;
           } | null;
           asset: {
             _id: string;
-            url: string | null;
+            url: string;
             metadata: {
               dimensions: {
-                aspectRatio: number | null;
-                height: number | null;
-                width: number | null;
+                aspectRatio: number;
+                height: number;
+                width: number;
               } | null;
               lqip: string | null;
             } | null;
@@ -6464,19 +5817,19 @@ export type PageQueryResult = {
               | null;
             pageRoute: {
               _type: "page";
-              slug: string | null;
+              slug: string;
             } | null;
             eventRoute: {
               _type: "event";
-              slug: string | null;
+              slug: string;
             } | null;
             postRoute: {
               _type: "post";
-              slug: string | null;
+              slug: string;
             } | null;
             fileRoute: {
               asset: {
-                url: string | null;
+                url: string;
                 originalFilename: string | null;
               } | null;
             } | null;
@@ -6528,128 +5881,87 @@ export type PageQueryResult = {
             | "normal"
             | "small";
           listItem?: "bullet" | "number";
-          markDefs: Array<
-            | {
-                _key: string;
-                _type: "linkWithRoute";
-                linkType?:
-                  | "anchor"
-                  | "email"
-                  | "event"
-                  | "external"
-                  | "file"
-                  | "page"
-                  | "path"
-                  | "post"
-                  | "telephone";
-                pageRoute?: PageReference;
-                eventRoute?: EventReference;
-                postRoute?: PostReference;
-                fileRoute?: {
-                  asset?: SanityFileAssetReference;
-                  media?: unknown;
-                  _type: "file";
-                };
-                route?: string;
-                anchor?: string;
-                link?: string;
-                email?: string;
-                telephone?: string;
-                blank?: boolean;
-                utm?: Utm;
-                trackingId?: string;
-                ariaLabel?: string;
-                relAttributes?: Array<string>;
-                titleAttr?: string;
-                dataAttributes?: Array<{
-                  key?: string;
-                  value?: string;
-                  _key: string;
-                }>;
-              }
-            | {
-                _key: string;
-                _type: "linkWithRoute";
-                linkType:
-                  | "anchor"
-                  | "email"
-                  | "event"
-                  | "external"
-                  | "file"
-                  | "page"
-                  | "path"
-                  | "post"
-                  | "telephone"
-                  | null;
-                pageRoute: {
-                  _type: "page";
-                  slug: string | null;
-                } | null;
-                eventRoute: {
-                  _type: "event";
-                  slug: string | null;
-                } | null;
-                postRoute: {
-                  _type: "post";
-                  slug: string | null;
-                } | null;
-                fileRoute: {
-                  asset: {
-                    url: string | null;
-                    originalFilename: string | null;
-                  } | null;
-                } | null;
-                route: string | null;
-                anchor: string | null;
-                link: string | null;
-                email: string | null;
-                telephone: string | null;
-                blank: boolean | null;
-                utm: {
-                  source: string | null;
-                  medium: string | null;
-                  campaign: string | null;
-                  term: string | null;
-                  content: string | null;
-                } | null;
-                trackingId: string | null;
-                ariaLabel: string | null;
-                relAttributes: Array<string> | null;
-                titleAttr: string | null;
-                dataAttributes: Array<{
-                  key: string | null;
-                  value: string | null;
-                  _key: string;
-                }> | null;
-                title: null;
-              }
-          > | null;
+          markDefs: Array<{
+            _key: string;
+            _type: "linkWithRoute";
+            linkType:
+              | "anchor"
+              | "email"
+              | "event"
+              | "external"
+              | "file"
+              | "page"
+              | "path"
+              | "post"
+              | "telephone";
+            pageRoute: {
+              _type: "page";
+              slug: string;
+            } | null;
+            eventRoute: {
+              _type: "event";
+              slug: string;
+            } | null;
+            postRoute: {
+              _type: "post";
+              slug: string;
+            } | null;
+            fileRoute: {
+              asset: {
+                url: string;
+                originalFilename: string | null;
+              } | null;
+            } | null;
+            route: string | null;
+            anchor: string | null;
+            link: string | null;
+            email: string | null;
+            telephone: string | null;
+            blank: boolean | null;
+            utm: {
+              source: string | null;
+              medium: string | null;
+              campaign: string | null;
+              term: string | null;
+              content: string | null;
+            } | null;
+            trackingId: string | null;
+            ariaLabel: string | null;
+            relAttributes: Array<string> | null;
+            titleAttr: string | null;
+            dataAttributes: Array<{
+              key: string | null;
+              value: string | null;
+              _key: string;
+            }> | null;
+            title: null;
+          }> | null;
           level?: number;
           _type: "block";
           _key: string;
-        }> | null;
+        }>;
         items: Array<{
           image: {
             alt: string | null;
             crop: {
               _type: "sanity.imageCrop";
-              top?: number;
-              bottom?: number;
-              left?: number;
-              right?: number;
+              top: number;
+              bottom: number;
+              left: number;
+              right: number;
             } | null;
             hotspot: {
-              x: number | null;
-              y: number | null;
+              x: number;
+              y: number;
             } | null;
             asset: {
               _id: string;
-              url: string | null;
+              url: string;
               metadata: {
                 dimensions: {
-                  aspectRatio: number | null;
-                  height: number | null;
-                  width: number | null;
+                  aspectRatio: number;
+                  height: number;
+                  width: number;
                 } | null;
                 lqip: string | null;
               } | null;
@@ -6672,106 +5984,65 @@ export type PageQueryResult = {
               | "normal"
               | "small";
             listItem?: "bullet" | "number";
-            markDefs: Array<
-              | {
-                  _key: string;
-                  _type: "linkWithRoute";
-                  linkType?:
-                    | "anchor"
-                    | "email"
-                    | "event"
-                    | "external"
-                    | "file"
-                    | "page"
-                    | "path"
-                    | "post"
-                    | "telephone";
-                  pageRoute?: PageReference;
-                  eventRoute?: EventReference;
-                  postRoute?: PostReference;
-                  fileRoute?: {
-                    asset?: SanityFileAssetReference;
-                    media?: unknown;
-                    _type: "file";
-                  };
-                  route?: string;
-                  anchor?: string;
-                  link?: string;
-                  email?: string;
-                  telephone?: string;
-                  blank?: boolean;
-                  utm?: Utm;
-                  trackingId?: string;
-                  ariaLabel?: string;
-                  relAttributes?: Array<string>;
-                  titleAttr?: string;
-                  dataAttributes?: Array<{
-                    key?: string;
-                    value?: string;
-                    _key: string;
-                  }>;
-                }
-              | {
-                  _key: string;
-                  _type: "linkWithRoute";
-                  linkType:
-                    | "anchor"
-                    | "email"
-                    | "event"
-                    | "external"
-                    | "file"
-                    | "page"
-                    | "path"
-                    | "post"
-                    | "telephone"
-                    | null;
-                  pageRoute: {
-                    _type: "page";
-                    slug: string | null;
-                  } | null;
-                  eventRoute: {
-                    _type: "event";
-                    slug: string | null;
-                  } | null;
-                  postRoute: {
-                    _type: "post";
-                    slug: string | null;
-                  } | null;
-                  fileRoute: {
-                    asset: {
-                      url: string | null;
-                      originalFilename: string | null;
-                    } | null;
-                  } | null;
-                  route: string | null;
-                  anchor: string | null;
-                  link: string | null;
-                  email: string | null;
-                  telephone: string | null;
-                  blank: boolean | null;
-                  utm: {
-                    source: string | null;
-                    medium: string | null;
-                    campaign: string | null;
-                    term: string | null;
-                    content: string | null;
-                  } | null;
-                  trackingId: string | null;
-                  ariaLabel: string | null;
-                  relAttributes: Array<string> | null;
-                  titleAttr: string | null;
-                  dataAttributes: Array<{
-                    key: string | null;
-                    value: string | null;
-                    _key: string;
-                  }> | null;
-                  title: null;
-                }
-            > | null;
+            markDefs: Array<{
+              _key: string;
+              _type: "linkWithRoute";
+              linkType:
+                | "anchor"
+                | "email"
+                | "event"
+                | "external"
+                | "file"
+                | "page"
+                | "path"
+                | "post"
+                | "telephone";
+              pageRoute: {
+                _type: "page";
+                slug: string;
+              } | null;
+              eventRoute: {
+                _type: "event";
+                slug: string;
+              } | null;
+              postRoute: {
+                _type: "post";
+                slug: string;
+              } | null;
+              fileRoute: {
+                asset: {
+                  url: string;
+                  originalFilename: string | null;
+                } | null;
+              } | null;
+              route: string | null;
+              anchor: string | null;
+              link: string | null;
+              email: string | null;
+              telephone: string | null;
+              blank: boolean | null;
+              utm: {
+                source: string | null;
+                medium: string | null;
+                campaign: string | null;
+                term: string | null;
+                content: string | null;
+              } | null;
+              trackingId: string | null;
+              ariaLabel: string | null;
+              relAttributes: Array<string> | null;
+              titleAttr: string | null;
+              dataAttributes: Array<{
+                key: string | null;
+                value: string | null;
+                _key: string;
+              }> | null;
+              title: null;
+            }> | null;
             level?: number;
             _type: "block";
             _key: string;
-          }> | null;
+          }>;
           _key: string;
         }> | null;
       }
@@ -6798,102 +6069,61 @@ export type PageQueryResult = {
             | "normal"
             | "small";
           listItem?: "bullet" | "number";
-          markDefs: Array<
-            | {
-                _key: string;
-                _type: "linkWithRoute";
-                linkType?:
-                  | "anchor"
-                  | "email"
-                  | "event"
-                  | "external"
-                  | "file"
-                  | "page"
-                  | "path"
-                  | "post"
-                  | "telephone";
-                pageRoute?: PageReference;
-                eventRoute?: EventReference;
-                postRoute?: PostReference;
-                fileRoute?: {
-                  asset?: SanityFileAssetReference;
-                  media?: unknown;
-                  _type: "file";
-                };
-                route?: string;
-                anchor?: string;
-                link?: string;
-                email?: string;
-                telephone?: string;
-                blank?: boolean;
-                utm?: Utm;
-                trackingId?: string;
-                ariaLabel?: string;
-                relAttributes?: Array<string>;
-                titleAttr?: string;
-                dataAttributes?: Array<{
-                  key?: string;
-                  value?: string;
-                  _key: string;
-                }>;
-              }
-            | {
-                _key: string;
-                _type: "linkWithRoute";
-                linkType:
-                  | "anchor"
-                  | "email"
-                  | "event"
-                  | "external"
-                  | "file"
-                  | "page"
-                  | "path"
-                  | "post"
-                  | "telephone"
-                  | null;
-                pageRoute: {
-                  _type: "page";
-                  slug: string | null;
-                } | null;
-                eventRoute: {
-                  _type: "event";
-                  slug: string | null;
-                } | null;
-                postRoute: {
-                  _type: "post";
-                  slug: string | null;
-                } | null;
-                fileRoute: {
-                  asset: {
-                    url: string | null;
-                    originalFilename: string | null;
-                  } | null;
-                } | null;
-                route: string | null;
-                anchor: string | null;
-                link: string | null;
-                email: string | null;
-                telephone: string | null;
-                blank: boolean | null;
-                utm: {
-                  source: string | null;
-                  medium: string | null;
-                  campaign: string | null;
-                  term: string | null;
-                  content: string | null;
-                } | null;
-                trackingId: string | null;
-                ariaLabel: string | null;
-                relAttributes: Array<string> | null;
-                titleAttr: string | null;
-                dataAttributes: Array<{
-                  key: string | null;
-                  value: string | null;
-                  _key: string;
-                }> | null;
-                title: null;
-              }
-          > | null;
+          markDefs: Array<{
+            _key: string;
+            _type: "linkWithRoute";
+            linkType:
+              | "anchor"
+              | "email"
+              | "event"
+              | "external"
+              | "file"
+              | "page"
+              | "path"
+              | "post"
+              | "telephone";
+            pageRoute: {
+              _type: "page";
+              slug: string;
+            } | null;
+            eventRoute: {
+              _type: "event";
+              slug: string;
+            } | null;
+            postRoute: {
+              _type: "post";
+              slug: string;
+            } | null;
+            fileRoute: {
+              asset: {
+                url: string;
+                originalFilename: string | null;
+              } | null;
+            } | null;
+            route: string | null;
+            anchor: string | null;
+            link: string | null;
+            email: string | null;
+            telephone: string | null;
+            blank: boolean | null;
+            utm: {
+              source: string | null;
+              medium: string | null;
+              campaign: string | null;
+              term: string | null;
+              content: string | null;
+            } | null;
+            trackingId: string | null;
+            ariaLabel: string | null;
+            relAttributes: Array<string> | null;
+            titleAttr: string | null;
+            dataAttributes: Array<{
+              key: string | null;
+              value: string | null;
+              _key: string;
+            }> | null;
+            title: null;
+          }> | null;
           level?: number;
           _type: "block";
           _key: string;
@@ -6902,28 +6132,29 @@ export type PageQueryResult = {
           alt: string | null;
           crop: {
             _type: "sanity.imageCrop";
-            top?: number;
-            bottom?: number;
-            left?: number;
-            right?: number;
+            top: number;
+            bottom: number;
+            left: number;
+            right: number;
           } | null;
           hotspot: {
-            x: number | null;
-            y: number | null;
+            x: number;
+            y: number;
           } | null;
           asset: {
             _id: string;
-            url: string | null;
+            url: string;
             metadata: {
               dimensions: {
-                aspectRatio: number | null;
-                height: number | null;
-                width: number | null;
+                aspectRatio: number;
+                height: number;
+                width: number;
               } | null;
               lqip: string | null;
             } | null;
           } | null;
         } | null;
+        variant?: "cards" | "proof";
         layout?: "image-left" | "image-right";
         stats: Array<{
           statValue?: string;
@@ -6944,46 +6175,205 @@ export type PageQueryResult = {
               | "normal"
               | "small";
             listItem?: "bullet" | "number";
-            markDefs: Array<
-              | {
+            markDefs: Array<{
+              _key: string;
+              _type: "linkWithRoute";
+              linkType:
+                | "anchor"
+                | "email"
+                | "event"
+                | "external"
+                | "file"
+                | "page"
+                | "path"
+                | "post"
+                | "telephone";
+              pageRoute: {
+                _type: "page";
+                slug: string;
+              } | null;
+              eventRoute: {
+                _type: "event";
+                slug: string;
+              } | null;
+              postRoute: {
+                _type: "post";
+                slug: string;
+              } | null;
+              fileRoute: {
+                asset: {
+                  url: string;
+                  originalFilename: string | null;
+                } | null;
+              } | null;
+              route: string | null;
+              anchor: string | null;
+              link: string | null;
+              email: string | null;
+              telephone: string | null;
+              blank: boolean | null;
+              utm: {
+                source: string | null;
+                medium: string | null;
+                campaign: string | null;
+                term: string | null;
+                content: string | null;
+              } | null;
+              trackingId: string | null;
+              ariaLabel: string | null;
+              relAttributes: Array<string> | null;
+              titleAttr: string | null;
+              dataAttributes: Array<{
+                key: string | null;
+                value: string | null;
+                _key: string;
+              }> | null;
+              title: null;
+            }> | null;
+            level?: number;
+            _type: "block";
+            _key: string;
+          }> | null;
+          _type: "stat";
+          _key: string;
+        }> | null;
+        footnote: Array<{
+          children?: Array<{
+            marks?: Array<string>;
+            text?: string;
+            _type: "span";
+            _key: string;
+          }>;
+          style?:
+            | "blockquote"
+            | "h1"
+            | "h2"
+            | "h3"
+            | "h4"
+            | "large"
+            | "normal"
+            | "small";
+          listItem?: "bullet" | "number";
+          markDefs: Array<{
+            _key: string;
+            _type: "linkWithRoute";
+            linkType:
+              | "anchor"
+              | "email"
+              | "event"
+              | "external"
+              | "file"
+              | "page"
+              | "path"
+              | "post"
+              | "telephone";
+            pageRoute: {
+              _type: "page";
+              slug: string;
+            } | null;
+            eventRoute: {
+              _type: "event";
+              slug: string;
+            } | null;
+            postRoute: {
+              _type: "post";
+              slug: string;
+            } | null;
+            fileRoute: {
+              asset: {
+                url: string;
+                originalFilename: string | null;
+              } | null;
+            } | null;
+            route: string | null;
+            anchor: string | null;
+            link: string | null;
+            email: string | null;
+            telephone: string | null;
+            blank: boolean | null;
+            utm: {
+              source: string | null;
+              medium: string | null;
+              campaign: string | null;
+              term: string | null;
+              content: string | null;
+            } | null;
+            trackingId: string | null;
+            ariaLabel: string | null;
+            relAttributes: Array<string> | null;
+            titleAttr: string | null;
+            dataAttributes: Array<{
+              key: string | null;
+              value: string | null;
+              _key: string;
+            }> | null;
+            title: null;
+          }> | null;
+          level?: number;
+          _type: "block";
+          _key: string;
+        }> | null;
+      }
+    | {
+        _key: string;
+        _type: "teamMemberBlock";
+        active?: boolean;
+        anchor?: string;
+        backgroundColor?: "primary" | "secondary" | "texture";
+        member: {
+          _id: string;
+          title: string;
+          slug: string;
+          primaryJobTitle: string | null;
+          secondaryJobTitle: string | null;
+          email: string | null;
+          phone: string | null;
+          socials: Social | null;
+          image: {
+            alt: string | null;
+            crop: {
+              _type: "sanity.imageCrop";
+              top: number;
+              bottom: number;
+              left: number;
+              right: number;
+            } | null;
+            hotspot: {
+              x: number;
+              y: number;
+            } | null;
+            asset: {
+              _id: string;
+              url: string;
+              metadata: {
+                dimensions: {
+                  aspectRatio: number;
+                  height: number;
+                  width: number;
+                } | null;
+                lqip: string | null;
+              } | null;
+            } | null;
+          } | null;
+          content: Array<
+            | {
+                children?: Array<{
+                  marks?: Array<string>;
+                  text?: string;
+                  _type: "span";
                   _key: string;
-                  _type: "linkWithRoute";
-                  linkType?:
-                    | "anchor"
-                    | "email"
-                    | "event"
-                    | "external"
-                    | "file"
-                    | "page"
-                    | "path"
-                    | "post"
-                    | "telephone";
-                  pageRoute?: PageReference;
-                  eventRoute?: EventReference;
-                  postRoute?: PostReference;
-                  fileRoute?: {
-                    asset?: SanityFileAssetReference;
-                    media?: unknown;
-                    _type: "file";
-                  };
-                  route?: string;
-                  anchor?: string;
-                  link?: string;
-                  email?: string;
-                  telephone?: string;
-                  blank?: boolean;
-                  utm?: Utm;
-                  trackingId?: string;
-                  ariaLabel?: string;
-                  relAttributes?: Array<string>;
-                  titleAttr?: string;
-                  dataAttributes?: Array<{
-                    key?: string;
-                    value?: string;
-                    _key: string;
-                  }>;
-                }
-              | {
+                }>;
+                style?:
+                  | "blockquote"
+                  | "h1"
+                  | "h2"
+                  | "h3"
+                  | "h4"
+                  | "large"
+                  | "normal"
+                  | "small";
+                listItem?: "bullet" | "number";
+                markDefs: Array<{
                   _key: string;
                   _type: "linkWithRoute";
                   linkType:
@@ -6995,23 +6385,22 @@ export type PageQueryResult = {
                     | "page"
                     | "path"
                     | "post"
-                    | "telephone"
-                    | null;
+                    | "telephone";
                   pageRoute: {
                     _type: "page";
-                    slug: string | null;
+                    slug: string;
                   } | null;
                   eventRoute: {
                     _type: "event";
-                    slug: string | null;
+                    slug: string;
                   } | null;
                   postRoute: {
                     _type: "post";
-                    slug: string | null;
+                    slug: string;
                   } | null;
                   fileRoute: {
                     asset: {
-                      url: string | null;
+                      url: string;
                       originalFilename: string | null;
                     } | null;
                   } | null;
@@ -7038,171 +6427,7 @@ export type PageQueryResult = {
                     _key: string;
                   }> | null;
                   title: null;
-                }
-            > | null;
-            level?: number;
-            _type: "block";
-            _key: string;
-          }> | null;
-          _type: "stat";
-          _key: string;
-        }> | null;
-      }
-    | {
-        _key: string;
-        _type: "teamMemberBlock";
-        active?: boolean;
-        anchor?: string;
-        backgroundColor?: "primary" | "secondary";
-        member: {
-          _id: string;
-          title: string | null;
-          slug: string | null;
-          primaryJobTitle: string | null;
-          secondaryJobTitle: string | null;
-          email: string | null;
-          phone: string | null;
-          socials: Social | null;
-          image: {
-            alt: string | null;
-            crop: {
-              _type: "sanity.imageCrop";
-              top?: number;
-              bottom?: number;
-              left?: number;
-              right?: number;
-            } | null;
-            hotspot: {
-              x: number | null;
-              y: number | null;
-            } | null;
-            asset: {
-              _id: string;
-              url: string | null;
-              metadata: {
-                dimensions: {
-                  aspectRatio: number | null;
-                  height: number | null;
-                  width: number | null;
-                } | null;
-                lqip: string | null;
-              } | null;
-            } | null;
-          } | null;
-          content: Array<
-            | {
-                children?: Array<{
-                  marks?: Array<string>;
-                  text?: string;
-                  _type: "span";
-                  _key: string;
-                }>;
-                style?:
-                  | "blockquote"
-                  | "h1"
-                  | "h2"
-                  | "h3"
-                  | "h4"
-                  | "large"
-                  | "normal"
-                  | "small";
-                listItem?: "bullet" | "number";
-                markDefs: Array<
-                  | {
-                      _key: string;
-                      _type: "linkWithRoute";
-                      linkType?:
-                        | "anchor"
-                        | "email"
-                        | "event"
-                        | "external"
-                        | "file"
-                        | "page"
-                        | "path"
-                        | "post"
-                        | "telephone";
-                      pageRoute?: PageReference;
-                      eventRoute?: EventReference;
-                      postRoute?: PostReference;
-                      fileRoute?: {
-                        asset?: SanityFileAssetReference;
-                        media?: unknown;
-                        _type: "file";
-                      };
-                      route?: string;
-                      anchor?: string;
-                      link?: string;
-                      email?: string;
-                      telephone?: string;
-                      blank?: boolean;
-                      utm?: Utm;
-                      trackingId?: string;
-                      ariaLabel?: string;
-                      relAttributes?: Array<string>;
-                      titleAttr?: string;
-                      dataAttributes?: Array<{
-                        key?: string;
-                        value?: string;
-                        _key: string;
-                      }>;
-                    }
-                  | {
-                      _key: string;
-                      _type: "linkWithRoute";
-                      linkType:
-                        | "anchor"
-                        | "email"
-                        | "event"
-                        | "external"
-                        | "file"
-                        | "page"
-                        | "path"
-                        | "post"
-                        | "telephone"
-                        | null;
-                      pageRoute: {
-                        _type: "page";
-                        slug: string | null;
-                      } | null;
-                      eventRoute: {
-                        _type: "event";
-                        slug: string | null;
-                      } | null;
-                      postRoute: {
-                        _type: "post";
-                        slug: string | null;
-                      } | null;
-                      fileRoute: {
-                        asset: {
-                          url: string | null;
-                          originalFilename: string | null;
-                        } | null;
-                      } | null;
-                      route: string | null;
-                      anchor: string | null;
-                      link: string | null;
-                      email: string | null;
-                      telephone: string | null;
-                      blank: boolean | null;
-                      utm: {
-                        source: string | null;
-                        medium: string | null;
-                        campaign: string | null;
-                        term: string | null;
-                        content: string | null;
-                      } | null;
-                      trackingId: string | null;
-                      ariaLabel: string | null;
-                      relAttributes: Array<string> | null;
-                      titleAttr: string | null;
-                      dataAttributes: Array<{
-                        key: string | null;
-                        value: string | null;
-                        _key: string;
-                      }> | null;
-                      title: null;
-                    }
-                > | null;
+                }> | null;
                 level?: number;
                 _type: "block";
                 _key: string;
@@ -7218,7 +6443,7 @@ export type PageQueryResult = {
                 markDefs: null;
               }
           > | null;
-        } | null;
+        };
       }
     | {
         _key: string;
@@ -7245,102 +6470,61 @@ export type PageQueryResult = {
                 | "normal"
                 | "small";
               listItem?: "bullet" | "number";
-              markDefs: Array<
-                | {
-                    _key: string;
-                    _type: "linkWithRoute";
-                    linkType?:
-                      | "anchor"
-                      | "email"
-                      | "event"
-                      | "external"
-                      | "file"
-                      | "page"
-                      | "path"
-                      | "post"
-                      | "telephone";
-                    pageRoute?: PageReference;
-                    eventRoute?: EventReference;
-                    postRoute?: PostReference;
-                    fileRoute?: {
-                      asset?: SanityFileAssetReference;
-                      media?: unknown;
-                      _type: "file";
-                    };
-                    route?: string;
-                    anchor?: string;
-                    link?: string;
-                    email?: string;
-                    telephone?: string;
-                    blank?: boolean;
-                    utm?: Utm;
-                    trackingId?: string;
-                    ariaLabel?: string;
-                    relAttributes?: Array<string>;
-                    titleAttr?: string;
-                    dataAttributes?: Array<{
-                      key?: string;
-                      value?: string;
-                      _key: string;
-                    }>;
-                  }
-                | {
-                    _key: string;
-                    _type: "linkWithRoute";
-                    linkType:
-                      | "anchor"
-                      | "email"
-                      | "event"
-                      | "external"
-                      | "file"
-                      | "page"
-                      | "path"
-                      | "post"
-                      | "telephone"
-                      | null;
-                    pageRoute: {
-                      _type: "page";
-                      slug: string | null;
-                    } | null;
-                    eventRoute: {
-                      _type: "event";
-                      slug: string | null;
-                    } | null;
-                    postRoute: {
-                      _type: "post";
-                      slug: string | null;
-                    } | null;
-                    fileRoute: {
-                      asset: {
-                        url: string | null;
-                        originalFilename: string | null;
-                      } | null;
-                    } | null;
-                    route: string | null;
-                    anchor: string | null;
-                    link: string | null;
-                    email: string | null;
-                    telephone: string | null;
-                    blank: boolean | null;
-                    utm: {
-                      source: string | null;
-                      medium: string | null;
-                      campaign: string | null;
-                      term: string | null;
-                      content: string | null;
-                    } | null;
-                    trackingId: string | null;
-                    ariaLabel: string | null;
-                    relAttributes: Array<string> | null;
-                    titleAttr: string | null;
-                    dataAttributes: Array<{
-                      key: string | null;
-                      value: string | null;
-                      _key: string;
-                    }> | null;
-                    title: null;
-                  }
-              > | null;
+              markDefs: Array<{
+                _key: string;
+                _type: "linkWithRoute";
+                linkType:
+                  | "anchor"
+                  | "email"
+                  | "event"
+                  | "external"
+                  | "file"
+                  | "page"
+                  | "path"
+                  | "post"
+                  | "telephone";
+                pageRoute: {
+                  _type: "page";
+                  slug: string;
+                } | null;
+                eventRoute: {
+                  _type: "event";
+                  slug: string;
+                } | null;
+                postRoute: {
+                  _type: "post";
+                  slug: string;
+                } | null;
+                fileRoute: {
+                  asset: {
+                    url: string;
+                    originalFilename: string | null;
+                  } | null;
+                } | null;
+                route: string | null;
+                anchor: string | null;
+                link: string | null;
+                email: string | null;
+                telephone: string | null;
+                blank: boolean | null;
+                utm: {
+                  source: string | null;
+                  medium: string | null;
+                  campaign: string | null;
+                  term: string | null;
+                  content: string | null;
+                } | null;
+                trackingId: string | null;
+                ariaLabel: string | null;
+                relAttributes: Array<string> | null;
+                titleAttr: string | null;
+                dataAttributes: Array<{
+                  key: string | null;
+                  value: string | null;
+                  _key: string;
+                }> | null;
+                title: null;
+              }> | null;
               level?: number;
               _type: "block";
               _key: string;
@@ -7366,13 +6550,13 @@ export type PageQueryResult = {
 export type PostsQueryResult = Array<{
   _id: string;
   _type: "post";
-  title: string | null;
-  slug: string | null;
-  publishedAt: string | null;
+  title: string;
+  slug: string;
+  publishedAt: string;
   author: {
     _id: string;
-    title: string | null;
-    slug: string | null;
+    title: string;
+    slug: string;
     primaryJobTitle: string | null;
     secondaryJobTitle: string | null;
     email: string | null;
@@ -7382,23 +6566,23 @@ export type PostsQueryResult = Array<{
       alt: string | null;
       crop: {
         _type: "sanity.imageCrop";
-        top?: number;
-        bottom?: number;
-        left?: number;
-        right?: number;
+        top: number;
+        bottom: number;
+        left: number;
+        right: number;
       } | null;
       hotspot: {
-        x: number | null;
-        y: number | null;
+        x: number;
+        y: number;
       } | null;
       asset: {
         _id: string;
-        url: string | null;
+        url: string;
         metadata: {
           dimensions: {
-            aspectRatio: number | null;
-            height: number | null;
-            width: number | null;
+            aspectRatio: number;
+            height: number;
+            width: number;
           } | null;
           lqip: string | null;
         } | null;
@@ -7412,23 +6596,23 @@ export type PostsQueryResult = Array<{
     alt: string | null;
     crop: {
       _type: "sanity.imageCrop";
-      top?: number;
-      bottom?: number;
-      left?: number;
-      right?: number;
+      top: number;
+      bottom: number;
+      left: number;
+      right: number;
     } | null;
     hotspot: {
-      x: number | null;
-      y: number | null;
+      x: number;
+      y: number;
     } | null;
     asset: {
       _id: string;
-      url: string | null;
+      url: string;
       metadata: {
         dimensions: {
-          aspectRatio: number | null;
-          height: number | null;
-          width: number | null;
+          aspectRatio: number;
+          height: number;
+          width: number;
         } | null;
         lqip: string | null;
       } | null;
@@ -7438,44 +6622,44 @@ export type PostsQueryResult = Array<{
 
 // Source: sanity/queries/documents/post-query.ts
 // Variable: postQuery
-// Query: *[_type == "post" && slug.current == $slug][0] {  _id,  _type,  _updatedAt,  title,  slug,  image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },  publishedAt,  author-> {  _id,  title,  "slug": slug.current,  primaryJobTitle,  secondaryJobTitle,  email,  phone,  socials,  image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },  content},  "category": category->title,  excerpt,  seo {    ...,    shareGraphic {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } }  },  jsonLd,    sections[] {    ...,    _type == 'coverBlock' => {      ...,      image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      imageMobile {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      muxUrl {        _type,        asset-> {            _id,  _type,  _ref,  playbackId,  status,  data {    duration,    aspect_ratio  }        },        thumbTime      },      muxUrlMobile {        _type,        asset-> {            _id,  _type,  _ref,  playbackId,  status,  data {    duration,    aspect_ratio  }        },        thumbTime      },      content[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      cta { ..., route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } } }    },    _type == 'heroBlock' => {      ...,      image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      video {   asset-> {      _id,  _type,  _ref,  playbackId,  status,  data {    duration,    aspect_ratio  }  } },      cta { ..., route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } } },      content[] {  ...,  markDefs[] {    ...,    _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })  }}    },    _type == 'ctaBlock' => {      ...,      cta { ..., route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } } },      content[] {  ...,  markDefs[] {    ...,    _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })  }}    },    _type == 'textBlock' => {      ...,      content[] {  ...,  markDefs[] {    ...,    _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })  }}    },    _type == 'embedBlock' => {      ...,      embedCode {        _type,        code,        language,        filename      }    },    _type == 'formBlock' => {      ...,      content[] {  ...,  markDefs[] {    ...,    _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })  }},      form-> {  _id,  title,  "slug": slug.current,  active,  submitLabel,  showOptIn,  optInLabel,  fields[] {    _key,    fieldType,    label,    name,    placeholder,    required,    inputType  },  disclaimer[] {  ...,  markDefs[] { ... }}}    },    _type == 'imageBlock' => {      ...,      image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      imageMobile {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      muxUrl { asset-> { playbackId } },      muxUrlMobile { asset-> { playbackId } }    },    _type == 'columnBlock' => {      ...,      intro[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      content[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      excerpt[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      columns[] {        ...,        content[] {          ...,          markDefs[] {            ...,            _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })          }        },        image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },        cta { ..., route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } } }      }    },    _type == 'postsBlock' => {      ...    },    _type == 'eventsBlock' => {      ...    },    _type == 'teamMemberBlock' => {      ...,      member-> {        _id,        title,        "slug": slug.current,        primaryJobTitle,        secondaryJobTitle,        email,        phone,        socials,        image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },        content[] {          ...,          markDefs[] {            ...,            _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })          }        }      }    },    _type == 'logoBarBlock' => {      ...,      logos[] {        ...,        logo {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } }      }    },    _type == 'quoteBlock' => {      ...,      image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      quote[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      cta { ..., route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } } }    },    _type == 'statsBlock' => {      ...,      heading[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      stats[] {        ...,        content[] {          ...,          markDefs[] {            ...,            _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })          }        }      }    },    _type == 'galleryBlock' => {      ...,      images[] {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } }    },    _type == 'faqBlock' => {      ...,      faqs[] {        question,        answer[] {          ...,          markDefs[] {            ...,            _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })          }        }      }    },    _type == 'splitScrollBlock' => {      ...,      title[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      items[] {        ...,        image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },        content[] {          ...,          markDefs[] {            ...,            _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })          }        }      }    }  }}
+// Query: *[_type == "post" && slug.current == $slug][0] {  _id,  _type,  _updatedAt,  title,  slug,  image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },  publishedAt,  author-> {  _id,  title,  "slug": slug.current,  primaryJobTitle,  secondaryJobTitle,  email,  phone,  socials,  image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },  content},  "category": category->title,  excerpt,  seo {    ...,    shareGraphic {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } }  },  jsonLd,  cta { ..., route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } } },  body[] {  ...,  _type == 'defaultImage' => {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },  markDefs[] {    ...,    _type == 'linkWithRoute' => select(      defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },      route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } }    )  }}}
 export type PostQueryResult = {
   _id: string;
   _type: "post";
   _updatedAt: string;
-  title: string | null;
-  slug: Slug | null;
+  title: string;
+  slug: Slug;
   image: {
     alt: string | null;
     crop: {
       _type: "sanity.imageCrop";
-      top?: number;
-      bottom?: number;
-      left?: number;
-      right?: number;
+      top: number;
+      bottom: number;
+      left: number;
+      right: number;
     } | null;
     hotspot: {
-      x: number | null;
-      y: number | null;
+      x: number;
+      y: number;
     } | null;
     asset: {
       _id: string;
-      url: string | null;
+      url: string;
       metadata: {
         dimensions: {
-          aspectRatio: number | null;
-          height: number | null;
-          width: number | null;
+          aspectRatio: number;
+          height: number;
+          width: number;
         } | null;
         lqip: string | null;
       } | null;
     } | null;
   } | null;
-  publishedAt: string | null;
+  publishedAt: string;
   author: {
     _id: string;
-    title: string | null;
-    slug: string | null;
+    title: string;
+    slug: string;
     primaryJobTitle: string | null;
     secondaryJobTitle: string | null;
     email: string | null;
@@ -7485,23 +6669,23 @@ export type PostQueryResult = {
       alt: string | null;
       crop: {
         _type: "sanity.imageCrop";
-        top?: number;
-        bottom?: number;
-        left?: number;
-        right?: number;
+        top: number;
+        bottom: number;
+        left: number;
+        right: number;
       } | null;
       hotspot: {
-        x: number | null;
-        y: number | null;
+        x: number;
+        y: number;
       } | null;
       asset: {
         _id: string;
-        url: string | null;
+        url: string;
         metadata: {
           dimensions: {
-            aspectRatio: number | null;
-            height: number | null;
-            width: number | null;
+            aspectRatio: number;
+            height: number;
+            width: number;
           } | null;
           lqip: string | null;
         } | null;
@@ -7522,23 +6706,23 @@ export type PostQueryResult = {
       alt: string | null;
       crop: {
         _type: "sanity.imageCrop";
-        top?: number;
-        bottom?: number;
-        left?: number;
-        right?: number;
+        top: number;
+        bottom: number;
+        left: number;
+        right: number;
       } | null;
       hotspot: {
-        x: number | null;
-        y: number | null;
+        x: number;
+        y: number;
       } | null;
       asset: {
         _id: string;
-        url: string | null;
+        url: string;
         metadata: {
           dimensions: {
-            aspectRatio: number | null;
-            height: number | null;
-            width: number | null;
+            aspectRatio: number;
+            height: number;
+            width: number;
           } | null;
           lqip: string | null;
         } | null;
@@ -7546,2858 +6730,178 @@ export type PostQueryResult = {
     } | null;
   } | null;
   jsonLd: ArticleJsonLd | null;
-  sections: Array<
-    | {
+  cta: {
+    _type: "cta";
+    active?: boolean;
+    route: {
+      _type: "route";
+      title: string | null;
+      linkType:
+        | "anchor"
+        | "email"
+        | "event"
+        | "external"
+        | "file"
+        | "page"
+        | "path"
+        | "post"
+        | "telephone"
+        | null;
+      pageRoute: {
+        _type: "page";
+        slug: string;
+      } | null;
+      eventRoute: {
+        _type: "event";
+        slug: string;
+      } | null;
+      postRoute: {
+        _type: "post";
+        slug: string;
+      } | null;
+      fileRoute: {
+        asset: {
+          url: string;
+          originalFilename: string | null;
+        } | null;
+      } | null;
+      route: string | null;
+      anchor: string | null;
+      link: string | null;
+      email: string | null;
+      telephone: string | null;
+      blank: boolean | null;
+      titleAttr: string | null;
+      ariaLabel: string | null;
+      utm: {
+        source: string | null;
+        medium: string | null;
+        campaign: string | null;
+        term: string | null;
+        content: string | null;
+      } | null;
+      trackingId: string | null;
+      relAttributes: Array<string> | null;
+      dataAttributes: Array<{
+        key: string | null;
+        value: string | null;
         _key: string;
-        _type: "bannerBlock";
-        active?: boolean;
-        anchor?: string;
-        content?: SimpleText;
-        cta?: Cta;
-      }
+      }> | null;
+    } | null;
+  } | null;
+  body: Array<
     | {
-        _key: string;
-        _type: "columnBlock";
-        active?: boolean;
-        anchor?: string;
-        backgroundColor?: "primary" | "secondary" | "texture";
-        cardStyle?: "logo" | "project";
-        title?: string;
-        intro: Array<{
-          children?: Array<{
-            marks?: Array<string>;
-            text?: string;
-            _type: "span";
-            _key: string;
-          }>;
-          style?:
-            | "blockquote"
-            | "h1"
-            | "h2"
-            | "h3"
-            | "h4"
-            | "large"
-            | "normal"
-            | "small";
-          listItem?: "bullet" | "number";
-          markDefs: Array<
-            | {
-                _key: string;
-                _type: "linkWithRoute";
-                linkType?:
-                  | "anchor"
-                  | "email"
-                  | "event"
-                  | "external"
-                  | "file"
-                  | "page"
-                  | "path"
-                  | "post"
-                  | "telephone";
-                pageRoute?: PageReference;
-                eventRoute?: EventReference;
-                postRoute?: PostReference;
-                fileRoute?: {
-                  asset?: SanityFileAssetReference;
-                  media?: unknown;
-                  _type: "file";
-                };
-                route?: string;
-                anchor?: string;
-                link?: string;
-                email?: string;
-                telephone?: string;
-                blank?: boolean;
-                utm?: Utm;
-                trackingId?: string;
-                ariaLabel?: string;
-                relAttributes?: Array<string>;
-                titleAttr?: string;
-                dataAttributes?: Array<{
-                  key?: string;
-                  value?: string;
-                  _key: string;
-                }>;
-              }
-            | {
-                _key: string;
-                _type: "linkWithRoute";
-                linkType:
-                  | "anchor"
-                  | "email"
-                  | "event"
-                  | "external"
-                  | "file"
-                  | "page"
-                  | "path"
-                  | "post"
-                  | "telephone"
-                  | null;
-                pageRoute: {
-                  _type: "page";
-                  slug: string | null;
-                } | null;
-                eventRoute: {
-                  _type: "event";
-                  slug: string | null;
-                } | null;
-                postRoute: {
-                  _type: "post";
-                  slug: string | null;
-                } | null;
-                fileRoute: {
-                  asset: {
-                    url: string | null;
-                    originalFilename: string | null;
-                  } | null;
-                } | null;
-                route: string | null;
-                anchor: string | null;
-                link: string | null;
-                email: string | null;
-                telephone: string | null;
-                blank: boolean | null;
-                utm: {
-                  source: string | null;
-                  medium: string | null;
-                  campaign: string | null;
-                  term: string | null;
-                  content: string | null;
-                } | null;
-                trackingId: string | null;
-                ariaLabel: string | null;
-                relAttributes: Array<string> | null;
-                titleAttr: string | null;
-                dataAttributes: Array<{
-                  key: string | null;
-                  value: string | null;
-                  _key: string;
-                }> | null;
-                title: null;
-              }
-          > | null;
-          level?: number;
-          _type: "block";
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
           _key: string;
-        }> | null;
-        content: Array<{
-          children?: Array<{
-            marks?: Array<string>;
-            text?: string;
-            _type: "span";
-            _key: string;
-          }>;
-          style?:
-            | "blockquote"
-            | "h1"
-            | "h2"
-            | "h3"
-            | "h4"
-            | "large"
-            | "normal"
-            | "small";
-          listItem?: "bullet" | "number";
-          markDefs: Array<
-            | {
-                _key: string;
-                _type: "linkWithRoute";
-                linkType?:
-                  | "anchor"
-                  | "email"
-                  | "event"
-                  | "external"
-                  | "file"
-                  | "page"
-                  | "path"
-                  | "post"
-                  | "telephone";
-                pageRoute?: PageReference;
-                eventRoute?: EventReference;
-                postRoute?: PostReference;
-                fileRoute?: {
-                  asset?: SanityFileAssetReference;
-                  media?: unknown;
-                  _type: "file";
-                };
-                route?: string;
-                anchor?: string;
-                link?: string;
-                email?: string;
-                telephone?: string;
-                blank?: boolean;
-                utm?: Utm;
-                trackingId?: string;
-                ariaLabel?: string;
-                relAttributes?: Array<string>;
-                titleAttr?: string;
-                dataAttributes?: Array<{
-                  key?: string;
-                  value?: string;
-                  _key: string;
-                }>;
-              }
-            | {
-                _key: string;
-                _type: "linkWithRoute";
-                linkType:
-                  | "anchor"
-                  | "email"
-                  | "event"
-                  | "external"
-                  | "file"
-                  | "page"
-                  | "path"
-                  | "post"
-                  | "telephone"
-                  | null;
-                pageRoute: {
-                  _type: "page";
-                  slug: string | null;
-                } | null;
-                eventRoute: {
-                  _type: "event";
-                  slug: string | null;
-                } | null;
-                postRoute: {
-                  _type: "post";
-                  slug: string | null;
-                } | null;
-                fileRoute: {
-                  asset: {
-                    url: string | null;
-                    originalFilename: string | null;
-                  } | null;
-                } | null;
-                route: string | null;
-                anchor: string | null;
-                link: string | null;
-                email: string | null;
-                telephone: string | null;
-                blank: boolean | null;
-                utm: {
-                  source: string | null;
-                  medium: string | null;
-                  campaign: string | null;
-                  term: string | null;
-                  content: string | null;
-                } | null;
-                trackingId: string | null;
-                ariaLabel: string | null;
-                relAttributes: Array<string> | null;
-                titleAttr: string | null;
-                dataAttributes: Array<{
-                  key: string | null;
-                  value: string | null;
-                  _key: string;
-                }> | null;
-                title: null;
-              }
-          > | null;
-          level?: number;
-          _type: "block";
+        }>;
+        style?:
+          | "blockquote"
+          | "h1"
+          | "h2"
+          | "h3"
+          | "h4"
+          | "large"
+          | "normal"
+          | "small";
+        listItem?: "bullet" | "number";
+        markDefs: Array<{
           _key: string;
-        }> | null;
-        columns: Array<{
-          _key: string;
-          _type: "column";
-          title?: string;
-          content: Array<{
-            children?: Array<{
-              marks?: Array<string>;
-              text?: string;
-              _type: "span";
-              _key: string;
-            }>;
-            style?:
-              | "blockquote"
-              | "h1"
-              | "h2"
-              | "h3"
-              | "h4"
-              | "large"
-              | "normal"
-              | "small";
-            listItem?: "bullet" | "number";
-            markDefs: Array<
-              | {
-                  _key: string;
-                  _type: "linkWithRoute";
-                  linkType?:
-                    | "anchor"
-                    | "email"
-                    | "event"
-                    | "external"
-                    | "file"
-                    | "page"
-                    | "path"
-                    | "post"
-                    | "telephone";
-                  pageRoute?: PageReference;
-                  eventRoute?: EventReference;
-                  postRoute?: PostReference;
-                  fileRoute?: {
-                    asset?: SanityFileAssetReference;
-                    media?: unknown;
-                    _type: "file";
-                  };
-                  route?: string;
-                  anchor?: string;
-                  link?: string;
-                  email?: string;
-                  telephone?: string;
-                  blank?: boolean;
-                  utm?: Utm;
-                  trackingId?: string;
-                  ariaLabel?: string;
-                  relAttributes?: Array<string>;
-                  titleAttr?: string;
-                  dataAttributes?: Array<{
-                    key?: string;
-                    value?: string;
-                    _key: string;
-                  }>;
-                }
-              | {
-                  _key: string;
-                  _type: "linkWithRoute";
-                  linkType:
-                    | "anchor"
-                    | "email"
-                    | "event"
-                    | "external"
-                    | "file"
-                    | "page"
-                    | "path"
-                    | "post"
-                    | "telephone"
-                    | null;
-                  pageRoute: {
-                    _type: "page";
-                    slug: string | null;
-                  } | null;
-                  eventRoute: {
-                    _type: "event";
-                    slug: string | null;
-                  } | null;
-                  postRoute: {
-                    _type: "post";
-                    slug: string | null;
-                  } | null;
-                  fileRoute: {
-                    asset: {
-                      url: string | null;
-                      originalFilename: string | null;
-                    } | null;
-                  } | null;
-                  route: string | null;
-                  anchor: string | null;
-                  link: string | null;
-                  email: string | null;
-                  telephone: string | null;
-                  blank: boolean | null;
-                  utm: {
-                    source: string | null;
-                    medium: string | null;
-                    campaign: string | null;
-                    term: string | null;
-                    content: string | null;
-                  } | null;
-                  trackingId: string | null;
-                  ariaLabel: string | null;
-                  relAttributes: Array<string> | null;
-                  titleAttr: string | null;
-                  dataAttributes: Array<{
-                    key: string | null;
-                    value: string | null;
-                    _key: string;
-                  }> | null;
-                  title: null;
-                }
-            > | null;
-            level?: number;
-            _type: "block";
-            _key: string;
-          }> | null;
-          icon?: "LuClock" | "LuCode" | "LuLayers";
-          image: {
-            alt: string | null;
-            crop: {
-              _type: "sanity.imageCrop";
-              top?: number;
-              bottom?: number;
-              left?: number;
-              right?: number;
-            } | null;
-            hotspot: {
-              x: number | null;
-              y: number | null;
-            } | null;
+          _type: "linkWithRoute";
+          linkType:
+            | "anchor"
+            | "email"
+            | "event"
+            | "external"
+            | "file"
+            | "page"
+            | "path"
+            | "post"
+            | "telephone";
+          pageRoute: {
+            _type: "page";
+            slug: string;
+          } | null;
+          eventRoute: {
+            _type: "event";
+            slug: string;
+          } | null;
+          postRoute: {
+            _type: "post";
+            slug: string;
+          } | null;
+          fileRoute: {
             asset: {
-              _id: string;
-              url: string | null;
-              metadata: {
-                dimensions: {
-                  aspectRatio: number | null;
-                  height: number | null;
-                  width: number | null;
-                } | null;
-                lqip: string | null;
-              } | null;
+              url: string;
+              originalFilename: string | null;
             } | null;
           } | null;
-          cta: {
-            _type: "cta";
-            active?: boolean;
-            route: {
-              _type: "route";
-              title: string | null;
-              linkType:
-                | "anchor"
-                | "email"
-                | "event"
-                | "external"
-                | "file"
-                | "page"
-                | "path"
-                | "post"
-                | "telephone"
-                | null;
-              pageRoute: {
-                _type: "page";
-                slug: string | null;
-              } | null;
-              eventRoute: {
-                _type: "event";
-                slug: string | null;
-              } | null;
-              postRoute: {
-                _type: "post";
-                slug: string | null;
-              } | null;
-              fileRoute: {
-                asset: {
-                  url: string | null;
-                  originalFilename: string | null;
-                } | null;
-              } | null;
-              route: string | null;
-              anchor: string | null;
-              link: string | null;
-              email: string | null;
-              telephone: string | null;
-              blank: boolean | null;
-              titleAttr: string | null;
-              ariaLabel: string | null;
-              utm: {
-                source: string | null;
-                medium: string | null;
-                campaign: string | null;
-                term: string | null;
-                content: string | null;
-              } | null;
-              trackingId: string | null;
-              relAttributes: Array<string> | null;
-              dataAttributes: Array<{
-                key: string | null;
-                value: string | null;
-                _key: string;
-              }> | null;
-            } | null;
-          } | null;
-        }> | null;
-        excerpt: Array<{
-          children?: Array<{
-            marks?: Array<string>;
-            text?: string;
-            _type: "span";
-            _key: string;
-          }>;
-          style?:
-            | "blockquote"
-            | "h1"
-            | "h2"
-            | "h3"
-            | "h4"
-            | "large"
-            | "normal"
-            | "small";
-          listItem?: "bullet" | "number";
-          markDefs: Array<
-            | {
-                _key: string;
-                _type: "linkWithRoute";
-                linkType?:
-                  | "anchor"
-                  | "email"
-                  | "event"
-                  | "external"
-                  | "file"
-                  | "page"
-                  | "path"
-                  | "post"
-                  | "telephone";
-                pageRoute?: PageReference;
-                eventRoute?: EventReference;
-                postRoute?: PostReference;
-                fileRoute?: {
-                  asset?: SanityFileAssetReference;
-                  media?: unknown;
-                  _type: "file";
-                };
-                route?: string;
-                anchor?: string;
-                link?: string;
-                email?: string;
-                telephone?: string;
-                blank?: boolean;
-                utm?: Utm;
-                trackingId?: string;
-                ariaLabel?: string;
-                relAttributes?: Array<string>;
-                titleAttr?: string;
-                dataAttributes?: Array<{
-                  key?: string;
-                  value?: string;
-                  _key: string;
-                }>;
-              }
-            | {
-                _key: string;
-                _type: "linkWithRoute";
-                linkType:
-                  | "anchor"
-                  | "email"
-                  | "event"
-                  | "external"
-                  | "file"
-                  | "page"
-                  | "path"
-                  | "post"
-                  | "telephone"
-                  | null;
-                pageRoute: {
-                  _type: "page";
-                  slug: string | null;
-                } | null;
-                eventRoute: {
-                  _type: "event";
-                  slug: string | null;
-                } | null;
-                postRoute: {
-                  _type: "post";
-                  slug: string | null;
-                } | null;
-                fileRoute: {
-                  asset: {
-                    url: string | null;
-                    originalFilename: string | null;
-                  } | null;
-                } | null;
-                route: string | null;
-                anchor: string | null;
-                link: string | null;
-                email: string | null;
-                telephone: string | null;
-                blank: boolean | null;
-                utm: {
-                  source: string | null;
-                  medium: string | null;
-                  campaign: string | null;
-                  term: string | null;
-                  content: string | null;
-                } | null;
-                trackingId: string | null;
-                ariaLabel: string | null;
-                relAttributes: Array<string> | null;
-                titleAttr: string | null;
-                dataAttributes: Array<{
-                  key: string | null;
-                  value: string | null;
-                  _key: string;
-                }> | null;
-                title: null;
-              }
-          > | null;
-          level?: number;
-          _type: "block";
-          _key: string;
-        }> | null;
-        columnsPerRow?: number;
-      }
-    | {
-        _key: string;
-        _type: "coverBlock";
-        active?: boolean;
-        anchor?: string;
-        content: Array<{
-          children?: Array<{
-            marks?: Array<string>;
-            text?: string;
-            _type: "span";
-            _key: string;
-          }>;
-          style?:
-            | "blockquote"
-            | "h1"
-            | "h2"
-            | "h3"
-            | "h4"
-            | "large"
-            | "normal"
-            | "small";
-          listItem?: "bullet" | "number";
-          markDefs: Array<
-            | {
-                _key: string;
-                _type: "linkWithRoute";
-                linkType?:
-                  | "anchor"
-                  | "email"
-                  | "event"
-                  | "external"
-                  | "file"
-                  | "page"
-                  | "path"
-                  | "post"
-                  | "telephone";
-                pageRoute?: PageReference;
-                eventRoute?: EventReference;
-                postRoute?: PostReference;
-                fileRoute?: {
-                  asset?: SanityFileAssetReference;
-                  media?: unknown;
-                  _type: "file";
-                };
-                route?: string;
-                anchor?: string;
-                link?: string;
-                email?: string;
-                telephone?: string;
-                blank?: boolean;
-                utm?: Utm;
-                trackingId?: string;
-                ariaLabel?: string;
-                relAttributes?: Array<string>;
-                titleAttr?: string;
-                dataAttributes?: Array<{
-                  key?: string;
-                  value?: string;
-                  _key: string;
-                }>;
-              }
-            | {
-                _key: string;
-                _type: "linkWithRoute";
-                linkType:
-                  | "anchor"
-                  | "email"
-                  | "event"
-                  | "external"
-                  | "file"
-                  | "page"
-                  | "path"
-                  | "post"
-                  | "telephone"
-                  | null;
-                pageRoute: {
-                  _type: "page";
-                  slug: string | null;
-                } | null;
-                eventRoute: {
-                  _type: "event";
-                  slug: string | null;
-                } | null;
-                postRoute: {
-                  _type: "post";
-                  slug: string | null;
-                } | null;
-                fileRoute: {
-                  asset: {
-                    url: string | null;
-                    originalFilename: string | null;
-                  } | null;
-                } | null;
-                route: string | null;
-                anchor: string | null;
-                link: string | null;
-                email: string | null;
-                telephone: string | null;
-                blank: boolean | null;
-                utm: {
-                  source: string | null;
-                  medium: string | null;
-                  campaign: string | null;
-                  term: string | null;
-                  content: string | null;
-                } | null;
-                trackingId: string | null;
-                ariaLabel: string | null;
-                relAttributes: Array<string> | null;
-                titleAttr: string | null;
-                dataAttributes: Array<{
-                  key: string | null;
-                  value: string | null;
-                  _key: string;
-                }> | null;
-                title: null;
-              }
-          > | null;
-          level?: number;
-          _type: "block";
-          _key: string;
-        }> | null;
-        cta: {
-          _type: "cta";
-          active?: boolean;
-          route: {
-            _type: "route";
-            title: string | null;
-            linkType:
-              | "anchor"
-              | "email"
-              | "event"
-              | "external"
-              | "file"
-              | "page"
-              | "path"
-              | "post"
-              | "telephone"
-              | null;
-            pageRoute: {
-              _type: "page";
-              slug: string | null;
-            } | null;
-            eventRoute: {
-              _type: "event";
-              slug: string | null;
-            } | null;
-            postRoute: {
-              _type: "post";
-              slug: string | null;
-            } | null;
-            fileRoute: {
-              asset: {
-                url: string | null;
-                originalFilename: string | null;
-              } | null;
-            } | null;
-            route: string | null;
-            anchor: string | null;
-            link: string | null;
-            email: string | null;
-            telephone: string | null;
-            blank: boolean | null;
-            titleAttr: string | null;
-            ariaLabel: string | null;
-            utm: {
-              source: string | null;
-              medium: string | null;
-              campaign: string | null;
-              term: string | null;
-              content: string | null;
-            } | null;
-            trackingId: string | null;
-            relAttributes: Array<string> | null;
-            dataAttributes: Array<{
-              key: string | null;
-              value: string | null;
-              _key: string;
-            }> | null;
-          } | null;
-        } | null;
-        backgroundType?: "color" | "image" | "video";
-        image: {
-          alt: string | null;
-          crop: {
-            _type: "sanity.imageCrop";
-            top?: number;
-            bottom?: number;
-            left?: number;
-            right?: number;
-          } | null;
-          hotspot: {
-            x: number | null;
-            y: number | null;
-          } | null;
-          asset: {
-            _id: string;
-            url: string | null;
-            metadata: {
-              dimensions: {
-                aspectRatio: number | null;
-                height: number | null;
-                width: number | null;
-              } | null;
-              lqip: string | null;
-            } | null;
-          } | null;
-        } | null;
-        imageMobile: {
-          alt: string | null;
-          crop: {
-            _type: "sanity.imageCrop";
-            top?: number;
-            bottom?: number;
-            left?: number;
-            right?: number;
-          } | null;
-          hotspot: {
-            x: number | null;
-            y: number | null;
-          } | null;
-          asset: {
-            _id: string;
-            url: string | null;
-            metadata: {
-              dimensions: {
-                aspectRatio: number | null;
-                height: number | null;
-                width: number | null;
-              } | null;
-              lqip: string | null;
-            } | null;
-          } | null;
-        } | null;
-        videoProvider?: "mux" | "vimeo";
-        muxUrl: {
-          _type: "mux.video";
-          asset: {
-            _id: string;
-            _type: "mux.videoAsset";
-            _ref: null;
-            playbackId: string | null;
-            status: string | null;
-            data: {
-              duration: number | null;
-              aspect_ratio: string | null;
-            } | null;
-          } | null;
-          thumbTime: null;
-        } | null;
-        muxUrlMobile: {
-          _type: "mux.video";
-          asset: {
-            _id: string;
-            _type: "mux.videoAsset";
-            _ref: null;
-            playbackId: string | null;
-            status: string | null;
-            data: {
-              duration: number | null;
-              aspect_ratio: string | null;
-            } | null;
-          } | null;
-          thumbTime: null;
-        } | null;
-        vimeoUrl?: string;
-        vimeoUrlMobile?: string;
-        backgroundColor?: "primary" | "secondary" | "texture";
-        height?: "auto" | "full" | "half" | "threeQuarter";
-        contentPosition?: string;
-        contentHalfWidth?: boolean;
-        overlayColor?: "black" | "none" | "primary" | "white";
-        overlayOpacity?: number;
-        autoplay?: boolean;
-        loop?: boolean;
-        muted?: boolean;
-        controls?: boolean;
-      }
-    | {
-        _key: string;
-        _type: "ctaBlock";
-        active?: boolean;
-        anchor?: string;
-        backgroundColor?: "primary" | "secondary";
-        alignment?: "text-center" | "text-left" | "text-right";
-        content: Array<{
-          children?: Array<{
-            marks?: Array<string>;
-            text?: string;
-            _type: "span";
-            _key: string;
-          }>;
-          style?:
-            | "blockquote"
-            | "h1"
-            | "h2"
-            | "h3"
-            | "h4"
-            | "large"
-            | "normal"
-            | "small";
-          listItem?: "bullet" | "number";
-          markDefs: Array<
-            | {
-                _key: string;
-                _type: "linkWithRoute";
-                linkType?:
-                  | "anchor"
-                  | "email"
-                  | "event"
-                  | "external"
-                  | "file"
-                  | "page"
-                  | "path"
-                  | "post"
-                  | "telephone";
-                pageRoute?: PageReference;
-                eventRoute?: EventReference;
-                postRoute?: PostReference;
-                fileRoute?: {
-                  asset?: SanityFileAssetReference;
-                  media?: unknown;
-                  _type: "file";
-                };
-                route?: string;
-                anchor?: string;
-                link?: string;
-                email?: string;
-                telephone?: string;
-                blank?: boolean;
-                utm?: Utm;
-                trackingId?: string;
-                ariaLabel?: string;
-                relAttributes?: Array<string>;
-                titleAttr?: string;
-                dataAttributes?: Array<{
-                  key?: string;
-                  value?: string;
-                  _key: string;
-                }>;
-              }
-            | {
-                _key: string;
-                _type: "linkWithRoute";
-                linkType:
-                  | "anchor"
-                  | "email"
-                  | "event"
-                  | "external"
-                  | "file"
-                  | "page"
-                  | "path"
-                  | "post"
-                  | "telephone"
-                  | null;
-                pageRoute: {
-                  _type: "page";
-                  slug: string | null;
-                } | null;
-                eventRoute: {
-                  _type: "event";
-                  slug: string | null;
-                } | null;
-                postRoute: {
-                  _type: "post";
-                  slug: string | null;
-                } | null;
-                fileRoute: {
-                  asset: {
-                    url: string | null;
-                    originalFilename: string | null;
-                  } | null;
-                } | null;
-                route: string | null;
-                anchor: string | null;
-                link: string | null;
-                email: string | null;
-                telephone: string | null;
-                blank: boolean | null;
-                utm: {
-                  source: string | null;
-                  medium: string | null;
-                  campaign: string | null;
-                  term: string | null;
-                  content: string | null;
-                } | null;
-                trackingId: string | null;
-                ariaLabel: string | null;
-                relAttributes: Array<string> | null;
-                titleAttr: string | null;
-                dataAttributes: Array<{
-                  key: string | null;
-                  value: string | null;
-                  _key: string;
-                }> | null;
-                title: null;
-              }
-          > | null;
-          level?: number;
-          _type: "block";
-          _key: string;
-        }> | null;
-        cta: {
-          _type: "cta";
-          active?: boolean;
-          route: {
-            _type: "route";
-            title: string | null;
-            linkType:
-              | "anchor"
-              | "email"
-              | "event"
-              | "external"
-              | "file"
-              | "page"
-              | "path"
-              | "post"
-              | "telephone"
-              | null;
-            pageRoute: {
-              _type: "page";
-              slug: string | null;
-            } | null;
-            eventRoute: {
-              _type: "event";
-              slug: string | null;
-            } | null;
-            postRoute: {
-              _type: "post";
-              slug: string | null;
-            } | null;
-            fileRoute: {
-              asset: {
-                url: string | null;
-                originalFilename: string | null;
-              } | null;
-            } | null;
-            route: string | null;
-            anchor: string | null;
-            link: string | null;
-            email: string | null;
-            telephone: string | null;
-            blank: boolean | null;
-            titleAttr: string | null;
-            ariaLabel: string | null;
-            utm: {
-              source: string | null;
-              medium: string | null;
-              campaign: string | null;
-              term: string | null;
-              content: string | null;
-            } | null;
-            trackingId: string | null;
-            relAttributes: Array<string> | null;
-            dataAttributes: Array<{
-              key: string | null;
-              value: string | null;
-              _key: string;
-            }> | null;
-          } | null;
-        } | null;
-      }
-    | {
-        _key: string;
-        _type: "dividerBlock";
-        active?: boolean;
-        anchor?: string;
-        style?: "gap" | "rule";
-        size?: "large" | "medium" | "small" | "zero";
-      }
-    | {
-        _key: string;
-        _type: "embedBlock";
-        active?: boolean;
-        anchor?: string;
-        backgroundColor?: "primary" | "secondary" | "texture";
-        title?: string;
-        embedCode: {
-          _type: "code";
-          code: string | null;
-          language: string | null;
-          filename: string | null;
-        } | null;
-        maxWidth?: "max-w-2xl" | "max-w-4xl" | "max-w-full" | "max-w-md";
-      }
-    | {
-        _key: string;
-        _type: "eventsBlock";
-        active?: boolean;
-        anchor?: string;
-        backgroundColor?: "primary" | "secondary" | "texture";
-        title?: string;
-        count?: number;
-      }
-    | {
-        _key: string;
-        _type: "faqBlock";
-        active?: boolean;
-        anchor?: string;
-        backgroundColor?: "primary" | "secondary" | "texture";
-        faqs: Array<{
-          question: string | null;
-          answer: Array<{
-            children?: Array<{
-              marks?: Array<string>;
-              text?: string;
-              _type: "span";
-              _key: string;
-            }>;
-            style?:
-              | "blockquote"
-              | "h1"
-              | "h2"
-              | "h3"
-              | "h4"
-              | "large"
-              | "normal"
-              | "small";
-            listItem?: "bullet" | "number";
-            markDefs: Array<
-              | {
-                  _key: string;
-                  _type: "linkWithRoute";
-                  linkType?:
-                    | "anchor"
-                    | "email"
-                    | "event"
-                    | "external"
-                    | "file"
-                    | "page"
-                    | "path"
-                    | "post"
-                    | "telephone";
-                  pageRoute?: PageReference;
-                  eventRoute?: EventReference;
-                  postRoute?: PostReference;
-                  fileRoute?: {
-                    asset?: SanityFileAssetReference;
-                    media?: unknown;
-                    _type: "file";
-                  };
-                  route?: string;
-                  anchor?: string;
-                  link?: string;
-                  email?: string;
-                  telephone?: string;
-                  blank?: boolean;
-                  utm?: Utm;
-                  trackingId?: string;
-                  ariaLabel?: string;
-                  relAttributes?: Array<string>;
-                  titleAttr?: string;
-                  dataAttributes?: Array<{
-                    key?: string;
-                    value?: string;
-                    _key: string;
-                  }>;
-                }
-              | {
-                  _key: string;
-                  _type: "linkWithRoute";
-                  linkType:
-                    | "anchor"
-                    | "email"
-                    | "event"
-                    | "external"
-                    | "file"
-                    | "page"
-                    | "path"
-                    | "post"
-                    | "telephone"
-                    | null;
-                  pageRoute: {
-                    _type: "page";
-                    slug: string | null;
-                  } | null;
-                  eventRoute: {
-                    _type: "event";
-                    slug: string | null;
-                  } | null;
-                  postRoute: {
-                    _type: "post";
-                    slug: string | null;
-                  } | null;
-                  fileRoute: {
-                    asset: {
-                      url: string | null;
-                      originalFilename: string | null;
-                    } | null;
-                  } | null;
-                  route: string | null;
-                  anchor: string | null;
-                  link: string | null;
-                  email: string | null;
-                  telephone: string | null;
-                  blank: boolean | null;
-                  utm: {
-                    source: string | null;
-                    medium: string | null;
-                    campaign: string | null;
-                    term: string | null;
-                    content: string | null;
-                  } | null;
-                  trackingId: string | null;
-                  ariaLabel: string | null;
-                  relAttributes: Array<string> | null;
-                  titleAttr: string | null;
-                  dataAttributes: Array<{
-                    key: string | null;
-                    value: string | null;
-                    _key: string;
-                  }> | null;
-                  title: null;
-                }
-            > | null;
-            level?: number;
-            _type: "block";
-            _key: string;
-          }> | null;
-        }> | null;
-      }
-    | {
-        _key: string;
-        _type: "formBlock";
-        active?: boolean;
-        anchor?: string;
-        layout?: "split" | "stacked";
-        backgroundColor?: "primary" | "secondary" | "texture";
-        content: Array<
-          | {
-              children?: Array<{
-                marks?: Array<string>;
-                text?: string;
-                _type: "span";
-                _key: string;
-              }>;
-              style?:
-                | "blockquote"
-                | "h1"
-                | "h2"
-                | "h3"
-                | "h4"
-                | "large"
-                | "normal"
-                | "small";
-              listItem?: "bullet" | "number";
-              markDefs: Array<
-                | {
-                    _key: string;
-                    _type: "linkWithRoute";
-                    linkType?:
-                      | "anchor"
-                      | "email"
-                      | "event"
-                      | "external"
-                      | "file"
-                      | "page"
-                      | "path"
-                      | "post"
-                      | "telephone";
-                    pageRoute?: PageReference;
-                    eventRoute?: EventReference;
-                    postRoute?: PostReference;
-                    fileRoute?: {
-                      asset?: SanityFileAssetReference;
-                      media?: unknown;
-                      _type: "file";
-                    };
-                    route?: string;
-                    anchor?: string;
-                    link?: string;
-                    email?: string;
-                    telephone?: string;
-                    blank?: boolean;
-                    utm?: Utm;
-                    trackingId?: string;
-                    ariaLabel?: string;
-                    relAttributes?: Array<string>;
-                    titleAttr?: string;
-                    dataAttributes?: Array<{
-                      key?: string;
-                      value?: string;
-                      _key: string;
-                    }>;
-                  }
-                | {
-                    _key: string;
-                    _type: "linkWithRoute";
-                    linkType:
-                      | "anchor"
-                      | "email"
-                      | "event"
-                      | "external"
-                      | "file"
-                      | "page"
-                      | "path"
-                      | "post"
-                      | "telephone"
-                      | null;
-                    pageRoute: {
-                      _type: "page";
-                      slug: string | null;
-                    } | null;
-                    eventRoute: {
-                      _type: "event";
-                      slug: string | null;
-                    } | null;
-                    postRoute: {
-                      _type: "post";
-                      slug: string | null;
-                    } | null;
-                    fileRoute: {
-                      asset: {
-                        url: string | null;
-                        originalFilename: string | null;
-                      } | null;
-                    } | null;
-                    route: string | null;
-                    anchor: string | null;
-                    link: string | null;
-                    email: string | null;
-                    telephone: string | null;
-                    blank: boolean | null;
-                    utm: {
-                      source: string | null;
-                      medium: string | null;
-                      campaign: string | null;
-                      term: string | null;
-                      content: string | null;
-                    } | null;
-                    trackingId: string | null;
-                    ariaLabel: string | null;
-                    relAttributes: Array<string> | null;
-                    titleAttr: string | null;
-                    dataAttributes: Array<{
-                      key: string | null;
-                      value: string | null;
-                      _key: string;
-                    }> | null;
-                    title: null;
-                  }
-              > | null;
-              level?: number;
-              _type: "block";
-              _key: string;
-            }
-          | {
-              _key: string;
-              _type: "defaultImage";
-              asset?: SanityImageAssetReference;
-              media?: unknown;
-              hotspot?: SanityImageHotspot;
-              crop?: SanityImageCrop;
-              alt?: string;
-              markDefs: null;
-            }
-        > | null;
-        form: {
-          _id: string;
-          title: string | null;
-          slug: string | null;
-          active: boolean | null;
-          submitLabel: string | null;
-          showOptIn: "hide" | "inherit" | "show" | null;
-          optInLabel: string | null;
-          fields: Array<{
-            _key: string;
-            fieldType: "input" | "textarea" | null;
-            label: string | null;
-            name: string | null;
-            placeholder: string | null;
-            required: boolean | null;
-            inputType: "tel" | "text" | "url" | null;
-          }> | null;
-          disclaimer: Array<{
-            children?: Array<{
-              marks?: Array<string>;
-              text?: string;
-              _type: "span";
-              _key: string;
-            }>;
-            style?:
-              | "blockquote"
-              | "h1"
-              | "h2"
-              | "h3"
-              | "h4"
-              | "large"
-              | "normal"
-              | "small";
-            listItem?: "bullet" | "number";
-            markDefs: Array<{
-              _key: string;
-              _type: "linkWithRoute";
-              linkType?:
-                | "anchor"
-                | "email"
-                | "event"
-                | "external"
-                | "file"
-                | "page"
-                | "path"
-                | "post"
-                | "telephone";
-              pageRoute?: PageReference;
-              eventRoute?: EventReference;
-              postRoute?: PostReference;
-              fileRoute?: {
-                asset?: SanityFileAssetReference;
-                media?: unknown;
-                _type: "file";
-              };
-              route?: string;
-              anchor?: string;
-              link?: string;
-              email?: string;
-              telephone?: string;
-              blank?: boolean;
-              utm?: Utm;
-              trackingId?: string;
-              ariaLabel?: string;
-              relAttributes?: Array<string>;
-              titleAttr?: string;
-              dataAttributes?: Array<{
-                key?: string;
-                value?: string;
-                _key: string;
-              }>;
-            }> | null;
-            level?: number;
-            _type: "block";
-            _key: string;
-          }> | null;
-        } | null;
-      }
-    | {
-        _key: string;
-        _type: "galleryBlock";
-        active?: boolean;
-        anchor?: string;
-        backgroundColor?: "primary" | "secondary" | "texture";
-        images: Array<{
-          alt: string | null;
-          crop: {
-            _type: "sanity.imageCrop";
-            top?: number;
-            bottom?: number;
-            left?: number;
-            right?: number;
-          } | null;
-          hotspot: {
-            x: number | null;
-            y: number | null;
-          } | null;
-          asset: {
-            _id: string;
-            url: string | null;
-            metadata: {
-              dimensions: {
-                aspectRatio: number | null;
-                height: number | null;
-                width: number | null;
-              } | null;
-              lqip: string | null;
-            } | null;
-          } | null;
-        }> | null;
-        imagesPerRow?: number;
-        enableLightbox?: boolean;
-      }
-    | {
-        _key: string;
-        _type: "heroBlock";
-        active?: boolean;
-        anchor?: string;
-        backgroundColor?: "primary" | "secondary" | "texture";
-        layout?: "image-left" | "image-right";
-        image: {
-          alt: string | null;
-          crop: {
-            _type: "sanity.imageCrop";
-            top?: number;
-            bottom?: number;
-            left?: number;
-            right?: number;
-          } | null;
-          hotspot: {
-            x: number | null;
-            y: number | null;
-          } | null;
-          asset: {
-            _id: string;
-            url: string | null;
-            metadata: {
-              dimensions: {
-                aspectRatio: number | null;
-                height: number | null;
-                width: number | null;
-              } | null;
-              lqip: string | null;
-            } | null;
-          } | null;
-        } | null;
-        content: Array<{
-          children?: Array<{
-            marks?: Array<string>;
-            text?: string;
-            _type: "span";
-            _key: string;
-          }>;
-          style?:
-            | "blockquote"
-            | "h1"
-            | "h2"
-            | "h3"
-            | "h4"
-            | "large"
-            | "normal"
-            | "small";
-          listItem?: "bullet" | "number";
-          markDefs: Array<
-            | {
-                _key: string;
-                _type: "linkWithRoute";
-                linkType?:
-                  | "anchor"
-                  | "email"
-                  | "event"
-                  | "external"
-                  | "file"
-                  | "page"
-                  | "path"
-                  | "post"
-                  | "telephone";
-                pageRoute?: PageReference;
-                eventRoute?: EventReference;
-                postRoute?: PostReference;
-                fileRoute?: {
-                  asset?: SanityFileAssetReference;
-                  media?: unknown;
-                  _type: "file";
-                };
-                route?: string;
-                anchor?: string;
-                link?: string;
-                email?: string;
-                telephone?: string;
-                blank?: boolean;
-                utm?: Utm;
-                trackingId?: string;
-                ariaLabel?: string;
-                relAttributes?: Array<string>;
-                titleAttr?: string;
-                dataAttributes?: Array<{
-                  key?: string;
-                  value?: string;
-                  _key: string;
-                }>;
-              }
-            | {
-                _key: string;
-                _type: "linkWithRoute";
-                linkType:
-                  | "anchor"
-                  | "email"
-                  | "event"
-                  | "external"
-                  | "file"
-                  | "page"
-                  | "path"
-                  | "post"
-                  | "telephone"
-                  | null;
-                pageRoute: {
-                  _type: "page";
-                  slug: string | null;
-                } | null;
-                eventRoute: {
-                  _type: "event";
-                  slug: string | null;
-                } | null;
-                postRoute: {
-                  _type: "post";
-                  slug: string | null;
-                } | null;
-                fileRoute: {
-                  asset: {
-                    url: string | null;
-                    originalFilename: string | null;
-                  } | null;
-                } | null;
-                route: string | null;
-                anchor: string | null;
-                link: string | null;
-                email: string | null;
-                telephone: string | null;
-                blank: boolean | null;
-                utm: {
-                  source: string | null;
-                  medium: string | null;
-                  campaign: string | null;
-                  term: string | null;
-                  content: string | null;
-                } | null;
-                trackingId: string | null;
-                ariaLabel: string | null;
-                relAttributes: Array<string> | null;
-                titleAttr: string | null;
-                dataAttributes: Array<{
-                  key: string | null;
-                  value: string | null;
-                  _key: string;
-                }> | null;
-                title: null;
-              }
-          > | null;
-          level?: number;
-          _type: "block";
-          _key: string;
-        }> | null;
-        cta: {
-          _type: "cta";
-          active?: boolean;
-          route: {
-            _type: "route";
-            title: string | null;
-            linkType:
-              | "anchor"
-              | "email"
-              | "event"
-              | "external"
-              | "file"
-              | "page"
-              | "path"
-              | "post"
-              | "telephone"
-              | null;
-            pageRoute: {
-              _type: "page";
-              slug: string | null;
-            } | null;
-            eventRoute: {
-              _type: "event";
-              slug: string | null;
-            } | null;
-            postRoute: {
-              _type: "post";
-              slug: string | null;
-            } | null;
-            fileRoute: {
-              asset: {
-                url: string | null;
-                originalFilename: string | null;
-              } | null;
-            } | null;
-            route: string | null;
-            anchor: string | null;
-            link: string | null;
-            email: string | null;
-            telephone: string | null;
-            blank: boolean | null;
-            titleAttr: string | null;
-            ariaLabel: string | null;
-            utm: {
-              source: string | null;
-              medium: string | null;
-              campaign: string | null;
-              term: string | null;
-              content: string | null;
-            } | null;
-            trackingId: string | null;
-            relAttributes: Array<string> | null;
-            dataAttributes: Array<{
-              key: string | null;
-              value: string | null;
-              _key: string;
-            }> | null;
-          } | null;
-        } | null;
-        video: null;
-      }
-    | {
-        _key: string;
-        _type: "imageBlock";
-        active?: boolean;
-        anchor?: string;
-        mediaType?: "image" | "video";
-        image: {
-          alt: string | null;
-          crop: {
-            _type: "sanity.imageCrop";
-            top?: number;
-            bottom?: number;
-            left?: number;
-            right?: number;
-          } | null;
-          hotspot: {
-            x: number | null;
-            y: number | null;
-          } | null;
-          asset: {
-            _id: string;
-            url: string | null;
-            metadata: {
-              dimensions: {
-                aspectRatio: number | null;
-                height: number | null;
-                width: number | null;
-              } | null;
-              lqip: string | null;
-            } | null;
-          } | null;
-        } | null;
-        imageMobile: {
-          alt: string | null;
-          crop: {
-            _type: "sanity.imageCrop";
-            top?: number;
-            bottom?: number;
-            left?: number;
-            right?: number;
-          } | null;
-          hotspot: {
-            x: number | null;
-            y: number | null;
-          } | null;
-          asset: {
-            _id: string;
-            url: string | null;
-            metadata: {
-              dimensions: {
-                aspectRatio: number | null;
-                height: number | null;
-                width: number | null;
-              } | null;
-              lqip: string | null;
-            } | null;
-          } | null;
-        } | null;
-        videoProvider?: "mux" | "vimeo";
-        muxUrl: {
-          asset: {
-            playbackId: string | null;
-          } | null;
-        } | null;
-        muxUrlMobile: {
-          asset: {
-            playbackId: string | null;
-          } | null;
-        } | null;
-        vimeoUrl?: string;
-        vimeoUrlMobile?: string;
-        maxWidth?: "max-w-2xl" | "max-w-4xl" | "max-w-full" | "max-w-md";
-        autoplay?: boolean;
-        loop?: boolean;
-        muted?: boolean;
-        controls?: boolean;
-      }
-    | {
-        _key: string;
-        _type: "logoBarBlock";
-        active?: boolean;
-        anchor?: string;
-        backgroundColor?: "primary" | "secondary" | "texture";
-        eyebrow?: string;
-        logos: Array<{
-          logo: {
-            alt: string | null;
-            crop: {
-              _type: "sanity.imageCrop";
-              top?: number;
-              bottom?: number;
-              left?: number;
-              right?: number;
-            } | null;
-            hotspot: {
-              x: number | null;
-              y: number | null;
-            } | null;
-            asset: {
-              _id: string;
-              url: string | null;
-              metadata: {
-                dimensions: {
-                  aspectRatio: number | null;
-                  height: number | null;
-                  width: number | null;
-                } | null;
-                lqip: string | null;
-              } | null;
-            } | null;
-          } | null;
-          name?: string;
-          _type: "logoEntry";
-          _key: string;
-        }> | null;
-      }
-    | {
-        _key: string;
-        _type: "postsBlock";
-        active?: boolean;
-        anchor?: string;
-        backgroundColor?: "primary" | "secondary" | "texture";
-        title?: string;
-        count?: number;
-      }
-    | {
-        _key: string;
-        _type: "quoteBlock";
-        active?: boolean;
-        anchor?: string;
-        backgroundColor?: "primary" | "secondary" | "texture";
-        quote: Array<{
-          children?: Array<{
-            marks?: Array<string>;
-            text?: string;
-            _type: "span";
-            _key: string;
-          }>;
-          style?:
-            | "blockquote"
-            | "h1"
-            | "h2"
-            | "h3"
-            | "h4"
-            | "large"
-            | "normal"
-            | "small";
-          listItem?: "bullet" | "number";
-          markDefs: Array<
-            | {
-                _key: string;
-                _type: "linkWithRoute";
-                linkType?:
-                  | "anchor"
-                  | "email"
-                  | "event"
-                  | "external"
-                  | "file"
-                  | "page"
-                  | "path"
-                  | "post"
-                  | "telephone";
-                pageRoute?: PageReference;
-                eventRoute?: EventReference;
-                postRoute?: PostReference;
-                fileRoute?: {
-                  asset?: SanityFileAssetReference;
-                  media?: unknown;
-                  _type: "file";
-                };
-                route?: string;
-                anchor?: string;
-                link?: string;
-                email?: string;
-                telephone?: string;
-                blank?: boolean;
-                utm?: Utm;
-                trackingId?: string;
-                ariaLabel?: string;
-                relAttributes?: Array<string>;
-                titleAttr?: string;
-                dataAttributes?: Array<{
-                  key?: string;
-                  value?: string;
-                  _key: string;
-                }>;
-              }
-            | {
-                _key: string;
-                _type: "linkWithRoute";
-                linkType:
-                  | "anchor"
-                  | "email"
-                  | "event"
-                  | "external"
-                  | "file"
-                  | "page"
-                  | "path"
-                  | "post"
-                  | "telephone"
-                  | null;
-                pageRoute: {
-                  _type: "page";
-                  slug: string | null;
-                } | null;
-                eventRoute: {
-                  _type: "event";
-                  slug: string | null;
-                } | null;
-                postRoute: {
-                  _type: "post";
-                  slug: string | null;
-                } | null;
-                fileRoute: {
-                  asset: {
-                    url: string | null;
-                    originalFilename: string | null;
-                  } | null;
-                } | null;
-                route: string | null;
-                anchor: string | null;
-                link: string | null;
-                email: string | null;
-                telephone: string | null;
-                blank: boolean | null;
-                utm: {
-                  source: string | null;
-                  medium: string | null;
-                  campaign: string | null;
-                  term: string | null;
-                  content: string | null;
-                } | null;
-                trackingId: string | null;
-                ariaLabel: string | null;
-                relAttributes: Array<string> | null;
-                titleAttr: string | null;
-                dataAttributes: Array<{
-                  key: string | null;
-                  value: string | null;
-                  _key: string;
-                }> | null;
-                title: null;
-              }
-          > | null;
-          level?: number;
-          _type: "block";
-          _key: string;
-        }> | null;
-        image: {
-          alt: string | null;
-          crop: {
-            _type: "sanity.imageCrop";
-            top?: number;
-            bottom?: number;
-            left?: number;
-            right?: number;
-          } | null;
-          hotspot: {
-            x: number | null;
-            y: number | null;
-          } | null;
-          asset: {
-            _id: string;
-            url: string | null;
-            metadata: {
-              dimensions: {
-                aspectRatio: number | null;
-                height: number | null;
-                width: number | null;
-              } | null;
-              lqip: string | null;
-            } | null;
-          } | null;
-        } | null;
-        title?: string;
-        cta: {
-          _type: "cta";
-          active?: boolean;
-          route: {
-            _type: "route";
-            title: string | null;
-            linkType:
-              | "anchor"
-              | "email"
-              | "event"
-              | "external"
-              | "file"
-              | "page"
-              | "path"
-              | "post"
-              | "telephone"
-              | null;
-            pageRoute: {
-              _type: "page";
-              slug: string | null;
-            } | null;
-            eventRoute: {
-              _type: "event";
-              slug: string | null;
-            } | null;
-            postRoute: {
-              _type: "post";
-              slug: string | null;
-            } | null;
-            fileRoute: {
-              asset: {
-                url: string | null;
-                originalFilename: string | null;
-              } | null;
-            } | null;
-            route: string | null;
-            anchor: string | null;
-            link: string | null;
-            email: string | null;
-            telephone: string | null;
-            blank: boolean | null;
-            titleAttr: string | null;
-            ariaLabel: string | null;
-            utm: {
-              source: string | null;
-              medium: string | null;
-              campaign: string | null;
-              term: string | null;
-              content: string | null;
-            } | null;
-            trackingId: string | null;
-            relAttributes: Array<string> | null;
-            dataAttributes: Array<{
-              key: string | null;
-              value: string | null;
-              _key: string;
-            }> | null;
-          } | null;
-        } | null;
-      }
-    | {
-        _key: string;
-        _type: "splitScrollBlock";
-        active?: boolean;
-        anchor?: string;
-        backgroundColor?: "primary" | "secondary" | "texture";
-        title: Array<{
-          children?: Array<{
-            marks?: Array<string>;
-            text?: string;
-            _type: "span";
-            _key: string;
-          }>;
-          style?:
-            | "blockquote"
-            | "h1"
-            | "h2"
-            | "h3"
-            | "h4"
-            | "large"
-            | "normal"
-            | "small";
-          listItem?: "bullet" | "number";
-          markDefs: Array<
-            | {
-                _key: string;
-                _type: "linkWithRoute";
-                linkType?:
-                  | "anchor"
-                  | "email"
-                  | "event"
-                  | "external"
-                  | "file"
-                  | "page"
-                  | "path"
-                  | "post"
-                  | "telephone";
-                pageRoute?: PageReference;
-                eventRoute?: EventReference;
-                postRoute?: PostReference;
-                fileRoute?: {
-                  asset?: SanityFileAssetReference;
-                  media?: unknown;
-                  _type: "file";
-                };
-                route?: string;
-                anchor?: string;
-                link?: string;
-                email?: string;
-                telephone?: string;
-                blank?: boolean;
-                utm?: Utm;
-                trackingId?: string;
-                ariaLabel?: string;
-                relAttributes?: Array<string>;
-                titleAttr?: string;
-                dataAttributes?: Array<{
-                  key?: string;
-                  value?: string;
-                  _key: string;
-                }>;
-              }
-            | {
-                _key: string;
-                _type: "linkWithRoute";
-                linkType:
-                  | "anchor"
-                  | "email"
-                  | "event"
-                  | "external"
-                  | "file"
-                  | "page"
-                  | "path"
-                  | "post"
-                  | "telephone"
-                  | null;
-                pageRoute: {
-                  _type: "page";
-                  slug: string | null;
-                } | null;
-                eventRoute: {
-                  _type: "event";
-                  slug: string | null;
-                } | null;
-                postRoute: {
-                  _type: "post";
-                  slug: string | null;
-                } | null;
-                fileRoute: {
-                  asset: {
-                    url: string | null;
-                    originalFilename: string | null;
-                  } | null;
-                } | null;
-                route: string | null;
-                anchor: string | null;
-                link: string | null;
-                email: string | null;
-                telephone: string | null;
-                blank: boolean | null;
-                utm: {
-                  source: string | null;
-                  medium: string | null;
-                  campaign: string | null;
-                  term: string | null;
-                  content: string | null;
-                } | null;
-                trackingId: string | null;
-                ariaLabel: string | null;
-                relAttributes: Array<string> | null;
-                titleAttr: string | null;
-                dataAttributes: Array<{
-                  key: string | null;
-                  value: string | null;
-                  _key: string;
-                }> | null;
-                title: null;
-              }
-          > | null;
-          level?: number;
-          _type: "block";
-          _key: string;
-        }> | null;
-        items: Array<{
-          image: {
-            alt: string | null;
-            crop: {
-              _type: "sanity.imageCrop";
-              top?: number;
-              bottom?: number;
-              left?: number;
-              right?: number;
-            } | null;
-            hotspot: {
-              x: number | null;
-              y: number | null;
-            } | null;
-            asset: {
-              _id: string;
-              url: string | null;
-              metadata: {
-                dimensions: {
-                  aspectRatio: number | null;
-                  height: number | null;
-                  width: number | null;
-                } | null;
-                lqip: string | null;
-              } | null;
-            } | null;
-          } | null;
-          content: Array<{
-            children?: Array<{
-              marks?: Array<string>;
-              text?: string;
-              _type: "span";
-              _key: string;
-            }>;
-            style?:
-              | "blockquote"
-              | "h1"
-              | "h2"
-              | "h3"
-              | "h4"
-              | "large"
-              | "normal"
-              | "small";
-            listItem?: "bullet" | "number";
-            markDefs: Array<
-              | {
-                  _key: string;
-                  _type: "linkWithRoute";
-                  linkType?:
-                    | "anchor"
-                    | "email"
-                    | "event"
-                    | "external"
-                    | "file"
-                    | "page"
-                    | "path"
-                    | "post"
-                    | "telephone";
-                  pageRoute?: PageReference;
-                  eventRoute?: EventReference;
-                  postRoute?: PostReference;
-                  fileRoute?: {
-                    asset?: SanityFileAssetReference;
-                    media?: unknown;
-                    _type: "file";
-                  };
-                  route?: string;
-                  anchor?: string;
-                  link?: string;
-                  email?: string;
-                  telephone?: string;
-                  blank?: boolean;
-                  utm?: Utm;
-                  trackingId?: string;
-                  ariaLabel?: string;
-                  relAttributes?: Array<string>;
-                  titleAttr?: string;
-                  dataAttributes?: Array<{
-                    key?: string;
-                    value?: string;
-                    _key: string;
-                  }>;
-                }
-              | {
-                  _key: string;
-                  _type: "linkWithRoute";
-                  linkType:
-                    | "anchor"
-                    | "email"
-                    | "event"
-                    | "external"
-                    | "file"
-                    | "page"
-                    | "path"
-                    | "post"
-                    | "telephone"
-                    | null;
-                  pageRoute: {
-                    _type: "page";
-                    slug: string | null;
-                  } | null;
-                  eventRoute: {
-                    _type: "event";
-                    slug: string | null;
-                  } | null;
-                  postRoute: {
-                    _type: "post";
-                    slug: string | null;
-                  } | null;
-                  fileRoute: {
-                    asset: {
-                      url: string | null;
-                      originalFilename: string | null;
-                    } | null;
-                  } | null;
-                  route: string | null;
-                  anchor: string | null;
-                  link: string | null;
-                  email: string | null;
-                  telephone: string | null;
-                  blank: boolean | null;
-                  utm: {
-                    source: string | null;
-                    medium: string | null;
-                    campaign: string | null;
-                    term: string | null;
-                    content: string | null;
-                  } | null;
-                  trackingId: string | null;
-                  ariaLabel: string | null;
-                  relAttributes: Array<string> | null;
-                  titleAttr: string | null;
-                  dataAttributes: Array<{
-                    key: string | null;
-                    value: string | null;
-                    _key: string;
-                  }> | null;
-                  title: null;
-                }
-            > | null;
-            level?: number;
-            _type: "block";
-            _key: string;
-          }> | null;
-          _key: string;
-        }> | null;
-      }
-    | {
-        _key: string;
-        _type: "statsBlock";
-        active?: boolean;
-        anchor?: string;
-        backgroundColor?: "primary" | "secondary" | "texture";
-        heading: Array<{
-          children?: Array<{
-            marks?: Array<string>;
-            text?: string;
-            _type: "span";
-            _key: string;
-          }>;
-          style?:
-            | "blockquote"
-            | "h1"
-            | "h2"
-            | "h3"
-            | "h4"
-            | "large"
-            | "normal"
-            | "small";
-          listItem?: "bullet" | "number";
-          markDefs: Array<
-            | {
-                _key: string;
-                _type: "linkWithRoute";
-                linkType?:
-                  | "anchor"
-                  | "email"
-                  | "event"
-                  | "external"
-                  | "file"
-                  | "page"
-                  | "path"
-                  | "post"
-                  | "telephone";
-                pageRoute?: PageReference;
-                eventRoute?: EventReference;
-                postRoute?: PostReference;
-                fileRoute?: {
-                  asset?: SanityFileAssetReference;
-                  media?: unknown;
-                  _type: "file";
-                };
-                route?: string;
-                anchor?: string;
-                link?: string;
-                email?: string;
-                telephone?: string;
-                blank?: boolean;
-                utm?: Utm;
-                trackingId?: string;
-                ariaLabel?: string;
-                relAttributes?: Array<string>;
-                titleAttr?: string;
-                dataAttributes?: Array<{
-                  key?: string;
-                  value?: string;
-                  _key: string;
-                }>;
-              }
-            | {
-                _key: string;
-                _type: "linkWithRoute";
-                linkType:
-                  | "anchor"
-                  | "email"
-                  | "event"
-                  | "external"
-                  | "file"
-                  | "page"
-                  | "path"
-                  | "post"
-                  | "telephone"
-                  | null;
-                pageRoute: {
-                  _type: "page";
-                  slug: string | null;
-                } | null;
-                eventRoute: {
-                  _type: "event";
-                  slug: string | null;
-                } | null;
-                postRoute: {
-                  _type: "post";
-                  slug: string | null;
-                } | null;
-                fileRoute: {
-                  asset: {
-                    url: string | null;
-                    originalFilename: string | null;
-                  } | null;
-                } | null;
-                route: string | null;
-                anchor: string | null;
-                link: string | null;
-                email: string | null;
-                telephone: string | null;
-                blank: boolean | null;
-                utm: {
-                  source: string | null;
-                  medium: string | null;
-                  campaign: string | null;
-                  term: string | null;
-                  content: string | null;
-                } | null;
-                trackingId: string | null;
-                ariaLabel: string | null;
-                relAttributes: Array<string> | null;
-                titleAttr: string | null;
-                dataAttributes: Array<{
-                  key: string | null;
-                  value: string | null;
-                  _key: string;
-                }> | null;
-                title: null;
-              }
-          > | null;
-          level?: number;
-          _type: "block";
-          _key: string;
-        }> | null;
-        image: {
-          alt: string | null;
-          crop: {
-            _type: "sanity.imageCrop";
-            top?: number;
-            bottom?: number;
-            left?: number;
-            right?: number;
-          } | null;
-          hotspot: {
-            x: number | null;
-            y: number | null;
-          } | null;
-          asset: {
-            _id: string;
-            url: string | null;
-            metadata: {
-              dimensions: {
-                aspectRatio: number | null;
-                height: number | null;
-                width: number | null;
-              } | null;
-              lqip: string | null;
-            } | null;
-          } | null;
-        } | null;
-        layout?: "image-left" | "image-right";
-        stats: Array<{
-          statValue?: string;
-          content: Array<{
-            children?: Array<{
-              marks?: Array<string>;
-              text?: string;
-              _type: "span";
-              _key: string;
-            }>;
-            style?:
-              | "blockquote"
-              | "h1"
-              | "h2"
-              | "h3"
-              | "h4"
-              | "large"
-              | "normal"
-              | "small";
-            listItem?: "bullet" | "number";
-            markDefs: Array<
-              | {
-                  _key: string;
-                  _type: "linkWithRoute";
-                  linkType?:
-                    | "anchor"
-                    | "email"
-                    | "event"
-                    | "external"
-                    | "file"
-                    | "page"
-                    | "path"
-                    | "post"
-                    | "telephone";
-                  pageRoute?: PageReference;
-                  eventRoute?: EventReference;
-                  postRoute?: PostReference;
-                  fileRoute?: {
-                    asset?: SanityFileAssetReference;
-                    media?: unknown;
-                    _type: "file";
-                  };
-                  route?: string;
-                  anchor?: string;
-                  link?: string;
-                  email?: string;
-                  telephone?: string;
-                  blank?: boolean;
-                  utm?: Utm;
-                  trackingId?: string;
-                  ariaLabel?: string;
-                  relAttributes?: Array<string>;
-                  titleAttr?: string;
-                  dataAttributes?: Array<{
-                    key?: string;
-                    value?: string;
-                    _key: string;
-                  }>;
-                }
-              | {
-                  _key: string;
-                  _type: "linkWithRoute";
-                  linkType:
-                    | "anchor"
-                    | "email"
-                    | "event"
-                    | "external"
-                    | "file"
-                    | "page"
-                    | "path"
-                    | "post"
-                    | "telephone"
-                    | null;
-                  pageRoute: {
-                    _type: "page";
-                    slug: string | null;
-                  } | null;
-                  eventRoute: {
-                    _type: "event";
-                    slug: string | null;
-                  } | null;
-                  postRoute: {
-                    _type: "post";
-                    slug: string | null;
-                  } | null;
-                  fileRoute: {
-                    asset: {
-                      url: string | null;
-                      originalFilename: string | null;
-                    } | null;
-                  } | null;
-                  route: string | null;
-                  anchor: string | null;
-                  link: string | null;
-                  email: string | null;
-                  telephone: string | null;
-                  blank: boolean | null;
-                  utm: {
-                    source: string | null;
-                    medium: string | null;
-                    campaign: string | null;
-                    term: string | null;
-                    content: string | null;
-                  } | null;
-                  trackingId: string | null;
-                  ariaLabel: string | null;
-                  relAttributes: Array<string> | null;
-                  titleAttr: string | null;
-                  dataAttributes: Array<{
-                    key: string | null;
-                    value: string | null;
-                    _key: string;
-                  }> | null;
-                  title: null;
-                }
-            > | null;
-            level?: number;
-            _type: "block";
-            _key: string;
-          }> | null;
-          _type: "stat";
-          _key: string;
-        }> | null;
-      }
-    | {
-        _key: string;
-        _type: "teamMemberBlock";
-        active?: boolean;
-        anchor?: string;
-        backgroundColor?: "primary" | "secondary";
-        member: {
-          _id: string;
-          title: string | null;
-          slug: string | null;
-          primaryJobTitle: string | null;
-          secondaryJobTitle: string | null;
+          route: string | null;
+          anchor: string | null;
+          link: string | null;
           email: string | null;
-          phone: string | null;
-          socials: Social | null;
-          image: {
-            alt: string | null;
-            crop: {
-              _type: "sanity.imageCrop";
-              top?: number;
-              bottom?: number;
-              left?: number;
-              right?: number;
-            } | null;
-            hotspot: {
-              x: number | null;
-              y: number | null;
-            } | null;
-            asset: {
-              _id: string;
-              url: string | null;
-              metadata: {
-                dimensions: {
-                  aspectRatio: number | null;
-                  height: number | null;
-                  width: number | null;
-                } | null;
-                lqip: string | null;
-              } | null;
-            } | null;
+          telephone: string | null;
+          blank: boolean | null;
+          utm: {
+            source: string | null;
+            medium: string | null;
+            campaign: string | null;
+            term: string | null;
+            content: string | null;
           } | null;
-          content: Array<
-            | {
-                children?: Array<{
-                  marks?: Array<string>;
-                  text?: string;
-                  _type: "span";
-                  _key: string;
-                }>;
-                style?:
-                  | "blockquote"
-                  | "h1"
-                  | "h2"
-                  | "h3"
-                  | "h4"
-                  | "large"
-                  | "normal"
-                  | "small";
-                listItem?: "bullet" | "number";
-                markDefs: Array<
-                  | {
-                      _key: string;
-                      _type: "linkWithRoute";
-                      linkType?:
-                        | "anchor"
-                        | "email"
-                        | "event"
-                        | "external"
-                        | "file"
-                        | "page"
-                        | "path"
-                        | "post"
-                        | "telephone";
-                      pageRoute?: PageReference;
-                      eventRoute?: EventReference;
-                      postRoute?: PostReference;
-                      fileRoute?: {
-                        asset?: SanityFileAssetReference;
-                        media?: unknown;
-                        _type: "file";
-                      };
-                      route?: string;
-                      anchor?: string;
-                      link?: string;
-                      email?: string;
-                      telephone?: string;
-                      blank?: boolean;
-                      utm?: Utm;
-                      trackingId?: string;
-                      ariaLabel?: string;
-                      relAttributes?: Array<string>;
-                      titleAttr?: string;
-                      dataAttributes?: Array<{
-                        key?: string;
-                        value?: string;
-                        _key: string;
-                      }>;
-                    }
-                  | {
-                      _key: string;
-                      _type: "linkWithRoute";
-                      linkType:
-                        | "anchor"
-                        | "email"
-                        | "event"
-                        | "external"
-                        | "file"
-                        | "page"
-                        | "path"
-                        | "post"
-                        | "telephone"
-                        | null;
-                      pageRoute: {
-                        _type: "page";
-                        slug: string | null;
-                      } | null;
-                      eventRoute: {
-                        _type: "event";
-                        slug: string | null;
-                      } | null;
-                      postRoute: {
-                        _type: "post";
-                        slug: string | null;
-                      } | null;
-                      fileRoute: {
-                        asset: {
-                          url: string | null;
-                          originalFilename: string | null;
-                        } | null;
-                      } | null;
-                      route: string | null;
-                      anchor: string | null;
-                      link: string | null;
-                      email: string | null;
-                      telephone: string | null;
-                      blank: boolean | null;
-                      utm: {
-                        source: string | null;
-                        medium: string | null;
-                        campaign: string | null;
-                        term: string | null;
-                        content: string | null;
-                      } | null;
-                      trackingId: string | null;
-                      ariaLabel: string | null;
-                      relAttributes: Array<string> | null;
-                      titleAttr: string | null;
-                      dataAttributes: Array<{
-                        key: string | null;
-                        value: string | null;
-                        _key: string;
-                      }> | null;
-                      title: null;
-                    }
-                > | null;
-                level?: number;
-                _type: "block";
-                _key: string;
-              }
-            | {
-                _key: string;
-                _type: "defaultImage";
-                asset?: SanityImageAssetReference;
-                media?: unknown;
-                hotspot?: SanityImageHotspot;
-                crop?: SanityImageCrop;
-                alt?: string;
-                markDefs: null;
-              }
-          > | null;
-        } | null;
+          trackingId: string | null;
+          ariaLabel: string | null;
+          relAttributes: Array<string> | null;
+          titleAttr: string | null;
+          dataAttributes: Array<{
+            key: string | null;
+            value: string | null;
+            _key: string;
+          }> | null;
+          title: null;
+        }> | null;
+        level?: number;
+        _type: "block";
+        _key: string;
       }
     | {
         _key: string;
-        _type: "textBlock";
-        active?: boolean;
-        anchor?: string;
-        backgroundColor?: "primary" | "secondary" | "texture";
-        contentAlignment?: "center" | "left" | "right";
-        content: Array<
-          | {
-              children?: Array<{
-                marks?: Array<string>;
-                text?: string;
-                _type: "span";
-                _key: string;
-              }>;
-              style?:
-                | "blockquote"
-                | "h1"
-                | "h2"
-                | "h3"
-                | "h4"
-                | "large"
-                | "normal"
-                | "small";
-              listItem?: "bullet" | "number";
-              markDefs: Array<
-                | {
-                    _key: string;
-                    _type: "linkWithRoute";
-                    linkType?:
-                      | "anchor"
-                      | "email"
-                      | "event"
-                      | "external"
-                      | "file"
-                      | "page"
-                      | "path"
-                      | "post"
-                      | "telephone";
-                    pageRoute?: PageReference;
-                    eventRoute?: EventReference;
-                    postRoute?: PostReference;
-                    fileRoute?: {
-                      asset?: SanityFileAssetReference;
-                      media?: unknown;
-                      _type: "file";
-                    };
-                    route?: string;
-                    anchor?: string;
-                    link?: string;
-                    email?: string;
-                    telephone?: string;
-                    blank?: boolean;
-                    utm?: Utm;
-                    trackingId?: string;
-                    ariaLabel?: string;
-                    relAttributes?: Array<string>;
-                    titleAttr?: string;
-                    dataAttributes?: Array<{
-                      key?: string;
-                      value?: string;
-                      _key: string;
-                    }>;
-                  }
-                | {
-                    _key: string;
-                    _type: "linkWithRoute";
-                    linkType:
-                      | "anchor"
-                      | "email"
-                      | "event"
-                      | "external"
-                      | "file"
-                      | "page"
-                      | "path"
-                      | "post"
-                      | "telephone"
-                      | null;
-                    pageRoute: {
-                      _type: "page";
-                      slug: string | null;
-                    } | null;
-                    eventRoute: {
-                      _type: "event";
-                      slug: string | null;
-                    } | null;
-                    postRoute: {
-                      _type: "post";
-                      slug: string | null;
-                    } | null;
-                    fileRoute: {
-                      asset: {
-                        url: string | null;
-                        originalFilename: string | null;
-                      } | null;
-                    } | null;
-                    route: string | null;
-                    anchor: string | null;
-                    link: string | null;
-                    email: string | null;
-                    telephone: string | null;
-                    blank: boolean | null;
-                    utm: {
-                      source: string | null;
-                      medium: string | null;
-                      campaign: string | null;
-                      term: string | null;
-                      content: string | null;
-                    } | null;
-                    trackingId: string | null;
-                    ariaLabel: string | null;
-                    relAttributes: Array<string> | null;
-                    titleAttr: string | null;
-                    dataAttributes: Array<{
-                      key: string | null;
-                      value: string | null;
-                      _key: string;
-                    }> | null;
-                    title: null;
-                  }
-              > | null;
-              level?: number;
-              _type: "block";
-              _key: string;
-            }
-          | {
-              _key: string;
-              _type: "defaultImage";
-              asset?: SanityImageAssetReference;
-              media?: unknown;
-              hotspot?: SanityImageHotspot;
-              crop?: SanityImageCrop;
-              alt?: string;
-              markDefs: null;
-            }
-        > | null;
+        _type: "defaultImage";
+        asset: {
+          _id: string;
+          url: string;
+          metadata: {
+            dimensions: {
+              aspectRatio: number;
+              height: number;
+              width: number;
+            } | null;
+            lqip: string | null;
+          } | null;
+        } | null;
+        media?: unknown;
+        hotspot: {
+          x: number;
+          y: number;
+        } | null;
+        crop: {
+          _type: "sanity.imageCrop";
+          top: number;
+          bottom: number;
+          left: number;
+          right: number;
+        } | null;
+        alt: string | null;
+        markDefs: null;
       }
   > | null;
 } | null;
 
 // Source: sanity/queries/documents/site-query.ts
 // Variable: SiteQuery
-// Query: *[_type == "site"][0] {  _id,  _createdAt,  _updatedAt,  title,  altTitle,  tagline,  foundingYear,  address,  addressLocality,  addressRegion,  postalCode,  addressCountry,  latitude,  longitude,  email,  sameAs,  "founders": *[_type == "team" && founder == true] | order(title asc) {  _id,  title,  "slug": slug.current,  primaryJobTitle,  secondaryJobTitle,  email,  phone,  socials,  image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },  content},  seo {    ...,    metaIcon {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },    shareGraphic {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } }  },  organizationJsonLd {    name,    legalName,    description,    logo {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },    url,    email,    telephone,    priceRange  }}
+// Query: *[_type == "site"][0] {  _id,  _createdAt,  _updatedAt,  title,  altTitle,  tagline,  foundingYear,  address,  addressLocality,  addressRegion,  postalCode,  addressCountry,  latitude,  longitude,  email,  sameAs,  postCta { ..., route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } } },  "founders": *[_type == "team" && founder == true] | order(title asc) {  _id,  title,  "slug": slug.current,  primaryJobTitle,  secondaryJobTitle,  email,  phone,  socials,  image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },  content},  seo {    ...,    metaIcon {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },    shareGraphic {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } }  },  organizationJsonLd {    name,    legalName,    description,    logo {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },    url,    email,    telephone,    priceRange  }}
 export type SiteQueryResult = {
   _id: string;
   _createdAt: string;
@@ -10415,10 +6919,69 @@ export type SiteQueryResult = {
   longitude: number | null;
   email: string | null;
   sameAs: Array<string> | null;
+  postCta: {
+    _type: "cta";
+    active?: boolean;
+    route: {
+      _type: "route";
+      title: string | null;
+      linkType:
+        | "anchor"
+        | "email"
+        | "event"
+        | "external"
+        | "file"
+        | "page"
+        | "path"
+        | "post"
+        | "telephone"
+        | null;
+      pageRoute: {
+        _type: "page";
+        slug: string;
+      } | null;
+      eventRoute: {
+        _type: "event";
+        slug: string;
+      } | null;
+      postRoute: {
+        _type: "post";
+        slug: string;
+      } | null;
+      fileRoute: {
+        asset: {
+          url: string;
+          originalFilename: string | null;
+        } | null;
+      } | null;
+      route: string | null;
+      anchor: string | null;
+      link: string | null;
+      email: string | null;
+      telephone: string | null;
+      blank: boolean | null;
+      titleAttr: string | null;
+      ariaLabel: string | null;
+      utm: {
+        source: string | null;
+        medium: string | null;
+        campaign: string | null;
+        term: string | null;
+        content: string | null;
+      } | null;
+      trackingId: string | null;
+      relAttributes: Array<string> | null;
+      dataAttributes: Array<{
+        key: string | null;
+        value: string | null;
+        _key: string;
+      }> | null;
+    } | null;
+  } | null;
   founders: Array<{
     _id: string;
-    title: string | null;
-    slug: string | null;
+    title: string;
+    slug: string;
     primaryJobTitle: string | null;
     secondaryJobTitle: string | null;
     email: string | null;
@@ -10428,23 +6991,23 @@ export type SiteQueryResult = {
       alt: string | null;
       crop: {
         _type: "sanity.imageCrop";
-        top?: number;
-        bottom?: number;
-        left?: number;
-        right?: number;
+        top: number;
+        bottom: number;
+        left: number;
+        right: number;
       } | null;
       hotspot: {
-        x: number | null;
-        y: number | null;
+        x: number;
+        y: number;
       } | null;
       asset: {
         _id: string;
-        url: string | null;
+        url: string;
         metadata: {
           dimensions: {
-            aspectRatio: number | null;
-            height: number | null;
-            width: number | null;
+            aspectRatio: number;
+            height: number;
+            width: number;
           } | null;
           lqip: string | null;
         } | null;
@@ -10463,23 +7026,23 @@ export type SiteQueryResult = {
       alt: string | null;
       crop: {
         _type: "sanity.imageCrop";
-        top?: number;
-        bottom?: number;
-        left?: number;
-        right?: number;
+        top: number;
+        bottom: number;
+        left: number;
+        right: number;
       } | null;
       hotspot: {
-        x: number | null;
-        y: number | null;
+        x: number;
+        y: number;
       } | null;
       asset: {
         _id: string;
-        url: string | null;
+        url: string;
         metadata: {
           dimensions: {
-            aspectRatio: number | null;
-            height: number | null;
-            width: number | null;
+            aspectRatio: number;
+            height: number;
+            width: number;
           } | null;
           lqip: string | null;
         } | null;
@@ -10495,23 +7058,23 @@ export type SiteQueryResult = {
       alt: string | null;
       crop: {
         _type: "sanity.imageCrop";
-        top?: number;
-        bottom?: number;
-        left?: number;
-        right?: number;
+        top: number;
+        bottom: number;
+        left: number;
+        right: number;
       } | null;
       hotspot: {
-        x: number | null;
-        y: number | null;
+        x: number;
+        y: number;
       } | null;
       asset: {
         _id: string;
-        url: string | null;
+        url: string;
         metadata: {
           dimensions: {
-            aspectRatio: number | null;
-            height: number | null;
-            width: number | null;
+            aspectRatio: number;
+            height: number;
+            width: number;
           } | null;
           lqip: string | null;
         } | null;
@@ -10528,7 +7091,7 @@ export type SiteQueryResult = {
 // Variable: pagesSitemapQuery
 // Query: *[_type == "page" && defined(slug.current)] {  "slug": slug.current,  _updatedAt}
 export type PagesSitemapQueryResult = Array<{
-  slug: string | null;
+  slug: string;
   _updatedAt: string;
 }>;
 
@@ -10536,7 +7099,7 @@ export type PagesSitemapQueryResult = Array<{
 // Variable: eventsSitemapQuery
 // Query: *[_type == "event" && defined(slug.current)] {  "slug": slug.current,  _updatedAt}
 export type EventsSitemapQueryResult = Array<{
-  slug: string | null;
+  slug: string;
   _updatedAt: string;
 }>;
 
@@ -10544,6 +7107,6 @@ export type EventsSitemapQueryResult = Array<{
 // Variable: postsSitemapQuery
 // Query: *[_type == "post" && defined(slug.current)] {  "slug": slug.current,  _updatedAt}
 export type PostsSitemapQueryResult = Array<{
-  slug: string | null;
+  slug: string;
   _updatedAt: string;
 }>;

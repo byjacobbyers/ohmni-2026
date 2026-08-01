@@ -291,58 +291,28 @@
 
 
 /* ---------------------------------------------------------------------------
-   Article layout (posts). Long-form reading, deliberately not the page-builder
-   section shell: one column at a readable measure, a centered masthead, and
-   headings that read as section breaks rather than landing-page titles.
-   Unlayered so it wins over the Tailwind utilities used inside .content.
+   Article layout (posts). Structure only: the section shells and container come
+   from the same pattern the page-builder blocks use, and ALL typography is left
+   to the shared .content contract so posts and pages stay in one type system.
+   Only the reading measure and a few article-specific affordances live here.
    --------------------------------------------------------------------------- */
 
-.post-article {
-  --post-measure: 44rem;
-  --post-wide: 68rem;
-}
-
-.post-masthead {
+/* The one thing long-form genuinely needs: a readable measure. */
+.post-body .content-measure {
   width: 100%;
-  max-width: var(--post-measure);
+  max-width: 44rem;
   margin-inline: auto;
-  padding: 4rem 1.25rem 2.5rem;
-  text-align: center;
-}
-
-@media (min-width: 768px) {
-  .post-masthead {
-    padding-top: 6rem;
-  }
 }
 
 .post-eyebrow {
   color: var(--primary);
-  font-size: 0.875rem;
+  font-size: var(--type-small-size);
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  margin-bottom: 1rem;
-}
-
-.post-title {
-  font-size: var(--type-h1-size);
-  line-height: var(--type-h1-line-height);
-  letter-spacing: var(--type-h1-letter-spacing);
-  font-weight: var(--type-h1-font-weight);
-  text-wrap: balance;
-}
-
-.post-lead {
-  margin-top: 1.25rem;
-  font-size: var(--type-body-lg-size);
-  line-height: 1.5;
-  color: var(--muted-foreground);
-  text-wrap: pretty;
 }
 
 .post-byline {
-  margin-top: 2rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -360,76 +330,16 @@
   background: var(--muted);
 }
 
-.post-byline-text {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  text-align: left;
-  font-size: 1rem;
-  line-height: 1.35;
-}
-
-.post-credit {
-  color: var(--muted-foreground);
-}
-
 .post-banner {
   position: relative;
-  width: calc(100% - 2.5rem);
-  max-width: var(--post-wide);
-  margin: 0 auto 3.5rem;
+  width: 100%;
   aspect-ratio: 16 / 7;
   overflow: hidden;
 }
 
-/* The reading column */
-.post-body {
-  width: 100%;
-  max-width: var(--post-measure);
-  margin-inline: auto;
-  padding-inline: 1.25rem;
-}
-
-/* Section breaks read as labels, not landing-page headlines */
-.post-body h2 {
-  font-size: 1.125rem;
-  line-height: 1.35;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  margin-top: 3.5rem;
-  padding-top: 2.25rem;
-  border-top: 1px solid var(--border);
-}
-
-.post-body h3 {
-  font-size: 1.5rem;
-  margin-top: 2.5rem;
-}
-
-.post-body p {
-  text-wrap: pretty;
-}
-
-/* A lone bold paragraph is a deliberate beat, so give it room and weight */
+/* A lone bold paragraph is a deliberate beat in the writing, so give it air. */
 .post-body p > strong:only-child {
   display: block;
-  font-size: 1.375rem;
-  line-height: 1.45;
-  font-weight: 600;
-}
-
-.post-body figure {
-  margin-block: 2.5rem;
-}
-
-.post-cta {
-  margin: 4rem auto 0;
-  display: flex;
-  width: 100%;
-  max-width: var(--post-measure);
-  justify-content: center;
-  padding-inline: 1.25rem;
 }
 
 /* Banner block pattern overlay - uses theme colors */

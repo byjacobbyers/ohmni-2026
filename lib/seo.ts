@@ -220,6 +220,9 @@ export function generateArticleJsonLd(data: {
   image?: { asset?: { url?: string } }
   _updatedAt?: string
   jsonLd?: ArticleJsonLdOverrides | null
+  /** Organization name for the publisher node */
+  publisherName?: string
+  publisherLogoUrl?: string
 }) {
   const articleUrl = data.url.startsWith('http') ? data.url : buildUrl(data.url)
   const overrides = data.jsonLd
@@ -250,6 +253,15 @@ export function generateArticleJsonLd(data: {
       image: urlFor(data.image.asset as Parameters<typeof urlFor>[0]).width(1200).height(630).url(),
     }),
     ...(data._updatedAt && { dateModified: new Date(data._updatedAt).toISOString() }),
+    ...(data.publisherName && {
+      publisher: {
+        '@type': 'Organization',
+        name: data.publisherName,
+        ...(data.publisherLogoUrl && {
+          logo: { '@type': 'ImageObject', url: data.publisherLogoUrl },
+        }),
+      },
+    }),
   }
 }
 

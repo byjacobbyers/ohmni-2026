@@ -21,10 +21,14 @@ export type PostSingleData = {
   /** Long-form portable text. Posts are articles, not page-builder sections. */
   body?: unknown[]
   cta?: PostCta | null
+  /** Absolute URL, resolved server-side so share targets work without JS guessing */
+  shareUrl?: string
 }
 
 export type PostSingleProps = {
   post: PostSingleData | null
+  /** Site Settings fallback used when the post has no CTA of its own */
+  defaultCta?: PostCta | null
 }
 
 export function authorDisplayName(author?: PostAuthor | string | null): string | undefined {
