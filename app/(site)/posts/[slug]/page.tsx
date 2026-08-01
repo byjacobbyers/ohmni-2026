@@ -13,7 +13,7 @@ import {
   generateBreadcrumbJsonLd,
   generateMetadata as generateSeoMetadata,
 } from '@/lib/seo'
-import { faqJsonLdFromSections, JsonLdScript } from '@/lib/content-page'
+import { JsonLdScript } from '@/lib/content-page'
 import { authorDisplayName } from '@/types/components/post-single-type'
 import type {
   PostQueryResult,
@@ -121,8 +121,6 @@ export default async function PostPage({ params }: { params: Promise<QueryParams
   ])
   if (breadcrumb) schemas.push(breadcrumb)
 
-  const faqSchema = faqJsonLdFromSections(post.sections)
-  if (faqSchema) schemas.push(faqSchema)
 
   return (
     <>

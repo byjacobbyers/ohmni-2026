@@ -38,7 +38,7 @@ async function getRedirects(): Promise<Map<string, Redirect>> {
   return map
 }
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const redirects = await getRedirects()
   if (redirects.size === 0) return NextResponse.next()
 
@@ -53,6 +53,6 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   // Pages only: skip Next internals, API routes, the studio, the PostHog
-  // proxy, and any path with a file extension.
+  // relay, and any path with a file extension.
   matcher: ['/((?!api|_next|studio|relay-oh|.*\\..*).*)'],
 }

@@ -1,12 +1,21 @@
-import Sections from "@/components/sections"
 import SanityImage from "@/components/sanity-image"
+import SimpleText from "@/components/simple-text"
+import CtaRouteButton from "@/components/cta-route-button"
+import { isActiveCta } from "@/lib/cta"
 import { formatFullDate, parseSanityDate } from "@/lib/format-date"
-import type { SanityImageSource } from "@/types/components/sanity-image-type"
 import {
   authorDisplayName,
+  authorObject,
   type PostSingleProps,
 } from "@/types/components/post-single-type"
+import type { SanityImageSource } from "@/types/components/sanity-image-type"
+import type { BaseRouteType } from "@/types/objects/route-type"
 
+/**
+ * Article layout: centered masthead, byline, banner, then a single reading
+ * column. Posts are long-form, so they deliberately do NOT use the page-builder
+ * section shell, which is tuned for landing pages.
+ */
 export default function PostSingle({ post }: PostSingleProps) {
   if (!post) {
     return (
@@ -18,40 +27,60 @@ export default function PostSingle({ post }: PostSingleProps) {
     )
   }
 
-  const { title, publishedAt, author, category, image, sections = [] } = post
-
-  const metaLine = [
-    publishedAt ? formatFullDate(parseSanityDate(publishedAt)) : null,
-    authorDisplayName(author),
-    category,
-  ]
-    .filter(Boolean)
-    .join(' · ')
+  const { title, publishedAt, author, category, excerpt, image, body, cta } = post
+  const authorName = authorDisplayName(author)
+  const person = authorObject(author)
+  const dateLine = publishedAt ? formatFullDate(parseSanityDate(publishedAt)) : null
+  const credit = [person?.primaryJobTitle, dateLine].filter(Boolean).join(' · ')
 
   return (
-    <article className="reading-layout flex min-h-screen flex-col items-center pb-12">
-      <header className="container flex flex-col items-center pt-16 pb-10 text-center md:pt-24">
-        <div className="content">
-          <h1 className="mb-4">{title || 'Untitled Post'}</h1>
-          {metaLine ? <p className="text-muted-foreground">{metaLine}</p> : null}
-        </div>
+    <article className="post-article w-full pb-16">
+      <header className="post-masthead">
+        {category ? <p className="post-eyebrow">{category}</p> : null}
+        <h1 className="post-title">{title || 'Untitled Post'}</h1>
+        {excerpt ? <p className="post-lead">{excerpt}</p> : null}
+
+        {authorName || dateLine ? (
+          <div className="post-byline">
+            {person?.image ? (
+              <span className="post-avatar">
+                <SanityImage
+                  image={person.image as SanityImageSource}
+                  fill
+                  sizes="48px"
+                  className="object-cover object-center"
+                />
+              </span>
+            ) : null}
+            <span className="post-byline-text">
+              {authorName ? <strong>{authorName}</strong> : null}
+              {credit ? <span className="post-credit">{credit}</span> : null}
+            </span>
+          </div>
+        ) : null}
       </header>
 
       {image ? (
-        <div className="w-full px-5 pb-4">
-          <div className="relative mx-auto aspect-[16/7] w-full max-w-5xl overflow-hidden">
-            <SanityImage
-              image={image as SanityImageSource}
-              fill
-              priority
-              sizes="(max-width: 1024px) 100vw, 1024px"
-              className="object-cover object-center"
-            />
-          </div>
-        </div>
+        <figure className="post-banner">
+          <SanityImage
+            image={image as SanityImageSource}
+            fill
+            priority
+            sizes="(max-width: 1200px) 100vw, 1200px"
+            className="object-cover object-center"
+          />
+        </figure>
       ) : null}
 
-      <Sections body={sections as Array<{ _type?: string }>} />
+      <div className="post-body content">
+        <SimpleText content={body} />
+      </div>
+
+      {isActiveCta(cta) ? (
+        <div className="post-cta">
+          <CtaRouteButton route={cta.route as BaseRouteType} />
+        </div>
+      ) : null}
     </article>
   )
 }

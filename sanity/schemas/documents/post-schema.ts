@@ -65,10 +65,19 @@ export default defineType({
       description: 'Short summary shown in post collections and share previews.',
     }),
     defineField({
-      name: 'sections',
-      type: 'sections',
+      name: 'body',
+      type: 'normalText',
       group: 'post',
-      title: 'Page sections',
+      title: 'Body',
+      description:
+        'The article itself. Long-form writing, not page-builder sections: headings, paragraphs, lists, links, and inline images.',
+    }),
+    defineField({
+      name: 'cta',
+      type: 'cta',
+      group: 'post',
+      title: 'Closing call to action',
+      description: 'Optional button shown at the end of the article.',
     }),
     defineField({
       title: 'SEO / Share Settings',

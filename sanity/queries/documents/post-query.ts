@@ -1,7 +1,20 @@
 import { defineQuery } from 'next-sanity'
 import { imageQuery } from '../objects/image-query'
-import { sectionsQuery } from '../components/sections-query'
+import { routeQuery } from '../objects/route-query'
 import { teamPersonProjection } from './team-query'
+
+/** Article body: portable text with resolvable links and inline images. */
+const postBodyQuery = `body[] {
+  ...,
+  _type == 'defaultImage' => { ${imageQuery} },
+  markDefs[] {
+    ...,
+    _type == 'linkWithRoute' => select(
+      defined(linkType) => { ${routeQuery} },
+      route { ${routeQuery} }
+    )
+  }
+}`
 
 export const postsQuery = defineQuery(`*[_type == "post"] | order(publishedAt desc) {
   _id,
@@ -31,5 +44,6 @@ export const postQuery = defineQuery(`*[_type == "post" && slug.current == $slug
     shareGraphic { ${imageQuery} }
   },
   jsonLd,
-  ${sectionsQuery}
+  cta { ..., route { ${routeQuery} } },
+  ${postBodyQuery}
 }`)

@@ -14,7 +14,7 @@ The Ohmni business site: Next.js 16 + Sanity, deployed on Vercel.
   data-layer event (consent-gated) via `/api/geolocation`.
 - **Lead pipeline** (Inngest): form → Attio CRM + Customer.io journey + PostHog
   event + Slack ping + Resend notification, each step retried independently
-- **CMS-driven redirects** enforced in middleware
+- **CMS-driven redirects** enforced in `proxy.ts`
 - **SEO/AEO**: server-rendered JSON-LD on every content type, canonicals,
   generated OG images, sitemap
 

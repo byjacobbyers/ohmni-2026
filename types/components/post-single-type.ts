@@ -1,8 +1,14 @@
-/** Post shape used by the post detail page (sections + meta). */
+/** Post shape used by the post detail page (article body + meta). */
 export type PostAuthor = {
   title?: string
   slug?: string
   primaryJobTitle?: string
+  image?: unknown
+}
+
+export type PostCta = {
+  active?: boolean
+  route?: unknown
 }
 
 export type PostSingleData = {
@@ -12,7 +18,9 @@ export type PostSingleData = {
   author?: PostAuthor | string | null
   category?: string
   excerpt?: string
-  sections?: unknown[]
+  /** Long-form portable text. Posts are articles, not page-builder sections. */
+  body?: unknown[]
+  cta?: PostCta | null
 }
 
 export type PostSingleProps = {
@@ -23,4 +31,8 @@ export function authorDisplayName(author?: PostAuthor | string | null): string |
   if (!author) return undefined
   if (typeof author === 'string') return author.trim() || undefined
   return author.title?.trim() || undefined
+}
+
+export function authorObject(author?: PostAuthor | string | null): PostAuthor | null {
+  return author && typeof author === 'object' ? author : null
 }

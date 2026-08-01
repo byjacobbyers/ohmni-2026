@@ -290,36 +290,146 @@
 }
 
 
-/* Long-form reading context (posts).
-   Section shells are tuned for landing pages: full-width measure and big
-   vertical slabs. Continuous prose needs the opposite. Declared unlayered so
-   it overrides the Tailwind utilities the section shells apply. */
-.reading-layout .container {
-  /* ~65 characters at the body size, the readable measure for long text */
-  max-width: 44rem;
+/* ---------------------------------------------------------------------------
+   Article layout (posts). Long-form reading, deliberately not the page-builder
+   section shell: one column at a readable measure, a centered masthead, and
+   headings that read as section breaks rather than landing-page titles.
+   Unlayered so it wins over the Tailwind utilities used inside .content.
+   --------------------------------------------------------------------------- */
+
+.post-article {
+  --post-measure: 44rem;
+  --post-wide: 68rem;
 }
 
-.reading-layout section {
-  padding-top: 2.75rem;
-  padding-bottom: 2.75rem;
+.post-masthead {
+  width: 100%;
+  max-width: var(--post-measure);
+  margin-inline: auto;
+  padding: 4rem 1.25rem 2.5rem;
+  text-align: center;
 }
 
 @media (min-width: 768px) {
-  .reading-layout section {
-    padding-top: 3.5rem;
-    padding-bottom: 3.5rem;
+  .post-masthead {
+    padding-top: 6rem;
   }
 }
 
-/* Non-prose sections keep their presence and their own width */
-.reading-layout .stats-block,
-.reading-layout .cta-block {
-  padding-top: 4.5rem;
-  padding-bottom: 4.5rem;
+.post-eyebrow {
+  color: var(--primary);
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
 }
 
-.reading-layout .stats-block .container {
-  max-width: 64rem;
+.post-title {
+  font-size: var(--type-h1-size);
+  line-height: var(--type-h1-line-height);
+  letter-spacing: var(--type-h1-letter-spacing);
+  font-weight: var(--type-h1-font-weight);
+  text-wrap: balance;
+}
+
+.post-lead {
+  margin-top: 1.25rem;
+  font-size: var(--type-body-lg-size);
+  line-height: 1.5;
+  color: var(--muted-foreground);
+  text-wrap: pretty;
+}
+
+.post-byline {
+  margin-top: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.post-avatar {
+  position: relative;
+  display: block;
+  height: 3rem;
+  width: 3rem;
+  flex: none;
+  overflow: hidden;
+  border-radius: 9999px;
+  background: var(--muted);
+}
+
+.post-byline-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  font-size: 1rem;
+  line-height: 1.35;
+}
+
+.post-credit {
+  color: var(--muted-foreground);
+}
+
+.post-banner {
+  position: relative;
+  width: calc(100% - 2.5rem);
+  max-width: var(--post-wide);
+  margin: 0 auto 3.5rem;
+  aspect-ratio: 16 / 7;
+  overflow: hidden;
+}
+
+/* The reading column */
+.post-body {
+  width: 100%;
+  max-width: var(--post-measure);
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+
+/* Section breaks read as labels, not landing-page headlines */
+.post-body h2 {
+  font-size: 1.125rem;
+  line-height: 1.35;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-top: 3.5rem;
+  padding-top: 2.25rem;
+  border-top: 1px solid var(--border);
+}
+
+.post-body h3 {
+  font-size: 1.5rem;
+  margin-top: 2.5rem;
+}
+
+.post-body p {
+  text-wrap: pretty;
+}
+
+/* A lone bold paragraph is a deliberate beat, so give it room and weight */
+.post-body p > strong:only-child {
+  display: block;
+  font-size: 1.375rem;
+  line-height: 1.45;
+  font-weight: 600;
+}
+
+.post-body figure {
+  margin-block: 2.5rem;
+}
+
+.post-cta {
+  margin: 4rem auto 0;
+  display: flex;
+  width: 100%;
+  max-width: var(--post-measure);
+  justify-content: center;
+  padding-inline: 1.25rem;
 }
 
 /* Banner block pattern overlay - uses theme colors */
