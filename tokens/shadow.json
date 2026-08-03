@@ -1,11 +1,29 @@
 {
   "shadow": {
-    "x": { "$value": "0", "$type": "dimension" },
-    "y": { "$value": "1px", "$type": "dimension" },
-    "blur": { "$value": "3px", "$type": "dimension" },
-    "spread": { "$value": "0px", "$type": "dimension" },
-    "opacity": { "$value": "0.1", "$type": "number" },
-    "color": { "$value": "#000000", "$type": "color" },
+    "x": {
+      "$value": "0",
+      "$type": "dimension"
+    },
+    "y": {
+      "$value": "1px",
+      "$type": "dimension"
+    },
+    "blur": {
+      "$value": "3px",
+      "$type": "dimension"
+    },
+    "spread": {
+      "$value": "0px",
+      "$type": "dimension"
+    },
+    "opacity": {
+      "$value": "0.1",
+      "$type": "number"
+    },
+    "color": {
+      "$value": "#000000",
+      "$type": "color"
+    },
     "2xs": {
       "$value": "0 1px 3px 0px hsl(0 0% 0% / 0.05)",
       "$type": "shadow"
@@ -36,6 +54,11 @@
     },
     "2xl": {
       "$value": "0 1px 3px 0px hsl(0 0% 0% / 0.25)",
+      "$type": "shadow"
+    },
+    "glow": {
+      "$description": "Brand-tinted lift for media on dark surfaces. Black shadows do not read on --background, so this glows instead of darkening.",
+      "$value": "0 0 0 1px hsl(225 60% 75% / 0.16), 0 24px 64px -20px hsl(225 98% 62% / 0.70), 0 8px 24px -8px hsl(225 98% 62% / 0.40)",
       "$type": "shadow"
     }
   }

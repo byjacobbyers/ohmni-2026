@@ -1,9 +1,14 @@
 import AppearAnimation from "@/components/appear-animation"
 import SanityImage from "@/components/sanity-image"
+import TextureSectionBackdrop from "@/components/texture-section-backdrop"
 import ShareLinks from "@/components/share-links"
 import SimpleText from "@/components/simple-text"
 import CtaRouteButton from "@/components/cta-route-button"
 import { isActiveCta } from "@/lib/cta"
+import {
+  normalizeSectionBackground,
+  sectionBackgroundClasses,
+} from "@/lib/section-background"
 import { formatFullDate, parseSanityDate } from "@/lib/format-date"
 import {
   authorDisplayName,
@@ -41,10 +46,18 @@ export default function PostSingle({ post, defaultCta }: PostSingleProps) {
   // Post CTA wins; otherwise fall back to the site-wide default.
   const closingCta = isActiveCta(cta) ? cta : isActiveCta(defaultCta) ? defaultCta : null
 
+  // Masthead uses the shared texture chrome rather than a bespoke background.
+  const headerBg = sectionBackgroundClasses(normalizeSectionBackground("texture"))
+
   return (
     <article className="post-article w-full">
-      <section className={`post-header-block ${SECTION} pb-8 md:pb-10`}>
-        <div className="container flex flex-col items-center text-center">
+      <section
+        className={`post-header-block ${SECTION} pb-8 md:pb-10 ${headerBg.sectionClass}`}
+      >
+        {headerBg.showTexture ? <TextureSectionBackdrop /> : null}
+        <div
+          className={`container flex flex-col items-center text-center ${headerBg.innerLiftClass}`}
+        >
           <div className="content items-center">
             {category ? <small className="post-eyebrow">{category}</small> : null}
             <h1 className="text-balance">{title || "Untitled Post"}</h1>
@@ -79,9 +92,11 @@ export default function PostSingle({ post, defaultCta }: PostSingleProps) {
       </section>
 
       {image ? (
-        <section className={`post-banner-block w-full flex justify-center px-5 pb-8 md:pb-12`}>
+        <section
+          className={`post-banner-block w-full flex justify-center px-5 pt-12 pb-10 md:pt-16 md:pb-14`}
+        >
           <AppearAnimation className="container">
-            <figure className="post-banner">
+            <figure className="post-banner shadow-glow">
               <SanityImage
                 image={image as SanityImageSource}
                 fill
