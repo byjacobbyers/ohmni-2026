@@ -74,11 +74,11 @@ export default defineType({
     }),
     defineField({
       name: 'cta',
-      type: 'cta',
+      type: 'ctaBlock',
       group: 'post',
-      title: 'Closing call to action',
+      title: 'Closing CTA section',
       description:
-        'Overrides the Default Article CTA from Site Settings → Content Defaults. Leave inactive to use the default.',
+        'Full CTA section shown at the end of the article: heading, copy and button. Overrides the Default Article CTA in Site Settings → Content Defaults. Leave inactive to use the default.',
     }),
     defineField({
       title: 'SEO / Share Settings',

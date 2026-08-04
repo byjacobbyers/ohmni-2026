@@ -3,7 +3,7 @@ import SanityImage from "@/components/sanity-image"
 import TextureSectionBackdrop from "@/components/texture-section-backdrop"
 import ShareLinks from "@/components/share-links"
 import SimpleText from "@/components/simple-text"
-import CtaRouteButton from "@/components/cta-route-button"
+import CtaBlock from "@/components/cta-block"
 import { isActiveCta } from "@/lib/cta"
 import {
   normalizeSectionBackground,
@@ -13,10 +13,10 @@ import { formatFullDate, parseSanityDate } from "@/lib/format-date"
 import {
   authorDisplayName,
   authorObject,
+  type PostCtaSection,
   type PostSingleProps,
 } from "@/types/components/post-single-type"
 import type { SanityImageSource } from "@/types/components/sanity-image-type"
-import type { BaseRouteType } from "@/types/objects/route-type"
 
 /** Shared section shell, same rhythm and container as the page-builder blocks. */
 const SECTION = "w-full flex justify-center px-5 py-16 md:py-24"
@@ -43,13 +43,16 @@ export default function PostSingle({ post, defaultCta }: PostSingleProps) {
   const dateLine = publishedAt ? formatFullDate(parseSanityDate(publishedAt)) : null
   const credit = [person?.primaryJobTitle, dateLine].filter(Boolean).join(" · ")
 
-  // Post CTA wins; otherwise fall back to the site-wide default.
-  const closingCta = isActiveCta(cta) ? cta : isActiveCta(defaultCta) ? defaultCta : null
+  // A closing section counts if it is active and actually has a button.
+  const usable = (s?: PostCtaSection | null) =>
+    s && s.active !== false && isActiveCta(s.cta) ? s : null
+  // Post section wins; otherwise fall back to the site-wide default.
+  const closingCta = usable(cta) ?? usable(defaultCta)
 
-  // Masthead and closing CTA use the shared texture chrome, so the article opens
-  // and closes on the same surface with the prose sitting plainly in between.
+  // Masthead uses the shared texture chrome. The closing section carries its own
+  // background choice from the CMS, defaulting to texture so the article opens
+  // and closes on the same surface.
   const headerBg = sectionBackgroundClasses(normalizeSectionBackground("texture"))
-  const ctaBg = headerBg
 
   return (
     <article className="post-article w-full">
@@ -119,14 +122,7 @@ export default function PostSingle({ post, defaultCta }: PostSingleProps) {
       </section>
 
       {closingCta ? (
-        <section className={`post-cta-block ${SECTION} ${ctaBg.sectionClass}`}>
-          {ctaBg.showTexture ? <TextureSectionBackdrop /> : null}
-          <AppearAnimation
-            className={`container flex justify-center ${ctaBg.innerLiftClass}`}
-          >
-            <CtaRouteButton route={closingCta.route as BaseRouteType} />
-          </AppearAnimation>
-        </section>
+        <CtaBlock {...closingCta} backgroundColor={closingCta.backgroundColor || "texture"} />
       ) : null}
     </article>
   )

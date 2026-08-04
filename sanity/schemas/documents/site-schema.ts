@@ -70,7 +70,7 @@ export default defineType({
     defineField({
       name: 'postCta',
       title: 'Default Article CTA',
-      type: 'cta',
+      type: 'ctaBlock',
       group: 'contentDefaults',
       description:
         'Shown at the end of every article that does not set its own. Override per post under Posts → Closing call to action.',

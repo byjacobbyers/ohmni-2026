@@ -20,7 +20,20 @@ export const SiteQuery = defineQuery(`*[_type == "site"][0] {
   longitude,
   email,
   sameAs,
-  postCta { ..., route { ${routeQuery} } },
+  postCta {
+    ...,
+    content[] {
+      ...,
+      markDefs[] {
+        ...,
+        _type == 'linkWithRoute' => select(
+          defined(linkType) => { ${routeQuery} },
+          route { ${routeQuery} }
+        )
+      }
+    },
+    cta { ..., route { ${routeQuery} } }
+  },
   "founders": *[_type == "team" && founder == true] | order(title asc) ${teamPersonProjection},
   seo {
     ...,

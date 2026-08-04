@@ -44,6 +44,19 @@ export const postQuery = defineQuery(`*[_type == "post" && slug.current == $slug
     shareGraphic { ${imageQuery} }
   },
   jsonLd,
-  cta { ..., route { ${routeQuery} } },
+  cta {
+    ...,
+    content[] {
+      ...,
+      markDefs[] {
+        ...,
+        _type == 'linkWithRoute' => select(
+          defined(linkType) => { ${routeQuery} },
+          route { ${routeQuery} }
+        )
+      }
+    },
+    cta { ..., route { ${routeQuery} } }
+  },
   ${postBodyQuery}
 }`)
