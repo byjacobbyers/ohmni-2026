@@ -56,7 +56,6 @@
   --shadow-lg: var(--shadow-lg);
   --shadow-xl: var(--shadow-xl);
   --shadow-2xl: var(--shadow-2xl);
-  --shadow-glow: var(--shadow-glow);
 }
 
 @theme {
@@ -331,11 +330,28 @@
   background: var(--muted);
 }
 
+/* Card that lifts into the masthead above. Outline only: no drop shadow, since
+   black shadows do not read on the dark surface and a glow competed with the
+   texture behind it. The negative margin is what creates the overlap. */
 .post-banner {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 7;
   overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--card);
+  margin-top: -4rem;
+}
+
+@media (min-width: 768px) {
+  .post-banner {
+    margin-top: -6rem;
+  }
+}
+
+.post-banner img {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 /* A lone bold paragraph is a deliberate beat in the writing, so give it air. */

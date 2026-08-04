@@ -52,7 +52,7 @@ export default function PostSingle({ post, defaultCta }: PostSingleProps) {
   return (
     <article className="post-article w-full">
       <section
-        className={`post-header-block ${SECTION} pb-8 md:pb-10 ${headerBg.sectionClass}`}
+        className={`post-header-block ${SECTION} pb-24 md:pb-32 ${headerBg.sectionClass}`}
       >
         {headerBg.showTexture ? <TextureSectionBackdrop /> : null}
         <div
@@ -92,17 +92,16 @@ export default function PostSingle({ post, defaultCta }: PostSingleProps) {
       </section>
 
       {image ? (
-        <section
-          className={`post-banner-block w-full flex justify-center px-5 pt-12 pb-10 md:pt-16 md:pb-14`}
-        >
+        <section className="post-banner-block w-full flex justify-center px-5 pb-10 md:pb-14">
           <AppearAnimation className="container">
-            <figure className="post-banner shadow-glow">
+            {/* Lifts into the textured masthead above, so the article opens on a card */}
+            <figure className="post-banner">
               <SanityImage
                 image={image as SanityImageSource}
-                fill
+                fill={false}
                 priority
                 sizes="(max-width: 1400px) 100vw, 1400px"
-                className="object-cover object-center"
+                className="h-auto w-full"
               />
             </figure>
           </AppearAnimation>
