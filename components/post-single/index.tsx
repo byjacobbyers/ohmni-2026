@@ -61,7 +61,7 @@ export default function PostSingle({ post, defaultCta }: PostSingleProps) {
           <div className="content items-center">
             {category ? <small className="post-eyebrow">{category}</small> : null}
             <h1 className="text-balance">{title || "Untitled Post"}</h1>
-            {excerpt ? <p className="text-pretty">{excerpt}</p> : null}
+            {excerpt ? <p className="text-balance">{excerpt}</p> : null}
           </div>
 
           {authorName || dateLine ? (
