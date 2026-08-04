@@ -6,6 +6,7 @@ export default defineType({
   type: 'document',
   groups: [
     { name: 'general', title: 'General', default: true },
+    { name: 'contentDefaults', title: 'Content Defaults' },
     { name: 'seoDefaults', title: 'SEO Defaults' },
     { name: 'socialLinks', title: 'Social Links' },
     { name: 'jsonLd', title: 'JSON-LD' },
@@ -70,9 +71,9 @@ export default defineType({
       name: 'postCta',
       title: 'Default Article CTA',
       type: 'cta',
-      group: 'general',
+      group: 'contentDefaults',
       description:
-        'Shown at the end of every article. A post can override it with its own CTA.',
+        'Shown at the end of every article that does not set its own. Override per post under Posts → Closing call to action.',
     }),
     defineField({
       title: 'Default Site SEO / Share Settings',

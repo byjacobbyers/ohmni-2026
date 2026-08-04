@@ -77,7 +77,8 @@ export default defineType({
       type: 'cta',
       group: 'post',
       title: 'Closing call to action',
-      description: 'Optional button shown at the end of the article.',
+      description:
+        'Overrides the Default Article CTA from Site Settings → Content Defaults. Leave inactive to use the default.',
     }),
     defineField({
       title: 'SEO / Share Settings',

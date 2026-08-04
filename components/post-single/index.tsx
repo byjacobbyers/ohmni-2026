@@ -46,8 +46,10 @@ export default function PostSingle({ post, defaultCta }: PostSingleProps) {
   // Post CTA wins; otherwise fall back to the site-wide default.
   const closingCta = isActiveCta(cta) ? cta : isActiveCta(defaultCta) ? defaultCta : null
 
-  // Masthead uses the shared texture chrome rather than a bespoke background.
+  // Masthead and closing CTA use the shared texture chrome, so the article opens
+  // and closes on the same surface with the prose sitting plainly in between.
   const headerBg = sectionBackgroundClasses(normalizeSectionBackground("texture"))
+  const ctaBg = headerBg
 
   return (
     <article className="post-article w-full">
@@ -117,8 +119,11 @@ export default function PostSingle({ post, defaultCta }: PostSingleProps) {
       </section>
 
       {closingCta ? (
-        <section className={`post-cta-block ${SECTION} pt-0 md:pt-0`}>
-          <AppearAnimation className="container flex justify-center">
+        <section className={`post-cta-block ${SECTION} ${ctaBg.sectionClass}`}>
+          {ctaBg.showTexture ? <TextureSectionBackdrop /> : null}
+          <AppearAnimation
+            className={`container flex justify-center ${ctaBg.innerLiftClass}`}
+          >
             <CtaRouteButton route={closingCta.route as BaseRouteType} />
           </AppearAnimation>
         </section>
