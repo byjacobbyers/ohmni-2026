@@ -81,6 +81,13 @@ export default defineType({
         'Full CTA section shown at the end of the article: heading, copy and button. Overrides Posts → Post CTA Settings. Leave inactive to use the default.',
     }),
     defineField({
+      name: 'syndication',
+      type: 'syndication',
+      group: 'post',
+      title: 'Syndication',
+      description: 'Where this post was republished. Use the Syndicate action above to get the links.',
+    }),
+    defineField({
       title: 'SEO / Share Settings',
       name: 'seo',
       type: 'seo',

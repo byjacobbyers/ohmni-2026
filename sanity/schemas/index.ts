@@ -44,6 +44,7 @@ import linkWithRoute from './objects/link-annotation-schema'
 import simpleText from './objects/simple-text-schema'
 import normalText from './objects/normal-text-schema'
 import formField from './objects/form-field-schema'
+import syndication from './objects/syndication-schema'
 import social from './objects/social-schema'
 import pageJsonLd from './objects/page-json-ld-schema'
 import articleJsonLd from './objects/article-json-ld-schema'
@@ -93,6 +94,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     simpleText,
     normalText,
     formField,
+  syndication,
     social,
     pageJsonLd,
     articleJsonLd,
