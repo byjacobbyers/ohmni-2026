@@ -8,7 +8,7 @@ import {visionTool} from '@sanity/vision'
 import {defineConfig} from 'sanity'
 import {structureTool} from 'sanity/structure'
 import {codeInput} from '@sanity/code-input'
-import {defineDocuments, defineLocations, presentationTool} from 'sanity/presentation'
+import {defineDocuments, presentationTool} from 'sanity/presentation'
 import {muxInput} from 'sanity-plugin-mux-input'
 import {media} from 'sanity-plugin-media'
 
@@ -16,7 +16,7 @@ import {apiVersion, dataset, projectId} from './sanity/env'
 import {schema} from './sanity/schemas'
 import {structure} from './sanity/structure'
 import { browseSectionGalleryAction } from './sanity/actions/browse-section-gallery-action'
-import { resolvePostLocations } from './sanity/presentation/locations'
+import { resolveLocations } from './sanity/presentation/locations'
 import { brand } from '@/lib/brand'
 import { getPublicSiteUrl } from '@/lib/site-url'
 
@@ -56,44 +56,7 @@ export default defineConfig({
           { route: '/events/:slug', filter: `_type == "event" && slug.current == $slug` },
           { route: '/:slug', filter: `_type == "page" && slug.current == $slug` },
         ]),
-        locations: {
-          page: defineLocations({
-            select: { title: 'title', slug: 'slug.current' },
-            resolve: (doc) => {
-              if (!doc?.slug) {
-                return { message: 'Add a slug to preview this page', tone: 'caution' }
-              }
-              return {
-                locations: [
-                  {
-                    title: doc.title || 'Untitled',
-                    href: doc.slug === 'home' ? '/' : `/${doc.slug}`,
-                  },
-                ],
-              }
-            },
-          }),
-          event: defineLocations({
-            select: { title: 'title', slug: 'slug.current' },
-            resolve: (doc) => {
-              if (!doc?.slug) {
-                return { message: 'Add a slug to preview this event', tone: 'caution' }
-              }
-              return {
-                locations: [
-                  { title: doc.title || 'Untitled', href: `/events/${doc.slug}` },
-                  { title: 'Events', href: '/events' },
-                ],
-              }
-            },
-          }),
-          // listenQuery — observeForPreview hung forever for posts in this Studio
-          post: resolvePostLocations,
-          postCtaSettings: defineLocations({
-            message: 'Default closing CTA for posts that do not set their own',
-            tone: 'caution',
-          }),
-        },
+        locations: resolveLocations,
       },
     }),
     visionTool({defaultApiVersion: apiVersion}),
