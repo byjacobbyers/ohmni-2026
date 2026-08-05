@@ -3,9 +3,10 @@ import { QueryParams } from 'next-sanity'
 import { sanityFetch } from '@/sanity/lib/live'
 import { notFound } from 'next/navigation'
 import { postsQuery, postQuery } from '@/sanity/queries/documents/post-query'
+import { postCtaSettingsQuery } from '@/sanity/queries/documents/post-cta-settings-query'
 import { SiteQuery } from '@/sanity/queries/documents/site-query'
 import PostSingle from '@/components/post-single'
-import type { PostSingleData } from '@/types/components/post-single-type'
+import type { PostCtaSection, PostSingleData } from '@/types/components/post-single-type'
 
 import { resolveBrand, type BrandSiteInput } from '@/lib/brand'
 import {
@@ -84,13 +85,19 @@ export default async function PostPage({ params }: { params: Promise<QueryParams
 
   let post: PostQueryResult | null = null
   let global: SiteQueryResult | null = null
+  let defaultCta: PostCtaSection | null = null
   try {
-    const [postData, siteData] = await Promise.all([
+    const [postData, siteData, ctaSettings] = await Promise.all([
       sanityFetch({ query: postQuery, params: { slug } }),
       sanityFetch({ query: SiteQuery, stega: false }),
+      sanityFetch({ query: postCtaSettingsQuery, stega: false }),
     ])
     post = postData.data as PostQueryResult | null
     global = siteData.data as SiteQueryResult | null
+    // Singleton first; site.postCta remains a legacy fallback.
+    defaultCta =
+      ((ctaSettings.data as { cta?: PostCtaSection | null } | null)?.cta ?? null) ||
+      ((global?.postCta as PostCtaSection | null | undefined) ?? null)
   } catch {
     notFound()
   }
@@ -132,7 +139,7 @@ export default async function PostPage({ params }: { params: Promise<QueryParams
       <JsonLdScript id="post-jsonld" schemas={schemas} />
       <PostSingle
         post={{ ...post, shareUrl: buildUrl(`/posts/${slug}`) } as PostSingleData}
-        defaultCta={global?.postCta ?? null}
+        defaultCta={defaultCta}
         key={post._id}
       />
     </>

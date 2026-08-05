@@ -69,11 +69,12 @@ export default defineType({
     }),
     defineField({
       name: 'postCta',
-      title: 'Default Article CTA',
+      title: 'Default Article CTA (legacy)',
       type: 'ctaBlock',
       group: 'contentDefaults',
       description:
-        'Shown at the end of every article that does not set its own. Override per post under Posts → Closing call to action.',
+        'Prefer Posts → Post CTA Settings. Kept as a fallback if that singleton is empty.',
+      hidden: ({ value }) => !value,
     }),
     defineField({
       title: 'Default Site SEO / Share Settings',

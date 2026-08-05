@@ -1,5 +1,6 @@
 import type { StructureBuilder } from 'sanity/structure'
 import { DocumentTextIcon } from '@sanity/icons/DocumentText'
+import { EnvelopeIcon } from '@sanity/icons/Envelope'
 import { TagIcon } from '@sanity/icons/Tag'
 
 export default function Post(S: StructureBuilder) {
@@ -10,6 +11,17 @@ export default function Post(S: StructureBuilder) {
       S.list()
         .title('Posts')
         .items([
+          S.listItem()
+            .title('Post CTA Settings')
+            .icon(EnvelopeIcon)
+            .child(
+              S.editor()
+                .id('postCtaSettings')
+                .schemaType('postCtaSettings')
+                .documentId('postCtaSettings')
+                .title('Post CTA Settings')
+            ),
+          S.divider(),
           S.listItem()
             .title('All posts')
             .icon(DocumentTextIcon)

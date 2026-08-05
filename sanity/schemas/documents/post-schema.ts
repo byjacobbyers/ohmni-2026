@@ -78,7 +78,7 @@ export default defineType({
       group: 'post',
       title: 'Closing CTA section',
       description:
-        'Full CTA section shown at the end of the article: heading, copy and button. Overrides the Default Article CTA in Site Settings → Content Defaults. Leave inactive to use the default.',
+        'Full CTA section shown at the end of the article: heading, copy and button. Overrides Posts → Post CTA Settings. Leave inactive to use the default.',
     }),
     defineField({
       title: 'SEO / Share Settings',
@@ -101,15 +101,16 @@ export default defineType({
     select: {
       title: 'title',
       publishedAt: 'publishedAt',
-      categoryTitle: 'category->title',
+      media: 'image',
     },
-    prepare({ title, publishedAt, categoryTitle }) {
+    prepare({ title, publishedAt, media }) {
       const date = publishedAt
         ? new Date(publishedAt + 'T12:00:00').toLocaleDateString()
         : 'No date'
       return {
-        title,
-        subtitle: categoryTitle ? `${date} - ${categoryTitle}` : date,
+        title: title || 'Untitled post',
+        subtitle: date,
+        media,
       }
     },
   },

@@ -1,12 +1,11 @@
 import { MasterDetailIcon } from '@sanity/icons/MasterDetail'
 import type { DocumentActionComponent } from 'sanity'
+import { getPublicSiteUrl } from '@/lib/site-url'
 
 const SECTION_DOC_TYPES = new Set(['page', 'post', 'event'])
 
 const siteOrigin =
-  process.env.NEXT_PUBLIC_SITE_URL ||
-  process.env.SANITY_STUDIO_PREVIEW_ORIGIN ||
-  'http://localhost:3000'
+  process.env.SANITY_STUDIO_PREVIEW_ORIGIN?.replace(/\/+$/, '') || getPublicSiteUrl()
 
 /**
  * Opens the live section playground so editors can preview layouts/variants.

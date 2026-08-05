@@ -85,27 +85,27 @@ export default function PostsBlock({
             return (
               <li key={post._id} className="list-none">
                 <Link href={`/posts/${post.slug}`} className="group block no-underline">
-                  <Card className="flex w-full flex-col overflow-hidden rounded-md border border-border bg-card text-card-foreground transition-colors group-hover:border-primary sm:flex-row">
+                  <Card className="flex w-full flex-col overflow-hidden rounded-md border border-border bg-card text-card-foreground transition-colors group-hover:border-primary">
                     {post.image || showImagePlaceholder ? (
-                      <div className="relative aspect-video w-full shrink-0 overflow-hidden bg-foreground sm:aspect-square sm:w-40 md:w-48">
+                      <div className="relative w-full overflow-hidden border-b border-border">
                         {post.image ? (
                           <SanityImage
                             image={post.image as SanityImageSource}
-                            fill
-                            sizes="(max-width: 640px) 100vw, 192px"
-                            className="object-cover object-center transition-transform duration-300 group-hover:scale-105"
+                            fill={false}
+                            sizes="(max-width: 768px) 100vw, 768px"
+                            className="block h-auto w-full transition-transform duration-300 group-hover:scale-[1.02]"
                           />
                         ) : (
                           <ImagePlaceholder
-                            aspect="auto"
+                            aspect="video"
                             marks={false}
                             label="IMG"
-                            className="absolute inset-0 h-full rounded-none border-0"
+                            className="rounded-none border-0"
                           />
                         )}
                       </div>
                     ) : null}
-                    <CardContent className="flex w-full flex-col justify-center gap-2 px-4 py-5 sm:px-6">
+                    <CardContent className="flex w-full flex-col gap-2 px-4 py-5 sm:px-6">
                       {meta ? (
                         <p className="text-sm tracking-wide text-muted-foreground uppercase no-underline">
                           {meta}

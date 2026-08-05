@@ -42,4 +42,10 @@ describe('getTargetsForDocument', () => {
       { path: '/', type: 'layout' },
     ])
   })
+
+  it('busts layout for postCtaSettings', () => {
+    expect(getTargetsForDocument({ _type: 'postCtaSettings' })).toEqual([
+      { path: '/', type: 'layout' },
+    ])
+  })
 })

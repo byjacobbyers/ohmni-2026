@@ -11,6 +11,7 @@ import redirect from './documents/redirect-schema'
 import navigation from './documents/navigation-schema'
 import form from './documents/form-schema'
 import formSettings from './documents/form-settings-schema'
+import postCtaSettings from './documents/post-cta-settings-schema'
 import team from './documents/team-schema'
 
 import seo from './components/seo-schema'
@@ -62,6 +63,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     navigation,
     form,
     formSettings,
+    postCtaSettings,
     seo,
     sections,
     bannerBlock,

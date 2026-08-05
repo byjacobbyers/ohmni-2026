@@ -49,6 +49,7 @@ export function getTargetsForDocument(body: WebhookPayload): RevalidateTarget[] 
     case 'redirect':
     case 'form':
     case 'formSettings':
+    case 'postCtaSettings':
       return [{ path: '/', type: 'layout' }]
     default:
       return [{ path: '/', type: 'layout' }]
