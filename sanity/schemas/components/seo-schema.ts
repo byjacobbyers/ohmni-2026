@@ -57,7 +57,7 @@ export default defineType({
       name: 'autoShareImage',
       type: 'object',
       description:
-        'Default 1200×630 share image is generated from this heading and background, plus your site name. On Site Settings, these values act as fallbacks when a page or event leaves fields empty.',
+        'Default 1200×630 share image is generated from this heading and background, plus your site name. On Site Settings, these values act as fallbacks when a page, post, or event leaves fields empty.',
       options: { collapsible: true, collapsed: false },
       components: { input: AutoShareImageInput },
       fields: [
@@ -66,7 +66,7 @@ export default defineType({
           name: 'heading',
           type: 'simpleText',
           description:
-            'Large headline on the generated image. If empty, the document title is used, then meta title and site defaults.',
+            'Large headline on the generated image (simpleText). Leave empty to use the document title as an H2. Site Settings heading is only used when this document has no title either.',
         }),
         defineField({
           title: 'Background',
@@ -74,7 +74,7 @@ export default defineType({
           type: 'string',
           description:
             'Background for the generated image: brand blue, neutral, dark (#121117), or light “site” shell (matches header page background).',
-          initialValue: 'primary',
+          initialValue: 'black',
           options: {
             list: [
               { title: 'Primary (brand blue)', value: 'primary' },
@@ -92,7 +92,7 @@ export default defineType({
       name: 'shareGraphic',
       type: 'defaultImage',
       description:
-        'Optional 1200×630 upload. Replaces the auto-generated share image on this page or event only. (Not used as a global default for other pages’ Open Graph.)',
+        'Optional 1200×630 upload. Replaces the auto-generated share image on this page, post, or event only. (Not used as a global default for other pages’ Open Graph.)',
     }),
   ],
 })

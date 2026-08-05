@@ -778,7 +778,10 @@ export function TeamPlayground() {
             primaryJobTitle: 'Founder',
             secondaryJobTitle: 'Technical partner',
             email: 'hello@ohmni.tech',
-            socials: { linkedin: 'https://www.linkedin.com/' },
+            socials: {
+              linkedin: 'https://www.linkedin.com/',
+              github: 'https://github.com/',
+            },
             content: pt(
               'Senior technical partnership for marketing teams that need to ship without hiring a full web org.'
             ),

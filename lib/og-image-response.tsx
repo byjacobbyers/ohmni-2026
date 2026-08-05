@@ -2,7 +2,7 @@ import { ImageResponse } from 'next/og'
 import type { SanityImageSource } from '@/types/components/sanity-image-type'
 import { loadOgFonts } from '@/lib/og-fonts'
 import { OG_BRAND_PRIMARY, ogSurfaceColors, normalizeOgSurface } from '@/lib/og-palette'
-import { hasPortableHeading, renderSimpleTextForOg } from '@/lib/og-simple-text'
+import { hasPortableHeading, renderSimpleTextForOg, titleAsSimpleTextH2 } from '@/lib/og-simple-text'
 import { cleanStega } from '@/lib/stega'
 import { getPublicSiteUrl } from '@/lib/site-url'
 import { resolveBrand } from '@/lib/brand'
@@ -50,10 +50,42 @@ function resolvePlainHeading(doc: OgRouteDoc | null, site: OgRouteSite | null): 
   )
 }
 
-function firstPortableHeading(doc: OgRouteDoc | null, site: OgRouteSite | null): unknown {
+/** Document heading only — do not fall through to site here (title wins next). */
+function documentPortableHeading(doc: OgRouteDoc | null): unknown {
   if (hasPortableHeading(doc?.seo?.ogImageHeading)) return doc?.seo?.ogImageHeading
+  return null
+}
+
+function sitePortableHeading(site: OgRouteSite | null): unknown {
   if (hasPortableHeading(site?.seo?.ogImageHeading)) return site?.seo?.ogImageHeading
   return null
+}
+
+/**
+ * Heading resolution for OG cards:
+ * 1. Studio form override (live preview)
+ * 2. Document autoShareImage.heading
+ * 3. Document title as synthetic simpleText H2
+ * 4. Site Settings autoShareImage.heading
+ * 5. Meta / brand string as synthetic H2
+ */
+function resolveOgHeadingPortable(
+  doc: OgRouteDoc | null,
+  site: OgRouteSite | null,
+  headingPortableOverride?: unknown
+): unknown {
+  if (hasPortableHeading(headingPortableOverride)) return headingPortableOverride
+
+  const fromDoc = documentPortableHeading(doc)
+  if (fromDoc) return fromDoc
+
+  const title = cleanStega(doc?.title || '').trim()
+  if (title) return titleAsSimpleTextH2(truncateHeading(title))
+
+  const fromSite = sitePortableHeading(site)
+  if (fromSite) return fromSite
+
+  return titleAsSimpleTextH2(truncateHeading(resolvePlainHeading(doc, site)))
 }
 
 function truncateHeading(text: string, max = 88): string {
@@ -143,20 +175,15 @@ export async function createOgImageResponse({
   backgroundOverride,
 }: CreateOgImageOptions): Promise<ImageResponse> {
   const surface = normalizeOgSurface(
-    backgroundOverride ?? doc?.seo?.ogImageBackground ?? site?.seo?.ogImageBackground ?? 'primary'
+    backgroundOverride ?? doc?.seo?.ogImageBackground ?? site?.seo?.ogImageBackground ?? 'black'
   )
   const colors = ogSurfaceColors(surface)
 
-  const portableFromForm = hasPortableHeading(headingPortableOverride) ? headingPortableOverride : null
-  const portableFromCms = firstPortableHeading(doc, site)
-  const portableRaw = portableFromForm ?? portableFromCms
-
-  const richHeading = portableRaw
-    ? renderSimpleTextForOg(portableRaw, { color: colors.color, maxChars: 160 })
-    : null
-  const plainHeading = truncateHeading(resolvePlainHeading(doc, site))
-  const useRichHeading = Boolean(richHeading)
-  const headingContent = useRichHeading ? richHeading : plainHeading
+  const portableRaw = resolveOgHeadingPortable(doc, site, headingPortableOverride)
+  const headingContent = renderSimpleTextForOg(portableRaw, {
+    color: colors.color,
+    maxChars: 160,
+  })
   const resolved = resolveBrand(site)
 
   const loaded = await loadOgFonts()
@@ -186,19 +213,7 @@ export async function createOgImageResponse({
             overflow: 'hidden',
           }}
         >
-          {useRichHeading ? (
-            headingContent
-          ) : (
-            <div
-              style={{
-                fontSize: 78,
-                fontWeight: 700,
-                lineHeight: 1.08,
-              }}
-            >
-              {headingContent}
-            </div>
-          )}
+          {headingContent}
         </div>
         <OgBrandFooter textColor={colors.color} name={resolved.name} tagline={resolved.tagline} />
       </div>

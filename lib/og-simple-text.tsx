@@ -4,6 +4,7 @@ import { cleanStega } from '@/lib/stega'
 
 type PtChild = {
   _type?: string
+  _key?: string
   text?: string
   marks?: string[]
 }
@@ -157,3 +158,29 @@ export function hasPortableHeading(content: unknown): boolean {
     )
   )
 }
+
+/**
+ * Turn a plain string title into a one-block `simpleText` value styled as H2.
+ * Used when autoShareImage.heading is empty so OG cards match the editor’s H2 look.
+ */
+export function titleAsSimpleTextH2(title: string): PtBlock[] {
+  const text = cleanStega(title).trim()
+  if (!text) return []
+  return [
+    {
+      _type: 'block',
+      _key: 'og-title-h2',
+      style: 'h2',
+      markDefs: [],
+      children: [
+        {
+          _type: 'span',
+          _key: 'og-title-h2-span',
+          text,
+          marks: [],
+        },
+      ],
+    },
+  ]
+}
+

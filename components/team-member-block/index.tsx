@@ -2,6 +2,7 @@ import AppearAnimation from '@/components/appear-animation'
 import SanityImage from '@/components/sanity-image'
 import SimpleText from '@/components/simple-text'
 import TextureSectionBackdrop from '@/components/texture-section-backdrop'
+import { GitHubIcon, LinkedInIcon, XIcon } from '@/components/social-icons'
 import { ImagePlaceholder } from '@/components/ui/image-placeholder'
 import {
   normalizeSectionBackground,
@@ -10,14 +11,21 @@ import {
 import type { TeamMemberBlockProps } from '@/types/components/team-member-block-type'
 import type { SanityImageSource } from '@/types/components/sanity-image-type'
 
-const SOCIAL_LABELS = [
-  ['linkedin', 'LinkedIn'],
-  ['x', 'X'],
+const SOCIAL_ICONS = {
+  linkedin: { label: 'LinkedIn', Icon: LinkedInIcon },
+  github: { label: 'GitHub', Icon: GitHubIcon },
+  x: { label: 'X', Icon: XIcon },
+} as const
+
+const SOCIAL_TEXT = [
   ['instagram', 'Instagram'],
   ['youtube', 'YouTube'],
   ['tiktok', 'TikTok'],
   ['facebook', 'Facebook'],
 ] as const
+
+const iconButtonClass =
+  'flex h-10 w-10 items-center justify-center border border-border text-muted-foreground transition-colors hover:border-primary hover:text-primary focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none motion-reduce:transition-none'
 
 export default function TeamMemberBlock({
   active = true,
@@ -38,12 +46,23 @@ export default function TeamMemberBlock({
 
   const hasMedia = Boolean(member.image) || showImagePlaceholder
 
-  const socialLinks = SOCIAL_LABELS.flatMap(([key, label]) => {
+  const iconLinks = (
+    Object.keys(SOCIAL_ICONS) as Array<keyof typeof SOCIAL_ICONS>
+  ).flatMap((key) => {
+    const href = member.socials?.[key]
+    if (typeof href !== 'string' || !href.trim()) return []
+    const { label, Icon } = SOCIAL_ICONS[key]
+    return [{ key, label, href: href.trim(), Icon }]
+  })
+
+  const textLinks = SOCIAL_TEXT.flatMap(([key, label]) => {
     const href = member.socials?.[key]
     return typeof href === 'string' && href.trim()
       ? [{ key, label, href: href.trim() }]
       : []
   })
+
+  const hasContacts = Boolean(member.email) || iconLinks.length > 0 || textLinks.length > 0
 
   return (
     <section
@@ -74,35 +93,51 @@ export default function TeamMemberBlock({
         ) : null}
         <div className="flex flex-col gap-4 text-left">
           <div className="content">
-            <h2>{member.title}</h2>
+            <h2 className="mb-0">{member.title}</h2>
             {jobLine ? (
-              <p className="text-lg text-muted-foreground mt-0">{jobLine}</p>
+              <p className="mt-3 text-lg text-muted-foreground">{jobLine}</p>
             ) : null}
             {member.content ? <SimpleText content={member.content} /> : null}
           </div>
-          {(member.email || socialLinks.length > 0) && (
-            <ul className="flex list-none flex-wrap gap-x-4 gap-y-2 p-0 text-sm">
+          {hasContacts ? (
+            <ul className="flex list-none flex-wrap items-center gap-2 p-0">
               {member.email ? (
                 <li>
-                  <a href={`mailto:${member.email}`} className="text-primary no-underline hover:no-underline">
+                  <a
+                    href={`mailto:${member.email}`}
+                    className="text-sm text-primary no-underline hover:no-underline"
+                  >
                     {member.email}
                   </a>
                 </li>
               ) : null}
-              {socialLinks.map(({ key, label, href }) => (
+              {iconLinks.map(({ key, label, href, Icon }) => (
                 <li key={key}>
                   <a
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-primary no-underline hover:no-underline"
+                    aria-label={label}
+                    className={iconButtonClass}
+                  >
+                    <Icon className="h-4 w-4" />
+                  </a>
+                </li>
+              ))}
+              {textLinks.map(({ key, label, href }) => (
+                <li key={key}>
+                  <a
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-1 text-sm text-primary no-underline hover:no-underline"
                   >
                     {label}
                   </a>
                 </li>
               ))}
             </ul>
-          )}
+          ) : null}
         </div>
       </AppearAnimation>
     </section>

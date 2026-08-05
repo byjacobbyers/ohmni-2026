@@ -11,6 +11,7 @@ export type TeamMemberData = {
   socials?: {
     facebook?: string
     linkedin?: string
+    github?: string
     x?: string
     instagram?: string
     youtube?: string

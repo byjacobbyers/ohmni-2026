@@ -10,7 +10,7 @@ export default function SeoInput(props: ObjectInputProps) {
   const docTitle = (document?.title as string) || ''
 
   let docDescription = ''
-  const rawDesc = document?.description
+  const rawDesc = document?.description ?? document?.excerpt
   if (Array.isArray(rawDesc)) {
     docDescription = rawDesc
       .map((block: { _type?: string; children?: { text?: string }[] }) => {

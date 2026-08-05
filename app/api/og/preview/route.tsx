@@ -13,6 +13,7 @@ const SLUG_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/i
 type PreviewBody = {
   slug?: string
   type?: string
+  title?: string
   heading?: unknown
   background?: string | null
 }
@@ -53,6 +54,14 @@ export async function POST(request: Request) {
   }
 
   const doc = data.doc
+    ? {
+        ...data.doc,
+        // Live form title wins when auto-share heading is empty (synthetic H2 default).
+        ...(typeof body.title === 'string' && body.title.trim()
+          ? { title: body.title.trim() }
+          : {}),
+      }
+    : null
   const site = data.site
 
   if (!doc) {

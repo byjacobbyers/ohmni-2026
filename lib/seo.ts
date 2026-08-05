@@ -360,6 +360,7 @@ export type TeamPersonRef = {
   socials?: {
     facebook?: string
     linkedin?: string
+    github?: string
     x?: string
     instagram?: string
     youtube?: string
@@ -412,7 +413,7 @@ function teamSlug(member: TeamPersonRef): string {
 function teamSameAs(socials?: TeamPersonRef['socials']): string[] {
   if (!socials) return []
   const urls: string[] = []
-  for (const key of ['facebook', 'linkedin', 'x', 'instagram', 'youtube', 'tiktok'] as const) {
+  for (const key of ['facebook', 'linkedin', 'github', 'x', 'instagram', 'youtube', 'tiktok'] as const) {
     const value = socials[key]
     if (typeof value === 'string' && value.trim()) urls.push(value.trim())
   }

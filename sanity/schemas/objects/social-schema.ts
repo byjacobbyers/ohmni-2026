@@ -12,6 +12,7 @@ export default defineType({
   fields: [
     defineField({ title: 'Facebook', name: 'facebook', type: 'url' }),
     defineField({ title: 'LinkedIn', name: 'linkedin', type: 'url' }),
+    defineField({ title: 'GitHub', name: 'github', type: 'url' }),
     defineField({ title: 'X (Twitter)', name: 'x', type: 'url' }),
     defineField({ title: 'Instagram', name: 'instagram', type: 'url' }),
     defineField({ title: 'YouTube', name: 'youtube', type: 'url' }),

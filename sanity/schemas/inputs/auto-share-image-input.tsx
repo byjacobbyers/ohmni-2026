@@ -11,6 +11,7 @@ import type { ObjectInputProps } from 'sanity'
 import { useFormValue } from 'sanity'
 import { Stack, Text, Box, Spinner } from '@sanity/ui'
 import { getPublicSiteUrl } from '@/lib/site-url'
+import { hasPortableHeading } from '@/lib/og-simple-text'
 
 function normalizeOrigin(url: string): string {
   return url.replace(/\/+$/, '')
@@ -47,7 +48,8 @@ export default function AutoShareImageInput(props: ObjectInputProps) {
   const blobUrlRef = useRef<string | null>(null)
 
   const origin = usePreviewOrigin()
-  const canPreview = (docType === 'page' || docType === 'event') && slug.length > 0
+  const canPreview =
+    (docType === 'page' || docType === 'event' || docType === 'post') && slug.length > 0
   const isDevPreview = process.env.NODE_ENV === 'development'
 
   useEffect(() => {
@@ -58,6 +60,9 @@ export default function AutoShareImageInput(props: ObjectInputProps) {
       }
     }
   }, [])
+
+  const docTitle =
+    typeof document?.title === 'string' ? document.title : ''
 
   useEffect(() => {
     if (!canPreview || !origin || !isDevPreview) {
@@ -79,6 +84,7 @@ export default function AutoShareImageInput(props: ObjectInputProps) {
       const body = {
         slug,
         type: docType,
+        title: docTitle,
         heading: (value as { heading?: unknown } | undefined)?.heading,
         background: (value as { background?: string } | undefined)?.background,
       }
@@ -126,19 +132,22 @@ export default function AutoShareImageInput(props: ObjectInputProps) {
       window.clearTimeout(timer)
       abort?.abort()
     }
-  }, [canPreview, origin, isDevPreview, slug, docType, value])
+  }, [canPreview, origin, isDevPreview, slug, docType, docTitle, value])
 
   const staticOgUrl =
     canPreview && origin
       ? `${origin}/api/og?slug=${encodeURIComponent(slug)}&type=${encodeURIComponent(docType!)}`
       : null
 
+  const headingEmpty = !hasPortableHeading((value as { heading?: unknown } | undefined)?.heading)
+  const titleFallback = docTitle.trim().length > 0 ? docTitle.trim() : null
+
   return (
     <Stack space={4}>
       {docType === 'site' ? (
         <Text size={1} muted>
-          Defaults here apply to auto-generated share images on pages and events. Open a page or event to see
-          a live preview. You can also open{' '}
+          Defaults here apply to auto-generated share images on pages, posts, and events. Open one of
+          those documents to see a live preview. You can also open{' '}
           <a href={`${origin}/api/og?slug=home&type=page`} target="_blank" rel="noreferrer">
             /api/og?slug=home&amp;type=page
           </a>{' '}
@@ -164,6 +173,9 @@ export default function AutoShareImageInput(props: ObjectInputProps) {
                 GET /api/og
               </a>
               .
+              {headingEmpty && titleFallback
+                ? ` Empty heading → document title as H2 (“${titleFallback}”).`
+                : null}
             </Text>
           ) : null}
           <Box
