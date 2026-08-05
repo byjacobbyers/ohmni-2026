@@ -610,6 +610,15 @@ export type Seo = {
   shareGraphic?: DefaultImage;
 };
 
+export type PostCtaSettings = {
+  _id: string;
+  _type: "postCtaSettings";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  cta?: CtaBlock;
+};
+
 export type FormSettings = {
   _id: string;
   _type: "formSettings";
@@ -1111,6 +1120,7 @@ export type AllSanitySchemaTypes =
   | BannerBlock
   | Sections
   | Seo
+  | PostCtaSettings
   | FormSettings
   | Form
   | Slug
@@ -6542,6 +6552,147 @@ export type PageQueryResult = {
         > | null;
       }
   > | null;
+} | null;
+
+// Source: sanity/queries/documents/post-cta-settings-query.ts
+// Variable: postCtaSettingsQuery
+// Query: *[_type == "postCtaSettings"][0] {  cta {    ...,    content[] {      ...,      markDefs[] {        ...,        _type == 'linkWithRoute' => select(          defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },          route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } }        )      }    },    cta { ..., route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } } }  }}
+export type PostCtaSettingsQueryResult = {
+  cta: {
+    _type: "ctaBlock";
+    active?: boolean;
+    anchor?: string;
+    backgroundColor?: "primary" | "secondary" | "texture";
+    alignment?: "text-center" | "text-left" | "text-right";
+    content: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?:
+        "blockquote" | "h1" | "h2" | "h3" | "h4" | "large" | "normal" | "small";
+      listItem?: "bullet" | "number";
+      markDefs: Array<{
+        _key: string;
+        _type: "linkWithRoute";
+        linkType:
+          | "anchor"
+          | "email"
+          | "event"
+          | "external"
+          | "file"
+          | "page"
+          | "path"
+          | "post"
+          | "telephone";
+        pageRoute: {
+          _type: "page";
+          slug: string;
+        } | null;
+        eventRoute: {
+          _type: "event";
+          slug: string;
+        } | null;
+        postRoute: {
+          _type: "post";
+          slug: string;
+        } | null;
+        fileRoute: {
+          asset: {
+            url: string;
+            originalFilename: string | null;
+          } | null;
+        } | null;
+        route: string | null;
+        anchor: string | null;
+        link: string | null;
+        email: string | null;
+        telephone: string | null;
+        blank: boolean | null;
+        utm: {
+          source: string | null;
+          medium: string | null;
+          campaign: string | null;
+          term: string | null;
+          content: string | null;
+        } | null;
+        trackingId: string | null;
+        ariaLabel: string | null;
+        relAttributes: Array<string> | null;
+        titleAttr: string | null;
+        dataAttributes: Array<{
+          key: string | null;
+          value: string | null;
+          _key: string;
+        }> | null;
+        title: null;
+      }> | null;
+      level?: number;
+      _type: "block";
+      _key: string;
+    }> | null;
+    cta: {
+      _type: "cta";
+      active?: boolean;
+      route: {
+        _type: "route";
+        title: string | null;
+        linkType:
+          | "anchor"
+          | "email"
+          | "event"
+          | "external"
+          | "file"
+          | "page"
+          | "path"
+          | "post"
+          | "telephone"
+          | null;
+        pageRoute: {
+          _type: "page";
+          slug: string;
+        } | null;
+        eventRoute: {
+          _type: "event";
+          slug: string;
+        } | null;
+        postRoute: {
+          _type: "post";
+          slug: string;
+        } | null;
+        fileRoute: {
+          asset: {
+            url: string;
+            originalFilename: string | null;
+          } | null;
+        } | null;
+        route: string | null;
+        anchor: string | null;
+        link: string | null;
+        email: string | null;
+        telephone: string | null;
+        blank: boolean | null;
+        titleAttr: string | null;
+        ariaLabel: string | null;
+        utm: {
+          source: string | null;
+          medium: string | null;
+          campaign: string | null;
+          term: string | null;
+          content: string | null;
+        } | null;
+        trackingId: string | null;
+        relAttributes: Array<string> | null;
+        dataAttributes: Array<{
+          key: string | null;
+          value: string | null;
+          _key: string;
+        }> | null;
+      } | null;
+    } | null;
+  } | null;
 } | null;
 
 // Source: sanity/queries/documents/post-query.ts
