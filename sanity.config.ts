@@ -16,7 +16,6 @@ import {apiVersion, dataset, projectId} from './sanity/env'
 import {schema} from './sanity/schemas'
 import {structure} from './sanity/structure'
 import { browseSectionGalleryAction } from './sanity/actions/browse-section-gallery-action'
-import { syndicatePostAction } from './sanity/actions/syndicate-post-action'
 import { resolveLocations } from './sanity/presentation/locations'
 import { brand } from '@/lib/brand'
 import { getPublicSiteUrl } from '@/lib/site-url'
@@ -64,10 +63,10 @@ export default defineConfig({
   ],
   document: {
     actions: (prev, context) => {
-      const extra = []
-      if (SECTION_DOC_TYPES.has(context.schemaType)) extra.push(browseSectionGalleryAction)
-      if (context.schemaType === 'post') extra.push(syndicatePostAction)
-      return extra.length ? [...prev, ...extra] : prev
+      if (SECTION_DOC_TYPES.has(context.schemaType)) {
+        return [...prev, browseSectionGalleryAction]
+      }
+      return prev
     },
     newDocumentOptions: (prev, { creationContext }) => {
       if (creationContext.type === 'global') {
