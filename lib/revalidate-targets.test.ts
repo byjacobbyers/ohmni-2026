@@ -2,9 +2,17 @@ import { describe, expect, it } from 'vitest'
 import { getTargetsForDocument } from '@/lib/revalidate-targets'
 
 describe('getTargetsForDocument', () => {
-  it('maps home page to /', () => {
+  it('maps home page to / and busts the sitemap', () => {
     expect(getTargetsForDocument({ _type: 'page', slug: { current: 'home' } })).toEqual([
       { path: '/' },
+      { path: '/sitemap.xml' },
+    ])
+  })
+
+  it('busts the sitemap for any published page', () => {
+    expect(getTargetsForDocument({ _type: 'page', slug: { current: 'analytics' } })).toEqual([
+      { path: '/analytics' },
+      { path: '/sitemap.xml' },
     ])
   })
 
@@ -13,6 +21,7 @@ describe('getTargetsForDocument', () => {
       { path: '/posts/hello' },
       { path: '/posts' },
       { path: '/' },
+      { path: '/sitemap.xml' },
     ])
   })
 
@@ -22,6 +31,7 @@ describe('getTargetsForDocument', () => {
       { path: '/events' },
       { path: '/past-events' },
       { path: '/' },
+      { path: '/sitemap.xml' },
     ])
   })
 

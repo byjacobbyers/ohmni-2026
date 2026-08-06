@@ -15,16 +15,19 @@ export type WebhookPayload = {
   slug?: { current?: string }
 }
 
+/** Publishing content changes the sitemap, which is its own static route. */
+const SITEMAP: RevalidateTarget = { path: '/sitemap.xml' }
+
 export function getTargetsForDocument(body: WebhookPayload): RevalidateTarget[] {
   const { _type, slug } = body
 
   switch (_type) {
     case 'page': {
       const pageSlug = slug?.current
-      if (pageSlug === 'home') return [{ path: '/' }]
-      if (pageSlug === 'posts') return [{ path: '/posts' }]
-      if (pageSlug === 'events') return [{ path: '/events' }]
-      if (pageSlug) return [{ path: `/${pageSlug}` }]
+      if (pageSlug === 'home') return [{ path: '/' }, SITEMAP]
+      if (pageSlug === 'posts') return [{ path: '/posts' }, SITEMAP]
+      if (pageSlug === 'events') return [{ path: '/events' }, SITEMAP]
+      if (pageSlug) return [{ path: `/${pageSlug}` }, SITEMAP]
       return [{ path: '/', type: 'layout' }]
     }
     case 'event': {
@@ -35,12 +38,14 @@ export function getTargetsForDocument(body: WebhookPayload): RevalidateTarget[] 
       ]
       const eventSlug = slug?.current
       if (eventSlug) targets.unshift({ path: `/events/${eventSlug}` })
+      targets.push(SITEMAP)
       return targets
     }
     case 'post': {
       const targets: RevalidateTarget[] = [{ path: '/posts' }, { path: '/' }]
       const postSlug = slug?.current
       if (postSlug) targets.unshift({ path: `/posts/${postSlug}` })
+      targets.push(SITEMAP)
       return targets
     }
     case 'navigation':

@@ -8,6 +8,13 @@ import {
   postsSitemapQuery,
 } from '@/sanity/queries/documents/sitemap-queries'
 
+/**
+ * The sitemap sits outside the (site) route group, so it does not inherit that
+ * segment's revalidate. Without this it is fully static and only refreshes on
+ * deploy, which means a page published in the CMS never reaches the sitemap.
+ */
+export const revalidate = 3600
+
 function normalizeBaseUrl(url: string): string {
   return url.endsWith('/') ? url.slice(0, -1) : url
 }
