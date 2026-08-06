@@ -49,7 +49,12 @@ export default function HeroBlock({
         )}
       >
         <AppearAnimation
-          className="w-full md:w-1/2 flex flex-col gap-6"
+          className={cn(
+            'w-full flex flex-col gap-6',
+            // Only give up half the row when there is actually media beside it,
+            // otherwise the copy sits in a column with empty space next to it.
+            showMedia && 'md:w-1/2'
+          )}
           scale
           delay={delay}
         >
