@@ -32,9 +32,11 @@ export default function NavCard({ item, onNavigate, className }: NavCardProps) {
         className
       )}
     >
+      {/* Colour lives on the svg, not the wrapper: the shadcn link style forces
+          text-muted-foreground onto any nested svg without a text- class. */}
       {item.icon ? (
-        <span className="mt-0.5 flex-none text-primary">
-          <LucideIcon name={item.icon} className="h-5 w-5" />
+        <span className="mt-0.5 flex-none">
+          <LucideIcon name={item.icon} className="text-primary" />
         </span>
       ) : null}
       <span className="flex min-w-0 flex-col gap-1">

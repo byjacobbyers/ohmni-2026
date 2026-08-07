@@ -42,5 +42,5 @@ export default function LucideIcon({
 }: LucideIconProps) {
   const Icon = name ? ICONS[name] : null
   if (!Icon) return null
-  return <Icon className={cn('h-5 w-5', className)} strokeWidth={strokeWidth} aria-hidden />
+  return <Icon className={cn('size-5', className)} strokeWidth={strokeWidth} aria-hidden />
 }

@@ -23,12 +23,21 @@ export type DesktopNavProps = {
 const linkClass =
   'font-bold uppercase transition duration-200 ease-out hover:scale-110 motion-reduce:transition-none motion-reduce:hover:scale-100'
 
+/** Solid blue call to action, matching the one pinned to the mobile menu. */
+const primaryClass =
+  'flex items-center bg-primary px-4 py-2 font-bold uppercase text-primary-foreground no-underline transition duration-200 ease-out hover:brightness-110 motion-reduce:transition-none'
+
 export default function DesktopNav({
   items,
   onBookNowHoverChange,
   bookNowTitle = 'Book Now',
 }: DesktopNavProps) {
   if (!items?.length) return null
+
+  // Same rule the mobile menu uses: the last plain route is the primary
+  // action, so both surfaces promote the same link without extra CMS config.
+  const routes = items.filter((i) => !isSubNav(i))
+  const primary = routes.length ? routes[routes.length - 1] : null
 
   return (
     <NavigationMenu
@@ -79,7 +88,7 @@ export default function DesktopNav({
             <NavigationMenuItem key={item._key || `route-${i}`}>
               <Route
                 data={route}
-                className={linkClass}
+                className={item === primary ? primaryClass : linkClass}
                 onMouseEnter={
                   isBookNow && onBookNowHoverChange
                     ? () => onBookNowHoverChange(true)
