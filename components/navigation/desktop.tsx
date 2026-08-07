@@ -20,12 +20,19 @@ export type DesktopNavProps = {
   bookNowTitle?: string
 }
 
-const linkClass =
-  'font-bold uppercase transition duration-200 ease-out hover:scale-110 motion-reduce:transition-none motion-reduce:hover:scale-100'
+const labelClass = 'font-bold uppercase'
+
+/**
+ * Grow on hover. Kept off the dropdown triggers: the label shifting under the
+ * cursor fights the panel opening beneath it.
+ */
+const hoverGrow =
+  'transition duration-200 ease-out hover:scale-110 motion-reduce:transition-none motion-reduce:hover:scale-100'
+
+const linkClass = `${labelClass} ${hoverGrow}`
 
 /** Solid blue call to action, matching the one pinned to the mobile menu. */
-const primaryClass =
-  'flex items-center bg-primary px-4 py-2 font-bold uppercase text-primary-foreground no-underline transition duration-200 ease-out hover:brightness-110 motion-reduce:transition-none'
+const primaryClass = `flex items-center bg-primary px-4 py-2 text-primary-foreground no-underline ${labelClass} ${hoverGrow}`
 
 export default function DesktopNav({
   items,
@@ -57,7 +64,7 @@ export default function DesktopNav({
                     background. Strip all three so a dropdown label reads
                     exactly like the plain routes beside it. */}
                 <NavigationMenuTrigger
-                  className={`${linkClass} h-auto bg-transparent p-0 text-lg 2xl:text-2xl hover:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent data-[state=open]:hover:bg-transparent data-[state=open]:focus:bg-transparent`}
+                  className={`${labelClass} h-auto bg-transparent p-0 text-lg 2xl:text-2xl hover:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent data-[state=open]:hover:bg-transparent data-[state=open]:focus:bg-transparent`}
                 >
                   {item.title}
                 </NavigationMenuTrigger>
