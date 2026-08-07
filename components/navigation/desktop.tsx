@@ -32,7 +32,7 @@ const hoverGrow =
 const linkClass = `${labelClass} ${hoverGrow}`
 
 /** Solid blue call to action, matching the one pinned to the mobile menu. */
-const primaryClass = `flex items-center bg-primary px-4 py-2 text-primary-foreground no-underline ${labelClass} ${hoverGrow}`
+const primaryClass = `flex items-center whitespace-nowrap bg-primary px-4 py-2 text-primary-foreground no-underline ${labelClass} ${hoverGrow}`
 
 export default function DesktopNav({
   items,
@@ -48,13 +48,15 @@ export default function DesktopNav({
 
   return (
     <NavigationMenu
-      // The viewport wrapper ships as `left-0`, which runs off the right edge
-      // for a nav anchored to the right of the header. The only div child of
-      // the root is that wrapper, so realign it here rather than forking the
-      // shadcn primitive.
-      className="hidden lg:flex [&>div]:right-0 [&>div]:left-auto"
+      // The shared viewport is one panel for the whole menu, so it can only sit
+      // at one edge. Opting out lets each panel render inside its own item and
+      // hang from that trigger's left edge.
+      viewport={false}
+      className="hidden lg:flex"
     >
-      <NavigationMenuList className="items-center gap-6 text-lg 2xl:text-2xl">
+      {/* Below xl the brand lockup and the solid CTA leave little room, so the
+          labels step down a size and the gaps tighten. */}
+      <NavigationMenuList className="items-center gap-4 text-base xl:gap-6 xl:text-lg 2xl:text-2xl">
         {items.map((item, i) => {
           if (isSubNav(item)) {
             if (!item.items?.length) return null
@@ -64,16 +66,18 @@ export default function DesktopNav({
                     background. Strip all three so a dropdown label reads
                     exactly like the plain routes beside it. */}
                 <NavigationMenuTrigger
-                  className={`${labelClass} h-auto bg-transparent p-0 text-lg 2xl:text-2xl hover:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent data-[state=open]:hover:bg-transparent data-[state=open]:focus:bg-transparent`}
+                  className={`${labelClass} h-auto bg-transparent p-0 text-base xl:text-lg 2xl:text-2xl hover:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent data-[state=open]:hover:bg-transparent data-[state=open]:focus:bg-transparent`}
                 >
                   {item.title}
                 </NavigationMenuTrigger>
-                <NavigationMenuContent className="p-3">
+                <NavigationMenuContent className="z-50 p-3">
                   <ul
                     className={
                       item.display === 'list'
-                        ? 'grid w-[min(20rem,calc(100vw-3rem))] grid-cols-1 gap-2'
-                        : 'grid w-[min(34rem,calc(100vw-3rem))] grid-cols-1 gap-3 sm:grid-cols-2'
+                        ? 'grid w-[min(18rem,calc(100vw-3rem))] grid-cols-1 gap-2 xl:w-[min(20rem,calc(100vw-3rem))]'
+                        : // A left-anchored panel has less room the further
+                          // right its trigger sits, so it narrows below xl.
+                          'grid w-[min(28rem,calc(100vw-3rem))] grid-cols-1 gap-3 sm:grid-cols-2 xl:w-[min(34rem,calc(100vw-3rem))]'
                     }
                   >
                     {item.items.map((link, j) => (
