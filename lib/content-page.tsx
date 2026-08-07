@@ -119,8 +119,12 @@ export async function pageSeoMetadata(options: {
       {
         url,
         titleSuffix: resolveBrand(global as BrandSiteInput | null).titleSuffix,
+        // Home: Site Settings shareGraphic first; otherwise generated OG (site auto-share).
         ...(useGlobalSeoOnly
-          ? {}
+          ? {
+              preferGlobalShareGraphic: true,
+              ogDocument: { slug: 'home', type: ogType },
+            }
           : { ogDocument: { slug, type: ogType } }),
       }
     )

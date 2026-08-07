@@ -72,15 +72,20 @@ function safeShareGraphicUrl(
  * auto share + headings work), then site-wide upload, then static default.
  * Previously global shareGraphic sat before /api/og and blocked all inner pages.
  */
-function resolveOgImageUrl(pageSeo?: SeoType, globalSeo?: SeoType, ogDocument?: OgDocumentRef): string {
+function resolveOgImageUrl(
+  pageSeo?: SeoType,
+  globalSeo?: SeoType,
+  ogDocument?: OgDocumentRef,
+  options?: { preferGlobalShareGraphic?: boolean }
+): string {
   const pageGraphic = safeShareGraphicUrl(pageSeo?.shareGraphic)
   if (pageGraphic) return pageGraphic
 
-  if (ogDocument) {
-    return buildGeneratedOgImageUrl(ogDocument)
-  }
-
   const globalGraphic = safeShareGraphicUrl(globalSeo?.shareGraphic)
+  if (options?.preferGlobalShareGraphic && globalGraphic) return globalGraphic
+
+  if (ogDocument) return buildGeneratedOgImageUrl(ogDocument)
+
   if (globalGraphic) return globalGraphic
 
   return defaultOgImage
@@ -95,6 +100,8 @@ export function generateMetadata(
     url?: string
     titleSuffix?: string
     ogDocument?: OgDocumentRef
+    /** Home: site shareGraphic wins over /api/og when both exist */
+    preferGlobalShareGraphic?: boolean
     /** Set for posts: emits og:type article with publish metadata */
     article?: { publishedTime?: string; modifiedTime?: string; author?: string }
   }
@@ -102,7 +109,9 @@ export function generateMetadata(
   const title = pageSeo?.metaTitle || globalSeo?.metaTitle || fallbackTitle || defaultTitle
   const description = pageSeo?.metaDesc || globalSeo?.metaDesc || fallbackDescription || defaultDescription
   const noIndex = pageSeo?.noIndex ?? false
-  const ogImage = resolveOgImageUrl(pageSeo, globalSeo, options?.ogDocument)
+  const ogImage = resolveOgImageUrl(pageSeo, globalSeo, options?.ogDocument, {
+    preferGlobalShareGraphic: options?.preferGlobalShareGraphic,
+  })
   const pageUrl = options?.url ? buildUrl(options.url) : baseUrl
   const finalTitle = options?.titleSuffix ? `${title}${options.titleSuffix}` : title
   // Per-page override wins; otherwise the page canonicalizes to its own URL

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createOgImageResponse, type OgRouteDoc, type OgRouteSite } from '@/lib/og-image-response'
 import { getShareGraphicRedirectUrl } from '@/lib/og-share-graphic'
+import { hasPortableHeading } from '@/lib/og-simple-text'
 import { getOgSanityClient } from '@/sanity/lib/og-sanity-client'
 import { ogRouteDataQuery } from '@/sanity/queries/documents/og-route-query'
 
@@ -35,10 +36,25 @@ export async function GET(request: NextRequest) {
     return new Response('Not found', { status: 404 })
   }
 
-  const redirectUrl = getShareGraphicRedirectUrl(doc)
+  // Home document share upload, then site settings upload (home uses Site SEO).
+  const redirectUrl =
+    getShareGraphicRedirectUrl(doc) ||
+    (docType === 'page' && slug === 'home' ? getShareGraphicRedirectUrl(site) : null)
   if (redirectUrl) {
     return NextResponse.redirect(redirectUrl, 307)
   }
 
-  return createOgImageResponse({ doc, site })
+  // Home with no page auto-share heading: use Site Settings auto-share heading.
+  const siteHeading = site?.seo?.ogImageHeading
+  const useSiteHeadingForHome =
+    docType === 'page' &&
+    slug === 'home' &&
+    !hasPortableHeading(doc?.seo?.ogImageHeading) &&
+    hasPortableHeading(siteHeading)
+
+  return createOgImageResponse({
+    doc,
+    site,
+    ...(useSiteHeadingForHome ? { headingPortableOverride: siteHeading } : {}),
+  })
 }
