@@ -20,3 +20,11 @@ cp documents/ohmni-one-pager.pdf public/ohmni-one-pager.pdf
 ```
 
 Keep it to one page: check with `python3 -c "import re;print(re.search(rb'/Count (\d+)',open('documents/ohmni-one-pager.pdf','rb').read()).group(1))"`.
+
+## LinkedIn
+
+| File | Purpose |
+|------|---------|
+| `linkedin/cover.html` | Banner source. Dark tokens + the site's `#advanced-texture` filter. |
+| `linkedin/capture.mjs` | Renders the banner to PNG at 1584x396 @2x (`node documents/linkedin/capture.mjs`). |
+| `linkedin/ohmni-linkedin-cover.png` | Upload target. Lower left is kept dark for the profile photo. |

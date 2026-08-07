@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Ohmni LinkedIn cover</title>
+<style>
+  /* Dark palette from tokens/color.json → dark. Do not hand-pick new hexes. */
+  :root {
+    --background: #121117;
+    --foreground: #fafbfa;
+    --muted-foreground: #bdbdbd;
+    --primary: #3566ff;
+    --chart-3: #3566ff;
+    --chart-4: #1a53ff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    width: 1584px;
+    height: 396px;
+    background: var(--background);
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, sans-serif;
+    color: var(--foreground);
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Same gradient + noise stack the site uses for textured sections. */
+  .texture {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(145deg, var(--chart-4), var(--primary), var(--chart-3));
+    filter: url(#advanced-texture);
+    opacity: 0.2;
+  }
+
+  /* Falloff toward the lower left, where LinkedIn drops the profile photo. */
+  .vignette {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(120% 160% at 18% 100%, var(--background) 22%, transparent 62%);
+  }
+
+  .content {
+    position: absolute;
+    inset: 0;
+    padding: 0 88px 0 430px;   /* left pad clears the avatar well */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 22px;
+  }
+
+  h1 {
+    font-size: 62px;
+    line-height: 1.04;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+  }
+  h1 .accent { color: var(--primary); font-style: italic; }
+
+  .rule { width: 96px; height: 4px; background: var(--primary); }
+
+  .pillars {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 19px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted-foreground);
+  }
+  .dot { color: var(--primary); }
+
+  /* Bottom edge matches the site header's blue rule. */
+  .edge { position: absolute; left: 0; right: 0; bottom: 0; height: 5px; background: var(--primary); }
+
+  .domain {
+    position: absolute;
+    right: 88px;
+    bottom: 30px;
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted-foreground);
+  }
+</style>
+</head>
+<body>
+  <svg aria-hidden width="0" height="0" style="position:absolute">
+    <defs>
+      <filter id="advanced-texture">
+        <feTurbulence result="noise" numOctaves="3" baseFrequency="0.7" type="fractalNoise" />
+        <feSpecularLighting result="specular" lightingColor="white" specularExponent="20" specularConstant="0.8" surfaceScale="2" in="noise">
+          <fePointLight z="100" y="50" x="50" />
+        </feSpecularLighting>
+        <feComposite result="litNoise" operator="in" in2="SourceGraphic" in="specular" />
+        <feBlend mode="overlay" in2="litNoise" in="SourceGraphic" />
+      </filter>
+    </defs>
+  </svg>
+
+  <div class="texture"></div>
+  <div class="vignette"></div>
+
+  <div class="content">
+    <h1><span class="accent">Marketing Moves Fast.</span><br />Your System Should Too.</h1>
+    <div class="rule"></div>
+    <div class="pillars">
+      <span>Design Systems</span><span class="dot">&bull;</span>
+      <span>Speed to Lead</span><span class="dot">&bull;</span>
+      <span>AI Search</span><span class="dot">&bull;</span>
+      <span>Analytics</span>
+    </div>
+  </div>
+
+  <div class="domain">ohmni.tech</div>
+  <div class="edge"></div>
+</body>
+</html>
