@@ -82,10 +82,35 @@ export type Social = {
   _type: "social";
   facebook?: string;
   linkedin?: string;
+  github?: string;
   x?: string;
   instagram?: string;
   youtube?: string;
   tiktok?: string;
+};
+
+export type SubNav = {
+  _type: "subNav";
+  title: string;
+  items?: Array<
+    {
+      _key: string;
+    } & NavLink
+  >;
+};
+
+export type NavLink = {
+  _type: "navLink";
+  route: Route;
+  description?: string;
+  icon?:
+    | "LuClock"
+    | "LuCode"
+    | "LuLayers"
+    | "LuMailX"
+    | "LuChartColumn"
+    | "LuSearchX"
+    | "LuSparkles";
 };
 
 export type FormField = {
@@ -666,9 +691,12 @@ export type Navigation = {
   _rev: string;
   title?: string;
   items?: Array<
-    {
-      _key: string;
-    } & Route
+    | ({
+        _key: string;
+      } & Route)
+    | ({
+        _key: string;
+      } & SubNav)
   >;
 };
 
@@ -1084,6 +1112,8 @@ export type AllSanitySchemaTypes =
   | ArticleJsonLd
   | PageJsonLd
   | Social
+  | SubNav
+  | NavLink
   | FormField
   | NormalText
   | SimpleText
@@ -1159,127 +1189,284 @@ export type AllSanitySchemaTypes =
   | Geopoint;
 
 // Source: sanity/queries/components/page-nav-query.ts
+// Variable: navItemsQuery
+// Query: items[] {    _key,    _type,    _type == "route" => {        _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  }    },    _type == "subNav" => {      title,      items[] {        _key,        description,        icon,        route {            _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  }        }      }    }  }
+export type NavItemsQueryResult = never;
+
+// Source: sanity/queries/components/page-nav-query.ts
 // Variable: headerQuery
-// Query: *[_type == "navigation" && title == "Header"][0] {    title,    items[] {        _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  }    }  }
+// Query: *[_type == "navigation" && title == "Header"][0] {    title,      items[] {    _key,    _type,    _type == "route" => {        _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  }    },    _type == "subNav" => {      title,      items[] {        _key,        description,        icon,        route {            _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  }        }      }    }  }  }
 export type HeaderQueryResult = {
   title: "Header";
-  items: Array<{
-    _type: "route";
-    title: string | null;
-    linkType:
-      | "anchor"
-      | "email"
-      | "event"
-      | "external"
-      | "file"
-      | "page"
-      | "path"
-      | "post"
-      | "telephone"
-      | null;
-    pageRoute: {
-      _type: "page";
-      slug: string;
-    } | null;
-    eventRoute: {
-      _type: "event";
-      slug: string;
-    } | null;
-    postRoute: {
-      _type: "post";
-      slug: string;
-    } | null;
-    fileRoute: {
-      asset: {
-        url: string;
-        originalFilename: string | null;
-      } | null;
-    } | null;
-    route: string | null;
-    anchor: string | null;
-    link: string | null;
-    email: string | null;
-    telephone: string | null;
-    blank: boolean | null;
-    titleAttr: string | null;
-    ariaLabel: string | null;
-    utm: {
-      source: string | null;
-      medium: string | null;
-      campaign: string | null;
-      term: string | null;
-      content: string | null;
-    } | null;
-    trackingId: string | null;
-    relAttributes: Array<string> | null;
-    dataAttributes: Array<{
-      key: string | null;
-      value: string | null;
-      _key: string;
-    }> | null;
-  }> | null;
+  items: Array<
+    | {
+        _key: string;
+        _type: "route";
+        title: string | null;
+        linkType:
+          | "anchor"
+          | "email"
+          | "event"
+          | "external"
+          | "file"
+          | "page"
+          | "path"
+          | "post"
+          | "telephone"
+          | null;
+        pageRoute: {
+          _type: "page";
+          slug: string;
+        } | null;
+        eventRoute: {
+          _type: "event";
+          slug: string;
+        } | null;
+        postRoute: {
+          _type: "post";
+          slug: string;
+        } | null;
+        fileRoute: {
+          asset: {
+            url: string;
+            originalFilename: string | null;
+          } | null;
+        } | null;
+        route: string | null;
+        anchor: string | null;
+        link: string | null;
+        email: string | null;
+        telephone: string | null;
+        blank: boolean | null;
+        titleAttr: string | null;
+        ariaLabel: string | null;
+        utm: {
+          source: string | null;
+          medium: string | null;
+          campaign: string | null;
+          term: string | null;
+          content: string | null;
+        } | null;
+        trackingId: string | null;
+        relAttributes: Array<string> | null;
+        dataAttributes: Array<{
+          key: string | null;
+          value: string | null;
+          _key: string;
+        }> | null;
+      }
+    | {
+        _key: string;
+        _type: "subNav";
+        title: string;
+        items: Array<{
+          _key: string;
+          description: string | null;
+          icon:
+            | "LuChartColumn"
+            | "LuClock"
+            | "LuCode"
+            | "LuLayers"
+            | "LuMailX"
+            | "LuSearchX"
+            | "LuSparkles"
+            | null;
+          route: {
+            _type: "route";
+            title: string | null;
+            linkType:
+              | "anchor"
+              | "email"
+              | "event"
+              | "external"
+              | "file"
+              | "page"
+              | "path"
+              | "post"
+              | "telephone"
+              | null;
+            pageRoute: {
+              _type: "page";
+              slug: string;
+            } | null;
+            eventRoute: {
+              _type: "event";
+              slug: string;
+            } | null;
+            postRoute: {
+              _type: "post";
+              slug: string;
+            } | null;
+            fileRoute: {
+              asset: {
+                url: string;
+                originalFilename: string | null;
+              } | null;
+            } | null;
+            route: string | null;
+            anchor: string | null;
+            link: string | null;
+            email: string | null;
+            telephone: string | null;
+            blank: boolean | null;
+            titleAttr: string | null;
+            ariaLabel: string | null;
+            utm: {
+              source: string | null;
+              medium: string | null;
+              campaign: string | null;
+              term: string | null;
+              content: string | null;
+            } | null;
+            trackingId: string | null;
+            relAttributes: Array<string> | null;
+            dataAttributes: Array<{
+              key: string | null;
+              value: string | null;
+              _key: string;
+            }> | null;
+          };
+        }> | null;
+      }
+  > | null;
 } | null;
 
 // Source: sanity/queries/components/page-nav-query.ts
 // Variable: footerQuery
-// Query: *[_type == "navigation" && title == "Footer"][0] {    title,    items[] {        _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  }    }  }
+// Query: *[_type == "navigation" && title == "Footer"][0] {    title,      items[] {    _key,    _type,    _type == "route" => {        _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  }    },    _type == "subNav" => {      title,      items[] {        _key,        description,        icon,        route {            _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  }        }      }    }  }  }
 export type FooterQueryResult = {
   title: "Footer";
-  items: Array<{
-    _type: "route";
-    title: string | null;
-    linkType:
-      | "anchor"
-      | "email"
-      | "event"
-      | "external"
-      | "file"
-      | "page"
-      | "path"
-      | "post"
-      | "telephone"
-      | null;
-    pageRoute: {
-      _type: "page";
-      slug: string;
-    } | null;
-    eventRoute: {
-      _type: "event";
-      slug: string;
-    } | null;
-    postRoute: {
-      _type: "post";
-      slug: string;
-    } | null;
-    fileRoute: {
-      asset: {
-        url: string;
-        originalFilename: string | null;
-      } | null;
-    } | null;
-    route: string | null;
-    anchor: string | null;
-    link: string | null;
-    email: string | null;
-    telephone: string | null;
-    blank: boolean | null;
-    titleAttr: string | null;
-    ariaLabel: string | null;
-    utm: {
-      source: string | null;
-      medium: string | null;
-      campaign: string | null;
-      term: string | null;
-      content: string | null;
-    } | null;
-    trackingId: string | null;
-    relAttributes: Array<string> | null;
-    dataAttributes: Array<{
-      key: string | null;
-      value: string | null;
-      _key: string;
-    }> | null;
-  }> | null;
+  items: Array<
+    | {
+        _key: string;
+        _type: "route";
+        title: string | null;
+        linkType:
+          | "anchor"
+          | "email"
+          | "event"
+          | "external"
+          | "file"
+          | "page"
+          | "path"
+          | "post"
+          | "telephone"
+          | null;
+        pageRoute: {
+          _type: "page";
+          slug: string;
+        } | null;
+        eventRoute: {
+          _type: "event";
+          slug: string;
+        } | null;
+        postRoute: {
+          _type: "post";
+          slug: string;
+        } | null;
+        fileRoute: {
+          asset: {
+            url: string;
+            originalFilename: string | null;
+          } | null;
+        } | null;
+        route: string | null;
+        anchor: string | null;
+        link: string | null;
+        email: string | null;
+        telephone: string | null;
+        blank: boolean | null;
+        titleAttr: string | null;
+        ariaLabel: string | null;
+        utm: {
+          source: string | null;
+          medium: string | null;
+          campaign: string | null;
+          term: string | null;
+          content: string | null;
+        } | null;
+        trackingId: string | null;
+        relAttributes: Array<string> | null;
+        dataAttributes: Array<{
+          key: string | null;
+          value: string | null;
+          _key: string;
+        }> | null;
+      }
+    | {
+        _key: string;
+        _type: "subNav";
+        title: string;
+        items: Array<{
+          _key: string;
+          description: string | null;
+          icon:
+            | "LuChartColumn"
+            | "LuClock"
+            | "LuCode"
+            | "LuLayers"
+            | "LuMailX"
+            | "LuSearchX"
+            | "LuSparkles"
+            | null;
+          route: {
+            _type: "route";
+            title: string | null;
+            linkType:
+              | "anchor"
+              | "email"
+              | "event"
+              | "external"
+              | "file"
+              | "page"
+              | "path"
+              | "post"
+              | "telephone"
+              | null;
+            pageRoute: {
+              _type: "page";
+              slug: string;
+            } | null;
+            eventRoute: {
+              _type: "event";
+              slug: string;
+            } | null;
+            postRoute: {
+              _type: "post";
+              slug: string;
+            } | null;
+            fileRoute: {
+              asset: {
+                url: string;
+                originalFilename: string | null;
+              } | null;
+            } | null;
+            route: string | null;
+            anchor: string | null;
+            link: string | null;
+            email: string | null;
+            telephone: string | null;
+            blank: boolean | null;
+            titleAttr: string | null;
+            ariaLabel: string | null;
+            utm: {
+              source: string | null;
+              medium: string | null;
+              campaign: string | null;
+              term: string | null;
+              content: string | null;
+            } | null;
+            trackingId: string | null;
+            relAttributes: Array<string> | null;
+            dataAttributes: Array<{
+              key: string | null;
+              value: string | null;
+              _key: string;
+            }> | null;
+          };
+        }> | null;
+      }
+  > | null;
 } | null;
 
 // Source: sanity/queries/documents/announcement-query.ts

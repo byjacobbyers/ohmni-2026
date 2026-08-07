@@ -1,5 +1,6 @@
 import { defineType, defineField } from 'sanity'
 import { InlineIcon } from '@sanity/icons/Inline'
+import { iconOptions } from '../lib/icon-options'
 
 const column = defineType({
   title: 'Card',
@@ -24,17 +25,7 @@ const column = defineType({
       name: 'icon',
       type: 'string',
       description: 'Optional Lucide icon when there is no image (logo-style cards).',
-      options: {
-        list: [
-          { title: 'Clock', value: 'LuClock' },
-          { title: 'Code', value: 'LuCode' },
-          { title: 'Layers', value: 'LuLayers' },
-          { title: 'Missed mail', value: 'LuMailX' },
-          { title: 'Chart', value: 'LuChartColumn' },
-          { title: 'Search miss', value: 'LuSearchX' },
-          { title: 'Sparkles (AI)', value: 'LuSparkles' },
-        ],
-      },
+      options: { list: [...iconOptions] },
     }),
     defineField({
       title: 'Image',
