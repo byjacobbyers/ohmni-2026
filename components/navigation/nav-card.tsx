@@ -26,7 +26,7 @@ export default function NavCard({ item, onNavigate, className }: NavCardProps) {
       data={item.route}
       onClick={onNavigate}
       className={cn(
-        'group flex w-full items-start gap-3 border border-border bg-card p-2.5 text-left no-underline transition-colors lg:p-4',
+        'group flex w-full items-start gap-3 border border-border bg-card p-2 text-left no-underline transition-colors lg:p-4',
         'hover:border-primary focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none',
         'motion-reduce:transition-none',
         className
@@ -39,7 +39,7 @@ export default function NavCard({ item, onNavigate, className }: NavCardProps) {
           <LucideIcon name={item.icon} className="text-primary" />
         </span>
       ) : null}
-      <span className="flex min-w-0 flex-col gap-1">
+      <span className="flex min-w-0 flex-col gap-0.5">
         <span className="text-base leading-tight font-semibold text-foreground">
           {title}
         </span>

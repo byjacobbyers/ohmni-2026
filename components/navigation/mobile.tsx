@@ -7,7 +7,6 @@ import {
   useReducedMotion,
   type Variants,
 } from 'motion/react'
-import LucideIcon from '@/components/lucide-icon'
 import NavCard from '@/components/navigation/nav-card'
 import Route from '@/components/route'
 import TextureSectionBackdrop from '@/components/texture-section-backdrop'
@@ -29,8 +28,8 @@ const child: Variants = {
 
 /**
  * Full-height menu with content anchored to the bottom of the viewport, where
- * thumbs actually reach. Dropdown groups render as cards, plain links as rows,
- * and the primary action sits lowest.
+ * thumbs actually reach. Every destination is a card, and the primary action
+ * sits lowest.
  */
 export default function MobileNav({
   data,
@@ -66,50 +65,31 @@ export default function MobileNav({
               <span className="px-1 text-sm font-bold uppercase tracking-[0.12em] text-primary">
                 {item.title}
               </span>
+              {/* `display` is a desktop concern: it keeps a narrow panel for
+                  short utility links. Mobile always uses cards so every
+                  destination gets its description. */}
               <div className="flex flex-col gap-2">
-                {item.items.map((link, j) =>
-                  item.display === 'list' ? (
-                    <Route
-                      key={link._key || `link-${j}`}
-                      data={link.route!}
-                      onClick={closeMenu}
-                      className="flex w-full items-center gap-3 border border-border bg-card px-4 py-2.5 text-base font-semibold no-underline transition-colors hover:border-primary motion-reduce:transition-none"
-                    >
-                      {link.icon ? (
-                        <span className="flex-none text-primary">
-                          <LucideIcon name={link.icon} className="h-4 w-4" />
-                        </span>
-                      ) : null}
-                      {link.route?.title || 'Link'}
-                    </Route>
-                  ) : (
-                    <NavCard
-                      key={link._key || `link-${j}`}
-                      item={link}
-                      onNavigate={closeMenu}
-                    />
-                  )
-                )}
+                {item.items.map((link, j) => (
+                  <NavCard
+                    key={link._key || `link-${j}`}
+                    item={link}
+                    onNavigate={closeMenu}
+                  />
+                ))}
               </div>
             </Item>
           )
         }
 
+        // A top-level route carries its own icon and blurb, so it reads as
+        // one more card rather than a bare row between the groups.
         const route = item as BaseRouteType
         return (
           <Item key={item._key || `route-${i}`} {...itemProps}>
-            <Route
-              data={route}
-              onClick={closeMenu}
-              className="flex w-full items-center gap-3 border border-border bg-card px-4 py-3 text-lg font-semibold no-underline transition-colors hover:border-primary motion-reduce:transition-none"
-            >
-              {route.icon ? (
-                <span className="flex-none text-primary">
-                  <LucideIcon name={route.icon} />
-                </span>
-              ) : null}
-              {route.title || 'Link'}
-            </Route>
+            <NavCard
+              item={{ route, description: route.description, icon: route.icon }}
+              onNavigate={closeMenu}
+            />
           </Item>
         )
       })}
@@ -119,7 +99,7 @@ export default function MobileNav({
           <Route
             data={primary}
             onClick={closeMenu}
-            className="flex w-full items-center justify-center bg-primary px-4 py-4 text-lg font-bold text-primary-foreground no-underline"
+            className="flex w-full items-center justify-center bg-primary px-4 py-3 text-lg font-bold text-primary-foreground no-underline"
             onMouseEnter={
               primary.title === BOOK_NOW_TITLE && onBookNowHoverChange
                 ? () => onBookNowHoverChange(true)

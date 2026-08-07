@@ -19,6 +19,8 @@ export type DataAttributeType = {
 export type BaseRouteType = {
   _type: string
   title?: string
+  /** One-line blurb used where the link renders as a card */
+  description?: string
   /** Icon name from the shared vocabulary, e.g. 'LuTag' */
   icon?: string
   linkType: 'page' | 'event' | 'post' | 'path' | 'anchor' | 'file' | 'external' | 'email' | 'telephone'

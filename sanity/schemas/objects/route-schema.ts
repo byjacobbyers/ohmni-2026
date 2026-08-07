@@ -23,6 +23,16 @@ export default defineType({
       group: 'general',
     }),
     defineField({
+      title: 'Card description',
+      name: 'description',
+      type: 'string',
+      group: 'general',
+      description:
+        'Optional. Shown where this link renders as a card, such as the mobile menu. Not the SEO meta description.',
+      validation: (Rule) =>
+        Rule.max(80).warning('Keep it to one line so the card stays compact.'),
+    }),
+    defineField({
       title: 'Icon',
       name: 'icon',
       type: 'string',
