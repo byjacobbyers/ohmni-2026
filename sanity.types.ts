@@ -92,6 +92,7 @@ export type Social = {
 export type SubNav = {
   _type: "subNav";
   title: string;
+  display?: "cards" | "list";
   items?: Array<
     {
       _key: string;
@@ -110,7 +111,8 @@ export type NavLink = {
     | "LuMailX"
     | "LuChartColumn"
     | "LuSearchX"
-    | "LuSparkles";
+    | "LuSparkles"
+    | "LuTag";
 };
 
 export type FormField = {
@@ -237,6 +239,15 @@ export type LinkWithRoute = {
 export type Route = {
   _type: "route";
   title?: string;
+  icon?:
+    | "LuClock"
+    | "LuCode"
+    | "LuLayers"
+    | "LuMailX"
+    | "LuChartColumn"
+    | "LuSearchX"
+    | "LuSparkles"
+    | "LuTag";
   linkType?:
     | "page"
     | "event"
@@ -306,7 +317,8 @@ export type Column = {
     | "LuMailX"
     | "LuChartColumn"
     | "LuSearchX"
-    | "LuSparkles";
+    | "LuSparkles"
+    | "LuTag";
   image?: DefaultImage;
   cta?: Cta;
 };
@@ -1190,12 +1202,12 @@ export type AllSanitySchemaTypes =
 
 // Source: sanity/queries/components/page-nav-query.ts
 // Variable: navItemsQuery
-// Query: items[] {    _key,    _type,    _type == "route" => {        _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  }    },    _type == "subNav" => {      title,      items[] {        _key,        description,        icon,        route {            _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  }        }      }    }  }
+// Query: items[] {    _key,    _type,    _type == "route" => {        _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  }    },    _type == "subNav" => {      title,      display,      items[] {        _key,        description,        icon,        route {            _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  }        }      }    }  }
 export type NavItemsQueryResult = never;
 
 // Source: sanity/queries/components/page-nav-query.ts
 // Variable: headerQuery
-// Query: *[_type == "navigation" && title == "Header"][0] {    title,      items[] {    _key,    _type,    _type == "route" => {        _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  }    },    _type == "subNav" => {      title,      items[] {        _key,        description,        icon,        route {            _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  }        }      }    }  }  }
+// Query: *[_type == "navigation" && title == "Header"][0] {    title,      items[] {    _key,    _type,    _type == "route" => {        _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  }    },    _type == "subNav" => {      title,      display,      items[] {        _key,        description,        icon,        route {            _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  }        }      }    }  }  }
 export type HeaderQueryResult = {
   title: "Header";
   items: Array<
@@ -1203,6 +1215,16 @@ export type HeaderQueryResult = {
         _key: string;
         _type: "route";
         title: string | null;
+        icon:
+          | "LuChartColumn"
+          | "LuClock"
+          | "LuCode"
+          | "LuLayers"
+          | "LuMailX"
+          | "LuSearchX"
+          | "LuSparkles"
+          | "LuTag"
+          | null;
         linkType:
           | "anchor"
           | "email"
@@ -1259,6 +1281,7 @@ export type HeaderQueryResult = {
         _key: string;
         _type: "subNav";
         title: string;
+        display: "cards" | "list" | null;
         items: Array<{
           _key: string;
           description: string | null;
@@ -1270,10 +1293,21 @@ export type HeaderQueryResult = {
             | "LuMailX"
             | "LuSearchX"
             | "LuSparkles"
+            | "LuTag"
             | null;
           route: {
             _type: "route";
             title: string | null;
+            icon:
+              | "LuChartColumn"
+              | "LuClock"
+              | "LuCode"
+              | "LuLayers"
+              | "LuMailX"
+              | "LuSearchX"
+              | "LuSparkles"
+              | "LuTag"
+              | null;
             linkType:
               | "anchor"
               | "email"
@@ -1333,7 +1367,7 @@ export type HeaderQueryResult = {
 
 // Source: sanity/queries/components/page-nav-query.ts
 // Variable: footerQuery
-// Query: *[_type == "navigation" && title == "Footer"][0] {    title,      items[] {    _key,    _type,    _type == "route" => {        _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  }    },    _type == "subNav" => {      title,      items[] {        _key,        description,        icon,        route {            _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  }        }      }    }  }  }
+// Query: *[_type == "navigation" && title == "Footer"][0] {    title,      items[] {    _key,    _type,    _type == "route" => {        _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  }    },    _type == "subNav" => {      title,      display,      items[] {        _key,        description,        icon,        route {            _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  }        }      }    }  }  }
 export type FooterQueryResult = {
   title: "Footer";
   items: Array<
@@ -1341,6 +1375,16 @@ export type FooterQueryResult = {
         _key: string;
         _type: "route";
         title: string | null;
+        icon:
+          | "LuChartColumn"
+          | "LuClock"
+          | "LuCode"
+          | "LuLayers"
+          | "LuMailX"
+          | "LuSearchX"
+          | "LuSparkles"
+          | "LuTag"
+          | null;
         linkType:
           | "anchor"
           | "email"
@@ -1397,6 +1441,7 @@ export type FooterQueryResult = {
         _key: string;
         _type: "subNav";
         title: string;
+        display: "cards" | "list" | null;
         items: Array<{
           _key: string;
           description: string | null;
@@ -1408,10 +1453,21 @@ export type FooterQueryResult = {
             | "LuMailX"
             | "LuSearchX"
             | "LuSparkles"
+            | "LuTag"
             | null;
           route: {
             _type: "route";
             title: string | null;
+            icon:
+              | "LuChartColumn"
+              | "LuClock"
+              | "LuCode"
+              | "LuLayers"
+              | "LuMailX"
+              | "LuSearchX"
+              | "LuSparkles"
+              | "LuTag"
+              | null;
             linkType:
               | "anchor"
               | "email"
@@ -1471,13 +1527,23 @@ export type FooterQueryResult = {
 
 // Source: sanity/queries/documents/announcement-query.ts
 // Variable: AnnouncementQuery
-// Query: *[_type == "announcement" && active == true && startDate <= $today && endDate >= $today][0] {    _id,    message,    route {        _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  }    }  }
+// Query: *[_type == "announcement" && active == true && startDate <= $today && endDate >= $today][0] {    _id,    message,    route {        _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  }    }  }
 export type AnnouncementQueryResult = {
   _id: string;
   message: string | null;
   route: {
     _type: "route";
     title: string | null;
+    icon:
+      | "LuChartColumn"
+      | "LuClock"
+      | "LuCode"
+      | "LuLayers"
+      | "LuMailX"
+      | "LuSearchX"
+      | "LuSparkles"
+      | "LuTag"
+      | null;
     linkType:
       | "anchor"
       | "email"
@@ -1576,7 +1642,7 @@ export type EventsQueryResult = Array<{
 
 // Source: sanity/queries/documents/event-query.ts
 // Variable: eventQuery
-// Query: *[_type == "event" && slug.current == $slug][0] {  _id,  _type,  _updatedAt,  title,  slug,  image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },  startDate,  endDate,  timeString,  "category": category->title,  soldOut,  location,  seo {    ...,    shareGraphic {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } }  },  jsonLd,    sections[] {    ...,    _type == 'coverBlock' => {      ...,      image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      imageMobile {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      muxUrl {        _type,        asset-> {            _id,  _type,  _ref,  playbackId,  status,  data {    duration,    aspect_ratio  }        },        thumbTime      },      muxUrlMobile {        _type,        asset-> {            _id,  _type,  _ref,  playbackId,  status,  data {    duration,    aspect_ratio  }        },        thumbTime      },      content[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      cta { ..., route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } } }    },    _type == 'heroBlock' => {      ...,      image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      video {   asset-> {      _id,  _type,  _ref,  playbackId,  status,  data {    duration,    aspect_ratio  }  } },      cta { ..., route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } } },      content[] {  ...,  markDefs[] {    ...,    _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })  }}    },    _type == 'bannerBlock' => {      ...,      cta { ..., route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } } },      content[] {  ...,  markDefs[] {    ...,    _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })  }}    },    _type == 'ctaBlock' => {      ...,      cta { ..., route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } } },      content[] {  ...,  markDefs[] {    ...,    _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })  }}    },    _type == 'textBlock' => {      ...,      content[] {  ...,  markDefs[] {    ...,    _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })  }}    },    _type == 'embedBlock' => {      ...,      embedCode {        _type,        code,        language,        filename      }    },    _type == 'formBlock' => {      ...,      content[] {  ...,  markDefs[] {    ...,    _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })  }},      form-> {  _id,  title,  "slug": slug.current,  active,  submitLabel,  showOptIn,  optInLabel,  fields[] {    _key,    fieldType,    label,    name,    placeholder,    required,    inputType  },  disclaimer[] {  ...,  markDefs[] { ... }}}    },    _type == 'imageBlock' => {      ...,      image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      imageMobile {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      muxUrl { asset-> { playbackId } },      muxUrlMobile { asset-> { playbackId } }    },    _type == 'columnBlock' => {      ...,      intro[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      content[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      excerpt[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      columns[] {        ...,        content[] {          ...,          markDefs[] {            ...,            _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })          }        },        image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },        cta { ..., route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } } }      }    },    _type == 'postsBlock' => {      ...    },    _type == 'eventsBlock' => {      ...    },    _type == 'teamMemberBlock' => {      ...,      member-> {        _id,        title,        "slug": slug.current,        primaryJobTitle,        secondaryJobTitle,        email,        phone,        socials,        image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },        content[] {          ...,          markDefs[] {            ...,            _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })          }        }      }    },    _type == 'logoBarBlock' => {      ...,      logos[] {        ...,        logo {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } }      }    },    _type == 'quoteBlock' => {      ...,      image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      quote[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      cta { ..., route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } } }    },    _type == 'statsBlock' => {      ...,      heading[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      stats[] {        ...,        content[] {          ...,          markDefs[] {            ...,            _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })          }        }      },      footnote[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      }    },    _type == 'galleryBlock' => {      ...,      images[] {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } }    },    _type == 'faqBlock' => {      ...,      faqs[] {        question,        answer[] {          ...,          markDefs[] {            ...,            _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })          }        }      }    },    _type == 'splitScrollBlock' => {      ...,      title[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      items[] {        ...,        image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },        content[] {          ...,          markDefs[] {            ...,            _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })          }        }      }    }  }}
+// Query: *[_type == "event" && slug.current == $slug][0] {  _id,  _type,  _updatedAt,  title,  slug,  image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },  startDate,  endDate,  timeString,  "category": category->title,  soldOut,  location,  seo {    ...,    shareGraphic {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } }  },  jsonLd,    sections[] {    ...,    _type == 'coverBlock' => {      ...,      image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      imageMobile {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      muxUrl {        _type,        asset-> {            _id,  _type,  _ref,  playbackId,  status,  data {    duration,    aspect_ratio  }        },        thumbTime      },      muxUrlMobile {        _type,        asset-> {            _id,  _type,  _ref,  playbackId,  status,  data {    duration,    aspect_ratio  }        },        thumbTime      },      content[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      cta { ..., route {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } } }    },    _type == 'heroBlock' => {      ...,      image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      video {   asset-> {      _id,  _type,  _ref,  playbackId,  status,  data {    duration,    aspect_ratio  }  } },      cta { ..., route {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } } },      content[] {  ...,  markDefs[] {    ...,    _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })  }}    },    _type == 'bannerBlock' => {      ...,      cta { ..., route {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } } },      content[] {  ...,  markDefs[] {    ...,    _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })  }}    },    _type == 'ctaBlock' => {      ...,      cta { ..., route {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } } },      content[] {  ...,  markDefs[] {    ...,    _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })  }}    },    _type == 'textBlock' => {      ...,      content[] {  ...,  markDefs[] {    ...,    _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })  }}    },    _type == 'embedBlock' => {      ...,      embedCode {        _type,        code,        language,        filename      }    },    _type == 'formBlock' => {      ...,      content[] {  ...,  markDefs[] {    ...,    _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })  }},      form-> {  _id,  title,  "slug": slug.current,  active,  submitLabel,  showOptIn,  optInLabel,  fields[] {    _key,    fieldType,    label,    name,    placeholder,    required,    inputType  },  disclaimer[] {  ...,  markDefs[] { ... }}}    },    _type == 'imageBlock' => {      ...,      image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      imageMobile {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      muxUrl { asset-> { playbackId } },      muxUrlMobile { asset-> { playbackId } }    },    _type == 'columnBlock' => {      ...,      intro[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      content[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      excerpt[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      columns[] {        ...,        content[] {          ...,          markDefs[] {            ...,            _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })          }        },        image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },        cta { ..., route {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } } }      }    },    _type == 'postsBlock' => {      ...    },    _type == 'eventsBlock' => {      ...    },    _type == 'teamMemberBlock' => {      ...,      member-> {        _id,        title,        "slug": slug.current,        primaryJobTitle,        secondaryJobTitle,        email,        phone,        socials,        image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },        content[] {          ...,          markDefs[] {            ...,            _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })          }        }      }    },    _type == 'logoBarBlock' => {      ...,      logos[] {        ...,        logo {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } }      }    },    _type == 'quoteBlock' => {      ...,      image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      quote[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      cta { ..., route {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } } }    },    _type == 'statsBlock' => {      ...,      heading[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      stats[] {        ...,        content[] {          ...,          markDefs[] {            ...,            _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })          }        }      },      footnote[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      }    },    _type == 'galleryBlock' => {      ...,      images[] {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } }    },    _type == 'faqBlock' => {      ...,      faqs[] {        question,        answer[] {          ...,          markDefs[] {            ...,            _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })          }        }      }    },    _type == 'splitScrollBlock' => {      ...,      title[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      items[] {        ...,        image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },        content[] {          ...,          markDefs[] {            ...,            _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })          }        }      }    }  }}
 export type EventQueryResult = {
   _id: string;
   _type: "event";
@@ -1728,6 +1794,7 @@ export type EventQueryResult = {
               _key: string;
             }> | null;
             title: null;
+            icon: null;
           }> | null;
           level?: number;
           _type: "block";
@@ -1739,6 +1806,16 @@ export type EventQueryResult = {
           route: {
             _type: "route";
             title: string | null;
+            icon:
+              | "LuChartColumn"
+              | "LuClock"
+              | "LuCode"
+              | "LuLayers"
+              | "LuMailX"
+              | "LuSearchX"
+              | "LuSparkles"
+              | "LuTag"
+              | null;
             linkType:
               | "anchor"
               | "email"
@@ -1872,6 +1949,7 @@ export type EventQueryResult = {
               _key: string;
             }> | null;
             title: null;
+            icon: null;
           }> | null;
           level?: number;
           _type: "block";
@@ -1948,6 +2026,7 @@ export type EventQueryResult = {
               _key: string;
             }> | null;
             title: null;
+            icon: null;
           }> | null;
           level?: number;
           _type: "block";
@@ -2028,6 +2107,7 @@ export type EventQueryResult = {
                 _key: string;
               }> | null;
               title: null;
+              icon: null;
             }> | null;
             level?: number;
             _type: "block";
@@ -2040,7 +2120,8 @@ export type EventQueryResult = {
             | "LuLayers"
             | "LuMailX"
             | "LuSearchX"
-            | "LuSparkles";
+            | "LuSparkles"
+            | "LuTag";
           image: {
             alt: string | null;
             crop: {
@@ -2073,6 +2154,16 @@ export type EventQueryResult = {
             route: {
               _type: "route";
               title: string | null;
+              icon:
+                | "LuChartColumn"
+                | "LuClock"
+                | "LuCode"
+                | "LuLayers"
+                | "LuMailX"
+                | "LuSearchX"
+                | "LuSparkles"
+                | "LuTag"
+                | null;
               linkType:
                 | "anchor"
                 | "email"
@@ -2198,6 +2289,7 @@ export type EventQueryResult = {
               _key: string;
             }> | null;
             title: null;
+            icon: null;
           }> | null;
           level?: number;
           _type: "block";
@@ -2281,6 +2373,7 @@ export type EventQueryResult = {
               _key: string;
             }> | null;
             title: null;
+            icon: null;
           }> | null;
           level?: number;
           _type: "block";
@@ -2292,6 +2385,16 @@ export type EventQueryResult = {
           route: {
             _type: "route";
             title: string | null;
+            icon:
+              | "LuChartColumn"
+              | "LuClock"
+              | "LuCode"
+              | "LuLayers"
+              | "LuMailX"
+              | "LuSearchX"
+              | "LuSparkles"
+              | "LuTag"
+              | null;
             linkType:
               | "anchor"
               | "email"
@@ -2520,6 +2623,7 @@ export type EventQueryResult = {
               _key: string;
             }> | null;
             title: null;
+            icon: null;
           }> | null;
           level?: number;
           _type: "block";
@@ -2531,6 +2635,16 @@ export type EventQueryResult = {
           route: {
             _type: "route";
             title: string | null;
+            icon:
+              | "LuChartColumn"
+              | "LuClock"
+              | "LuCode"
+              | "LuLayers"
+              | "LuMailX"
+              | "LuSearchX"
+              | "LuSparkles"
+              | "LuTag"
+              | null;
             linkType:
               | "anchor"
               | "email"
@@ -2697,6 +2811,7 @@ export type EventQueryResult = {
                 _key: string;
               }> | null;
               title: null;
+              icon: null;
             }> | null;
             level?: number;
             _type: "block";
@@ -2783,6 +2898,7 @@ export type EventQueryResult = {
                   _key: string;
                 }> | null;
                 title: null;
+                icon: null;
               }> | null;
               level?: number;
               _type: "block";
@@ -3016,6 +3132,7 @@ export type EventQueryResult = {
               _key: string;
             }> | null;
             title: null;
+            icon: null;
           }> | null;
           level?: number;
           _type: "block";
@@ -3027,6 +3144,16 @@ export type EventQueryResult = {
           route: {
             _type: "route";
             title: string | null;
+            icon:
+              | "LuChartColumn"
+              | "LuClock"
+              | "LuCode"
+              | "LuLayers"
+              | "LuMailX"
+              | "LuSearchX"
+              | "LuSparkles"
+              | "LuTag"
+              | null;
             linkType:
               | "anchor"
               | "email"
@@ -3285,6 +3412,7 @@ export type EventQueryResult = {
               _key: string;
             }> | null;
             title: null;
+            icon: null;
           }> | null;
           level?: number;
           _type: "block";
@@ -3323,6 +3451,16 @@ export type EventQueryResult = {
           route: {
             _type: "route";
             title: string | null;
+            icon:
+              | "LuChartColumn"
+              | "LuClock"
+              | "LuCode"
+              | "LuLayers"
+              | "LuMailX"
+              | "LuSearchX"
+              | "LuSparkles"
+              | "LuTag"
+              | null;
             linkType:
               | "anchor"
               | "email"
@@ -3454,6 +3592,7 @@ export type EventQueryResult = {
               _key: string;
             }> | null;
             title: null;
+            icon: null;
           }> | null;
           level?: number;
           _type: "block";
@@ -3557,6 +3696,7 @@ export type EventQueryResult = {
                 _key: string;
               }> | null;
               title: null;
+              icon: null;
             }> | null;
             level?: number;
             _type: "block";
@@ -3642,6 +3782,7 @@ export type EventQueryResult = {
               _key: string;
             }> | null;
             title: null;
+            icon: null;
           }> | null;
           level?: number;
           _type: "block";
@@ -3748,6 +3889,7 @@ export type EventQueryResult = {
                 _key: string;
               }> | null;
               title: null;
+              icon: null;
             }> | null;
             level?: number;
             _type: "block";
@@ -3827,6 +3969,7 @@ export type EventQueryResult = {
               _key: string;
             }> | null;
             title: null;
+            icon: null;
           }> | null;
           level?: number;
           _type: "block";
@@ -3946,6 +4089,7 @@ export type EventQueryResult = {
                     _key: string;
                   }> | null;
                   title: null;
+                  icon: null;
                 }> | null;
                 level?: number;
                 _type: "block";
@@ -4043,6 +4187,7 @@ export type EventQueryResult = {
                   _key: string;
                 }> | null;
                 title: null;
+                icon: null;
               }> | null;
               level?: number;
               _type: "block";
@@ -4286,7 +4431,7 @@ export type PagesQueryResult = Array<{
 
 // Source: sanity/queries/documents/page-query.ts
 // Variable: pageQuery
-// Query: *[_type == "page" && slug.current == $slug][0] {  _id,  _updatedAt,  title,  "slug": slug.current,  backgroundColor,  seo {    ...,    shareGraphic {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } }  },  jsonLd,    sections[] {    ...,    _type == 'coverBlock' => {      ...,      image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      imageMobile {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      muxUrl {        _type,        asset-> {            _id,  _type,  _ref,  playbackId,  status,  data {    duration,    aspect_ratio  }        },        thumbTime      },      muxUrlMobile {        _type,        asset-> {            _id,  _type,  _ref,  playbackId,  status,  data {    duration,    aspect_ratio  }        },        thumbTime      },      content[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      cta { ..., route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } } }    },    _type == 'heroBlock' => {      ...,      image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      video {   asset-> {      _id,  _type,  _ref,  playbackId,  status,  data {    duration,    aspect_ratio  }  } },      cta { ..., route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } } },      content[] {  ...,  markDefs[] {    ...,    _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })  }}    },    _type == 'bannerBlock' => {      ...,      cta { ..., route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } } },      content[] {  ...,  markDefs[] {    ...,    _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })  }}    },    _type == 'ctaBlock' => {      ...,      cta { ..., route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } } },      content[] {  ...,  markDefs[] {    ...,    _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })  }}    },    _type == 'textBlock' => {      ...,      content[] {  ...,  markDefs[] {    ...,    _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })  }}    },    _type == 'embedBlock' => {      ...,      embedCode {        _type,        code,        language,        filename      }    },    _type == 'formBlock' => {      ...,      content[] {  ...,  markDefs[] {    ...,    _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })  }},      form-> {  _id,  title,  "slug": slug.current,  active,  submitLabel,  showOptIn,  optInLabel,  fields[] {    _key,    fieldType,    label,    name,    placeholder,    required,    inputType  },  disclaimer[] {  ...,  markDefs[] { ... }}}    },    _type == 'imageBlock' => {      ...,      image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      imageMobile {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      muxUrl { asset-> { playbackId } },      muxUrlMobile { asset-> { playbackId } }    },    _type == 'columnBlock' => {      ...,      intro[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      content[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      excerpt[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      columns[] {        ...,        content[] {          ...,          markDefs[] {            ...,            _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })          }        },        image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },        cta { ..., route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } } }      }    },    _type == 'postsBlock' => {      ...    },    _type == 'eventsBlock' => {      ...    },    _type == 'teamMemberBlock' => {      ...,      member-> {        _id,        title,        "slug": slug.current,        primaryJobTitle,        secondaryJobTitle,        email,        phone,        socials,        image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },        content[] {          ...,          markDefs[] {            ...,            _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })          }        }      }    },    _type == 'logoBarBlock' => {      ...,      logos[] {        ...,        logo {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } }      }    },    _type == 'quoteBlock' => {      ...,      image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      quote[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      cta { ..., route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } } }    },    _type == 'statsBlock' => {      ...,      heading[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      stats[] {        ...,        content[] {          ...,          markDefs[] {            ...,            _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })          }        }      },      footnote[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      }    },    _type == 'galleryBlock' => {      ...,      images[] {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } }    },    _type == 'faqBlock' => {      ...,      faqs[] {        question,        answer[] {          ...,          markDefs[] {            ...,            _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })          }        }      }    },    _type == 'splitScrollBlock' => {      ...,      title[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      items[] {        ...,        image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },        content[] {          ...,          markDefs[] {            ...,            _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })          }        }      }    }  }}
+// Query: *[_type == "page" && slug.current == $slug][0] {  _id,  _updatedAt,  title,  "slug": slug.current,  backgroundColor,  seo {    ...,    shareGraphic {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } }  },  jsonLd,    sections[] {    ...,    _type == 'coverBlock' => {      ...,      image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      imageMobile {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      muxUrl {        _type,        asset-> {            _id,  _type,  _ref,  playbackId,  status,  data {    duration,    aspect_ratio  }        },        thumbTime      },      muxUrlMobile {        _type,        asset-> {            _id,  _type,  _ref,  playbackId,  status,  data {    duration,    aspect_ratio  }        },        thumbTime      },      content[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      cta { ..., route {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } } }    },    _type == 'heroBlock' => {      ...,      image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      video {   asset-> {      _id,  _type,  _ref,  playbackId,  status,  data {    duration,    aspect_ratio  }  } },      cta { ..., route {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } } },      content[] {  ...,  markDefs[] {    ...,    _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })  }}    },    _type == 'bannerBlock' => {      ...,      cta { ..., route {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } } },      content[] {  ...,  markDefs[] {    ...,    _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })  }}    },    _type == 'ctaBlock' => {      ...,      cta { ..., route {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } } },      content[] {  ...,  markDefs[] {    ...,    _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })  }}    },    _type == 'textBlock' => {      ...,      content[] {  ...,  markDefs[] {    ...,    _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })  }}    },    _type == 'embedBlock' => {      ...,      embedCode {        _type,        code,        language,        filename      }    },    _type == 'formBlock' => {      ...,      content[] {  ...,  markDefs[] {    ...,    _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })  }},      form-> {  _id,  title,  "slug": slug.current,  active,  submitLabel,  showOptIn,  optInLabel,  fields[] {    _key,    fieldType,    label,    name,    placeholder,    required,    inputType  },  disclaimer[] {  ...,  markDefs[] { ... }}}    },    _type == 'imageBlock' => {      ...,      image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      imageMobile {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      muxUrl { asset-> { playbackId } },      muxUrlMobile { asset-> { playbackId } }    },    _type == 'columnBlock' => {      ...,      intro[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      content[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      excerpt[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      columns[] {        ...,        content[] {          ...,          markDefs[] {            ...,            _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })          }        },        image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },        cta { ..., route {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } } }      }    },    _type == 'postsBlock' => {      ...    },    _type == 'eventsBlock' => {      ...    },    _type == 'teamMemberBlock' => {      ...,      member-> {        _id,        title,        "slug": slug.current,        primaryJobTitle,        secondaryJobTitle,        email,        phone,        socials,        image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },        content[] {          ...,          markDefs[] {            ...,            _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })          }        }      }    },    _type == 'logoBarBlock' => {      ...,      logos[] {        ...,        logo {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } }      }    },    _type == 'quoteBlock' => {      ...,      image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      quote[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      cta { ..., route {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } } }    },    _type == 'statsBlock' => {      ...,      heading[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },      stats[] {        ...,        content[] {          ...,          markDefs[] {            ...,            _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })          }        }      },      footnote[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      }    },    _type == 'galleryBlock' => {      ...,      images[] {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } }    },    _type == 'faqBlock' => {      ...,      faqs[] {        question,        answer[] {          ...,          markDefs[] {            ...,            _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })          }        }      }    },    _type == 'splitScrollBlock' => {      ...,      title[] {        ...,        markDefs[] {          ...,          _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })        }      },      items[] {        ...,        image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },        content[] {          ...,          markDefs[] {            ...,            _type == 'linkWithRoute' => select(  defined(linkType) => {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },  route {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } })          }        }      }    }  }}
 export type PageQueryResult = {
   _id: string;
   _updatedAt: string;
@@ -4406,6 +4551,7 @@ export type PageQueryResult = {
               _key: string;
             }> | null;
             title: null;
+            icon: null;
           }> | null;
           level?: number;
           _type: "block";
@@ -4417,6 +4563,16 @@ export type PageQueryResult = {
           route: {
             _type: "route";
             title: string | null;
+            icon:
+              | "LuChartColumn"
+              | "LuClock"
+              | "LuCode"
+              | "LuLayers"
+              | "LuMailX"
+              | "LuSearchX"
+              | "LuSparkles"
+              | "LuTag"
+              | null;
             linkType:
               | "anchor"
               | "email"
@@ -4550,6 +4706,7 @@ export type PageQueryResult = {
               _key: string;
             }> | null;
             title: null;
+            icon: null;
           }> | null;
           level?: number;
           _type: "block";
@@ -4626,6 +4783,7 @@ export type PageQueryResult = {
               _key: string;
             }> | null;
             title: null;
+            icon: null;
           }> | null;
           level?: number;
           _type: "block";
@@ -4706,6 +4864,7 @@ export type PageQueryResult = {
                 _key: string;
               }> | null;
               title: null;
+              icon: null;
             }> | null;
             level?: number;
             _type: "block";
@@ -4718,7 +4877,8 @@ export type PageQueryResult = {
             | "LuLayers"
             | "LuMailX"
             | "LuSearchX"
-            | "LuSparkles";
+            | "LuSparkles"
+            | "LuTag";
           image: {
             alt: string | null;
             crop: {
@@ -4751,6 +4911,16 @@ export type PageQueryResult = {
             route: {
               _type: "route";
               title: string | null;
+              icon:
+                | "LuChartColumn"
+                | "LuClock"
+                | "LuCode"
+                | "LuLayers"
+                | "LuMailX"
+                | "LuSearchX"
+                | "LuSparkles"
+                | "LuTag"
+                | null;
               linkType:
                 | "anchor"
                 | "email"
@@ -4876,6 +5046,7 @@ export type PageQueryResult = {
               _key: string;
             }> | null;
             title: null;
+            icon: null;
           }> | null;
           level?: number;
           _type: "block";
@@ -4959,6 +5130,7 @@ export type PageQueryResult = {
               _key: string;
             }> | null;
             title: null;
+            icon: null;
           }> | null;
           level?: number;
           _type: "block";
@@ -4970,6 +5142,16 @@ export type PageQueryResult = {
           route: {
             _type: "route";
             title: string | null;
+            icon:
+              | "LuChartColumn"
+              | "LuClock"
+              | "LuCode"
+              | "LuLayers"
+              | "LuMailX"
+              | "LuSearchX"
+              | "LuSparkles"
+              | "LuTag"
+              | null;
             linkType:
               | "anchor"
               | "email"
@@ -5198,6 +5380,7 @@ export type PageQueryResult = {
               _key: string;
             }> | null;
             title: null;
+            icon: null;
           }> | null;
           level?: number;
           _type: "block";
@@ -5209,6 +5392,16 @@ export type PageQueryResult = {
           route: {
             _type: "route";
             title: string | null;
+            icon:
+              | "LuChartColumn"
+              | "LuClock"
+              | "LuCode"
+              | "LuLayers"
+              | "LuMailX"
+              | "LuSearchX"
+              | "LuSparkles"
+              | "LuTag"
+              | null;
             linkType:
               | "anchor"
               | "email"
@@ -5375,6 +5568,7 @@ export type PageQueryResult = {
                 _key: string;
               }> | null;
               title: null;
+              icon: null;
             }> | null;
             level?: number;
             _type: "block";
@@ -5461,6 +5655,7 @@ export type PageQueryResult = {
                   _key: string;
                 }> | null;
                 title: null;
+                icon: null;
               }> | null;
               level?: number;
               _type: "block";
@@ -5694,6 +5889,7 @@ export type PageQueryResult = {
               _key: string;
             }> | null;
             title: null;
+            icon: null;
           }> | null;
           level?: number;
           _type: "block";
@@ -5705,6 +5901,16 @@ export type PageQueryResult = {
           route: {
             _type: "route";
             title: string | null;
+            icon:
+              | "LuChartColumn"
+              | "LuClock"
+              | "LuCode"
+              | "LuLayers"
+              | "LuMailX"
+              | "LuSearchX"
+              | "LuSparkles"
+              | "LuTag"
+              | null;
             linkType:
               | "anchor"
               | "email"
@@ -5963,6 +6169,7 @@ export type PageQueryResult = {
               _key: string;
             }> | null;
             title: null;
+            icon: null;
           }> | null;
           level?: number;
           _type: "block";
@@ -6001,6 +6208,16 @@ export type PageQueryResult = {
           route: {
             _type: "route";
             title: string | null;
+            icon:
+              | "LuChartColumn"
+              | "LuClock"
+              | "LuCode"
+              | "LuLayers"
+              | "LuMailX"
+              | "LuSearchX"
+              | "LuSparkles"
+              | "LuTag"
+              | null;
             linkType:
               | "anchor"
               | "email"
@@ -6132,6 +6349,7 @@ export type PageQueryResult = {
               _key: string;
             }> | null;
             title: null;
+            icon: null;
           }> | null;
           level?: number;
           _type: "block";
@@ -6235,6 +6453,7 @@ export type PageQueryResult = {
                 _key: string;
               }> | null;
               title: null;
+              icon: null;
             }> | null;
             level?: number;
             _type: "block";
@@ -6320,6 +6539,7 @@ export type PageQueryResult = {
               _key: string;
             }> | null;
             title: null;
+            icon: null;
           }> | null;
           level?: number;
           _type: "block";
@@ -6426,6 +6646,7 @@ export type PageQueryResult = {
                 _key: string;
               }> | null;
               title: null;
+              icon: null;
             }> | null;
             level?: number;
             _type: "block";
@@ -6505,6 +6726,7 @@ export type PageQueryResult = {
               _key: string;
             }> | null;
             title: null;
+            icon: null;
           }> | null;
           level?: number;
           _type: "block";
@@ -6624,6 +6846,7 @@ export type PageQueryResult = {
                     _key: string;
                   }> | null;
                   title: null;
+                  icon: null;
                 }> | null;
                 level?: number;
                 _type: "block";
@@ -6721,6 +6944,7 @@ export type PageQueryResult = {
                   _key: string;
                 }> | null;
                 title: null;
+                icon: null;
               }> | null;
               level?: number;
               _type: "block";
@@ -6743,7 +6967,7 @@ export type PageQueryResult = {
 
 // Source: sanity/queries/documents/post-cta-settings-query.ts
 // Variable: postCtaSettingsQuery
-// Query: *[_type == "postCtaSettings"][0] {  cta {    ...,    content[] {      ...,      markDefs[] {        ...,        _type == 'linkWithRoute' => select(          defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },          route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } }        )      }    },    cta { ..., route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } } }  }}
+// Query: *[_type == "postCtaSettings"][0] {  cta {    ...,    content[] {      ...,      markDefs[] {        ...,        _type == 'linkWithRoute' => select(          defined(linkType) => {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },          route {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } }        )      }    },    cta { ..., route {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } } }  }}
 export type PostCtaSettingsQueryResult = {
   cta: {
     _type: "ctaBlock";
@@ -6815,6 +7039,7 @@ export type PostCtaSettingsQueryResult = {
           _key: string;
         }> | null;
         title: null;
+        icon: null;
       }> | null;
       level?: number;
       _type: "block";
@@ -6826,6 +7051,16 @@ export type PostCtaSettingsQueryResult = {
       route: {
         _type: "route";
         title: string | null;
+        icon:
+          | "LuChartColumn"
+          | "LuClock"
+          | "LuCode"
+          | "LuLayers"
+          | "LuMailX"
+          | "LuSearchX"
+          | "LuSparkles"
+          | "LuTag"
+          | null;
         linkType:
           | "anchor"
           | "email"
@@ -6960,7 +7195,7 @@ export type PostsQueryResult = Array<{
 
 // Source: sanity/queries/documents/post-query.ts
 // Variable: postQuery
-// Query: *[_type == "post" && slug.current == $slug][0] {  _id,  _type,  _updatedAt,  title,  slug,  image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },  publishedAt,  author-> {  _id,  title,  "slug": slug.current,  primaryJobTitle,  secondaryJobTitle,  email,  phone,  socials,  image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },  content},  "category": category->title,  excerpt,  seo {    ...,    shareGraphic {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } }  },  jsonLd,  cta {    ...,    content[] {      ...,      markDefs[] {        ...,        _type == 'linkWithRoute' => select(          defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },          route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } }        )      }    },    cta { ..., route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } } }  },  body[] {  ...,  _type == 'defaultImage' => {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },  markDefs[] {    ...,    _type == 'linkWithRoute' => select(      defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },      route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } }    )  }}}
+// Query: *[_type == "post" && slug.current == $slug][0] {  _id,  _type,  _updatedAt,  title,  slug,  image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },  publishedAt,  author-> {  _id,  title,  "slug": slug.current,  primaryJobTitle,  secondaryJobTitle,  email,  phone,  socials,  image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },  content},  "category": category->title,  excerpt,  seo {    ...,    shareGraphic {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } }  },  jsonLd,  cta {    ...,    content[] {      ...,      markDefs[] {        ...,        _type == 'linkWithRoute' => select(          defined(linkType) => {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },          route {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } }        )      }    },    cta { ..., route {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } } }  },  body[] {  ...,  _type == 'defaultImage' => {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },  markDefs[] {    ...,    _type == 'linkWithRoute' => select(      defined(linkType) => {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },      route {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } }    )  }}}
 export type PostQueryResult = {
   _id: string;
   _type: "post";
@@ -7138,6 +7373,7 @@ export type PostQueryResult = {
           _key: string;
         }> | null;
         title: null;
+        icon: null;
       }> | null;
       level?: number;
       _type: "block";
@@ -7149,6 +7385,16 @@ export type PostQueryResult = {
       route: {
         _type: "route";
         title: string | null;
+        icon:
+          | "LuChartColumn"
+          | "LuClock"
+          | "LuCode"
+          | "LuLayers"
+          | "LuMailX"
+          | "LuSearchX"
+          | "LuSparkles"
+          | "LuTag"
+          | null;
         linkType:
           | "anchor"
           | "email"
@@ -7275,6 +7521,7 @@ export type PostQueryResult = {
             _key: string;
           }> | null;
           title: null;
+          icon: null;
         }> | null;
         level?: number;
         _type: "block";
@@ -7315,7 +7562,7 @@ export type PostQueryResult = {
 
 // Source: sanity/queries/documents/site-query.ts
 // Variable: SiteQuery
-// Query: *[_type == "site"][0] {  _id,  _createdAt,  _updatedAt,  title,  altTitle,  tagline,  foundingYear,  address,  addressLocality,  addressRegion,  postalCode,  addressCountry,  latitude,  longitude,  email,  sameAs,  postCta {    ...,    content[] {      ...,      markDefs[] {        ...,        _type == 'linkWithRoute' => select(          defined(linkType) => {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },          route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } }        )      }    },    cta { ..., route {   _type,  title,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } } }  },  "founders": *[_type == "team" && founder == true] | order(title asc) {  _id,  title,  "slug": slug.current,  primaryJobTitle,  secondaryJobTitle,  email,  phone,  socials,  image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },  content},  seo {    ...,    metaIcon {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },    shareGraphic {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } }  },  organizationJsonLd {    name,    legalName,    description,    logo {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },    url,    email,    telephone,    priceRange  }}
+// Query: *[_type == "site"][0] {  _id,  _createdAt,  _updatedAt,  title,  altTitle,  tagline,  foundingYear,  address,  addressLocality,  addressRegion,  postalCode,  addressCountry,  latitude,  longitude,  email,  sameAs,  postCta {    ...,    content[] {      ...,      markDefs[] {        ...,        _type == 'linkWithRoute' => select(          defined(linkType) => {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } },          route {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } }        )      }    },    cta { ..., route {   _type,  title,  icon,  linkType,  pageRoute->{ _type, "slug": slug.current },  eventRoute->{ _type, "slug": slug.current },  postRoute->{ _type, "slug": slug.current },  fileRoute { asset->{ url, originalFilename } },  route,  anchor,  link,  email,  telephone,  blank,  titleAttr,  ariaLabel,  utm {    source,    medium,    campaign,    term,    content  },  trackingId,  relAttributes,  dataAttributes[] {    key,    value,    _key  } } }  },  "founders": *[_type == "team" && founder == true] | order(title asc) {  _id,  title,  "slug": slug.current,  primaryJobTitle,  secondaryJobTitle,  email,  phone,  socials,  image {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },  content},  seo {    ...,    metaIcon {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },    shareGraphic {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } }  },  organizationJsonLd {    name,    legalName,    description,    logo {   alt,  crop { ... },  hotspot { x, y },  asset-> {    _id,    url,    metadata {      dimensions { aspectRatio, height, width },      lqip    }  } },    url,    email,    telephone,    priceRange  }}
 export type SiteQueryResult = {
   _id: string;
   _createdAt: string;
@@ -7403,6 +7650,7 @@ export type SiteQueryResult = {
           _key: string;
         }> | null;
         title: null;
+        icon: null;
       }> | null;
       level?: number;
       _type: "block";
@@ -7414,6 +7662,16 @@ export type SiteQueryResult = {
       route: {
         _type: "route";
         title: string | null;
+        icon:
+          | "LuChartColumn"
+          | "LuClock"
+          | "LuCode"
+          | "LuLayers"
+          | "LuMailX"
+          | "LuSearchX"
+          | "LuSparkles"
+          | "LuTag"
+          | null;
         linkType:
           | "anchor"
           | "email"

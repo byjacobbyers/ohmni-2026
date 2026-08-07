@@ -44,7 +44,12 @@ export default function DesktopNav({
             if (!item.items?.length) return null
             return (
               <NavigationMenuItem key={item._key || `sub-${i}`}>
-                <NavigationMenuTrigger className={`${linkClass} bg-transparent p-0`}>
+                {/* The shadcn trigger hard-codes text-sm, h-9 and a hover
+                    background. Strip all three so a dropdown label reads
+                    exactly like the plain routes beside it. */}
+                <NavigationMenuTrigger
+                  className={`${linkClass} h-auto bg-transparent p-0 text-lg 2xl:text-2xl hover:bg-transparent focus:bg-transparent data-[state=open]:bg-transparent data-[state=open]:hover:bg-transparent data-[state=open]:focus:bg-transparent`}
+                >
                   {item.title}
                 </NavigationMenuTrigger>
                 <NavigationMenuContent className="p-3">

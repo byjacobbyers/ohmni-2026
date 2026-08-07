@@ -5,6 +5,7 @@ import { groq } from 'next-sanity'
 export const routeQuery = groq`
   _type,
   title,
+  icon,
   linkType,
   pageRoute->{ _type, "slug": slug.current },
   eventRoute->{ _type, "slug": slug.current },

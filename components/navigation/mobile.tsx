@@ -101,8 +101,13 @@ export default function MobileNav({
             <Route
               data={route}
               onClick={closeMenu}
-              className="flex w-full items-center border border-border bg-card px-4 py-3 text-lg font-semibold no-underline transition-colors hover:border-primary motion-reduce:transition-none"
+              className="flex w-full items-center gap-3 border border-border bg-card px-4 py-3 text-lg font-semibold no-underline transition-colors hover:border-primary motion-reduce:transition-none"
             >
+              {route.icon ? (
+                <span className="flex-none text-primary">
+                  <LucideIcon name={route.icon} />
+                </span>
+              ) : null}
               {route.title || 'Link'}
             </Route>
           </Item>

@@ -19,6 +19,8 @@ export type DataAttributeType = {
 export type BaseRouteType = {
   _type: string
   title?: string
+  /** Icon name from the shared vocabulary, e.g. 'LuTag' */
+  icon?: string
   linkType: 'page' | 'event' | 'post' | 'path' | 'anchor' | 'file' | 'external' | 'email' | 'telephone'
   /* routeQuery projects "slug": slug.current, so slug arrives as a plain string */
   pageRoute?: Omit<PageType, 'slug'> & { _type: 'page'; slug?: string }

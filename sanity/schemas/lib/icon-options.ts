@@ -13,6 +13,7 @@ export const iconOptions = [
   { title: 'Chart', value: 'LuChartColumn' },
   { title: 'Search miss', value: 'LuSearchX' },
   { title: 'Sparkles (AI)', value: 'LuSparkles' },
+  { title: 'Tag (pricing)', value: 'LuTag' },
 ] as const
 
 export type IconValue = (typeof iconOptions)[number]['value']

@@ -6,6 +6,7 @@ import {
   MailX,
   SearchX,
   Sparkles,
+  Tag,
   type LucideIcon as LucideIconType,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
@@ -23,6 +24,7 @@ export const ICONS: Record<string, LucideIconType> = {
   LuChartColumn: ChartColumn,
   LuSearchX: SearchX,
   LuSparkles: Sparkles,
+  LuTag: Tag,
 }
 
 export type LucideIconProps = {

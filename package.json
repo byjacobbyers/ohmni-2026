@@ -13,7 +13,7 @@
     "lint": "eslint",
     "test": "vitest run",
     "test:watch": "vitest",
-    "typegen": "sanity schema extract --path=schema.json && sanity typegen generate",
+    "typegen": "sanity schema extract --path=schema.json --enforce-required-fields && sanity typegen generate",
     "sections:previews": "node scripts/capture-section-previews.mjs"
   },
   "dependencies": {

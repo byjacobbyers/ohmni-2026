@@ -1,4 +1,5 @@
 import { defineType, defineField } from 'sanity'
+import { iconOptions } from '../lib/icon-options'
 import {LinkIcon} from '@sanity/icons/Link'
 
 export default defineType({
@@ -20,6 +21,14 @@ export default defineType({
       type: 'string',
       description: 'Display text for the link',
       group: 'general',
+    }),
+    defineField({
+      title: 'Icon',
+      name: 'icon',
+      type: 'string',
+      group: 'general',
+      description: 'Optional. Used where links render as cards, such as the mobile menu.',
+      options: { list: [...iconOptions] },
     }),
     defineField({
       title: 'Link Type',
