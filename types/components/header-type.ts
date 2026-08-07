@@ -1,7 +1,8 @@
-import type { BaseRouteType } from '@/types/objects/route-type'
+import type { NavItemType } from '@/types/components/nav-type'
 
 export type HeaderProps = {
-  navigation?: { items?: BaseRouteType[] } | null
+  /** Items are either plain routes or subNav dropdowns. */
+  navigation?: { items?: NavItemType[] } | null
   /** Short brand wordmark; defaults applied by the layout via resolveBrand */
   brandName: string
   brandTagline: string

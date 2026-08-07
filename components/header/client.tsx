@@ -7,6 +7,7 @@ import AuroraBits from '@/components/animations/aurora-bits'
 import Route from '@/components/route'
 import MenuButton from '@/components/header/menu-button'
 import MobileNav from '@/components/navigation/mobile'
+import DesktopNav from '@/components/navigation/desktop'
 import { PRIMARY_AURORA_STOPS } from '@/components/ui/primary-button-aurora-layers'
 import { cn } from '@/lib/utils'
 import type { HeaderProps } from '@/types/components/header-type'
@@ -142,10 +143,13 @@ export default function Header({ navigation, brandName, brandTagline }: HeaderPr
       <header
         ref={headerRef}
         className={cn(
-          'sticky top-0 z-50 w-full border-b-4 border-primary px-5 isolate overflow-hidden transition-shadow duration-200 ease-out',
+          'sticky top-0 z-50 w-full border-b-4 border-primary px-5 isolate transition-shadow duration-200 ease-out',
           scrolled && 'shadow-md'
         )}
       >
+        {/* Decoration is clipped here rather than on the header, so the nav
+            dropdown can extend below the bar without being cut off. */}
+        <div aria-hidden className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
         <div
           aria-hidden
           className={cn(
@@ -153,8 +157,8 @@ export default function Header({ navigation, brandName, brandTagline }: HeaderPr
             scrolled ? 'opacity-100' : 'opacity-80',
             headerAuroraActive && 'opacity-0 motion-reduce:opacity-100'
           )}
-        />
-        <div
+          />
+          <div
           aria-hidden
           className={cn(
             'pointer-events-none absolute inset-0 z-0 transition-opacity duration-300 ease-out opacity-0 motion-reduce:opacity-0',
@@ -169,9 +173,10 @@ export default function Header({ navigation, brandName, brandTagline }: HeaderPr
                 blend={0.5}
                 amplitude={1}
                 speed={0.6}
-              />
+                />
             </div>
           ) : null}
+        </div>
         </div>
         <div className="relative z-10 flex h-16 items-center justify-between">
           <Link
@@ -191,31 +196,14 @@ export default function Header({ navigation, brandName, brandTagline }: HeaderPr
               </span>
             </div>
           </Link>
-          <nav className="hidden lg:flex items-center gap-6 text-lg 2xl:text-2xl">
-            {navigation?.items?.map((item, i) => {
-              const isBookNow = item.title === BOOK_NOW_TITLE
-              return (
-                <Route
-                  key={i}
-                  data={item}
-                  className="font-bold uppercase transition duration-200 ease-out hover:scale-110 motion-reduce:transition-none motion-reduce:hover:scale-100"
-                  onMouseEnter={
-                    isBookNow
-                      ? () => {
-                          setHeaderAuroraMounted(true)
-                          setHeaderAuroraActive(true)
-                        }
-                      : undefined
-                  }
-                  onMouseLeave={
-                    isBookNow ? () => setHeaderAuroraActive(false) : undefined
-                  }
-                >
-                  {item.title || 'Link'}
-                </Route>
-              )
-            })}
-          </nav>
+          <DesktopNav
+            items={navigation?.items}
+            bookNowTitle={BOOK_NOW_TITLE}
+            onBookNowHoverChange={(active) => {
+              if (active) setHeaderAuroraMounted(true)
+              setHeaderAuroraActive(active)
+            }}
+          />
           <div className="flex lg:hidden">
             <MenuButton
               onClick={() => toggleDropdown()}
@@ -243,7 +231,7 @@ export default function Header({ navigation, brandName, brandTagline }: HeaderPr
         style={{
           paddingTop: dimensions.height,
         }}
-        className='fixed left-0 top-0 z-40 flex h-screen w-screen flex-col items-center overflow-scroll bg-background px-5 text-center xl:hidden'
+        className='fixed left-0 top-0 z-40 flex h-[100dvh] w-screen flex-col overflow-y-auto bg-background lg:hidden'
       >
         {navigation && (
           <MobileNav

@@ -14,6 +14,8 @@ export type SubNavType = {
   _key?: string
   _type: 'subNav'
   title?: string
+  /** 'cards' (default) or 'list' */
+  display?: string
   items?: NavLinkType[]
 }
 

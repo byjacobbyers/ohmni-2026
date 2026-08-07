@@ -19,6 +19,21 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: 'display',
+      title: 'Display as',
+      type: 'string',
+      initialValue: 'cards',
+      description:
+        'Cards suit things that need explaining, like products. List suits short utility links and keeps the mobile menu from overflowing.',
+      options: {
+        list: [
+          { title: 'Cards (icon, title, description)', value: 'cards' },
+          { title: 'List (title only)', value: 'list' },
+        ],
+        layout: 'radio',
+      },
+    }),
+    defineField({
       name: 'items',
       title: 'Links',
       type: 'array',

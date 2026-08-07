@@ -1,13 +1,4 @@
-import {
-  ChartColumn,
-  Clock,
-  Code2,
-  Layers,
-  MailX,
-  SearchX,
-  Sparkles,
-  type LucideIcon,
-} from 'lucide-react'
+import LucideIcon, { ICONS } from '@/components/lucide-icon'
 import AppearAnimation from '@/components/appear-animation'
 import SimpleText from '@/components/simple-text'
 import SanityImage from '@/components/sanity-image'
@@ -26,26 +17,14 @@ import type {
   ColumnBlockProps,
 } from '@/types/components/column-block-type'
 
-/** Keep in sync with the icon list in sanity/schemas/objects/column-schema.ts */
-const CARD_ICONS: Record<string, LucideIcon> = {
-  LuClock: Clock,
-  LuCode: Code2,
-  LuLayers: Layers,
-  LuMailX: MailX,
-  LuChartColumn: ChartColumn,
-  LuSearchX: SearchX,
-  LuSparkles: Sparkles,
-}
-
 function CardIcon({ icon }: { icon?: string }) {
-  const Icon = icon ? CARD_ICONS[icon] : null
-  if (!Icon) return null
+  if (!icon || !(icon in ICONS)) return null
   return (
     <div
       className="mb-2 flex h-12 w-12 items-center justify-center rounded-full border border-destructive text-destructive"
       aria-hidden
     >
-      <Icon className="h-6 w-6" strokeWidth={1.75} />
+      <LucideIcon name={icon} className="h-6 w-6" />
     </div>
   )
 }

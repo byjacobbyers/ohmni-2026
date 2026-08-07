@@ -14,6 +14,7 @@ const navItemsQuery = groq`
     },
     _type == "subNav" => {
       title,
+      display,
       items[] {
         _key,
         description,
