@@ -28,3 +28,9 @@ Keep it to one page: check with `python3 -c "import re;print(re.search(rb'/Count
 | `linkedin/cover.html` | Banner source. Dark tokens + the site's `#advanced-texture` filter. |
 | `linkedin/capture.mjs` | Renders the banner to PNG at 1584x396 @2x (`node documents/linkedin/capture.mjs`). |
 | `linkedin/ohmni-linkedin-cover.png` | Upload target. Lower left is kept dark for the profile photo. |
+
+## Audit
+
+| File | Purpose |
+|------|---------|
+| `audit/audit-walkthrough-template.md` | Spec for the free site audit deliverable and the 15 minute walkthrough. Sections map to the four product pages. INSERT slots are the tests Jacob runs. |
