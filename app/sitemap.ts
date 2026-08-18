@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next'
-import { client } from '@/sanity/lib/client'
+import { sanityFetch } from '@/sanity/lib/live'
 import { brand } from '@/lib/brand'
 import {
   EXCLUDED_PAGE_SLUGS,
@@ -16,7 +16,7 @@ import {
 export const revalidate = 3600
 
 function normalizeBaseUrl(url: string): string {
-  return url.endsWith('/') ? url.slice(0, -1) : url
+  return url.replace(/\/+$/, '')
 }
 
 /** See robots.ts — set NEXT_PUBLIC_SITE_URL in production. */
@@ -26,39 +26,64 @@ const baseUrl = normalizeBaseUrl(
     : process.env.NEXT_PUBLIC_SITE_URL || brand.fallbackSiteUrl
 )
 
+const SLUG_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/i
+
+function safeDate(value?: string): Date {
+  if (!value) return new Date()
+  const date = new Date(value)
+  return Number.isNaN(date.getTime()) ? new Date() : date
+}
+
+function normalizeSlug(slug: unknown): string | null {
+  if (typeof slug !== 'string') return null
+  const trimmed = slug.replace(/^\/+|\/+$/g, '')
+  return SLUG_RE.test(trimmed) ? trimmed : null
+}
+
+type SitemapRow = { slug?: string | null; _updatedAt?: string | null }
+
+async function fetchRows(query: string): Promise<SitemapRow[]> {
+  try {
+    const { data } = await sanityFetch({
+      query,
+      stega: false,
+      perspective: 'published',
+    })
+    return Array.isArray(data) ? (data as SitemapRow[]) : []
+  } catch {
+    // A thrown fetch used to 500 the whole /sitemap.xml — Google then stops reading it.
+    return []
+  }
+}
+
 async function generateSitemap(): Promise<MetadataRoute.Sitemap> {
   const [pageRows, eventRows, postRows] = await Promise.all([
-    client.fetch<
-      Array<{ slug: string; _updatedAt?: string }>
-    >(pagesSitemapQuery),
-    client.fetch<
-      Array<{ slug: string; _updatedAt?: string }>
-    >(eventsSitemapQuery),
-    client.fetch<
-      Array<{ slug: string; _updatedAt?: string }>
-    >(postsSitemapQuery),
+    fetchRows(pagesSitemapQuery),
+    fetchRows(eventsSitemapQuery),
+    fetchRows(postsSitemapQuery),
   ])
 
-  const sitemap: MetadataRoute.Sitemap = []
+  const sitemap: MetadataRoute.Sitemap = [
+    {
+      url: `${baseUrl}/`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 1,
+    },
+  ]
 
-  sitemap.push({
-    url: `${baseUrl}/`,
-    lastModified: new Date(),
-    changeFrequency: 'weekly',
-    priority: 1,
-  })
-
-  for (const page of pageRows || []) {
-    if (!page?.slug || EXCLUDED_PAGE_SLUGS.includes(page.slug)) continue
+  for (const page of pageRows) {
+    const slug = normalizeSlug(page.slug)
+    if (!slug || EXCLUDED_PAGE_SLUGS.includes(slug)) continue
     sitemap.push({
-      url: `${baseUrl}/${page.slug}`,
-      lastModified: page._updatedAt ? new Date(page._updatedAt) : new Date(),
+      url: `${baseUrl}/${slug}`,
+      lastModified: safeDate(page._updatedAt ?? undefined),
       changeFrequency: 'monthly',
       priority: 0.8,
     })
   }
 
-  if ((eventRows || []).length > 0) {
+  if (eventRows.length > 0) {
     sitemap.push({
       url: `${baseUrl}/events`,
       lastModified: new Date(),
@@ -73,17 +98,18 @@ async function generateSitemap(): Promise<MetadataRoute.Sitemap> {
     })
   }
 
-  for (const event of eventRows || []) {
-    if (!event?.slug) continue
+  for (const event of eventRows) {
+    const slug = normalizeSlug(event.slug)
+    if (!slug) continue
     sitemap.push({
-      url: `${baseUrl}/events/${event.slug}`,
-      lastModified: event._updatedAt ? new Date(event._updatedAt) : new Date(),
+      url: `${baseUrl}/events/${slug}`,
+      lastModified: safeDate(event._updatedAt ?? undefined),
       changeFrequency: 'weekly',
       priority: 0.7,
     })
   }
 
-  if ((postRows || []).length > 0) {
+  if (postRows.length > 0) {
     sitemap.push({
       url: `${baseUrl}/posts`,
       lastModified: new Date(),
@@ -92,11 +118,12 @@ async function generateSitemap(): Promise<MetadataRoute.Sitemap> {
     })
   }
 
-  for (const post of postRows || []) {
-    if (!post?.slug) continue
+  for (const post of postRows) {
+    const slug = normalizeSlug(post.slug)
+    if (!slug) continue
     sitemap.push({
-      url: `${baseUrl}/posts/${post.slug}`,
-      lastModified: post._updatedAt ? new Date(post._updatedAt) : new Date(),
+      url: `${baseUrl}/posts/${slug}`,
+      lastModified: safeDate(post._updatedAt ?? undefined),
       changeFrequency: 'weekly',
       priority: 0.7,
     })
