@@ -39,6 +39,14 @@ const column = defineType({
       type: 'cta',
       description: 'Optional call to action button',
     }),
+    defineField({
+      title: 'Highlight this card',
+      name: 'highlight',
+      type: 'boolean',
+      initialValue: false,
+      description:
+        'Marks one card as the recommended option. Use it when one card really is the answer, such as a pricing tier. Highlighting a card in a list of symptoms says something you do not mean.',
+    }),
   ],
   preview: {
     select: {

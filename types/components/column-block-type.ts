@@ -7,6 +7,7 @@ export type ColumnBlockColumn = {
     asset?: { metadata?: { dimensions?: { width?: number; height?: number } } }
     [key: string]: unknown
   } | null
+  highlight?: boolean
   cta?: { active?: boolean; route?: { title?: string; [key: string]: unknown } } | null
 }
 

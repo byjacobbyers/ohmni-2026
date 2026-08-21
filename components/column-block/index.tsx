@@ -144,12 +144,10 @@ export default function ColumnBlock({
             className={`grid w-full gap-x-6 gap-y-5 lg:mx-auto 2xl:max-w-[75vw] ${gridCols}`}
           >
             {items.map((column, index) => {
-              const isEmphasized =
-                style === 'logo' &&
-                ((columnsPerRowValue === 3 && items.length === 3 && index === 1) ||
-                  (columnsPerRowValue === 4 &&
-                    items.length === 4 &&
-                    (index === 1 || index === 2)))
+              // Authored, not positional. The old rule emphasised whichever
+              // card sat in the middle, which put a recommended-looking border
+              // on things like the middle of three symptoms.
+              const isEmphasized = style === 'logo' && column.highlight === true
 
               return (
                 <Card

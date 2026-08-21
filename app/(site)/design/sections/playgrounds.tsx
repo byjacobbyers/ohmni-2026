@@ -297,6 +297,7 @@ export function CardsPlayground() {
     backgroundColor: 'primary',
     cardStyle: 'logo',
     columnsPerRow: '3',
+    highlight: 'off',
   })
 
   const groups: ControlGroup[] = [
@@ -318,17 +319,31 @@ export function CardsPlayground() {
         { value: '4', label: '4' },
       ],
     },
+    {
+      key: 'highlight',
+      label: 'Highlight',
+      options: [
+        { value: 'off', label: 'None' },
+        { value: 'on', label: 'Second card' },
+      ],
+    },
   ]
 
   const columnsPerRow = Number(values.columnsPerRow) || 3
   const source = values.cardStyle === 'project' ? PROJECT_COLUMNS : LOGO_COLUMNS
-  const columns = source.slice(0, columnsPerRow)
+  // Highlight is authored per card. Off by default, because emphasising a card
+  // in a list of symptoms claims something the content does not mean.
+  const columns = source
+    .slice(0, columnsPerRow)
+    .map((c, i) => ({ ...c, highlight: values.highlight === 'on' && i === 1 }))
 
   return (
     <SectionChrome
       id="cards"
       type="columnBlock"
-      note={`${values.cardStyle} · ${columnsPerRow} col · ${values.backgroundColor}`}
+      note={`${values.cardStyle} · ${columnsPerRow} col · ${values.backgroundColor}${
+        values.highlight === 'on' ? ' · highlighted' : ''
+      }`}
     >
       <SectionControls groups={groups} values={values} onChange={onChange} />
       <CtaLocationProvider value="columnBlock">
