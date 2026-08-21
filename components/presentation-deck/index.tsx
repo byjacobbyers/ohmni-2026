@@ -35,7 +35,7 @@ export default function PresentationDeck({ slug, blocks, index }: PresentationDe
       // Page rhythm (py-16 md:py-24) costs 269px of vertical space, which a
       // stacked page can afford and a single screen cannot. Tightened here so
       // the section components stay untouched.
-      className="relative flex w-full flex-col overflow-y-auto [&>section]:min-h-screen [&>section]:items-center [&>section]:py-10 [&>section]:pb-20 md:[&>section]:py-12 md:[&>section]:pb-20"
+      className="relative flex w-full flex-col overflow-y-auto [&>section]:min-h-screen [&>section]:items-center [&>section]:py-10 [&>section]:pb-20 md:[&>section]:py-12 md:[&>section]:pb-20 [&_.content]:max-w-4xl [&_.text-center_.content]:mx-auto"
     >
       <Sections body={[block]} />
 
