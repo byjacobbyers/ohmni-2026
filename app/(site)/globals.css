@@ -388,3 +388,28 @@
   pointer-events: none;
   /* Optional: add radial gradient or animation for ripple effect */
 }
+
+/* Scrollbars, themed. The OS default renders a light bar that reads as a
+   browser artifact on a dark surface. Radius is 0 across the system, so the
+   thumb is square too. Applies everywhere rather than per component: a
+   scrollbar is chrome, and chrome should not vary by which container it is in. */
+/* On `*`, not `html`: scrollbar-width is not an inherited property, so setting
+   it on the root themes the page scrollbar and leaves every inner scroll
+   container on the OS default. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+*::-webkit-scrollbar-track {
+  background: color-mix(in srgb, var(--border) 30%, transparent);
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--border);
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--muted-foreground);
+}
