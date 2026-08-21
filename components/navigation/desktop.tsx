@@ -8,6 +8,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from '@/components/ui/navigation-menu'
+import CtaRouteButton from '@/components/cta-route-button'
 import NavCard from '@/components/navigation/nav-card'
 import Route from '@/components/route'
 import { isSubNav, type NavItemType } from '@/types/components/nav-type'
@@ -31,8 +32,8 @@ const hoverGrow =
 
 const linkClass = `${labelClass} ${hoverGrow}`
 
-/** Solid blue call to action, matching the one pinned to the mobile menu. */
-const primaryClass = `flex items-center whitespace-nowrap bg-primary px-4 py-2 text-primary-foreground no-underline ${labelClass} ${hoverGrow}`
+/** Sizing only. Colour, aurora and hover come from the shared Button. */
+const primaryClass = `h-auto whitespace-nowrap px-4 py-2 ${labelClass} text-base xl:text-lg 2xl:text-2xl`
 
 export default function DesktopNav({
   items,
@@ -95,11 +96,20 @@ export default function DesktopNav({
 
           const route = item as BaseRouteType
           const isBookNow = route.title === bookNowTitle
+
+          if (item === primary) {
+            return (
+              <NavigationMenuItem key={item._key || `route-${i}`}>
+                <CtaRouteButton route={route} className={primaryClass} />
+              </NavigationMenuItem>
+            )
+          }
+
           return (
             <NavigationMenuItem key={item._key || `route-${i}`}>
               <Route
                 data={route}
-                className={item === primary ? primaryClass : linkClass}
+                className={linkClass}
                 onMouseEnter={
                   isBookNow && onBookNowHoverChange
                     ? () => onBookNowHoverChange(true)

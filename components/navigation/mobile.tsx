@@ -7,14 +7,12 @@ import {
   useReducedMotion,
   type Variants,
 } from 'motion/react'
+import CtaRouteButton from '@/components/cta-route-button'
 import NavCard from '@/components/navigation/nav-card'
-import Route from '@/components/route'
 import TextureSectionBackdrop from '@/components/texture-section-backdrop'
 import { isSubNav, type NavItemType } from '@/types/components/nav-type'
 import type { MobileNavProps } from '@/types/components/mobile-nav-type'
 import type { BaseRouteType } from '@/types/objects/route-type'
-
-const BOOK_NOW_TITLE = 'Book Now'
 
 /** Rise in sequence from the bottom, matching the reading order thumbs use. */
 const container: Variants = {
@@ -31,11 +29,7 @@ const child: Variants = {
  * thumbs actually reach. Every destination is a card, and the primary action
  * sits lowest.
  */
-export default function MobileNav({
-  data,
-  closeMenu,
-  onBookNowHoverChange,
-}: MobileNavProps) {
+export default function MobileNav({ data, closeMenu }: MobileNavProps) {
   const reduceMotion = useReducedMotion()
   const items = (data.items ?? []) as NavItemType[]
   if (!items.length) return null
@@ -96,23 +90,13 @@ export default function MobileNav({
 
       {primary ? (
         <Item {...itemProps} className="pt-2">
-          <Route
-            data={primary}
-            onClick={closeMenu}
-            className="flex w-full items-center justify-center bg-primary px-4 py-3 text-lg font-bold text-primary-foreground no-underline"
-            onMouseEnter={
-              primary.title === BOOK_NOW_TITLE && onBookNowHoverChange
-                ? () => onBookNowHoverChange(true)
-                : undefined
-            }
-            onMouseLeave={
-              primary.title === BOOK_NOW_TITLE && onBookNowHoverChange
-                ? () => onBookNowHoverChange(false)
-                : undefined
-            }
-          >
-            {primary.title || 'Get started'}
-          </Route>
+          {/* Same shared Button as every other CTA, so the mark, the aurora and
+              the hover behaviour cannot drift from the desktop nav. */}
+          <CtaRouteButton
+            route={primary}
+            className="h-auto w-full py-2.5 text-lg font-bold"
+            fallbackLabel="Get started"
+          />
         </Item>
       ) : null}
     </Wrapper>
