@@ -5,8 +5,9 @@ import { screenHref, screenId, type ScreenBlock } from '@/lib/presentation-scree
 
 export type PresentationDeckProps = {
   slug: string
-  /** Deck title, shown in the corner mark. */
-  title?: string
+  /** Brand lockup for the corner mark, resolved the same way the header does. */
+  brandName?: string
+  brandTagline?: string
   blocks: Array<ScreenBlock & { _type?: string } & Record<string, unknown>>
   index: number
 }
@@ -19,7 +20,8 @@ const MENU_ANCHOR = 'menu'
  */
 export default function PresentationDeck({
   slug,
-  title,
+  brandName = 'Ohmni',
+  brandTagline,
   blocks,
   index,
 }: PresentationDeckProps) {
@@ -48,8 +50,13 @@ export default function PresentationDeck({
           so it should say whose it is on every screen. */}
       <div className="pointer-events-none fixed top-0 left-0 z-50 flex items-center gap-2 px-5 py-4">
         <img src="/ohmni.svg" alt="" aria-hidden className="h-6 w-6" />
-        <span className="text-sm font-bold tracking-tight">
-          {title || 'Ohmni'}
+        <span className="flex items-end gap-1.5 leading-none">
+          <span className="text-lg font-bold leading-none">{brandName.toUpperCase()}</span>
+          {brandTagline ? (
+            <span className="pb-[1px] text-[0.6rem] leading-none uppercase">
+              {brandTagline}
+            </span>
+          ) : null}
         </span>
       </div>
 

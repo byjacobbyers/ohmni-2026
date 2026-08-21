@@ -68,6 +68,18 @@
   .own{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:8px}
   .own div{padding:16px 24px;font-size:19px;line-height:1.35;border-left:3px solid #3a4557;color:var(--muted)}
   .own div.on{border-left-color:var(--blue);color:var(--ink)}
+  .track{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:18px}
+  .stepc{background:var(--card);border:1px solid var(--line);padding:0 0 22px;position:relative}
+  .stepc.on{border-color:var(--blue)}
+  .stepc .bar{height:5px;background:#2b3547}
+  .stepc.on .bar{background:var(--blue)}
+  .stepc .when{font-family:inherit;font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:20px 24px 0}
+  .stepc .what{font-size:27px;font-weight:700;padding:6px 24px 0;line-height:1.15}
+  .stepc .desc{color:var(--muted);font-size:20px;line-height:1.4;padding:10px 24px 0}
+  .terms{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:4px}
+  .term{border-left:3px solid var(--blue);padding:14px 20px}
+  .term .k{font-size:24px;font-weight:700}
+  .term .v{color:var(--muted);font-size:19px;line-height:1.35;margin-top:4px}
 </style></head><body>
 
 <!-- 1 ─────────────── why Ohmni exists -->
@@ -231,6 +243,41 @@
   </div>
 
   <div class="note">We are rarely the cheapest line on a page like this. We are usually the only column where one person is accountable for all of it, and where you still have everything if we part ways.</div>
+</div>
+
+<!-- 8 ─────────────── how the engagement starts -->
+<div class="diagram" id="start">
+  <div class="kicker">From this call to shipped work</div>
+  <div class="sub">Three steps. The first one costs you nothing and you keep it either way.</div>
+
+  <div class="track">
+    <div class="stepc on">
+      <div class="bar"></div>
+      <div class="when">This week</div>
+      <div class="what">Audit</div>
+      <div class="desc">We review your site and stack and hand back a prioritized list. Yours whether or not we go further.</div>
+    </div>
+    <div class="stepc">
+      <div class="bar"></div>
+      <div class="when">The call after</div>
+      <div class="what">Scope</div>
+      <div class="desc">We pick the first two deliverables together, out of what the audit actually turned up.</div>
+    </div>
+    <div class="stepc">
+      <div class="bar"></div>
+      <div class="when">The following week</div>
+      <div class="what">Start</div>
+      <div class="desc">You choose a tier and the first deliverable is in progress.</div>
+    </div>
+  </div>
+
+  <div class="terms">
+    <div class="term"><div class="k">6 months</div><div class="v">Minimum term, then month to month.</div></div>
+    <div class="term"><div class="k">Day one</div><div class="v">Every account and every line of code is yours.</div></div>
+    <div class="term"><div class="k">One month</div><div class="v">What being wrong about us actually costs.</div></div>
+  </div>
+
+  <div class="note">No procurement cycle, no discovery phase you pay for, and nothing to unwind if it does not work out.</div>
 </div>
 
 <script>

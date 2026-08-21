@@ -40,3 +40,7 @@ Keep it to one page: check with `python3 -c "import re;print(re.search(rb'/Count
 `design-system-images/diagrams/source.html` holds every diagram as a `.diagram`
 block. `node documents/design-system-images/diagrams/capture.mjs` renders each
 one to `{id}.png` at 2x. Add a block, add its id to `IDS`, re-run.
+
+Upload a new diagram to Sanity with the CLI token, then reference the returned
+asset id from a `heroBlock` or `imageBlock`. Landscape diagrams need full width
+(`imageBlock`, `max-w-full`); portrait ones fit a `heroBlock` half column.
