@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Ohmni deck diagrams</title>
+<style>
+  :root{
+    --bg:#141b28; --card:#0e131d; --line:#26303f; --blue:#3566ff;
+    --ink:#f4f6f8; --muted:#93a0b4; --red:#f2635c; --redbg:#2b1719;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#000;font-family:Inter,-apple-system,sans-serif}
+  .diagram{width:1440px;background:var(--bg);color:var(--ink);padding:64px;margin-bottom:40px}
+  .kicker{color:var(--blue);font-size:17px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;margin-bottom:18px}
+  .sub{color:var(--muted);font-size:26px;line-height:1.45;margin-bottom:44px;max-width:1100px}
+  .card{background:var(--card);border:1px solid var(--line);padding:26px 30px;margin-bottom:14px}
+  .card.on{border-color:var(--blue)}
+  .card.bad{border-color:#4a2b2e}
+  .chip{display:inline-block;font-size:15px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:5px 12px;margin-bottom:12px;background:#243044;color:#c2ccdb}
+  .chip.blue{background:var(--blue);color:#fff}
+  .chip.red{background:var(--redbg);color:var(--red)}
+  .h{font-size:30px;font-weight:700;margin-bottom:8px}
+  .p{color:var(--muted);font-size:22px;line-height:1.45}
+  .note{border-left:3px solid var(--blue);padding-left:20px;color:var(--muted);font-size:21px;line-height:1.5;margin-top:34px}
+  .gap{display:flex;align-items:center;gap:16px;padding:14px 30px;margin-bottom:14px}
+  .gap .x{color:var(--red);font-size:26px;font-weight:700;flex:none}
+  .gap .t{color:var(--red);font-size:21px;line-height:1.4}
+  .row{display:flex;align-items:center;gap:22px;margin-bottom:16px}
+  .row .label{width:290px;font-size:23px;font-weight:600;flex:none}
+  .bar{height:44px;background:#243044;position:relative;flex:1}
+  .bar span{display:block;height:100%;background:var(--blue)}
+  .bar.red span{background:var(--red)}
+  .bar em{position:absolute;right:14px;top:9px;font-style:normal;font-size:21px;font-weight:700;color:#fff}
+  .big{font-size:86px;font-weight:800;letter-spacing:-.03em;line-height:1}
+  .bigwrap{display:flex;align-items:baseline;gap:22px;margin:36px 0 10px}
+  .bigwrap .cap{color:var(--muted);font-size:24px}
+  .dots{display:grid;grid-template-columns:repeat(20,1fr);gap:11px;margin:10px 0 6px}
+  .dot{width:100%;aspect-ratio:1;background:var(--blue);border-radius:50%}
+  .dot.off{background:#2b3547}
+  .btnrow{display:flex;flex-wrap:wrap;gap:20px;margin-bottom:24px}
+  .b{background:var(--blue);color:#fff;font-weight:700;font-size:22px;padding:16px 26px}
+  .b.r6{border-radius:6px} .b.r99{border-radius:99px} .b.caps{text-transform:uppercase;letter-spacing:.06em}
+  .b.ghost{background:transparent;border:2px solid var(--blue);color:#a8bcff;border-radius:8px}
+  .b.dim{background:#2f4ec7} .b.pale{background:#6f8dff}
+</style></head><body>
+
+<!-- 1 ─────────────── why Ohmni exists -->
+<div class="diagram" id="seams">
+  <div class="kicker">Where campaigns actually die</div>
+  <div class="sub">Every vendor owns a box. Nobody owns the space between two boxes.</div>
+  <div class="card"><div class="h">Website</div><div class="p">Owned by the agency that built it</div></div>
+  <div class="gap"><span class="x">&times;</span><span class="t">Form submits. The CRM record is never created.</span></div>
+  <div class="card"><div class="h">CRM</div><div class="p">Owned by sales ops</div></div>
+  <div class="gap"><span class="x">&times;</span><span class="t">Lead lands. Follow-up never fires.</span></div>
+  <div class="card"><div class="h">Email</div><div class="p">Owned by whoever signed the contract</div></div>
+  <div class="gap"><span class="x">&times;</span><span class="t">Campaign sends. Source is not attached.</span></div>
+  <div class="card"><div class="h">Analytics</div><div class="p">Owned by whoever set it up three years ago</div></div>
+  <div class="gap"><span class="x">&times;</span><span class="t">Page ranks. The conversion is never counted.</span></div>
+  <div class="card"><div class="h">SEO</div><div class="p">Owned by a retainer</div></div>
+  <div class="note">Every box works. Every gap is somebody's fault and nobody's job.</div>
+</div>
+
+<!-- 2 ─────────────── pain: design creep -->
+<div class="diagram" id="sixbuttons">
+  <div class="kicker">Accumulated</div>
+  <div class="sub">Six versions of the same button on one website. Three designers, four years, one page at a time.</div>
+  <div class="btnrow">
+    <span class="b">Get started</span>
+    <span class="b dim r6">Get Started</span>
+    <span class="b pale r99 caps">Get started</span>
+    <span class="b ghost">Get started</span>
+  </div>
+  <div class="btnrow">
+    <span class="b dim caps" style="padding:20px 34px">Get started</span>
+    <span class="b r99" style="font-size:19px">Get started</span>
+  </div>
+  <div class="card on" style="margin-top:30px">
+    <div class="chip blue">Decided once</div>
+    <div class="h">One button</div>
+    <div class="p">One radius, one weight, one primary color. Named, not picked.</div>
+  </div>
+  <div class="note">None of them were wrong on their own. Every one of them needs a decision, a review, and someone to maintain it.</div>
+</div>
+
+<!-- 3 ─────────────── pain: lead response -->
+<div class="diagram" id="response">
+  <div class="kicker">What the audit found</div>
+  <div class="sub">Harvard Business Review submitted a test lead to 2,241 US companies and timed the reply.</div>
+  <div class="row"><span class="label">Within 1 hour</span><span class="bar"><span style="width:37%"></span><em>37%</em></span></div>
+  <div class="row"><span class="label">1 to 24 hours</span><span class="bar"><span style="width:16%"></span><em>16%</em></span></div>
+  <div class="row"><span class="label">More than 24 hours</span><span class="bar"><span style="width:24%"></span><em>24%</em></span></div>
+  <div class="row"><span class="label">Never responded</span><span class="bar red"><span style="width:23%"></span><em>23%</em></span></div>
+  <div class="bigwrap"><span class="big">42h</span><span class="cap">average response time,<br>among those who replied at all</span></div>
+  <div class="card on" style="margin-top:22px">
+    <div class="chip blue">Inside the hour</div>
+    <div class="h">60&times; more likely to qualify the lead</div>
+    <div class="p">Compared with companies that waited a day.</div>
+  </div>
+  <div class="note">Nothing errored. Nothing alerted anyone. Every one of those companies believed follow-up was working.</div>
+</div>
+
+<!-- 4 ─────────────── pain: AI search -->
+<div class="diagram" id="twopaths">
+  <div class="kicker">Two ways a buyer finds you</div>
+  <div class="sub">51% of B2B software buyers now start with an assistant rather than a search engine, up from 29% at the start of 2025.</div>
+  <div class="card">
+    <div class="chip">Search engine</div>
+    <div class="h">Ten results, and a second page</div>
+    <div class="p">You can rank fourth and still get the click. Being lower is a disadvantage, not an absence.</div>
+  </div>
+  <div class="card bad" style="margin-top:18px">
+    <div class="chip red">AI assistant</div>
+    <div class="h">One answer, three sources</div>
+    <div class="p">You are cited or you are not in the room. Most assistants do not execute JavaScript, so what they can read decides which one happens.</div>
+  </div>
+  <div class="bigwrap"><span class="big">0</span><span class="cap">positions available on page two<br>of an AI answer</span></div>
+  <div class="note">Structured data injected after the page loads is invisible here. A person sees a normal page and the engine receives an empty one.</div>
+</div>
+
+<!-- 5 ─────────────── pain: uncounted traffic -->
+<div class="diagram" id="uncounted">
+  <div class="kicker">What your dashboard counted</div>
+  <div class="sub">About 32% of US internet users run an ad blocker, and the standard filter lists block google-analytics.com by default.</div>
+  <div class="dots" id="dotgrid"></div>
+  <div class="bigwrap"><span class="big">68</span><span class="cap">of every 100 real visitors<br>reached the counter</span></div>
+  <div class="card bad" style="margin-top:16px">
+    <div class="chip red">The other 32</div>
+    <div class="h">Read your pages. Some of them converted.</div>
+    <div class="p">The visit was real. The record never existed, and the loss leaves no trace to find.</div>
+  </div>
+  <div class="note">This is why two dashboards disagree, and why finance quietly stopped believing either one.</div>
+</div>
+
+<script>
+  const g = document.getElementById('dotgrid');
+  for (let i = 0; i < 100; i++) {
+    const d = document.createElement('span');
+    d.className = 'dot' + (i >= 68 ? ' off' : '');
+    g.appendChild(d);
+  }
+</script>
+</body></html>

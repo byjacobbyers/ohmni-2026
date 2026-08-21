@@ -34,3 +34,9 @@ Keep it to one page: check with `python3 -c "import re;print(re.search(rb'/Count
 | File | Purpose |
 |------|---------|
 | `audit/audit-walkthrough-template.md` | Spec for the free site audit deliverable and the 15 minute walkthrough. Sections map to the four product pages. INSERT slots are the tests Jacob runs. |
+
+## Deck diagrams
+
+`design-system-images/diagrams/source.html` holds every diagram as a `.diagram`
+block. `node documents/design-system-images/diagrams/capture.mjs` renders each
+one to `{id}.png` at 2x. Add a block, add its id to `IDS`, re-run.
