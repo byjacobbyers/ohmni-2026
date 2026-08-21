@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import Sections from '@/components/sections'
+import { cn } from '@/lib/utils'
 import KeyboardNav from './keyboard-nav'
 import { screenHref, screenId, type ScreenBlock } from '@/lib/presentation-screens'
 
@@ -44,16 +45,38 @@ export default function PresentationDeck({
       // Page rhythm (py-16 md:py-24) costs 269px of vertical space, which a
       // stacked page can afford and a single screen cannot. Tightened here so
       // the section components stay untouched.
-      className="relative flex w-full flex-col overflow-y-auto [&>section]:min-h-screen [&>section]:items-center [&>section]:py-10 [&>section]:pb-20 md:[&>section]:py-12 md:[&>section]:pb-20 [&_.content]:max-w-4xl [&_.text-center_.content]:mx-auto"
+      className={cn(
+        'relative flex w-full flex-col overflow-y-auto',
+        // Fill the screen so the section background reaches the edges, and cut
+        // the page rhythm (py-16 md:py-24) that costs 269px a slide cannot spare.
+        '[&>section]:min-h-screen [&>section]:items-center [&>section]:py-10 [&>section]:pb-20',
+        'md:[&>section]:py-12 md:[&>section]:pb-20',
+        '[&_.content]:max-w-4xl [&_.text-center_.content]:mx-auto',
+        // ── Phone ────────────────────────────────────────────────────────────
+        // A deck screen is one idea. Stacking card grids turns one idea into
+        // three viewports of scrolling, so below md the cards stay in a row and
+        // the row scrolls sideways. Deck only: on a page, stacking is correct.
+        'max-md:[&_.grid]:grid-flow-col max-md:[&_.grid]:auto-cols-[17rem]',
+        'max-md:[&_.grid]:overflow-x-auto max-md:[&_.grid]:pb-2',
+        'max-md:[&_.grid]:[grid-template-columns:none]',
+        // Diagrams are supporting evidence on a phone, not the subject.
+        'max-md:[&_img]:max-h-[30vh] max-md:[&_img]:w-auto max-md:[&_img]:object-contain',
+        // Display type set for a 1440px stage is oversized on a 375px one.
+        'max-md:[&_h2]:text-2xl max-md:[&_h3]:text-lg max-md:[&_.content_p]:text-sm',
+        'max-md:[&>section]:pt-16 max-md:[&>section]:pb-16'
+      )}
     >
       {/* Orientation mark. A deck gets sent on and viewed without a presenter,
           so it should say whose it is on every screen. */}
       <div className="pointer-events-none fixed top-0 left-0 z-50 flex items-center gap-2 px-5 py-4">
-        <img src="/ohmni.svg" alt="" aria-hidden className="h-6 w-6" />
+        <img src="/ohmni.svg" alt="" aria-hidden className="h-5 w-5 md:h-6 md:w-6" />
         <span className="flex items-end gap-1.5 leading-none">
-          <span className="text-lg font-bold leading-none">{brandName.toUpperCase()}</span>
+          <span className="text-sm leading-none font-bold md:text-lg">
+            {brandName.toUpperCase()}
+          </span>
+          {/* The tagline is the first thing to go when the bar gets tight. */}
           {brandTagline ? (
-            <span className="pb-[1px] text-[0.6rem] leading-none uppercase">
+            <span className="hidden pb-[1px] text-[0.6rem] leading-none uppercase sm:inline">
               {brandTagline}
             </span>
           ) : null}

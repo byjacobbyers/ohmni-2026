@@ -55,7 +55,9 @@ export default function ComparisonBlock({
       <AppearAnimation className={cn('relative z-10 container', innerLiftClass)}>
         {headingText ? <h2 className="text-h2 mb-3">{headingText}</h2> : null}
         {intro ? (
-          <p className="text-body mb-10 max-w-3xl text-muted-foreground">{intro}</p>
+          <p className="mb-6 max-w-3xl text-sm text-muted-foreground md:mb-10 md:text-body">
+            {intro}
+          </p>
         ) : null}
 
         <div
@@ -131,7 +133,7 @@ export default function ComparisonBlock({
         </div>
 
         {note ? (
-          <p className="mt-10 border-l-2 border-primary py-1 pl-5 text-body text-muted-foreground">
+          <p className="mt-6 border-l-2 border-primary py-1 pl-5 text-sm text-muted-foreground md:mt-10 md:text-body">
             {note}
           </p>
         ) : null}
