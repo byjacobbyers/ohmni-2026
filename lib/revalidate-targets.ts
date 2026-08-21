@@ -48,6 +48,12 @@ export function getTargetsForDocument(body: WebhookPayload): RevalidateTarget[] 
       targets.push(SITEMAP)
       return targets
     }
+    case 'presentation': {
+      // Screens are children of the deck path, so a layout bust covers all of
+      // them. Decks are noindex, so the sitemap is deliberately untouched.
+      const deckSlug = slug?.current
+      return [{ path: deckSlug ? `/present/${deckSlug}` : '/present', type: 'layout' }]
+    }
     case 'navigation':
     case 'site':
     case 'announcement':

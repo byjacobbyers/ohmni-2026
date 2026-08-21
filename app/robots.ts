@@ -23,7 +23,7 @@ export default function robots(): MetadataRoute.Robots {
       // per-bot disallow rules here only for content-licensing engagements.
       userAgent: '*',
       allow: '/',
-      disallow: ['/api/*', '/studio/*'],
+      disallow: ['/api/*', '/studio/*', '/present/*'],
     },
     sitemap: `${baseUrl}/sitemap.xml`,
   }

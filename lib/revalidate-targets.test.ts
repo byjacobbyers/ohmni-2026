@@ -58,4 +58,15 @@ describe('getTargetsForDocument', () => {
       { path: '/', type: 'layout' },
     ])
   })
+  it('busts the whole deck path for a presentation, and never the sitemap', () => {
+    expect(
+      getTargetsForDocument({ _type: 'presentation', slug: { current: 'ohmni-system' } })
+    ).toEqual([{ path: '/present/ohmni-system', type: 'layout' }])
+  })
+
+  it('falls back to /present when a presentation has no slug', () => {
+    expect(getTargetsForDocument({ _type: 'presentation' })).toEqual([
+      { path: '/present', type: 'layout' },
+    ])
+  })
 })

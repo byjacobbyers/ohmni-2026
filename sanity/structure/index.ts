@@ -1,5 +1,6 @@
 import type { StructureResolver } from 'sanity/structure'
 import Page from './page-structure'
+import Presentation from './presentation-structure'
 import Event from './event-structure'
 import Post from './post-structure'
 import Team from './team-structure'
@@ -14,6 +15,7 @@ export const structure: StructureResolver = (S) =>
     .title('Content')
     .items([
       Page(S),
+      Presentation(S),
       Event(S),
       Post(S),
       Team(S),

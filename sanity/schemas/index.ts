@@ -13,6 +13,7 @@ import form from './documents/form-schema'
 import formSettings from './documents/form-settings-schema'
 import postCtaSettings from './documents/post-cta-settings-schema'
 import team from './documents/team-schema'
+import presentation from './documents/presentation-schema'
 
 import seo from './components/seo-schema'
 import sections from './components/page-builder-schema'
@@ -54,6 +55,7 @@ import eventJsonLd from './objects/event-json-ld-schema'
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
     page,
+    presentation,
     site,
     announcement,
     event,

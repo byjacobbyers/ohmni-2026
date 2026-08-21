@@ -16,6 +16,9 @@ const getStudioUrl = () => {
  * are excluded from encoding at the source instead of cleaned per component.
  */
 const STEGA_LOGIC_FIELDS = new Set([
+  // `anchor` generates in-page link targets and presentation screen URLs, so an
+  // encoded copy would not match the href it is compared against.
+  'anchor',
   'backgroundColor',
   'backgroundType',
   'contentAlignment',
