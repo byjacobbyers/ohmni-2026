@@ -155,12 +155,15 @@ export default function ColumnBlock({
                 <Card
                   key={column._key || index}
                   className={cn(
-                    'flex w-full min-h-0 min-w-0 max-w-none flex-col items-center justify-start overflow-hidden rounded-md border-0',
+                    // Bordered box on a solid surface, matching comparisonBlock.
+                    // The emphasised card is marked by a primary border rather
+                    // than a heavier fill, so emphasis reads at any size.
+                    'flex w-full min-h-0 min-w-0 max-w-none flex-col items-center justify-start overflow-hidden rounded-md border border-border bg-card text-card-foreground',
                     style === 'project'
-                      ? 'bg-card text-card-foreground'
+                      ? ''
                       : isEmphasized
-                        ? 'relative z-10 bg-muted/52 py-6 md:scale-[1.04] md:py-10'
-                        : 'bg-muted/40 py-6 md:py-8'
+                        ? 'relative z-10 border-primary py-6 md:scale-[1.04] md:py-10'
+                        : 'py-6 md:py-8'
                   )}
                 >
                   <CardMedia
