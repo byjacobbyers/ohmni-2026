@@ -62,13 +62,14 @@ export default function ComparisonBlock({
 
         <div
           className={cn(
-            'grid auto-cols-[15rem] grid-flow-col gap-4 overflow-x-auto pb-2',
+            'grid snap-x snap-mandatory auto-cols-[15rem] grid-flow-col gap-4 overflow-x-auto pb-2',
+            'md:snap-none',
             'md:auto-cols-auto md:grid-flow-row md:overflow-visible md:pb-0',
             gridCols
           )}
         >
           {columns.map((col, i) => (
-            <div key={col._key || `col-${i}`} className="flex flex-col">
+            <div key={col._key || `col-${i}`} className="flex snap-start flex-col">
               <div
                 className={cn(
                   'flex h-full flex-col border bg-card',

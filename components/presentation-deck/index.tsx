@@ -58,6 +58,9 @@ export default function PresentationDeck({
         // the row scrolls sideways. Deck only: on a page, stacking is correct.
         'max-md:[&_.grid]:grid-flow-col max-md:[&_.grid]:auto-cols-[17rem]',
         'max-md:[&_.grid]:overflow-x-auto max-md:[&_.grid]:pb-2',
+        // Snap so a swipe lands a card rather than parking between two.
+        'max-md:[&_.grid]:snap-x max-md:[&_.grid]:snap-mandatory',
+        'max-md:[&_.grid>*]:snap-start',
         'max-md:[&_.grid]:[grid-template-columns:none]',
         // Diagrams are supporting evidence on a phone, not the subject.
         'max-md:[&_img]:max-h-[30vh] max-md:[&_img]:w-auto max-md:[&_img]:object-contain',
