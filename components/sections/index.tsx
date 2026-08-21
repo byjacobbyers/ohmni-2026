@@ -8,6 +8,7 @@ import FaqBlock from '@/components/faq-block'
 import EmbedBlock from '@/components/embed-block'
 import FormBlock from '@/components/form-block'
 import ColumnBlock from '@/components/column-block'
+import ComparisonBlock from '@/components/comparison-block'
 import PostsBlockServer from '@/components/posts-block/server'
 import EventsBlockServer from '@/components/events-block/server'
 import GalleryBlock from '@/components/gallery-block'
@@ -32,6 +33,7 @@ const blockMap: Record<string, React.ComponentType<Record<string, unknown>>> = {
   embedBlock: EmbedBlock as React.ComponentType<Record<string, unknown>>,
   formBlock: FormBlock as React.ComponentType<Record<string, unknown>>,
   columnBlock: ColumnBlock as React.ComponentType<Record<string, unknown>>,
+  comparisonBlock: ComparisonBlock as React.ComponentType<Record<string, unknown>>,
   postsBlock: PostsBlockServer as React.ComponentType<Record<string, unknown>>,
   eventsBlock: EventsBlockServer as React.ComponentType<Record<string, unknown>>,
   teamMemberBlock: TeamMemberBlock as React.ComponentType<Record<string, unknown>>,

@@ -4,6 +4,7 @@ import { useState } from 'react'
 import AppearAnimation from '@/components/appear-animation'
 import BannerBlock from '@/components/banner-block'
 import ColumnBlock from '@/components/column-block'
+import ComparisonBlock from '@/components/comparison-block'
 import CoverBlock from '@/components/cover-block'
 import CtaBlock from '@/components/cta-block'
 import DividerBlock from '@/components/divider-block'
@@ -517,6 +518,62 @@ export function FaqPlayground() {
           ]}
         />
       </CtaLocationProvider>
+    </SectionChrome>
+  )
+}
+
+export function ComparisonPlayground() {
+  const [values, onChange] = useVariantState({ backgroundColor: 'texture' })
+
+  return (
+    <SectionChrome id="comparison" type="comparisonBlock" note={values.backgroundColor}>
+      <SectionControls groups={[BG_GROUP]} values={values} onChange={onChange} />
+      <ComparisonBlock
+        componentIndex={20}
+        backgroundColor={values.backgroundColor}
+        heading="All in, for one year"
+        intro="Assumptions that make the columns comparable go here."
+        columns={[
+          {
+            _key: 'c1',
+            title: 'Option A',
+            subtitle: 'The usual path',
+            rows: [
+              { _key: 'a1', label: 'Software', value: '$17k' },
+              { _key: 'a2', label: 'Service', value: '$102k-270k' },
+            ],
+            totalLabel: 'Total',
+            total: '$119k-287k',
+            footnote: 'What it costs you beyond the invoice.',
+          },
+          {
+            _key: 'c2',
+            title: 'Option B',
+            subtitle: 'The other usual path',
+            rows: [
+              { _key: 'b1', label: 'Software', value: '$17k' },
+              { _key: 'b2', label: 'Salary, loaded', value: '$125k-170k' },
+            ],
+            totalLabel: 'Total',
+            total: '$142k-187k',
+            footnote: 'The trade-off nobody prices in.',
+          },
+          {
+            _key: 'c3',
+            title: 'Us',
+            subtitle: 'One operator',
+            rows: [
+              { _key: 'o1', label: 'Software, at cost', value: '$17k' },
+              { _key: 'o2', label: 'Service', value: '$60k-144k' },
+            ],
+            totalLabel: 'Total',
+            total: '$77k-161k',
+            footnote: 'Why the total is the comparison that matters.',
+            highlight: true,
+          },
+        ]}
+        note="The honest caveat belongs here. A comparison that only flatters you gets checked."
+      />
     </SectionChrome>
   )
 }

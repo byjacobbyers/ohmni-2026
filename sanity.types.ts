@@ -436,6 +436,32 @@ export type GalleryBlock = {
   enableLightbox?: boolean;
 };
 
+export type ComparisonBlock = {
+  _type: "comparisonBlock";
+  active?: boolean;
+  anchor?: string;
+  backgroundColor?: "primary" | "secondary" | "texture";
+  heading?: string;
+  intro?: string;
+  columns?: Array<{
+    title: string;
+    subtitle?: string;
+    rows?: Array<{
+      label?: string;
+      value?: string;
+      _type: "row";
+      _key: string;
+    }>;
+    totalLabel?: string;
+    total?: string;
+    footnote?: string;
+    highlight?: boolean;
+    _type: "option";
+    _key: string;
+  }>;
+  note?: string;
+};
+
 export type ColumnBlock = {
   _type: "columnBlock";
   active?: boolean;
@@ -624,6 +650,9 @@ export type Sections = Array<
   | ({
       _key: string;
     } & EmbedBlock)
+  | ({
+      _key: string;
+    } & ComparisonBlock)
   | ({
       _key: string;
     } & SplitScrollBlock)
@@ -1162,6 +1191,7 @@ export type AllSanitySchemaTypes =
   | SplitScrollBlock
   | DividerBlock
   | GalleryBlock
+  | ComparisonBlock
   | ColumnBlock
   | FormReference
   | FormBlock
@@ -2322,6 +2352,32 @@ export type EventQueryResult = {
           _key: string;
         }> | null;
         columnsPerRow?: number;
+      }
+    | {
+        _key: string;
+        _type: "comparisonBlock";
+        active?: boolean;
+        anchor?: string;
+        backgroundColor?: "primary" | "secondary" | "texture";
+        heading?: string;
+        intro?: string;
+        columns?: Array<{
+          title: string;
+          subtitle?: string;
+          rows?: Array<{
+            label?: string;
+            value?: string;
+            _type: "row";
+            _key: string;
+          }>;
+          totalLabel?: string;
+          total?: string;
+          footnote?: string;
+          highlight?: boolean;
+          _type: "option";
+          _key: string;
+        }>;
+        note?: string;
       }
     | {
         _key: string;
@@ -5103,6 +5159,32 @@ export type PageQueryResult = {
           _key: string;
         }> | null;
         columnsPerRow?: number;
+      }
+    | {
+        _key: string;
+        _type: "comparisonBlock";
+        active?: boolean;
+        anchor?: string;
+        backgroundColor?: "primary" | "secondary" | "texture";
+        heading?: string;
+        intro?: string;
+        columns?: Array<{
+          title: string;
+          subtitle?: string;
+          rows?: Array<{
+            label?: string;
+            value?: string;
+            _type: "row";
+            _key: string;
+          }>;
+          totalLabel?: string;
+          total?: string;
+          footnote?: string;
+          highlight?: boolean;
+          _type: "option";
+          _key: string;
+        }>;
+        note?: string;
       }
     | {
         _key: string;
@@ -8237,6 +8319,32 @@ export type PresentationQueryResult = {
           _key: string;
         }> | null;
         columnsPerRow?: number;
+      }
+    | {
+        _key: string;
+        _type: "comparisonBlock";
+        active?: boolean;
+        anchor?: string;
+        backgroundColor?: "primary" | "secondary" | "texture";
+        heading?: string;
+        intro?: string;
+        columns?: Array<{
+          title: string;
+          subtitle?: string;
+          rows?: Array<{
+            label?: string;
+            value?: string;
+            _type: "row";
+            _key: string;
+          }>;
+          totalLabel?: string;
+          total?: string;
+          footnote?: string;
+          highlight?: boolean;
+          _type: "option";
+          _key: string;
+        }>;
+        note?: string;
       }
     | {
         _key: string;
