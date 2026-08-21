@@ -53,6 +53,7 @@ export default async function PresentScreen({ params }: { params: Promise<Params
   return (
     <PresentationDeck
       slug={slug}
+      title={deck.title ?? undefined}
       blocks={blocks}
       index={screenIndex(blocks, screen?.[0])}
     />

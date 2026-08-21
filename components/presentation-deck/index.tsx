@@ -5,6 +5,8 @@ import { screenHref, screenId, type ScreenBlock } from '@/lib/presentation-scree
 
 export type PresentationDeckProps = {
   slug: string
+  /** Deck title, shown in the corner mark. */
+  title?: string
   blocks: Array<ScreenBlock & { _type?: string } & Record<string, unknown>>
   index: number
 }
@@ -15,7 +17,12 @@ const MENU_ANCHOR = 'menu'
  * One screen, full height, with the section's own padding intact so a deck
  * screen and the same block on a page look identical.
  */
-export default function PresentationDeck({ slug, blocks, index }: PresentationDeckProps) {
+export default function PresentationDeck({
+  slug,
+  title,
+  blocks,
+  index,
+}: PresentationDeckProps) {
   const block = blocks[index]
   if (!block) return null
 
@@ -37,6 +44,15 @@ export default function PresentationDeck({ slug, blocks, index }: PresentationDe
       // the section components stay untouched.
       className="relative flex w-full flex-col overflow-y-auto [&>section]:min-h-screen [&>section]:items-center [&>section]:py-10 [&>section]:pb-20 md:[&>section]:py-12 md:[&>section]:pb-20 [&_.content]:max-w-4xl [&_.text-center_.content]:mx-auto"
     >
+      {/* Orientation mark. A deck gets sent on and viewed without a presenter,
+          so it should say whose it is on every screen. */}
+      <div className="pointer-events-none fixed top-0 left-0 z-50 flex items-center gap-2 px-5 py-4">
+        <img src="/ohmni.svg" alt="" aria-hidden className="h-6 w-6" />
+        <span className="text-sm font-bold tracking-tight">
+          {title || 'Ohmni'}
+        </span>
+      </div>
+
       <Sections body={[block]} />
 
       <nav
