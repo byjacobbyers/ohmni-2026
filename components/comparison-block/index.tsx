@@ -34,6 +34,8 @@ export default function ComparisonBlock({
   const bg = normalizeSectionBackground(backgroundColor)
   const { sectionClass, innerLiftClass, showTexture } = sectionBackgroundClasses(bg)
 
+  // Stacking the columns on a phone destroys the only thing a comparison does,
+  // so below md they stay in a row and the row scrolls sideways instead.
   const gridCols =
     columns.length >= 4
       ? 'md:grid-cols-2 xl:grid-cols-4'
@@ -56,7 +58,13 @@ export default function ComparisonBlock({
           <p className="text-body mb-10 max-w-3xl text-muted-foreground">{intro}</p>
         ) : null}
 
-        <div className={cn('grid grid-cols-1 gap-4', gridCols)}>
+        <div
+          className={cn(
+            'grid auto-cols-[15rem] grid-flow-col gap-4 overflow-x-auto pb-2',
+            'md:auto-cols-auto md:grid-flow-row md:overflow-visible md:pb-0',
+            gridCols
+          )}
+        >
           {columns.map((col, i) => (
             <div key={col._key || `col-${i}`} className="flex flex-col">
               <div
