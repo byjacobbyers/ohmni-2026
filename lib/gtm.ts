@@ -85,6 +85,18 @@ export const trackEvent = (eventName: string, parameters: Record<string, unknown
   if (posthog.__loaded) posthog.capture(eventName, parameters)
 }
 
+/**
+ * Merge the anonymous browser person into a known one. Call the moment an email
+ * is known (form submit). Everything that anonymous id did, before and after,
+ * folds into the identified person, and server-side events keyed by the same
+ * email land there too. No-op while the visitor is opted out, so consent holds.
+ */
+export const identifyVisitor = (email: string, properties: Record<string, unknown> = {}) => {
+  const id = email.trim().toLowerCase()
+  if (!id || !posthog.__loaded || posthog.has_opted_out_capturing()) return
+  posthog.identify(id, { email: id, ...properties })
+}
+
 export const trackGeolocation = (geolocation: { country: string; region: string; city: string }) => {
   const payload: GTMEvent = {
     event: 'geolocation_detected',
