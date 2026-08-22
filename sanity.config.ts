@@ -16,6 +16,8 @@ import {apiVersion, dataset, projectId} from './sanity/env'
 import {schema} from './sanity/schemas'
 import {structure} from './sanity/structure'
 import { browseSectionGalleryAction } from './sanity/actions/browse-section-gallery-action'
+import { TranslateAction } from './sanity/actions/translate-action'
+import { I18N_TYPES } from './sanity/schemas/lib/language'
 import { resolveLocations } from './sanity/presentation/locations'
 import { brand } from '@/lib/brand'
 import { getPublicSiteUrl } from '@/lib/site-url'
@@ -27,6 +29,7 @@ const previewOrigin =
   process.env.SANITY_STUDIO_PREVIEW_ORIGIN?.replace(/\/+$/, '') || getPublicSiteUrl()
 
 const SECTION_DOC_TYPES = new Set(['page', 'post', 'event'])
+const TRANSLATABLE_TYPES = new Set<string>(I18N_TYPES)
 
 export default defineConfig({
   name: 'default',
@@ -49,12 +52,16 @@ export default defineConfig({
       resolve: {
         // Map preview URLs → documents so Presentation opens the right editor.
         mainDocuments: defineDocuments([
-          { route: '/', filter: `_type == "page" && slug.current == "home"` },
-          { route: '/posts', filter: `_type == "page" && slug.current == "posts"` },
-          { route: '/posts/:slug', filter: `_type == "post" && slug.current == $slug` },
+          { route: '/', filter: `_type == "page" && slug.current == "home" && coalesce(language, "en") == "en"` },
+          { route: '/posts', filter: `_type == "page" && slug.current == "posts" && coalesce(language, "en") == "en"` },
+          { route: '/posts/:slug', filter: `_type == "post" && slug.current == $slug && coalesce(language, "en") == "en"` },
           { route: '/events', filter: `_type == "page" && slug.current == "events"` },
           { route: '/events/:slug', filter: `_type == "event" && slug.current == $slug` },
-          { route: '/:slug', filter: `_type == "page" && slug.current == $slug` },
+          { route: '/es', filter: `_type == "page" && slug.current == "home" && language == "es"` },
+          { route: '/es/posts', filter: `_type == "page" && slug.current == "posts" && language == "es"` },
+          { route: '/es/posts/:slug', filter: `_type == "post" && slug.current == $slug && language == "es"` },
+          { route: '/es/:slug', filter: `_type == "page" && slug.current == $slug && language == "es"` },
+          { route: '/:slug', filter: `_type == "page" && slug.current == $slug && coalesce(language, "en") == "en"` },
         ]),
         locations: resolveLocations,
       },
@@ -63,10 +70,11 @@ export default defineConfig({
   ],
   document: {
     actions: (prev, context) => {
-      if (SECTION_DOC_TYPES.has(context.schemaType)) {
-        return [...prev, browseSectionGalleryAction]
-      }
-      return prev
+      const extra = [
+        ...(TRANSLATABLE_TYPES.has(context.schemaType) ? [TranslateAction] : []),
+        ...(SECTION_DOC_TYPES.has(context.schemaType) ? [browseSectionGalleryAction] : []),
+      ]
+      return extra.length ? [...prev, ...extra] : prev
     },
     newDocumentOptions: (prev, { creationContext }) => {
       if (creationContext.type === 'global') {

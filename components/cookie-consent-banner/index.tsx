@@ -3,6 +3,7 @@
 import { useApp } from '@/context'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+import { t, type Locale } from '@/lib/i18n'
 
 const checkboxClass =
   'h-4 w-4 shrink-0 rounded border-2 border-input bg-background accent-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background'
@@ -11,7 +12,7 @@ const checkboxClass =
  * Cookie consent UI + preferences. Only mounts when `NEXT_PUBLIC_GTM_ID` is set
  * (GTM consent bootstrap in layout expects the same).
  */
-export function CookieConsentBanner() {
+export function CookieConsentBanner({ lang = 'en' }: { lang?: Locale }) {
   const {
     cookieConsent,
     updateCookieConsent,
@@ -43,7 +44,7 @@ export function CookieConsentBanner() {
             type="button"
             onClick={() => setShowCookiePreferences(false)}
             className="absolute right-4 top-4 text-muted-foreground transition-colors hover:text-foreground"
-            aria-label="Close cookie preferences"
+            aria-label={t(lang, 'closePrefs')}
           >
             ×
           </button>
@@ -51,7 +52,7 @@ export function CookieConsentBanner() {
             id="cookie-preferences-title"
             className="mb-4 pr-8 text-base font-semibold"
           >
-            Cookie preferences
+            {t(lang, 'cookiePrefs')}
           </h3>
           <div className="space-y-4">
             <label className="flex cursor-pointer items-center gap-3">
@@ -63,7 +64,7 @@ export function CookieConsentBanner() {
                 }
                 className={checkboxClass}
               />
-              <span className="text-sm">Ad storage (personalized ads)</span>
+              <span className="text-sm">{t(lang, 'adStorage')}</span>
             </label>
             <label className="flex cursor-pointer items-center gap-3">
               <input
@@ -76,7 +77,7 @@ export function CookieConsentBanner() {
                 }
                 className={checkboxClass}
               />
-              <span className="text-sm">Analytics storage</span>
+              <span className="text-sm">{t(lang, 'analyticsStorage')}</span>
             </label>
             <label className="flex cursor-pointer items-center gap-3">
               <input
@@ -89,9 +90,7 @@ export function CookieConsentBanner() {
                 }
                 className={checkboxClass}
               />
-              <span className="text-sm">
-                Functionality storage (basic site features)
-              </span>
+              <span className="text-sm">{t(lang, 'functionalityStorage')}</span>
             </label>
             <label className="flex cursor-pointer items-center gap-3">
               <input
@@ -102,7 +101,7 @@ export function CookieConsentBanner() {
                 }
                 className={checkboxClass}
               />
-              <span className="text-sm">Ad user data</span>
+              <span className="text-sm">{t(lang, 'adUserData')}</span>
             </label>
             <label className="flex cursor-pointer items-center gap-3">
               <input
@@ -115,7 +114,7 @@ export function CookieConsentBanner() {
                 }
                 className={checkboxClass}
               />
-              <span className="text-sm">Ad personalization</span>
+              <span className="text-sm">{t(lang, 'adPersonalization')}</span>
             </label>
           </div>
           <div className="mt-6 flex justify-end">
@@ -124,7 +123,7 @@ export function CookieConsentBanner() {
               variant="default"
               onClick={() => setShowCookiePreferences(false)}
             >
-              Done
+              {t(lang, 'done')}
             </Button>
           </div>
         </div>
@@ -136,9 +135,9 @@ export function CookieConsentBanner() {
     <div className="fixed bottom-0 left-0 right-0 z-50 border-t-4 border-primary bg-background px-5 py-5 text-foreground shadow-lg">
       <div className="mx-auto flex max-w-7xl flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex-1">
-          <h3 className="text-base font-semibold">We use cookies</h3>
+          <h3 className="text-base font-semibold">{t(lang, 'cookieTitle')}</h3>
           <p className="mt-1 text-sm text-muted-foreground">
-            We use cookies to improve your experience and analyze our traffic.
+            {t(lang, 'cookieBody')}
           </p>
         </div>
         <div className="mt-2 flex shrink-0 justify-center gap-3 sm:mt-0 sm:justify-end">
@@ -155,7 +154,7 @@ export function CookieConsentBanner() {
               })
             }
           >
-            Reject all
+            {t(lang, 'rejectAll')}
           </Button>
           <Button
             type="button"
@@ -170,7 +169,7 @@ export function CookieConsentBanner() {
               })
             }
           >
-            Accept all
+            {t(lang, 'acceptAll')}
           </Button>
         </div>
       </div>

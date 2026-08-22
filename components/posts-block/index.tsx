@@ -15,6 +15,7 @@ import {
 } from '@/lib/section-background'
 import type { PostCard, PostsBlockProps } from '@/types/components/posts-block-type'
 import type { SanityImageSource } from '@/types/components/sanity-image-type'
+import { localizePath, t } from '@/lib/i18n'
 
 const DEFAULT_PAGE_SIZE = 6
 
@@ -28,6 +29,7 @@ export default function PostsBlock({
   initialPosts,
   posts,
   showImagePlaceholder = false,
+  lang = 'en',
 }: PostsBlockProps) {
   const allPosts: PostCard[] = (initialPosts ?? posts ?? []).filter((p) => p?.slug)
   const pageSize = Math.max(1, count || DEFAULT_PAGE_SIZE)
@@ -43,7 +45,7 @@ export default function PostsBlock({
         id={anchor || `posts-block-${componentIndex}`}
         className="posts-block w-full px-5 py-16 md:py-24 flex justify-center"
       >
-        <p className="container text-center text-muted-foreground">No posts published yet.</p>
+        <p className="container text-center text-muted-foreground">{t(lang, 'noPosts')}</p>
       </section>
     )
   }
@@ -76,7 +78,7 @@ export default function PostsBlock({
                 : post.author?.title
             const meta = [
               post.category,
-              post.publishedAt ? formatShortDate(parseSanityDate(post.publishedAt)) : null,
+              post.publishedAt ? formatShortDate(parseSanityDate(post.publishedAt), lang) : null,
               authorName,
             ]
               .filter(Boolean)
@@ -84,7 +86,7 @@ export default function PostsBlock({
 
             return (
               <li key={post._id} className="list-none">
-                <Link href={`/posts/${post.slug}`} className="group block no-underline">
+                <Link href={localizePath(`/posts/${post.slug}`, lang)} className="group block no-underline">
                   <Card className="flex w-full flex-col overflow-hidden rounded-md border border-border bg-card text-card-foreground transition-colors group-hover:border-primary">
                     {post.image || showImagePlaceholder ? (
                       <div className="relative w-full overflow-hidden border-b border-border">
@@ -118,7 +120,7 @@ export default function PostsBlock({
                         </p>
                       ) : null}
                       <span className="mt-1 text-sm font-medium tracking-wider text-primary uppercase no-underline">
-                        Read more
+                        {t(lang, 'readMore')}
                       </span>
                     </CardContent>
                   </Card>
@@ -135,7 +137,7 @@ export default function PostsBlock({
               variant={buttonVariant}
               onClick={() => setVisibleCount((n) => Math.min(n + pageSize, allPosts.length))}
             >
-              Load more
+              {t(lang, 'loadMore')}
             </Button>
           </div>
         ) : null}

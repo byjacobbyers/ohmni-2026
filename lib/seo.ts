@@ -38,10 +38,11 @@ export type SeoType = {
   ogImageBackground?: string
 }
 
-export type OgDocumentRef = { slug: string; type: 'page' | 'event' | 'post' }
+export type OgDocumentRef = { slug: string; type: 'page' | 'event' | 'post'; lang?: string }
 
 export function buildGeneratedOgImageUrl(ref: OgDocumentRef): string {
   const qs = new URLSearchParams({ slug: ref.slug, type: ref.type })
+  if (ref.lang && ref.lang !== 'en') qs.set('lang', ref.lang)
   return buildUrl(`/api/og?${qs.toString()}`)
 }
 
@@ -104,6 +105,10 @@ export function generateMetadata(
     preferGlobalShareGraphic?: boolean
     /** Set for posts: emits og:type article with publish metadata */
     article?: { publishedTime?: string; modifiedTime?: string; author?: string }
+    /** hreflang map, e.g. { en: '/pricing', es: '/es/pricing', 'x-default': '/pricing' } */
+    languages?: Record<string, string>
+    /** og:locale, e.g. es_ES */
+    locale?: string
   }
 ): Metadata {
   const title = pageSeo?.metaTitle || globalSeo?.metaTitle || fallbackTitle || defaultTitle
@@ -121,12 +126,20 @@ export function generateMetadata(
     metadataBase: new URL(baseUrl),
     title: finalTitle,
     description,
-    alternates: { canonical },
+    alternates: {
+      canonical,
+      ...(options?.languages && {
+        languages: Object.fromEntries(
+          Object.entries(options.languages).map(([k, v]) => [k, buildUrl(v)])
+        ),
+      }),
+    },
     robots: { index: !noIndex, follow: true },
     openGraph: {
       title: finalTitle,
       description,
       url: pageUrl,
+      ...(options?.locale && { locale: options.locale }),
       images: [{ url: ogImage, width: 1200, height: 630, alt: finalTitle }],
       ...(options?.article && {
         type: 'article',
@@ -200,6 +213,7 @@ export function generateWebPageJsonLd(data: {
   seo?: { shareGraphic?: { asset?: { url: string } } }
   _updatedAt?: string
   jsonLd?: PageJsonLdOverrides | null
+  inLanguage?: string
 }) {
   const pageUrl = data.url.startsWith('http') ? data.url : buildUrl(data.url)
   const overrides = data.jsonLd
@@ -214,6 +228,7 @@ export function generateWebPageJsonLd(data: {
     name,
     ...(description && { description }),
     url: pageUrl,
+    ...(data.inLanguage && { inLanguage: data.inLanguage }),
     ...(data._updatedAt && { dateModified: new Date(data._updatedAt).toISOString() }),
   }
 }
@@ -232,6 +247,7 @@ export function generateArticleJsonLd(data: {
   /** Organization name for the publisher node */
   publisherName?: string
   publisherLogoUrl?: string
+  inLanguage?: string
 }) {
   const articleUrl = data.url.startsWith('http') ? data.url : buildUrl(data.url)
   const overrides = data.jsonLd
@@ -255,6 +271,7 @@ export function generateArticleJsonLd(data: {
     ...(description && { description }),
     url: articleUrl,
     mainEntityOfPage: { '@type': 'WebPage', '@id': articleUrl },
+    ...(data.inLanguage && { inLanguage: data.inLanguage }),
     ...(data.publishedAt && { datePublished: data.publishedAt }),
     ...(authorNode && { author: authorNode }),
     ...(articleSection && { articleSection }),

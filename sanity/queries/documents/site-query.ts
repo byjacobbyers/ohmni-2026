@@ -34,7 +34,7 @@ export const SiteQuery = defineQuery(`*[_type == "site"][0] {
     },
     cta { ..., route { ${routeQuery} } }
   },
-  "founders": *[_type == "team" && founder == true] | order(title asc) ${teamPersonProjection},
+  "founders": *[_type == "team" && founder == true && coalesce(language, "en") == "en"] | order(title asc) ${teamPersonProjection},
   seo {
     ...,
     metaIcon { ${imageQuery} },

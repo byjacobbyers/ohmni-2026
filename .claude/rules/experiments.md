@@ -8,7 +8,7 @@ rewrite, so the URL never changes and pages stay static.
   The sitemap already drops noindex pages. Forgetting this ships a duplicate.
 - **Variant `a` is the original page.** The proxy treats the first variant as
   "no rewrite".
-- **`?ab=b` forces a variant; `?ab=reset` clears it.** Draft mode and crawler
+- **`?ab=b` forces a variant; `?ab=reset` re-rolls it** (a fresh random assignment, not a blank). Draft mode and crawler
   user agents are never assigned.
 - **Measurement is PostHog's, assignment is ours.** The cookie becomes a
   `$feature/<key>` super property (client) and rides on `lead_submitted`

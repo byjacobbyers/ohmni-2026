@@ -1,10 +1,12 @@
 import '../globals.css'
 import './studio.css'
 
-export default function StudioLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
-  return <>{children}</>
+export const metadata = { title: 'Studio' }
+
+export default function StudioLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <body suppressHydrationWarning>{children}</body>
+    </html>
+  )
 }

@@ -25,9 +25,9 @@ export type BaseRouteType = {
   icon?: string
   linkType: 'page' | 'event' | 'post' | 'path' | 'anchor' | 'file' | 'external' | 'email' | 'telephone'
   /* routeQuery projects "slug": slug.current, so slug arrives as a plain string */
-  pageRoute?: Omit<PageType, 'slug'> & { _type: 'page'; slug?: string }
+  pageRoute?: Omit<PageType, 'slug'> & { _type: 'page'; slug?: string; language?: string }
   eventRoute?: Omit<EventType, 'slug'> & { _type: 'event'; slug?: string }
-  postRoute?: Omit<PostType, 'slug'> & { _type: 'post'; slug?: string }
+  postRoute?: Omit<PostType, 'slug'> & { _type: 'post'; slug?: string; language?: string }
   fileRoute?: {
     asset?: {
       url?: string

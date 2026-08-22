@@ -8,17 +8,19 @@ import { Button } from '@/components/ui/button'
 import SimpleText from '@/components/simple-text'
 import { identifyVisitor, trackEvent } from '@/lib/gtm'
 import { parseAssignments } from '@/lib/experiments'
+import { t, type Locale } from '@/lib/i18n'
 import type { FormFieldConfig, ResolvedFormConfig } from '@/types/components/form-config-type'
 
 type LeadFormProps = {
   config: ResolvedFormConfig
+  lang?: Locale
 }
 
 /**
  * Dynamic lead form: system name/email + CMS fields, opt-in, disclaimer.
  * Hosts provide section chrome around this island.
  */
-export default function LeadForm({ config }: LeadFormProps) {
+export default function LeadForm({ config, lang = 'en' }: LeadFormProps) {
   const {
     formName,
     formTitle,
@@ -44,15 +46,15 @@ export default function LeadForm({ config }: LeadFormProps) {
 
   const validateForm = (): boolean => {
     const next: Record<string, string> = {}
-    if (!name.trim()) next.name = 'Name is required'
+    if (!name.trim()) next.name = t(lang, 'nameRequired')
     if (!email.trim()) {
-      next.email = 'Email is required'
+      next.email = t(lang, 'emailRequired')
     } else if (!/\S+@\S+\.\S+/.test(email)) {
-      next.email = 'Please enter a valid email address'
+      next.email = t(lang, 'emailInvalid')
     }
     for (const field of fields) {
       if (field.required && !(extra[field.name] || '').trim()) {
-        next[field.name] = `${field.label} is required`
+        next[field.name] = `${field.label} ${t(lang, 'isRequired')}`
       }
     }
     setErrors(next)
@@ -98,6 +100,7 @@ export default function LeadForm({ config }: LeadFormProps) {
           email,
           _hp: website,
           path: window.location.pathname,
+          lang,
           // Which variant this person saw, so the server-side conversion is attributable
           experiments: parseAssignments(document.cookie),
           formName,
@@ -175,11 +178,11 @@ export default function LeadForm({ config }: LeadFormProps) {
   return (
     <form onSubmit={handleSubmit} className="space-y-6" data-form-name={formName}>
       <div className="space-y-2">
-        <Label htmlFor="name">Name *</Label>
+        <Label htmlFor="name">{t(lang, 'name')} *</Label>
         <Input
           id="name"
           name="name"
-          placeholder="Your name"
+          placeholder={t(lang, 'yourName')}
           value={name}
           onChange={(e) => {
             setName(e.target.value)
@@ -192,12 +195,12 @@ export default function LeadForm({ config }: LeadFormProps) {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="email">Email *</Label>
+        <Label htmlFor="email">{t(lang, 'email')} *</Label>
         <Input
           id="email"
           name="email"
           type="email"
-          placeholder="your.email@example.com"
+          placeholder={t(lang, 'yourEmail')}
           value={email}
           onChange={(e) => {
             setEmail(e.target.value)
@@ -252,7 +255,7 @@ export default function LeadForm({ config }: LeadFormProps) {
       ) : null}
 
       <Button type="submit" className="w-full" disabled={isSubmitting}>
-        {isSubmitting ? 'Sending...' : submitLabel}
+        {isSubmitting ? t(lang, 'sending') : submitLabel}
       </Button>
 
       {submitStatus === 'success' && (
@@ -263,7 +266,7 @@ export default function LeadForm({ config }: LeadFormProps) {
           className="p-4 bg-green-50 border border-green-200 rounded-md"
         >
           <p className="text-green-800 text-sm">
-            Thank you! Your submission was received successfully.
+            {t(lang, 'thanks')}
           </p>
         </motion.div>
       )}
@@ -276,7 +279,7 @@ export default function LeadForm({ config }: LeadFormProps) {
           className="p-4 bg-red-50 border border-red-200 rounded-md"
         >
           <p className="text-red-800 text-sm">
-            Sorry, there was an error submitting the form. Please try again.
+            {t(lang, 'submitError')}
           </p>
         </motion.div>
       )}

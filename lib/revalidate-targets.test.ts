@@ -5,6 +5,7 @@ describe('getTargetsForDocument', () => {
   it('maps home page to / and busts the sitemap', () => {
     expect(getTargetsForDocument({ _type: 'page', slug: { current: 'home' } })).toEqual([
       { path: '/' },
+      { path: '/es' },
       { path: '/sitemap.xml' },
     ])
   })
@@ -12,6 +13,7 @@ describe('getTargetsForDocument', () => {
   it('busts the sitemap for any published page', () => {
     expect(getTargetsForDocument({ _type: 'page', slug: { current: 'analytics' } })).toEqual([
       { path: '/analytics' },
+      { path: '/es/analytics' },
       { path: '/sitemap.xml' },
     ])
   })
@@ -19,8 +21,11 @@ describe('getTargetsForDocument', () => {
   it('maps post to detail + list + home', () => {
     expect(getTargetsForDocument({ _type: 'post', slug: { current: 'hello' } })).toEqual([
       { path: '/posts/hello' },
+      { path: '/es/posts/hello' },
       { path: '/posts' },
+      { path: '/es/posts' },
       { path: '/' },
+      { path: '/es' },
       { path: '/sitemap.xml' },
     ])
   })

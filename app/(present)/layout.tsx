@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { SanityLive } from '@/sanity/lib/live'
 import { sans, mono, serif } from '../(site)/fonts'
 import { cn } from '@/lib/utils'
+import { brand } from '@/lib/brand'
 import '../(site)/globals.css'
 
 /**
@@ -10,6 +11,7 @@ import '../(site)/globals.css'
  * offer no way out of the deck.
  */
 export const metadata: Metadata = {
+  title: brand.name,
   robots: { index: false, follow: false },
 }
 
@@ -17,6 +19,8 @@ export default function PresentLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
+    <html lang="en" className="dark" suppressHydrationWarning>
+    <body className="antialiased" suppressHydrationWarning>
     <div
       className={cn(
         sans.variable,
@@ -44,5 +48,7 @@ export default function PresentLayout({
           them, so a published deck edit never reaches the screen. */}
       <SanityLive />
     </div>
+    </body>
+    </html>
   )
 }

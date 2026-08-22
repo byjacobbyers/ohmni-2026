@@ -11,7 +11,7 @@ const seoOgProjection = groq`{
 
 /** Minimal fetch for `/api/og`: one document by slug + site settings. */
 export const ogRouteDataQuery = groq`{
-  "doc": *[_type == $docType && slug.current == $slug][0] {
+  "doc": *[_type == $docType && slug.current == $slug && coalesce(language, "en") == $lang][0] {
     title,
     seo ${seoOgProjection}
   },

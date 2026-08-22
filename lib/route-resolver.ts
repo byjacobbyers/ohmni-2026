@@ -1,17 +1,23 @@
 import type { MouseEvent } from 'react'
 import { BaseRouteType } from '@/types/objects/route-type'
 import { trackEvent } from '@/lib/gtm'
+import { localizePath, toLocale } from '@/lib/i18n'
 
 function resolveRouteUrl(route: BaseRouteType): string {
   if (!route || !route.linkType) return '#'
 
   switch (route.linkType) {
+    // A Spanish document links to its Spanish URL; the prefix follows the target, not the current page.
     case 'page':
-      return route.pageRoute?.slug ? `/${route.pageRoute.slug}` : '#'
+      return route.pageRoute?.slug
+        ? localizePath(route.pageRoute.slug === 'home' ? '/' : `/${route.pageRoute.slug}`, toLocale(route.pageRoute.language))
+        : '#'
     case 'event':
       return route.eventRoute?.slug ? `/events/${route.eventRoute.slug}` : '#'
     case 'post':
-      return route.postRoute?.slug ? `/posts/${route.postRoute.slug}` : '#'
+      return route.postRoute?.slug
+        ? localizePath(`/posts/${route.postRoute.slug}`, toLocale(route.postRoute.language))
+        : '#'
     case 'path':
       if (route.route === undefined || route.route === null) return '#'
       if (route.route === '') return '/'

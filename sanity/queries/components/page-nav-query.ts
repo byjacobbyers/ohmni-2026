@@ -27,15 +27,16 @@ const navItemsQuery = groq`
   }
 `
 
+/** `$id` is `header` or `header--es`; see localizedId in lib/translate.ts. */
 export const headerQuery = groq`
-  *[_type == "navigation" && title == "Header"][0] {
+  *[_type == "navigation" && _id == $id][0] {
     title,
     ${navItemsQuery}
   }
 `
 
 export const footerQuery = groq`
-  *[_type == "navigation" && title == "Footer"][0] {
+  *[_type == "navigation" && _id == $id][0] {
     title,
     ${navItemsQuery}
   }

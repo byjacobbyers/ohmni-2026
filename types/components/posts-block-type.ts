@@ -11,6 +11,7 @@ export type PostCard = {
 
 export type PostsBlockProps = {
   active?: boolean
+  lang?: import('@/lib/i18n').Locale
   componentIndex?: number
   anchor?: string
   backgroundColor?: string

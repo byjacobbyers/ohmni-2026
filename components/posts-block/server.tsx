@@ -12,7 +12,7 @@ export default async function PostsBlockServer(props: PostsBlockProps) {
 
   let initialPosts: PostCard[] = []
   try {
-    const { data } = await sanityFetch({ query: postsQuery })
+    const { data } = await sanityFetch({ query: postsQuery, params: { lang: props.lang ?? 'en' } })
     initialPosts = (data || []) as PostCard[]
   } catch {
     initialPosts = []

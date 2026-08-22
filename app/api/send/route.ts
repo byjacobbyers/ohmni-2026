@@ -31,11 +31,12 @@ export async function POST(request: Request) {
       return Response.json({ success: true })
     }
 
-    const { name, email, path, formName, formTitle, marketingOptIn, fields, experiments } = parsed.data
+    const { name, email, path, lang, formName, formTitle, marketingOptIn, fields, experiments } = parsed.data
     const lead: Lead = {
       name,
       email,
       path: path?.slice(0, 200),
+      lang,
       formName,
       formTitle: formTitle?.slice(0, 120),
       marketingOptIn,

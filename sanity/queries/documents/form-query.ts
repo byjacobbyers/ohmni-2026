@@ -13,6 +13,7 @@ export const formDocumentProjection = groq`{
   _id,
   title,
   "slug": slug.current,
+  "language": coalesce(language, "en"),
   active,
   submitLabel,
   showOptIn,
@@ -29,7 +30,7 @@ export const formDocumentProjection = groq`{
   ${disclaimerProjection}
 }`
 
-export const formSettingsQuery = groq`*[_type == "formSettings"][0] {
+export const formSettingsQuery = groq`*[_type == "formSettings" && coalesce(language, "en") == $lang][0] {
   optInLabel,
   optInDefault,
   showOptInByDefault,

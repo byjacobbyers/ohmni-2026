@@ -1,5 +1,6 @@
 import { defineField, defineType } from 'sanity'
 import {DocumentTextIcon} from '@sanity/icons/DocumentText'
+import { isUniqueWithinLanguage, languageField } from '../lib/language'
 
 export default defineType({
   name: 'post',
@@ -30,9 +31,10 @@ export default defineType({
       name: 'slug',
       type: 'slug',
       group: 'post',
-      options: { source: 'title', maxLength: 96 },
+      options: { source: 'title', maxLength: 96, isUnique: isUniqueWithinLanguage },
       validation: (Rule) => Rule.required(),
     }),
+    { ...languageField, group: 'post' },
     defineField({
       title: 'Publish Date',
       name: 'publishedAt',
@@ -102,14 +104,15 @@ export default defineType({
       title: 'title',
       publishedAt: 'publishedAt',
       media: 'image',
+      language: 'language',
     },
-    prepare({ title, publishedAt, media }) {
+    prepare({ title, publishedAt, media, language }) {
       const date = publishedAt
         ? new Date(publishedAt + 'T12:00:00').toLocaleDateString()
         : 'No date'
       return {
         title: title || 'Untitled post',
-        subtitle: date,
+        subtitle: language && language !== 'en' ? `${date} · ${language.toUpperCase()}` : date,
         media,
       }
     },

@@ -3,24 +3,26 @@
 import Route from '@/components/route'
 import { Button } from '@/components/ui/button'
 import type { AnnouncementType } from '@/types/documents/announcement-type'
+import { t, type Locale } from '@/lib/i18n'
 
 type AnnouncementBarProps = {
   announcement: AnnouncementType | null
+  lang?: Locale
 }
 
-export default function AnnouncementBar({ announcement }: AnnouncementBarProps) {
+export default function AnnouncementBar({ announcement, lang = 'en' }: AnnouncementBarProps) {
   const message = announcement?.message?.trim()
   if (!message || !announcement) return null
 
   const route = announcement.route
   const showCta = Boolean(route?.linkType)
-  const ctaLabel = route?.title?.trim() || 'Learn more'
+  const ctaLabel = route?.title?.trim() || t(lang, 'learnMore')
 
   return (
     <div
       className="flex w-full shrink-0 justify-center px-5 pt-2 pb-1"
       role="region"
-      aria-label="Site announcement"
+      aria-label={t(lang, 'announcement')}
     >
       <div className="container">
         <div className="flex flex-nowrap items-center justify-between gap-2 rounded-xl border border-primary bg-primary px-6 py-1 text-primary-foreground md:justify-center md:gap-4 sm:flex-row">

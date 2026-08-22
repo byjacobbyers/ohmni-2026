@@ -1,38 +1,20 @@
-import { Metadata } from 'next'
-import { QueryParams } from 'next-sanity'
+import type { Metadata } from 'next'
 import { sanityFetch } from '@/sanity/lib/live'
 import { notFound } from 'next/navigation'
-import { postsQuery, postQuery } from '@/sanity/queries/documents/post-query'
-import { postCtaSettingsQuery } from '@/sanity/queries/documents/post-cta-settings-query'
-import { SiteQuery } from '@/sanity/queries/documents/site-query'
-import PostSingle from '@/components/post-single'
-import type { PostCtaSection, PostSingleData } from '@/types/components/post-single-type'
-
-import { resolveBrand, type BrandSiteInput } from '@/lib/brand'
-import {
-  buildUrl,
-  generateArticleJsonLd,
-  generateBreadcrumbJsonLd,
-  generateMetadata as generateSeoMetadata,
-} from '@/lib/seo'
-import { JsonLdScript } from '@/lib/content-page'
-import { authorDisplayName } from '@/types/components/post-single-type'
-import type {
-  PostQueryResult,
-  PostsQueryResult,
-  SiteQueryResult,
-} from '@/sanity.types'
+import { postsQuery } from '@/sanity/queries/documents/post-query'
+import { postMetadata, renderPost } from '@/lib/post-page'
+import type { PostsQueryResult } from '@/sanity.types'
 
 export async function generateStaticParams() {
   try {
-    const { data: posts } = await sanityFetch({
+    const { data } = await sanityFetch({
       query: postsQuery,
+      params: { lang: 'en' },
       perspective: 'published',
       stega: false,
     })
-    const list = (posts ?? []) as PostsQueryResult
-    return list
-      .filter((p) => p?.slug && typeof p.slug === 'string')
+    return ((data ?? []) as PostsQueryResult)
+      .filter((p) => typeof p.slug === 'string')
       .map((p) => ({ slug: p.slug as string }))
   } catch {
     return []
@@ -41,107 +23,11 @@ export async function generateStaticParams() {
 
 type Props = { params: Promise<{ slug: string }> }
 
-export const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
-  try {
-    const resolved = await params
-    const [{ data: postData }, { data: globalData }] = await Promise.all([
-      sanityFetch({ query: postQuery, params: { slug: resolved.slug }, stega: false }),
-      sanityFetch({ query: SiteQuery, stega: false }),
-    ])
-    const post = postData as PostQueryResult | null
-    const global = globalData as SiteQueryResult | null
+export const generateMetadata = async ({ params }: Props): Promise<Metadata> =>
+  postMetadata((await params).slug)
 
-    if (!post) return generateSeoMetadata()
-
-    return generateSeoMetadata(
-      (post.seo ?? undefined) as import('@/lib/seo').SeoType | undefined,
-      (global?.seo ?? undefined) as import('@/lib/seo').SeoType | undefined,
-      post.title ?? undefined,
-      post.excerpt ?? undefined,
-      {
-        url: `/posts/${resolved.slug}`,
-        titleSuffix: resolveBrand(global as BrandSiteInput | null).titleSuffix,
-        ogDocument: { slug: resolved.slug, type: 'post' },
-        article: {
-          publishedTime: post.publishedAt ?? undefined,
-          modifiedTime: post._updatedAt,
-          author: authorDisplayName(
-            post.author
-              ? { title: post.author.title ?? undefined, slug: post.author.slug ?? undefined }
-              : null
-          ),
-        },
-      }
-    )
-  } catch {
-    return generateSeoMetadata()
-  }
-}
-
-export default async function PostPage({ params }: { params: Promise<QueryParams> }) {
-  const resolved = await params
-  const slug = resolved?.slug
-  if (!slug || typeof slug !== 'string') notFound()
-
-  let post: PostQueryResult | null = null
-  let global: SiteQueryResult | null = null
-  let defaultCta: PostCtaSection | null = null
-  try {
-    const [postData, siteData, ctaSettings] = await Promise.all([
-      sanityFetch({ query: postQuery, params: { slug } }),
-      sanityFetch({ query: SiteQuery, stega: false }),
-      sanityFetch({ query: postCtaSettingsQuery, stega: false }),
-    ])
-    post = postData.data as PostQueryResult | null
-    global = siteData.data as SiteQueryResult | null
-    // Singleton first; site.postCta remains a legacy fallback.
-    defaultCta =
-      ((ctaSettings.data as { cta?: PostCtaSection | null } | null)?.cta ?? null) ||
-      ((global?.postCta as PostCtaSection | null | undefined) ?? null)
-  } catch {
-    notFound()
-  }
-
-  if (!post) notFound()
-
-  const schemas = []
-  const title = post.title ?? 'Untitled'
-  schemas.push(
-    generateArticleJsonLd({
-      title,
-      description: post.seo?.metaDesc ?? post.excerpt ?? undefined,
-      url: `/posts/${slug}`,
-      publishedAt: post.publishedAt ?? undefined,
-      author: post.author
-        ? {
-            title: post.author.title ?? undefined,
-            slug: post.author.slug ?? undefined,
-            primaryJobTitle: post.author.primaryJobTitle ?? undefined,
-          }
-        : null,
-      category: post.category ?? undefined,
-      image: (post.image ?? undefined) as { asset?: { url?: string } } | undefined,
-      _updatedAt: post._updatedAt,
-      jsonLd: post.jsonLd,
-      publisherName: resolveBrand(global as BrandSiteInput | null).name,
-      publisherLogoUrl: buildUrl('/ohmni.svg'),
-    })
-  )
-  const breadcrumb = generateBreadcrumbJsonLd([
-    { name: 'Posts', url: '/posts' },
-    { name: title, url: `/posts/${slug}` },
-  ])
-  if (breadcrumb) schemas.push(breadcrumb)
-
-
-  return (
-    <>
-      <JsonLdScript id="post-jsonld" schemas={schemas} />
-      <PostSingle
-        post={{ ...post, shareUrl: buildUrl(`/posts/${slug}`) } as PostSingleData}
-        defaultCta={defaultCta}
-        key={post._id}
-      />
-    </>
-  )
+export default async function PostPage({ params }: Props) {
+  const { slug } = await params
+  if (!slug) notFound()
+  return renderPost(slug)
 }
