@@ -44,3 +44,9 @@ one to `{id}.png` at 2x. Add a block, add its id to `IDS`, re-run.
 Upload a new diagram to Sanity with the CLI token, then reference the returned
 asset id from a `heroBlock` or `imageBlock`. Landscape diagrams need full width
 (`imageBlock`, `max-w-full`); portrait ones fit a `heroBlock` half column.
+
+## Inngest demo
+
+| File | Purpose |
+|------|---------|
+| `inngest-demo.md` | Five minute walkthrough for showing the lead pipeline live: which tabs to open, what each step is called, and how to show a skip and a retry without touching production. |
