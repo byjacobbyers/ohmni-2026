@@ -75,12 +75,9 @@ export default function LeadForm({ config }: LeadFormProps) {
     setSubmitStatus('idle')
 
     try {
-      if (website) {
-        setSubmitStatus('success')
-        resetForm()
-        return
-      }
-
+      // No client-side honeypot decision. Autofill and password managers fill
+      // hidden fields, and a silent fake success swallowed real leads. The
+      // server decides and logs it, so a false positive is visible.
       const fieldsPayload = Object.fromEntries(
         fields
           .map((f) => [f.name, (extra[f.name] || '').trim()] as const)
@@ -98,7 +95,7 @@ export default function LeadForm({ config }: LeadFormProps) {
         body: JSON.stringify({
           name,
           email,
-          website,
+          _hp: website,
           path: window.location.pathname,
           formName,
           formTitle,
@@ -213,8 +210,8 @@ export default function LeadForm({ config }: LeadFormProps) {
 
       <input
         type="text"
-        id="website"
-        name="website"
+        id="hp-field"
+        name="_hp"
         value={website}
         onChange={(e) => setWebsite(e.target.value)}
         style={{

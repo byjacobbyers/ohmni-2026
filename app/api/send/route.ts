@@ -25,6 +25,9 @@ export async function POST(request: Request) {
     }
 
     if (parsed.honeypot) {
+      // Silent 200 for bots, but never silent in the logs: a filled honeypot
+      // on a real submit is exactly how legitimate leads go missing.
+      console.warn('[API Send] honeypot tripped, lead discarded', { ip })
       return Response.json({ success: true })
     }
 
