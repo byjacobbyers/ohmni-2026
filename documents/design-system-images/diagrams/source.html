@@ -52,6 +52,47 @@
   .step.end{border-color:#4a2b2e;color:var(--red)}
   .arrow{flex:none;width:46px;display:flex;align-items:center;justify-content:center;color:#3a4557;font-size:26px}
   .rule{height:1px;background:var(--line);margin:34px 0 26px}
+  .flow{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;align-items:start;margin-bottom:16px}
+  .flow .col3{background:var(--card);border:1px solid var(--line);padding:20px 22px;min-height:100%}
+  .flow .col3.on{border-color:var(--blue)}
+  .flow .col3 .lab{font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+  .flow .col3.on .lab{color:#8fb0ff}
+  .flow .col3 .nm{font-size:25px;font-weight:700;margin-bottom:4px}
+  .flow .col3 .tool{display:inline-block;background:#243044;color:#d7deea;font-size:17px;font-weight:600;padding:5px 11px;margin:6px 6px 0 0}
+  .flow .col3 .tool.on{background:var(--blue);color:#fff}
+  .flow .col3 .d{color:var(--muted);font-size:18px;line-height:1.4;margin-top:10px}
+  .split2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
+  .split2 .pane{background:var(--card);border:1px solid var(--line);padding:22px 26px}
+  .split2 .pane.on{border-color:var(--blue)}
+  .split2 .pane.bad{border-color:#4a2b2e}
+  .split2 .pane .ttl{font-size:26px;font-weight:700;margin-bottom:12px}
+  .split2 .pane ul{list-style:none;padding:0;margin:0}
+  .split2 .pane li{font-size:20px;line-height:1.45;color:var(--muted);padding:6px 0;border-bottom:1px solid #1b2431;display:flex;justify-content:space-between;gap:14px}
+  .split2 .pane li b{color:var(--ink);font-weight:600;white-space:nowrap}
+  .split2 .pane li b.r{color:var(--red)}
+  .split2 .pane li b.g{color:#8fb0ff}
+  .ninety{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+  .ninety .ph{background:var(--card);border:1px solid var(--line);padding:0 0 18px}
+  .ninety .ph .bar{height:5px;background:#2b3547}
+  .ninety .ph.on .bar{background:var(--blue)}
+  .ninety .ph .w{font-size:14px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:16px 20px 0}
+  .ninety .ph .t{font-size:22px;font-weight:700;padding:4px 20px 0;line-height:1.2}
+  .ninety .ph ul{margin:10px 0 0;padding:0 20px 0 36px}
+  .ninety .ph li{color:var(--muted);font-size:17px;line-height:1.4;margin-bottom:4px}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:12px}
+  .cell{background:var(--card);border:1px solid var(--line);padding:18px 20px}
+  .cell.on{border-color:var(--blue)}
+  .cell .k{font-size:14px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+  .cell .v{font-size:21px;font-weight:700;line-height:1.25}
+  .cell .s{color:var(--muted);font-size:17px;line-height:1.4;margin-top:6px}
+  .map{display:grid;grid-template-columns:1fr 44px 1fr;gap:10px 0;align-items:center;margin-bottom:14px}
+  .map .l,.map .r{background:var(--card);border:1px solid var(--line);padding:14px 18px;font-size:19px;line-height:1.35}
+  .map .l{color:var(--muted)}
+  .map .r{color:var(--ink)}
+  .map .r.gap{border-color:#4a2b2e;color:var(--muted)}
+  .map .r.gap b{color:var(--red);font-weight:600}
+  .map .a{text-align:center;color:#3a4557;font-size:22px}
+  .map .hd{font-size:14px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:0 18px 4px}
   .roles{display:grid;gap:14px;margin-bottom:16px}
   .role{background:var(--card);border:1px solid var(--line);padding:22px 26px;display:flex;gap:22px;align-items:flex-start}
   .role.on{border-color:var(--blue)}
@@ -318,6 +359,33 @@
   </div>
 
   <div class="note">Without a manager there is no retry and no logbook, so a skipped job and a finished job look exactly the same from the outside. Silent failure is the expensive kind.</div>
+</div>
+
+<!-- 11 ─────────────── the mailroom with real tools -->
+<div class="diagram" id="ohmnimail">
+  <div class="kicker">The mailroom I run, with the actual tools</div>
+  <div class="sub">What happens in the first sixty seconds after someone submits a form on a site I operate.</div>
+  <div class="flow">
+    <div class="col3">
+      <div class="lab">Front desk</div>
+      <div class="nm">Next.js on Vercel</div>
+      <span class="tool">Next.js</span><span class="tool">Sanity</span><span class="tool">Vercel</span>
+      <div class="d">Validates, writes the submission down, drops the envelope in the manager's tray, and says "got it" to the visitor. Does none of the work itself.</div>
+    </div>
+    <div class="col3 on">
+      <div class="lab">Manager</div>
+      <div class="nm">Inngest</div>
+      <span class="tool on">Inngest</span>
+      <div class="d">Hands each job to a worker in order. Retries a fumble with backoff. Keeps a logbook of every envelope and every attempt. After repeated failure, stops and pages a human.</div>
+    </div>
+    <div class="col3">
+      <div class="lab">Workers, one job each</div>
+      <div class="nm">Five of them</div>
+      <span class="tool">Attio</span><span class="tool">Customer.io</span><span class="tool">PostHog</span><span class="tool">Resend</span><span class="tool">Slack</span>
+      <div class="d">CRM record. Welcome sequence. Server side analytics event. Internal notification. Alert channel. A worker short on supplies sits the round out and writes "skipped".</div>
+    </div>
+  </div>
+  <div class="note">The night this shipped, the Resend worker had no API key. Every other worker finished, the visitor saw "message sent", and the logbook said "skipped: no stamps". A skipped job and a done job look identical from the outside unless something is keeping the book.</div>
 </div>
 
 <script>
