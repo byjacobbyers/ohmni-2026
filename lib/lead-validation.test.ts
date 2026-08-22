@@ -16,7 +16,7 @@ describe('parseLeadSubmit', () => {
       data: {
         name: 'Ada',
         email: 'ada@example.com',
-        website: '',
+        _hp: '',
         path: '/contact',
         formName: 'contact',
         formTitle: 'Contact Form',
@@ -58,7 +58,7 @@ describe('parseLeadSubmit', () => {
       name: 'Bot',
       email: 'bot@example.com',
       formName: 'contact',
-      website: 'https://spam.test',
+      _hp: 'https://spam.test',
     })
     expect(result).toEqual({ ok: true, honeypot: true })
   })
