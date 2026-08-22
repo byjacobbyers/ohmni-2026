@@ -28,6 +28,7 @@ import embedBlock from './components/embed-block-schema'
 import formBlock from './components/form-block-schema'
 import columnBlock from './components/column-block-schema'
 import comparisonBlock from './components/comparison-block-schema'
+import panelsBlock from './components/panels-block-schema'
 import galleryBlock from './components/gallery-block-schema'
 import dividerBlock from './components/divider-block-schema'
 import splitScrollBlock from './components/split-scroll-block-schema'
@@ -82,6 +83,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     formBlock,
     columnBlock,
     comparisonBlock,
+    panelsBlock,
     galleryBlock,
     dividerBlock,
     splitScrollBlock,

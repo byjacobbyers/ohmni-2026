@@ -2,6 +2,7 @@ import {
   BannerPlayground,
   CardsPlayground,
   ComparisonPlayground,
+  PanelsPlayground,
   CoverPlayground,
   CtaPlayground,
   DividerPlayground,
@@ -38,6 +39,7 @@ const NAV = [
   { href: '#quote', label: 'Quote' },
   { href: '#team', label: 'Team' },
   { href: '#comparison', label: 'Comparison' },
+  { href: '#panels', label: 'Panels' },
   { href: '#stats', label: 'Stats' },
   { href: '#posts', label: 'Posts' },
   { href: '#events', label: 'Events' },
@@ -83,6 +85,7 @@ export default function DesignSectionsPage() {
       <QuotePlayground />
       <TeamPlayground />
       <ComparisonPlayground />
+      <PanelsPlayground />
       <StatsPlayground />
       <PostsPlayground />
       <EventsPlayground />

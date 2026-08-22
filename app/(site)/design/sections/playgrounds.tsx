@@ -5,6 +5,7 @@ import AppearAnimation from '@/components/appear-animation'
 import BannerBlock from '@/components/banner-block'
 import ColumnBlock from '@/components/column-block'
 import ComparisonBlock from '@/components/comparison-block'
+import PanelsBlock from '@/components/panels-block'
 import CoverBlock from '@/components/cover-block'
 import CtaBlock from '@/components/cta-block'
 import DividerBlock from '@/components/divider-block'
@@ -588,6 +589,28 @@ export function ComparisonPlayground() {
           },
         ]}
         note="The honest caveat belongs here. A comparison that only flatters you gets checked."
+      />
+    </SectionChrome>
+  )
+}
+
+export function PanelsPlayground() {
+  const [values, onChange] = useVariantState({ backgroundColor: 'primary' })
+  return (
+    <SectionChrome id="panels" type="panelsBlock" note={values.backgroundColor}>
+      <SectionControls groups={[BG_GROUP]} values={values} onChange={onChange} />
+      <PanelsBlock
+        componentIndex={21}
+        backgroundColor={values.backgroundColor}
+        kicker="A first ninety days"
+        heading="Sequenced so nothing gets built twice"
+        columnsPerRow={3}
+        panels={[
+          { _key: 'p1', eyebrow: 'Weeks 1 to 2', title: 'Decide the ground', tags: ['Audit'], body: pt('Hosting decided once. Preview deploys per branch.'), highlight: true },
+          { _key: 'p2', eyebrow: 'Weeks 3 to 6', title: 'Make the site readable', tags: ['JSON-LD', 'llms.txt'], body: pt('Structured data generated from the CMS, server rendered.') },
+          { _key: 'p3', eyebrow: 'Weeks 7 to 10', title: 'Put a manager in the mailroom', tags: ['Queue', 'Alerts'], body: pt('Server side events, retries, a logbook.') },
+        ]}
+        note={pt('The closing note sits here, with a rule.')}
       />
     </SectionChrome>
   )

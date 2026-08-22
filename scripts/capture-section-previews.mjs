@@ -20,6 +20,7 @@ const SECTIONS = [
   ['image', 'imageBlock'],
   ['cards', 'columnBlock'],
   ['comparison', 'comparisonBlock'],
+  ['panels', 'panelsBlock'],
   ['logo-bar', 'logoBarBlock'],
   ['gallery', 'galleryBlock'],
   ['split-scroll', 'splitScrollBlock'],

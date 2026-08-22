@@ -95,7 +95,15 @@ export default function ComparisonBlock({
                       className="flex items-baseline justify-between gap-4 border-b border-border/60 px-5 py-3"
                     >
                       <dt className="text-sm text-muted-foreground">{row.label}</dt>
-                      <dd className="text-right text-sm font-semibold">{row.value}</dd>
+                      <dd
+                        className={cn(
+                          'text-right text-sm font-semibold',
+                          row.emphasis === 'bad' && 'text-destructive',
+                          row.emphasis === 'good' && 'text-primary'
+                        )}
+                      >
+                        {row.value}
+                      </dd>
                     </div>
                   ))}
                 </dl>
