@@ -52,6 +52,47 @@
   .step.end{border-color:#4a2b2e;color:var(--red)}
   .arrow{flex:none;width:46px;display:flex;align-items:center;justify-content:center;color:#3a4557;font-size:26px}
   .rule{height:1px;background:var(--line);margin:34px 0 26px}
+  .flow{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;align-items:start;margin-bottom:16px}
+  .flow .col3{background:var(--card);border:1px solid var(--line);padding:20px 22px;min-height:100%}
+  .flow .col3.on{border-color:var(--blue)}
+  .flow .col3 .lab{font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+  .flow .col3.on .lab{color:#8fb0ff}
+  .flow .col3 .nm{font-size:25px;font-weight:700;margin-bottom:4px}
+  .flow .col3 .tool{display:inline-block;background:#243044;color:#d7deea;font-size:17px;font-weight:600;padding:5px 11px;margin:6px 6px 0 0}
+  .flow .col3 .tool.on{background:var(--blue);color:#fff}
+  .flow .col3 .d{color:var(--muted);font-size:18px;line-height:1.4;margin-top:10px}
+  .split2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
+  .split2 .pane{background:var(--card);border:1px solid var(--line);padding:22px 26px}
+  .split2 .pane.on{border-color:var(--blue)}
+  .split2 .pane.bad{border-color:#4a2b2e}
+  .split2 .pane .ttl{font-size:26px;font-weight:700;margin-bottom:12px}
+  .split2 .pane ul{list-style:none;padding:0;margin:0}
+  .split2 .pane li{font-size:20px;line-height:1.45;color:var(--muted);padding:6px 0;border-bottom:1px solid #1b2431;display:flex;justify-content:space-between;gap:14px}
+  .split2 .pane li b{color:var(--ink);font-weight:600;white-space:nowrap}
+  .split2 .pane li b.r{color:var(--red)}
+  .split2 .pane li b.g{color:#8fb0ff}
+  .ninety{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+  .ninety .ph{background:var(--card);border:1px solid var(--line);padding:0 0 18px}
+  .ninety .ph .bar{height:5px;background:#2b3547}
+  .ninety .ph.on .bar{background:var(--blue)}
+  .ninety .ph .w{font-size:14px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:16px 20px 0}
+  .ninety .ph .t{font-size:22px;font-weight:700;padding:4px 20px 0;line-height:1.2}
+  .ninety .ph ul{margin:10px 0 0;padding:0 20px 0 36px}
+  .ninety .ph li{color:var(--muted);font-size:17px;line-height:1.4;margin-bottom:4px}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:12px}
+  .cell{background:var(--card);border:1px solid var(--line);padding:18px 20px}
+  .cell.on{border-color:var(--blue)}
+  .cell .k{font-size:14px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+  .cell .v{font-size:21px;font-weight:700;line-height:1.25}
+  .cell .s{color:var(--muted);font-size:17px;line-height:1.4;margin-top:6px}
+  .map{display:grid;grid-template-columns:1fr 44px 1fr;gap:10px 0;align-items:center;margin-bottom:14px}
+  .map .l,.map .r{background:var(--card);border:1px solid var(--line);padding:14px 18px;font-size:19px;line-height:1.35}
+  .map .l{color:var(--muted)}
+  .map .r{color:var(--ink)}
+  .map .r.gap{border-color:#4a2b2e;color:var(--muted)}
+  .map .r.gap b{color:var(--red);font-weight:600}
+  .map .a{text-align:center;color:#3a4557;font-size:22px}
+  .map .hd{font-size:14px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:0 18px 4px}
   .roles{display:grid;gap:14px;margin-bottom:16px}
   .role{background:var(--card);border:1px solid var(--line);padding:22px 26px;display:flex;gap:22px;align-items:flex-start}
   .role.on{border-color:var(--blue)}
@@ -341,6 +382,151 @@
   </div>
 
   <div class="note">There is no manager in this picture. Nothing queues, nothing retries, nothing keeps a logbook, and every tool competes with the page for the same main thread.</div>
+</div>
+
+<!-- 11 ─────────────── the mailroom with real tools -->
+<div class="diagram" id="ohmnimail">
+  <div class="kicker">The mailroom I run, with the actual tools</div>
+  <div class="sub">What happens in the first sixty seconds after someone submits a form on a site I operate.</div>
+  <div class="flow">
+    <div class="col3">
+      <div class="lab">Front desk</div>
+      <div class="nm">Next.js on Vercel</div>
+      <span class="tool">Next.js</span><span class="tool">Sanity</span><span class="tool">Vercel</span>
+      <div class="d">Validates, writes the submission down, drops the envelope in the manager's tray, and says "got it" to the visitor. Does none of the work itself.</div>
+    </div>
+    <div class="col3 on">
+      <div class="lab">Manager</div>
+      <div class="nm">Inngest</div>
+      <span class="tool on">Inngest</span>
+      <div class="d">Hands each job to a worker in order. Retries a fumble with backoff. Keeps a logbook of every envelope and every attempt. After repeated failure, stops and pages a human.</div>
+    </div>
+    <div class="col3">
+      <div class="lab">Workers, one job each</div>
+      <div class="nm">Five of them</div>
+      <span class="tool">Attio</span><span class="tool">Customer.io</span><span class="tool">PostHog</span><span class="tool">Resend</span><span class="tool">Slack</span>
+      <div class="d">CRM record. Welcome sequence. Server side analytics event. Internal notification. Alert channel. A worker short on supplies sits the round out and writes "skipped".</div>
+    </div>
+  </div>
+  <div class="note">The night this shipped, the Resend worker had no API key. Every other worker finished, the visitor saw "message sent", and the logbook said "skipped: no stamps". A skipped job and a done job look identical from the outside unless something is keeping the book.</div>
+</div>
+
+<!-- 12 ─────────────── two audiences, one page -->
+<div class="diagram" id="twomotions">
+  <div class="kicker">Two buyers on every page</div>
+  <div class="sub">Deepgram runs a self-serve developer motion and an enterprise motion at once. Each trusts different things, and the website has to carry both without picking a side.</div>
+  <div class="split2">
+    <div class="pane">
+      <div class="ttl">The developer trusts specifics</div>
+      <ul>
+        <li>Free credit, no card on file <b>on /pricing</b></li>
+        <li>Public per-minute rates <b>visible</b></li>
+        <li>A playground and copy-pasteable code <b>in the docs</b></li>
+        <li>Latency numbers, not adjectives <b>Flux, 80ms</b></li>
+      </ul>
+    </div>
+    <div class="pane">
+      <div class="ttl">The enterprise buyer trusts proof</div>
+      <ul>
+        <li>Deployment options: cloud, VPC, on-prem, edge <b>on the site</b></li>
+        <li>SOC 2, HIPAA, PCI, GDPR, FIPS 140-3 <b>badged</b></li>
+        <li>Named customers and case studies <b>Twilio, IBM, NASA</b></li>
+        <li>A human to talk to <b>Contact sales</b></li>
+      </ul>
+    </div>
+  </div>
+  <div class="note">The design problem is routing two people with two definitions of trust through the same URL. A page that leans developer loses the CISO. A page that leans enterprise reads as a brochure to the engineer who will actually integrate it.</div>
+</div>
+
+<!-- 13 ─────────────── where the site actually lives -->
+<div class="diagram" id="hosting">
+  <div class="kicker">Where each property lives today</div>
+  <div class="sub">The posting names Vercel in production. Checked on 21 August 2026.</div>
+  <div class="grid3">
+    <div class="cell"><div class="k">deepgram.com</div><div class="v">Netlify</div><div class="s">Resolves to web-deepgram.netlify.app. Next.js marketing site, Sanity behind it.</div></div>
+    <div class="cell on"><div class="k">developers.deepgram.com</div><div class="v">Vercel</div><div class="s">Docs on Fern. Serves .md from any page, a 401 line llms.txt, and a hosted MCP server.</div></div>
+    <div class="cell"><div class="k">The job description</div><div class="v">"Vercel in production"</div><div class="s">Either a migration is planned and unstated, or the requirement was written against the docs stack.</div></div>
+  </div>
+  <div class="card on" style="margin-top:18px">
+    <div class="chip blue">Why it matters now</div>
+    <div class="h">A platform move and internationalization are the same project</div>
+    <div class="p">There is no hreflang and no locale segment anywhere in the sitemap. Locale routing is greenfield, and it is the one thing you never want to build twice. Decide the host before the first locale ships.</div>
+  </div>
+</div>
+
+<!-- 14 ─────────────── docs solved it, marketing did not -->
+<div class="diagram" id="aeogap">
+  <div class="kicker">AI discoverability, property by property</div>
+  <div class="sub">Same company, same buyers, two very different answers to "can a model read this page".</div>
+  <div class="split2">
+    <div class="pane on">
+      <div class="ttl">developers.deepgram.com</div>
+      <ul>
+        <li>llms.txt <b class="g">401 lines</b></li>
+        <li>Markdown from any page, append .md <b class="g">200</b></li>
+        <li>Hosted MCP server for AI clients <b class="g">yes</b></li>
+        <li>Who built it <b class="g">Fern, out of the box</b></li>
+      </ul>
+    </div>
+    <div class="pane bad">
+      <div class="ttl">deepgram.com</div>
+      <ul>
+        <li>llms.txt <b>59 lines</b></li>
+        <li>Append .md <b class="r">404</b></li>
+        <li>JSON-LD on the homepage <b class="r">none</b></li>
+        <li>AI crawlers in robots.txt <b class="r">not mentioned</b></li>
+      </ul>
+    </div>
+  </div>
+  <div class="note">Not a knowledge gap. The docs team has the answer and a tool that does it for them. The marketing site has had contributors, and nobody whose job this is. Porting the docs pattern into Next.js and Sanity is a concrete first quarter deliverable.</div>
+</div>
+
+<!-- 15 ─────────────── the job, decoded -->
+<div class="diagram" id="role">
+  <div class="kicker">What the posting actually describes</div>
+  <div class="sub">Read the responsibilities in order and one picture appears: a one-person web platform team for marketing.</div>
+  <div class="grid3">
+    <div class="cell"><div class="k">Platform</div><div class="v">Own the Next.js repo, CI/CD, code review, a QA program with staging</div></div>
+    <div class="cell"><div class="k">Content system</div><div class="v">Sanity schemas, publishing workflows, the component library</div></div>
+    <div class="cell on"><div class="k">Discoverability</div><div class="v">Technical SEO, Core Web Vitals, structured data for LLMs</div></div>
+    <div class="cell on"><div class="k">Plumbing</div><div class="v">Forms, gated content, GTM, GA4, HubSpot, routine security audits</div></div>
+    <div class="cell"><div class="k">Growth</div><div class="v">Internationalization with hreflang, A/B testing infrastructure, campaign pages fast</div></div>
+    <div class="cell"><div class="k">People</div><div class="v">Direct agency developers</div></div>
+  </div>
+  <div class="note">One person cannot build greenfield i18n, a QA program, an experimentation platform and an AEO overhaul in year one while shipping campaigns. The question worth asking is which two come first.</div>
+</div>
+
+<!-- 16 ─────────────── first ninety days -->
+<div class="diagram" id="ninety">
+  <div class="kicker">A first ninety days</div>
+  <div class="sub">Sequenced so nothing gets built twice. Every phase ships something the marketing team can see.</div>
+  <div class="ninety">
+    <div class="ph on"><div class="bar"></div><div class="w">Weeks 1 to 2</div><div class="t">Decide the ground</div>
+      <ul><li>Hosting decided once: stay on Netlify or move to Vercel</li><li>Audit of the repo, the Sanity schema, the tag stack</li><li><b style="color:#d7deea">Marketing sees:</b> a preview link for every change, before it ships</li></ul></div>
+    <div class="ph"><div class="bar"></div><div class="w">Weeks 3 to 6</div><div class="t">Make the site readable</div>
+      <ul><li>JSON-LD generated from Sanity, server rendered</li><li>llms.txt and .md built from the CMS</li><li><b style="color:#d7deea">Marketing sees:</b> product pages that assistants can quote</li></ul></div>
+    <div class="ph"><div class="bar"></div><div class="w">Weeks 7 to 10</div><div class="t">Put a manager in the mailroom</div>
+      <ul><li>Server side events for forms and conversions</li><li>A queue with retries and a logbook</li><li><b style="color:#d7deea">Marketing sees:</b> a lead is never silently lost again</li></ul></div>
+    <div class="ph"><div class="bar"></div><div class="w">Weeks 11 to 13</div><div class="t">Lay the i18n foundation</div>
+      <ul><li>Locale routing and locale-scoped Sanity</li><li>hreflang with x-default, partitioned sitemaps</li><li><b style="color:#d7deea">Marketing sees:</b> the first localized page live, with a workflow to make the next one</li></ul></div>
+  </div>
+  <div class="note">Throughout: content validation rules in Sanity so bad content cannot publish, and a smoke suite on the conversion paths. The QA program is not a phase. It is the thing that lets the other phases ship.</div>
+</div>
+
+<!-- 17 ─────────────── fit and the honest gaps -->
+<div class="diagram" id="fit">
+  <div class="kicker">What the posting asks for, and where I stand</div>
+  <div class="sub">Under-claim and be believed.</div>
+  <div class="map">
+    <div class="hd">They want</div><div></div><div class="hd">I have</div>
+    <div class="l">Next.js and Sanity marketing sites on Vercel</div><div class="a">&rarr;</div><div class="r">Next.js 16, React 19, Sanity, Tailwind, TypeScript. Ohmni's site, TerraTrue, Unified, Parcion.</div>
+    <div class="l">Sanity schemas and publishing workflows</div><div class="a">&rarr;</div><div class="r">Schema and editor experience, Presentation tool with live preview and draft mode, so marketers edit in context.</div>
+    <div class="l">Structured data for LLM discoverability</div><div class="a">&rarr;</div><div class="r">JSON-LD generated from CMS content, server rendered: Organization, WebSite, Article, FAQ, Event, Person.</div>
+    <div class="l">Directing agency developers</div><div class="a">&rarr;</div><div class="r">I have been the agency developer for six years. I know where that relationship works and where it fails.</div>
+    <div class="l">Internationalization at scale</div><div class="a">&rarr;</div><div class="r gap"><b>Gap.</b> I have not shipped hreflang and locale routing on a production site. I know the shape and would not bluff it.</div>
+    <div class="l">A/B testing on a live marketing site</div><div class="a">&rarr;</div><div class="r gap"><b>Gap.</b> Experiments yes, an experimentation platform at scale no.</div>
+    <div class="l">Enterprise repo scale</div><div class="a">&rarr;</div><div class="r gap"><b>Different.</b> One-person repos are not repos with agency contributors, stakeholders and a QA program. That is the thing I want next.</div>
+  </div>
 </div>
 
 <script>
