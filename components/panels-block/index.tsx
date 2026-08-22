@@ -36,12 +36,16 @@ export default function PanelsBlock({
     >
       {showTexture ? <TextureSectionBackdrop /> : null}
       <AppearAnimation className={cn('relative z-10 container', innerLiftClass)}>
-        {kicker ? (
-          <p className="mb-2 text-sm font-bold tracking-[0.14em] uppercase text-primary">{kicker}</p>
-        ) : null}
-        {heading ? <h2 className="text-h3 mb-2 md:text-h2">{heading}</h2> : null}
-        {intro ? (
-          <p className="mb-6 max-w-3xl text-sm text-muted-foreground md:mb-8 md:text-base">{intro}</p>
+        {kicker || heading || intro ? (
+          <div className="mb-8 md:mb-10">
+            {kicker ? (
+              <p className="mb-2 text-sm font-bold tracking-[0.14em] uppercase text-primary">{kicker}</p>
+            ) : null}
+            {heading ? <h2 className="text-h3 md:text-h2">{heading}</h2> : null}
+            {intro ? (
+              <p className="mt-3 max-w-3xl text-sm text-muted-foreground md:text-base">{intro}</p>
+            ) : null}
+          </div>
         ) : null}
 
         <div className={cn('grid grid-cols-1 gap-4', gridCols)}>
