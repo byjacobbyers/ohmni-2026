@@ -14,6 +14,8 @@ export type Lead = {
   marketingOptIn?: boolean
   /** Extra CMS fields (not name/email) */
   fields?: Record<string, string>
+  /** Experiment assignments seen by this visitor, { key: variant } */
+  experiments?: Record<string, string>
   submittedAt: string
 }
 

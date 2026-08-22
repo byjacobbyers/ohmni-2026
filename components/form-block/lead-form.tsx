@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
 import SimpleText from '@/components/simple-text'
 import { identifyVisitor, trackEvent } from '@/lib/gtm'
+import { parseAssignments } from '@/lib/experiments'
 import type { FormFieldConfig, ResolvedFormConfig } from '@/types/components/form-config-type'
 
 type LeadFormProps = {
@@ -97,6 +98,8 @@ export default function LeadForm({ config }: LeadFormProps) {
           email,
           _hp: website,
           path: window.location.pathname,
+          // Which variant this person saw, so the server-side conversion is attributable
+          experiments: parseAssignments(document.cookie),
           formName,
           formTitle,
           marketingOptIn: showOptIn ? marketingOptIn : undefined,

@@ -12,6 +12,7 @@ Project instructions are split under [`.claude/rules/`](.claude/rules/). Claude 
 | `new-section-checklist.md` | Full pipeline when adding a new block `_type` |
 | `new-document-checklist.md` | Pipeline for a new document `_type`, and new route groups |
 | `presentations.md` | Decks at `/present/{slug}`: screens, branching, what not to build |
+| `experiments.md` | A/B on pages: experiment docs, edge cookie, variant hygiene |
 | `branded-documents.md` | Emails, PDFs, invoices — brand palette, not site Tailwind |
 
 **Adding a rule:** create `.claude/rules/<topic>.md`. Optional YAML frontmatter `paths:` scopes it to globs (only loads when matching files are in play).

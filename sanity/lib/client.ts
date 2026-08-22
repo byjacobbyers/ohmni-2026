@@ -19,6 +19,10 @@ const STEGA_LOGIC_FIELDS = new Set([
   // `anchor` generates in-page link targets and presentation screen URLs, so an
   // encoded copy would not match the href it is compared against.
   'anchor',
+  // experiment routing compares these and builds URLs from them
+  'key',
+  'pathname',
+  'status',
   'backgroundColor',
   'backgroundType',
   'contentAlignment',

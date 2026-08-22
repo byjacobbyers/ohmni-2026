@@ -917,6 +917,26 @@ export type Site = {
   };
 };
 
+export type Experiment = {
+  _id: string;
+  _type: "experiment";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+  key: Slug;
+  pathname: string;
+  status?: "draft" | "running" | "stopped";
+  variants?: Array<{
+    key: string;
+    weight: number;
+    page: PageReference;
+    _type: "variant";
+    _key: string;
+  }>;
+  winner?: string;
+};
+
 export type Presentation = {
   _id: string;
   _type: "presentation";
@@ -1248,6 +1268,7 @@ export type AllSanitySchemaTypes =
   | EventCategory
   | Announcement
   | Site
+  | Experiment
   | Presentation
   | Page
   | Code
@@ -4511,6 +4532,19 @@ export type EventQueryResult = {
       }
   > | null;
 } | null;
+
+// Source: sanity/queries/documents/experiment-query.ts
+// Variable: runningExperimentsQuery
+// Query: *[_type == "experiment" && status == "running"] {  "key": key.current,  pathname,  variants[] { key, weight, "slug": page->slug.current }}
+export type RunningExperimentsQueryResult = Array<{
+  key: string;
+  pathname: string;
+  variants: Array<{
+    key: string;
+    weight: number;
+    slug: string;
+  }> | null;
+}>;
 
 // Source: sanity/queries/documents/form-query.ts
 // Variable: formSettingsQuery
@@ -11113,7 +11147,7 @@ export type SiteQueryResult = {
 
 // Source: sanity/queries/documents/sitemap-queries.ts
 // Variable: pagesSitemapQuery
-// Query: *[_type == "page" && defined(slug.current)] {  "slug": slug.current,  _updatedAt}
+// Query: *[_type == "page" && defined(slug.current) && seo.noIndex != true] {  "slug": slug.current,  _updatedAt}
 export type PagesSitemapQueryResult = Array<{
   slug: string;
   _updatedAt: string;

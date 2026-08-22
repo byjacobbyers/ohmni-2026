@@ -15,7 +15,7 @@ export const EXCLUDED_PAGE_SLUGS = [
 ]
 
 /** Lightweight slug + updatedAt only (sitemap / SEO). */
-export const pagesSitemapQuery = groq`*[_type == "page" && defined(slug.current)] {
+export const pagesSitemapQuery = groq`*[_type == "page" && defined(slug.current) && seo.noIndex != true] {
   "slug": slug.current,
   _updatedAt
 }`

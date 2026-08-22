@@ -31,7 +31,7 @@ export async function POST(request: Request) {
       return Response.json({ success: true })
     }
 
-    const { name, email, path, formName, formTitle, marketingOptIn, fields } = parsed.data
+    const { name, email, path, formName, formTitle, marketingOptIn, fields, experiments } = parsed.data
     const lead: Lead = {
       name,
       email,
@@ -40,6 +40,7 @@ export async function POST(request: Request) {
       formTitle: formTitle?.slice(0, 120),
       marketingOptIn,
       fields: fields && Object.keys(fields).length > 0 ? fields : undefined,
+      experiments: experiments && Object.keys(experiments).length > 0 ? experiments : undefined,
       submittedAt: new Date().toISOString(),
     }
 

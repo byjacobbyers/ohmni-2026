@@ -1,4 +1,13 @@
 import { NextResponse, type NextRequest } from 'next/server'
+import {
+  COOKIE_MAX_AGE,
+  COOKIE_PREFIX,
+  findExperiment,
+  isBot,
+  parseOverride,
+  pickVariant,
+  type Experiment,
+} from '@/lib/experiments'
 
 type Redirect = { source: string; destination: string; permanent?: boolean }
 
@@ -6,7 +15,83 @@ type Redirect = { source: string; destination: string; permanent?: boolean }
 // effect within a minute without a deploy. Move to Vercel Edge Config if
 // per-request latency or instance fan-out ever matters.
 let cache: { map: Map<string, Redirect>; fetchedAt: number } | null = null
+let experimentCache: { list: Experiment[]; fetchedAt: number } | null = null
 const TTL_MS = 60_000
+
+const sanityCdn = () => {
+  const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID
+  const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET
+  return projectId && dataset
+    ? `https://${projectId}.apicdn.sanity.io/v2025-02-19/data/query/${dataset}`
+    : null
+}
+
+// Same shape as the redirects: one small fetch, cached per instance for a
+// minute, so flipping an experiment to "running" in Studio takes effect
+// without a deploy.
+async function getExperiments(): Promise<Experiment[]> {
+  if (experimentCache && Date.now() - experimentCache.fetchedAt < TTL_MS) return experimentCache.list
+  let list: Experiment[] = []
+  const base = sanityCdn()
+  if (base) {
+    try {
+      const query = encodeURIComponent(
+        '*[_type == "experiment" && status == "running"]{"key": key.current, pathname, variants[]{key, weight, "slug": page->slug.current}}'
+      )
+      const res = await fetch(`${base}?query=${query}`)
+      if (res.ok) {
+        const { result } = (await res.json()) as { result?: Experiment[] }
+        list = (result || []).filter((e) => e?.key && e?.pathname && Array.isArray(e.variants))
+      }
+    } catch {
+      // Sanity unreachable: serve the original page rather than failing
+    }
+  }
+  experimentCache = { list, fetchedAt: Date.now() }
+  return list
+}
+
+/**
+ * Sticky, cookie-based assignment. The URL never changes; a variant is a
+ * rewrite to its page slug. Draft mode and crawlers are left alone.
+ */
+async function applyExperiment(request: NextRequest): Promise<NextResponse | null> {
+  if (request.cookies.has('__prerender_bypass') || isBot(request.headers.get('user-agent'))) return null
+  const experiments = await getExperiments()
+  if (experiments.length === 0) return null
+
+  const experiment = findExperiment(experiments, request.nextUrl.pathname)
+  if (!experiment) return null
+
+  const cookieName = `${COOKIE_PREFIX}${experiment.key}`
+  const override = parseOverride(request.nextUrl.searchParams)
+  const existing = request.cookies.get(cookieName)?.value
+  const known = (k?: string) => experiment.variants.find((v) => v.key === k)
+
+  let chosen = override.reset ? undefined : known(override.variant) ?? known(existing)
+  const fresh = !chosen
+  if (!chosen) chosen = pickVariant(experiment, Math.random())
+
+  const original = experiment.variants[0]
+  const url = request.nextUrl.clone()
+  url.searchParams.delete('ab')
+  let response: NextResponse
+  if (chosen.slug && chosen.key !== original.key) {
+    url.pathname = `/${chosen.slug}`
+    response = NextResponse.rewrite(url)
+  } else {
+    response = override.variant || override.reset ? NextResponse.redirect(url, 307) : NextResponse.next()
+  }
+  if (fresh || override.variant || override.reset) {
+    response.cookies.set(cookieName, chosen.key, {
+      path: '/',
+      maxAge: COOKIE_MAX_AGE,
+      sameSite: 'lax',
+    })
+  }
+  response.headers.set('x-experiment', `${experiment.key}=${chosen.key}`)
+  return response
+}
 
 const stripTrailingSlash = (p: string) => (p.length > 1 ? p.replace(/\/+$/, '') : p)
 
@@ -40,10 +125,8 @@ async function getRedirects(): Promise<Map<string, Redirect>> {
 
 export async function proxy(request: NextRequest) {
   const redirects = await getRedirects()
-  if (redirects.size === 0) return NextResponse.next()
-
   const hit = redirects.get(stripTrailingSlash(request.nextUrl.pathname))
-  if (!hit) return NextResponse.next()
+  if (!hit) return (await applyExperiment(request)) ?? NextResponse.next()
 
   const destination = hit.destination.startsWith('http')
     ? hit.destination
