@@ -129,6 +129,11 @@ export const sectionsQuery = groq`
         cta { ..., route { ${routeQuery} } }
       }
     },
+    _type == 'panelsBlock' => {
+      ...,
+      panels[] { ..., body[] { ..., markDefs[] { ..., ${linkWithRouteMarkDef} } } },
+      note[] { ..., markDefs[] { ..., ${linkWithRouteMarkDef} } }
+    },
     _type == 'postsBlock' => {
       ...
     },

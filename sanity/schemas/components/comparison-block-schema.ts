@@ -66,6 +66,16 @@ export default defineType({
                   fields: [
                     defineField({ name: 'label', type: 'string' }),
                     defineField({ name: 'value', type: 'string' }),
+                    defineField({
+                      name: 'emphasis', title: 'Emphasis', type: 'string',
+                      description: 'Colour the value to read as a win or a miss.',
+                      options: { list: [
+                        { title: 'None', value: 'none' },
+                        { title: 'Good', value: 'good' },
+                        { title: 'Bad', value: 'bad' },
+                      ], layout: 'radio', direction: 'horizontal' },
+                      initialValue: 'none',
+                    }),
                   ],
                   preview: {
                     select: { title: 'label', subtitle: 'value' },

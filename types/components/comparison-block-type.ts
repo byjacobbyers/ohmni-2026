@@ -2,6 +2,7 @@ export type ComparisonRowType = {
   _key?: string
   label?: string
   value?: string
+  emphasis?: 'none' | 'good' | 'bad' | string
 }
 
 export type ComparisonColumnType = {

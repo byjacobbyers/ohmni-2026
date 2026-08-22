@@ -20,6 +20,7 @@ const CORE_TYPES = [
 
 const ADDON_TYPES = [
   'comparisonBlock',
+  'panelsBlock',
   'splitScrollBlock',
   'postsBlock',
   'eventsBlock',
