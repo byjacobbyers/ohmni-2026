@@ -150,7 +150,13 @@ function customerioAuth() {
  * Identifies the lead in Customer.io and fires a lead_submitted event so
  * journeys can trigger on it. Keys unset -> no-op.
  */
-export async function trackLeadInCustomerio(lead: Lead) {
+/**
+ * @param id Stable identifier for the person, normally the Attio record id.
+ *   Customer.io keys people on `id` first and `email` second; identifying by
+ *   email alone leaves `id` blank, and a later email change then creates a
+ *   duplicate. Tying it to the CRM record keeps one person per human.
+ */
+export async function trackLeadInCustomerio(lead: Lead, id?: string) {
   if (!process.env.CUSTOMERIO_SITE_ID || !process.env.CUSTOMERIO_TRACK_API_KEY) {
     return { skipped: 'Customer.io Track API keys not set' }
   }
@@ -161,6 +167,7 @@ export async function trackLeadInCustomerio(lead: Lead) {
     method: 'PUT',
     headers: customerioAuth(),
     body: JSON.stringify({
+      ...(id && { id }),
       email: lead.email,
       name: lead.name,
       // Reserved attribute: Customer.io does not infer it, so without this the

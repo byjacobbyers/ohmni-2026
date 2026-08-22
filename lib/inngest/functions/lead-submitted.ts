@@ -55,7 +55,11 @@ export const leadSubmitted = inngest.createFunction(
     )
 
     // Lifecycle lane: identify + event so Customer.io journeys can trigger
-    const customerio = await step.run('customerio-track', () => trackLeadInCustomerio(lead))
+    // The CRM record id becomes the Customer.io person id, so one human stays
+    // one person across both even if their email changes later.
+    const customerio = await step.run('customerio-track', () =>
+      trackLeadInCustomerio(lead, attio.recordId)
+    )
 
     // Instant heads-up in Slack for every lead (same webhook as failure alerts).
     // Runs before the email step so a broken email lane can't suppress the ping.
