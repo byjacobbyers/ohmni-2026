@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
 import SimpleText from '@/components/simple-text'
-import { trackEvent } from '@/lib/gtm'
+import { identifyVisitor, trackEvent } from '@/lib/gtm'
 import type { FormFieldConfig, ResolvedFormConfig } from '@/types/components/form-config-type'
 
 type LeadFormProps = {
@@ -86,6 +86,11 @@ export default function LeadForm({ config }: LeadFormProps) {
           .map((f) => [f.name, (extra[f.name] || '').trim()] as const)
           .filter(([, v]) => v.length > 0)
       )
+
+      // Identify before the request so the server-side lead_submitted event,
+      // keyed by the same email, lands on the merged person rather than a
+      // second one.
+      identifyVisitor(email, { name })
 
       const response = await fetch('/api/send', {
         method: 'POST',

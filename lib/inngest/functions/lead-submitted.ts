@@ -48,6 +48,9 @@ export const leadSubmitted = inngest.createFunction(
           $current_url: `${getPublicSiteUrl().replace(/\/+$/, '')}${lead.path}`,
         }),
         crm_synced: Boolean(attio.recordId),
+        // Person properties, so the profile is filled in even when browser
+        // consent was denied and the client never identified.
+        $set: { email: lead.email, name: lead.name },
       })
     )
 
