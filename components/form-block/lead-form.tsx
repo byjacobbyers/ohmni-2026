@@ -223,6 +223,11 @@ export default function LeadForm({ config }: LeadFormProps) {
         tabIndex={-1}
         autoComplete="off"
         aria-hidden="true"
+        // readOnly is the part that actually stops autofill. Browsers and
+        // form-filler extensions never populate a read-only input, while a
+        // bot assigning .value through the DOM still lands in it. Renaming
+        // alone did not help: the field was filled under _hp too.
+        readOnly
       />
 
       {showOptIn ? (
