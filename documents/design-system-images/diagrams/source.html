@@ -52,6 +52,24 @@
   .step.end{border-color:#4a2b2e;color:var(--red)}
   .arrow{flex:none;width:46px;display:flex;align-items:center;justify-content:center;color:#3a4557;font-size:26px}
   .rule{height:1px;background:var(--line);margin:34px 0 26px}
+  .move{display:grid;grid-template-columns:1fr 60px 1fr;gap:0;align-items:stretch;margin-bottom:18px}
+  .move .side{background:var(--card);border:1px solid var(--line);padding:22px 24px}
+  .move .side.on{border-color:var(--blue)}
+  .move .side .lab{font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+  .move .side.on .lab{color:#8fb0ff}
+  .move .side .nm{font-size:25px;font-weight:700;margin-bottom:14px;line-height:1.15}
+  .move .arrow{display:flex;align-items:center;justify-content:center;color:var(--blue);font-size:34px}
+  .tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+  .tiles i{display:block;height:44px;background:#243044;border:1px solid #2f3a4c}
+  .tiles i.me{background:transparent;border:1px dashed var(--muted);position:relative}
+  .tiles i.me::after{content:"me";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--muted);font-style:normal;font-size:15px}
+  .one{border:2px solid var(--blue);padding:14px;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .one b{display:block;background:#1c2639;color:var(--ink);font-size:16px;font-weight:600;padding:12px 10px;text-align:center}
+  .move .side .d{color:var(--muted);font-size:18px;line-height:1.4;margin-top:14px}
+  .hand{display:grid;grid-template-columns:1fr 48px 1fr 48px 1fr;gap:0;align-items:center;margin-top:6px}
+  .hand .hb{background:var(--card);border:1px solid var(--line);padding:16px 18px;font-size:18px;line-height:1.35;text-align:center}
+  .hand .hb b{display:block;font-size:20px;margin-bottom:3px}
+  .hand .ha{text-align:center;color:#3a4557;font-size:24px}
   .flow{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;align-items:start;margin-bottom:16px}
   .flow .col3{background:var(--card);border:1px solid var(--line);padding:20px 22px;min-height:100%}
   .flow .col3.on{border-color:var(--blue)}
@@ -527,6 +545,36 @@
     <div class="l">A/B testing on a live marketing site</div><div class="a">&rarr;</div><div class="r">Experiments built, measured and read out, with winners folded back into the system. Flags and splits at the edge so tests do not cost a deploy.</div>
     <div class="l">Enterprise repo scale</div><div class="a">&rarr;</div><div class="r gap"><b>Different.</b> One-person repos are not repos with agency contributors, stakeholders and a QA program. That is the thing I want next, and part of why I am here.</div>
   
+</div>
+
+<!-- 18 ─────────────── why this role -->
+<div class="diagram" id="whyrole">
+  <div class="kicker">Adjacent to twelve, or inside one</div>
+  <div class="sub">Six years as the technical partner next to a dozen marketing teams. The same job, done from inside one.</div>
+  <div class="move">
+    <div class="side">
+      <div class="lab">Today</div>
+      <div class="nm">Fractional, one step removed</div>
+      <div class="tiles"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="me"></i></div>
+      <div class="d">A slice of each. Never the whole surface, never for long enough to see the second year.</div>
+    </div>
+    <div class="arrow">&rarr;</div>
+    <div class="side on">
+      <div class="lab">This role</div>
+      <div class="nm">Inside one, the whole web layer</div>
+      <div class="one"><b>Repo and platform</b><b>Content system</b><b>Discoverability</b><b>Lead plumbing</b></div>
+      <div class="d">One product that matters, at a scale no single client can offer, with people building something I could not build alone.</div>
+    </div>
+  </div>
+  <div class="kicker" style="margin:26px 0 12px">What happens to Ohmni</div>
+  <div class="hand">
+    <div class="hb"><b>Clients</b>Every one already owns their accounts and their code</div>
+    <div class="ha">&rarr;</div>
+    <div class="hb"><b>A runbook and an introduction</b>Handover is a conversation, not a migration</div>
+    <div class="ha">&rarr;</div>
+    <div class="hb"><b>People I trust</b>Worked beside, and I stay reachable</div>
+  </div>
+  <div class="note">Not leaving something. Moving toward something, said plainly so nobody has to wonder.</div>
 </div>
 
 <script>
