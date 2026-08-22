@@ -76,11 +76,15 @@ async function applyExperiment(request: NextRequest): Promise<NextResponse | nul
   const url = request.nextUrl.clone()
   url.searchParams.delete('ab')
   let response: NextResponse
-  if (chosen.slug && chosen.key !== original.key) {
+  if (override.variant || override.reset) {
+    // Set the cookie, then bounce to the clean URL. The follow-up request is
+    // assigned from the cookie like any other, so the bar never shows ?ab=.
+    response = NextResponse.redirect(url, 307)
+  } else if (chosen.slug && chosen.key !== original.key) {
     url.pathname = `/${chosen.slug}`
     response = NextResponse.rewrite(url)
   } else {
-    response = override.variant || override.reset ? NextResponse.redirect(url, 307) : NextResponse.next()
+    response = NextResponse.next()
   }
   if (fresh || override.variant || override.reset) {
     response.cookies.set(cookieName, chosen.key, {
