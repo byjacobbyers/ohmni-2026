@@ -7,7 +7,7 @@ import { pathToFileURL } from 'node:url'
 import { chromium } from 'playwright'
 
 const DIR = path.join(process.cwd(), 'documents', 'design-system-images', 'diagrams')
-const IDS = ['seams', 'sixbuttons', 'response', 'twopaths', 'uncounted', 'onecause', 'totals', 'start']
+const IDS = ['seams', 'sixbuttons', 'response', 'twopaths', 'uncounted', 'onecause', 'totals', 'start', 'mailroom', 'dgstack']
 
 const browser = await chromium.launch()
 const page = await browser.newPage({ viewport: { width: 1600, height: 1200 }, deviceScaleFactor: 2 })

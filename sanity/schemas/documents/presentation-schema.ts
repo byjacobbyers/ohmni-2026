@@ -38,6 +38,13 @@ export default defineType({
       description: 'Internal note. Never rendered.',
     }),
     defineField({
+      title: 'Corner mark',
+      name: 'cornerMark',
+      type: 'string',
+      description:
+        'Replaces the Ohmni lockup in the top left. Use your own name for a deck that is a work sample rather than a company pitch. Leave empty for the lockup.',
+    }),
+    defineField({
       name: 'sections',
       type: 'sections',
       title: 'Screens',

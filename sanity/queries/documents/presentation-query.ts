@@ -11,5 +11,6 @@ export const presentationQuery = defineQuery(`*[_type == "presentation" && slug.
   _id,
   title,
   "slug": slug.current,
+  cornerMark,
   ${sectionsQuery}
 }`)

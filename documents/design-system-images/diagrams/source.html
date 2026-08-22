@@ -52,6 +52,20 @@
   .step.end{border-color:#4a2b2e;color:var(--red)}
   .arrow{flex:none;width:46px;display:flex;align-items:center;justify-content:center;color:#3a4557;font-size:26px}
   .rule{height:1px;background:var(--line);margin:34px 0 26px}
+  .roles{display:grid;gap:14px;margin-bottom:16px}
+  .role{background:var(--card);border:1px solid var(--line);padding:22px 26px;display:flex;gap:22px;align-items:flex-start}
+  .role.on{border-color:var(--blue)}
+  .role .tag{flex:none;width:190px;font-size:16px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding-top:5px}
+  .role.on .tag{color:#8fb0ff}
+  .role .bd .n{font-size:26px;font-weight:700;margin-bottom:5px}
+  .role .bd .d{color:var(--muted);font-size:20px;line-height:1.4}
+  .bars{display:grid;gap:10px;margin-bottom:14px}
+  .brow{display:flex;align-items:center;gap:18px}
+  .brow .lbl{width:330px;flex:none;font-size:21px}
+  .brow .track{flex:1;height:36px;background:#1b2431;position:relative}
+  .brow .track i{display:block;height:100%;background:var(--blue)}
+  .brow .track i.warn{background:var(--red)}
+  .brow .num{position:absolute;right:12px;top:6px;font-size:19px;font-weight:700;color:#fff}
   .cols{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:16px}
   .col{background:var(--card);border:1px solid var(--line);padding:0 0 22px}
   .col.on{border-color:var(--blue)}
@@ -278,6 +292,55 @@
   </div>
 
   <div class="note">No procurement cycle, no discovery phase you pay for, and nothing to unwind if it does not work out.</div>
+</div>
+
+<!-- 9 ─────────────── the mailroom, generic -->
+<div class="diagram" id="mailroom">
+  <div class="kicker">What happens after someone submits a form</div>
+  <div class="sub">Three roles. Most marketing sites only staff the first and the last.</div>
+
+  <div class="roles">
+    <div class="role">
+      <div class="tag">The front desk</div>
+      <div class="bd"><div class="n">The website</div>
+        <div class="d">Takes the envelope, says "got it", turns back to the next visitor. It should never do the work itself. That is why the form feels instant.</div></div>
+    </div>
+    <div class="role on">
+      <div class="tag">The manager</div>
+      <div class="bd"><div class="n">A queue that owns the job</div>
+        <div class="d">Hands each task to a worker and watches it. Retries a fumble. Keeps a logbook of every attempt. Calls a human when something truly cannot finish.</div></div>
+    </div>
+    <div class="role">
+      <div class="tag">The workers</div>
+      <div class="bd"><div class="n">CRM, email, analytics, alerts</div>
+        <div class="d">One job each. If a worker is missing supplies it sits the round out and writes "skipped" rather than stopping everyone else.</div></div>
+    </div>
+  </div>
+
+  <div class="note">Without a manager there is no retry and no logbook, so a skipped job and a finished job look exactly the same from the outside. Silent failure is the expensive kind.</div>
+</div>
+
+<!-- 10 ─────────────── deepgram's mailroom -->
+<div class="diagram" id="dgstack">
+  <div class="kicker">Deepgram's mailroom, as the homepage loads today</div>
+  <div class="sub">54 third-party hosts requested on deepgram.com, observed 21 August 2026.</div>
+
+  <div class="bars">
+    <div class="brow"><span class="lbl">Ad pixels</span><span class="track"><i style="width:100%"></i><span class="num">19</span></span></div>
+    <div class="brow"><span class="lbl">Session replay and experience</span><span class="track"><i class="warn" style="width:53%"></i><span class="num">10</span></span></div>
+    <div class="brow"><span class="lbl">HubSpot</span><span class="track"><i style="width:42%"></i><span class="num">8</span></span></div>
+    <div class="brow"><span class="lbl">Intent and ABM</span><span class="track"><i style="width:37%"></i><span class="num">7</span></span></div>
+    <div class="brow"><span class="lbl">Google: GTM, GA4, Ads</span><span class="track"><i style="width:32%"></i><span class="num">6</span></span></div>
+    <div class="brow"><span class="lbl">Product analytics, consent, AI pixels</span><span class="track"><i style="width:26%"></i><span class="num">5</span></span></div>
+  </div>
+
+  <div class="card bad" style="margin-top:20px">
+    <div class="chip red">Four at once</div>
+    <div class="h">Clarity, FullStory, Contentsquare and Heap are all recording</div>
+    <div class="p">Every one of them is a worker the front desk hands an envelope to directly, in the visitor's browser, while they wait.</div>
+  </div>
+
+  <div class="note">There is no manager in this picture. Nothing queues, nothing retries, nothing keeps a logbook, and every tool competes with the page for the same main thread.</div>
 </div>
 
 <script>
