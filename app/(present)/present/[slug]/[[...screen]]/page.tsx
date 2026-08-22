@@ -59,6 +59,7 @@ export default async function PresentScreen({ params }: { params: Promise<Params
       slug={slug}
       brandName={brand.name}
       brandTagline={brand.tagline}
+      cornerMark={deck.cornerMark ?? undefined}
       blocks={blocks}
       index={screenIndex(blocks, screen?.[0])}
     />

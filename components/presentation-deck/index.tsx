@@ -9,6 +9,8 @@ export type PresentationDeckProps = {
   /** Brand lockup for the corner mark, resolved the same way the header does. */
   brandName?: string
   brandTagline?: string
+  /** Overrides the lockup. A work sample should not be branded as a pitch. */
+  cornerMark?: string
   blocks: Array<ScreenBlock & { _type?: string } & Record<string, unknown>>
   index: number
 }
@@ -23,6 +25,7 @@ export default function PresentationDeck({
   slug,
   brandName = 'Ohmni',
   brandTagline,
+  cornerMark,
   blocks,
   index,
 }: PresentationDeckProps) {
@@ -73,17 +76,21 @@ export default function PresentationDeck({
           so it should say whose it is on every screen. */}
       <div className="pointer-events-none fixed top-0 left-0 z-50 flex items-center gap-2 px-5 py-4">
         <img src="/ohmni.svg" alt="" aria-hidden className="h-5 w-5 md:h-6 md:w-6" />
-        <span className="flex items-end gap-1.5 leading-none">
-          <span className="text-sm leading-none font-bold md:text-lg">
-            {brandName.toUpperCase()}
-          </span>
-          {/* The tagline is the first thing to go when the bar gets tight. */}
-          {brandTagline ? (
-            <span className="hidden pb-[1px] text-[0.6rem] leading-none uppercase sm:inline">
-              {brandTagline}
+        {cornerMark ? (
+          <span className="text-sm leading-none font-bold md:text-lg">{cornerMark}</span>
+        ) : (
+          <span className="flex items-end gap-1.5 leading-none">
+            <span className="text-sm leading-none font-bold md:text-lg">
+              {brandName.toUpperCase()}
             </span>
-          ) : null}
-        </span>
+            {/* The tagline is the first thing to go when the bar gets tight. */}
+            {brandTagline ? (
+              <span className="hidden pb-[1px] text-[0.6rem] leading-none uppercase sm:inline">
+                {brandTagline}
+              </span>
+            ) : null}
+          </span>
+        )}
       </div>
 
       <Sections body={[block]} />
