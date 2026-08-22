@@ -54,6 +54,13 @@ export function getTargetsForDocument(body: WebhookPayload): RevalidateTarget[] 
       const deckSlug = slug?.current
       return [{ path: deckSlug ? `/present/${deckSlug}` : '/present', type: 'layout' }]
     }
+    case 'experiment': {
+      // Assignment is read at the edge with its own 60s cache; what Next
+      // caches is the variant page metadata (noindex, canonical), so bust
+      // the tested path as a layout to cover the variant underneath it.
+      const path = (body as { pathname?: string }).pathname
+      return [{ path: path && path.startsWith('/') ? path : '/', type: 'layout' }]
+    }
     case 'navigation':
     case 'site':
     case 'announcement':

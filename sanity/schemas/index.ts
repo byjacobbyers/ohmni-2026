@@ -14,6 +14,7 @@ import formSettings from './documents/form-settings-schema'
 import postCtaSettings from './documents/post-cta-settings-schema'
 import team from './documents/team-schema'
 import presentation from './documents/presentation-schema'
+import experiment from './documents/experiment-schema'
 
 import seo from './components/seo-schema'
 import sections from './components/page-builder-schema'
@@ -58,6 +59,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
     page,
     presentation,
+    experiment,
     site,
     announcement,
     event,

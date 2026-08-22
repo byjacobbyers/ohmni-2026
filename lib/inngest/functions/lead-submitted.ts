@@ -1,6 +1,7 @@
 import { inngest } from '../client'
 import { captureServerEvent } from '@/lib/posthog-server'
 import { getPublicSiteUrl } from '@/lib/site-url'
+import { featureProperties } from '@/lib/experiments'
 import {
   createAttioLeadNote,
   sendLeadNotification,
@@ -48,6 +49,8 @@ export const leadSubmitted = inngest.createFunction(
           $current_url: `${getPublicSiteUrl().replace(/\/+$/, '')}${lead.path}`,
         }),
         crm_synced: Boolean(attio.recordId),
+        // The variant rides with the conversion, recorded server side
+        ...featureProperties(lead.experiments ?? {}),
         // Person properties, so the profile is filled in even when browser
         // consent was denied and the client never identified.
         $set: { email: lead.email, name: lead.name },

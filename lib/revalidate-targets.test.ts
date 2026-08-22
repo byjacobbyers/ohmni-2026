@@ -69,4 +69,10 @@ describe('getTargetsForDocument', () => {
       { path: '/present', type: 'layout' },
     ])
   })
+  it('busts the tested path for an experiment', () => {
+    expect(
+      getTargetsForDocument({ _type: 'experiment', pathname: '/free-site-audit' } as never)
+    ).toEqual([{ path: '/free-site-audit', type: 'layout' }])
+    expect(getTargetsForDocument({ _type: 'experiment' })).toEqual([{ path: '/', type: 'layout' }])
+  })
 })

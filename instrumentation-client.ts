@@ -1,4 +1,5 @@
 import posthog from 'posthog-js'
+import { featureProperties, parseAssignments } from '@/lib/experiments'
 
 // Client-side PostHog init (Next.js instrumentation-client convention).
 // No key -> analytics silently off; the template works without an account.
@@ -16,4 +17,11 @@ if (key) {
     // ponytail: replay recording left on library defaults; configure sampling and
     // billing caps in the PostHog project settings per the MarTech stack report.
   })
+
+  // Experiment assignment lives in ab_* cookies set at the edge. Registering it
+  // as $feature/<key> puts the variant on every event, including the first
+  // $pageview, and lets PostHog's experiment UI read our assignment as its own.
+  // A property, not a capture: consent still gates whether anything is sent.
+  const assignments = parseAssignments(document.cookie)
+  if (Object.keys(assignments).length > 0) posthog.register(featureProperties(assignments))
 }
