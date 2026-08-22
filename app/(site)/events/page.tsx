@@ -8,7 +8,7 @@ import {
 } from '@/lib/content-page'
 
 export const generateMetadata = async () =>
-  pageSeoMetadata({ slug: 'events', url: '/events', fallbackTitle: 'Events' })
+  pageSeoMetadata({ slug: 'events', fallbackTitle: 'Events' })
 
 export default async function EventsIndexPage() {
   let page

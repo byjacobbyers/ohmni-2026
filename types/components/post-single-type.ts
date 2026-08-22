@@ -31,6 +31,7 @@ export type PostSingleData = {
 
 export type PostSingleProps = {
   post: PostSingleData | null
+  lang?: import('@/lib/i18n').Locale
   /** Site Settings fallback used when the post has no CTA of its own */
   defaultCta?: PostCtaSection | null
 }

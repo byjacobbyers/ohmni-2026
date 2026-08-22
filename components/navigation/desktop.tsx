@@ -11,11 +11,14 @@ import {
 import CtaRouteButton from '@/components/cta-route-button'
 import NavCard from '@/components/navigation/nav-card'
 import Route from '@/components/route'
+import LanguageToggle from '@/components/language-toggle'
+import type { Locale } from '@/lib/i18n'
 import { isSubNav, type NavItemType } from '@/types/components/nav-type'
 import type { BaseRouteType } from '@/types/objects/route-type'
 
 export type DesktopNavProps = {
   items?: NavItemType[]
+  lang: Locale
   /** Header aurora hook, fired when the Book Now link is hovered. */
   onBookNowHoverChange?: (active: boolean) => void
   bookNowTitle?: string
@@ -37,6 +40,7 @@ const primaryClass = `h-auto whitespace-nowrap px-4 py-2 ${labelClass} text-base
 
 export default function DesktopNav({
   items,
+  lang,
   onBookNowHoverChange,
   bookNowTitle = 'Book Now',
 }: DesktopNavProps) {
@@ -99,7 +103,9 @@ export default function DesktopNav({
 
           if (item === primary) {
             return (
-              <NavigationMenuItem key={item._key || `route-${i}`}>
+              <NavigationMenuItem key={item._key || `route-${i}`} className="flex items-center gap-4 xl:gap-6">
+                {/* Sits just before the CTA so it reads as a utility, not a destination. */}
+                <LanguageToggle lang={lang} className={`${hoverGrow} text-sm xl:text-base`} />
                 <CtaRouteButton route={route} className={primaryClass} />
               </NavigationMenuItem>
             )

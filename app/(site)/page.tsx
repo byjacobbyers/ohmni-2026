@@ -1,32 +1,7 @@
-import { notFound } from 'next/navigation'
-import Page from '@/components/page-single'
-import {
-  fetchPage,
-  JsonLdScript,
-  pageSeoMetadata,
-  webPageSchemas,
-} from '@/lib/content-page'
+import { pageSeoMetadata, renderCmsPage } from '@/lib/content-page'
 
-export const generateMetadata = async () =>
-  pageSeoMetadata({ slug: 'home', url: '/', fallbackTitle: undefined })
+export const generateMetadata = () => pageSeoMetadata({ slug: 'home' })
 
-export default async function Home() {
-  let page
-  try {
-    page = await fetchPage('home')
-  } catch {
-    notFound()
-  }
-
-  if (!page) notFound()
-
-  return (
-    <>
-      <JsonLdScript
-        id="home-jsonld"
-        schemas={webPageSchemas({ ...page, seo: undefined }, '/')}
-      />
-      <Page page={page} key={page._id} />
-    </>
-  )
+export default function Home() {
+  return renderCmsPage({ slug: 'home', jsonLdId: 'home-jsonld' })
 }

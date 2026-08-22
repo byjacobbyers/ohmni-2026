@@ -1,5 +1,6 @@
 import { defineField, defineType } from 'sanity'
 import { UsersIcon } from '@sanity/icons/Users'
+import { isUniqueWithinLanguage, languageField } from '../lib/language'
 
 /** Lean team member — Person source for founders, article authors, and bio blocks. */
 export default defineType({
@@ -33,10 +34,11 @@ export default defineType({
       name: 'slug',
       type: 'slug',
       group: 'profile',
-      options: { source: 'title', maxLength: 96 },
+      options: { source: 'title', maxLength: 96, isUnique: isUniqueWithinLanguage },
       validation: (Rule) => Rule.required(),
       description: 'Used for Person URL anchors on /about (e.g. /about#your-slug).',
     }),
+    { ...languageField, group: 'profile' },
     defineField({
       title: 'Image',
       name: 'image',

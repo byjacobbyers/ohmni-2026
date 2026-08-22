@@ -7,6 +7,7 @@ import { map, type Observable } from 'rxjs'
 type SlugDoc = {
   title?: string | null
   slug?: string | null
+  language?: string | null
 } | null
 
 type LocationContext = Parameters<DocumentLocationResolver>[1]
@@ -21,7 +22,7 @@ function listenSlugDoc(
 
   return context.documentStore.listenQuery(
     {
-      fetch: `*[_id == $publishedId || _id == $draftId] | order(_updatedAt desc)[0]{ title, "slug": slug.current }`,
+      fetch: `*[_id == $publishedId || _id == $draftId] | order(_updatedAt desc)[0]{ title, "slug": slug.current, language }`,
       listen: `*[_id in [$publishedId, $draftId]]`,
     },
     { publishedId, draftId },
@@ -47,10 +48,11 @@ export const resolveLocations: DocumentLocationResolver = (params, context) => {
         if (!doc?.slug) {
           return { message: 'Add a slug to preview this post', tone: 'caution' as const }
         }
+        const p = doc.language === 'es' ? '/es' : ''
         return {
           locations: [
-            { title: doc.title || 'Untitled', href: `/posts/${doc.slug}` },
-            { title: 'Posts', href: '/posts' },
+            { title: doc.title || 'Untitled', href: `${p}/posts/${doc.slug}` },
+            { title: 'Posts', href: `${p}/posts` },
           ],
         }
       })
@@ -63,11 +65,12 @@ export const resolveLocations: DocumentLocationResolver = (params, context) => {
         if (!doc?.slug) {
           return { message: 'Add a slug to preview this page', tone: 'caution' as const }
         }
+        const p = doc.language === 'es' ? '/es' : ''
         return {
           locations: [
             {
               title: doc.title || 'Untitled',
-              href: doc.slug === 'home' ? '/' : `/${doc.slug}`,
+              href: doc.slug === 'home' ? p || '/' : `${p}/${doc.slug}`,
             },
           ],
         }

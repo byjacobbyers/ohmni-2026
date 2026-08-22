@@ -5,19 +5,21 @@ import { Check, Link2, Mail } from 'lucide-react'
 import { trackEvent } from '@/lib/gtm'
 import { cn } from '@/lib/utils'
 import { LinkedInIcon, XIcon } from '@/components/social-icons'
+import { t, type Locale } from '@/lib/i18n'
 
 export type ShareLinksProps = {
   /** Absolute URL of the thing being shared */
   url: string
   title: string
   className?: string
+  lang?: Locale
 }
 
 /**
  * Share row for articles. Native intents only, no third-party widgets: those
  * load trackers and would undercut the first-party analytics posture.
  */
-export default function ShareLinks({ url, title, className }: ShareLinksProps) {
+export default function ShareLinks({ url, title, className, lang = 'en' }: ShareLinksProps) {
   const [copied, setCopied] = useState(false)
 
   const encodedUrl = encodeURIComponent(url)
@@ -26,19 +28,19 @@ export default function ShareLinks({ url, title, className }: ShareLinksProps) {
   const targets = [
     {
       key: 'linkedin',
-      label: 'Share on LinkedIn',
+      label: t(lang, 'shareLinkedIn'),
       Icon: LinkedInIcon,
       href: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
     },
     {
       key: 'x',
-      label: 'Share on X',
+      label: t(lang, 'shareX'),
       Icon: XIcon,
       href: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`,
     },
     {
       key: 'email',
-      label: 'Share by email',
+      label: t(lang, 'shareEmail'),
       Icon: Mail,
       href: `mailto:?subject=${encodedTitle}&body=${encodedUrl}`,
     },
@@ -60,7 +62,7 @@ export default function ShareLinks({ url, title, className }: ShareLinksProps) {
 
   return (
     <div className={cn('flex items-center gap-2', className)}>
-      <span className="mr-1 text-sm text-muted-foreground">Share</span>
+      <span className="mr-1 text-sm text-muted-foreground">{t(lang, 'share')}</span>
       {targets.map(({ key, label, Icon, href }) => (
         <a
           key={key}
@@ -77,7 +79,7 @@ export default function ShareLinks({ url, title, className }: ShareLinksProps) {
       <button
         type="button"
         onClick={copyLink}
-        aria-label={copied ? 'Link copied' : 'Copy link'}
+        aria-label={copied ? t(lang, 'linkCopied') : t(lang, 'copyLink')}
         className={itemClass}
       >
         {copied ? (
@@ -87,7 +89,7 @@ export default function ShareLinks({ url, title, className }: ShareLinksProps) {
         )}
       </button>
       <span aria-live="polite" className="sr-only">
-        {copied ? 'Link copied to clipboard' : ''}
+        {copied ? t(lang, 'linkCopiedLive') : ''}
       </span>
     </div>
   )

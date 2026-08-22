@@ -1,72 +1,38 @@
-import { Metadata } from 'next'
-import { QueryParams } from 'next-sanity'
+import type { Metadata } from 'next'
 import { sanityFetch } from '@/sanity/lib/live'
 import { notFound } from 'next/navigation'
 import { pagesQuery } from '@/sanity/queries/documents/page-query'
 import { EXCLUDED_PAGE_SLUGS } from '@/sanity/queries/documents/sitemap-queries'
-import Page from '@/components/page-single'
-import {
-  fetchPage,
-  JsonLdScript,
-  pageSeoMetadata,
-  webPageSchemas,
-} from '@/lib/content-page'
+import { pageSeoMetadata, renderCmsPage } from '@/lib/content-page'
 import { generateMetadata as generateSeoMetadata } from '@/lib/seo'
 import type { PagesQueryResult } from '@/sanity.types'
 
 export async function generateStaticParams() {
   try {
-    const { data: posts } = await sanityFetch({
-      query: pagesQuery,
-      perspective: 'published',
-      stega: false,
-    })
-    const pages = (posts ?? []) as PagesQueryResult
-    return pages
-      .filter((p) => {
-        const slug = p?.slug
-        return slug && typeof slug === 'string' && !EXCLUDED_PAGE_SLUGS.includes(slug)
-      })
+    const { data } = await sanityFetch({ query: pagesQuery, perspective: 'published', stega: false })
+    return ((data ?? []) as PagesQueryResult)
+      .filter((p) => p.language === 'en' && p.slug && !EXCLUDED_PAGE_SLUGS.includes(p.slug))
       .map((p) => ({ slug: p.slug as string }))
   } catch {
     return []
   }
 }
 
-type Props = { params: Promise<QueryParams> }
+type Props = { params: Promise<{ slug?: string }> }
 
-export const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
-  const resolved = await params
-  if (resolved?.slug?.toString().startsWith('__') || !resolved?.slug) {
-    return generateSeoMetadata()
-  }
-  const slug = String(resolved.slug)
-  return pageSeoMetadata({
-    slug,
-    url: slug === 'home' ? '/' : `/${slug}`,
-  })
+/** Next probes `__`-prefixed internals through dynamic routes; never treat those as content. */
+const slugOf = async ({ params }: Props) => {
+  const { slug } = await params
+  return !slug || slug.startsWith('__') ? null : slug
 }
 
-export default async function SinglePage({ params }: { params: Promise<QueryParams> }) {
-  const resolved = await params
-  if (resolved?.slug?.toString().startsWith('__') || !resolved?.slug) notFound()
+export const generateMetadata = async (props: Props): Promise<Metadata> => {
+  const slug = await slugOf(props)
+  return slug ? pageSeoMetadata({ slug }) : generateSeoMetadata()
+}
 
-  const slug = String(resolved.slug)
-  let page
-  try {
-    page = await fetchPage(slug)
-  } catch {
-    notFound()
-  }
-
-  if (!page) notFound()
-
-  const url = slug === 'home' ? '/' : `/${slug}`
-
-  return (
-    <>
-      <JsonLdScript id="page-jsonld" schemas={webPageSchemas(page, url)} />
-      <Page page={page} key={page._id} />
-    </>
-  )
+export default async function SinglePage(props: Props) {
+  const slug = await slugOf(props)
+  if (!slug) notFound()
+  return renderCmsPage({ slug, jsonLdId: 'page-jsonld' })
 }

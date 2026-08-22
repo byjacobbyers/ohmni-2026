@@ -95,7 +95,7 @@ function HeaderScrollLogoMark({ brandName }: { brandName: string }) {
   )
 }
 
-export default function Header({ navigation, brandName, brandTagline }: HeaderProps) {
+export default function Header({ navigation, brandName, brandTagline, lang }: HeaderProps) {
   const [isOpen, toggleDropdown] = useCycle(false, true)
   const headerRef = useRef<HTMLElement>(null)
   const [dimensions, setDimensions] = useState({ height: 64 })
@@ -180,7 +180,7 @@ export default function Header({ navigation, brandName, brandTagline }: HeaderPr
         </div>
         <div className="relative z-10 flex h-16 items-center justify-between">
           <Link
-            href="/"
+            href={lang === 'es' ? '/es' : '/'}
             className="inline-flex items-center gap-2 self-center"
           >
             <HeaderScrollLogoMark brandName={brandName} />
@@ -198,6 +198,7 @@ export default function Header({ navigation, brandName, brandTagline }: HeaderPr
           </Link>
           <DesktopNav
             items={navigation?.items}
+            lang={lang}
             bookNowTitle={BOOK_NOW_TITLE}
             onBookNowHoverChange={(active) => {
               if (active) setHeaderAuroraMounted(true)
@@ -236,6 +237,7 @@ export default function Header({ navigation, brandName, brandTagline }: HeaderPr
         {navigation && (
           <MobileNav
             data={navigation}
+            lang={lang}
             closeMenu={closeMenu}
             onBookNowHoverChange={(active) => {
               if (active) setHeaderAuroraMounted(true)

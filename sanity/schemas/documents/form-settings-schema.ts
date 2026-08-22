@@ -1,5 +1,6 @@
 import { defineField, defineType } from 'sanity'
 import {CogIcon} from '@sanity/icons/Cog'
+import { languageField } from '../lib/language'
 
 export default defineType({
   name: 'formSettings',
@@ -7,6 +8,7 @@ export default defineType({
   type: 'document',
   icon: CogIcon,
   fields: [
+    languageField,
     defineField({
       name: 'disclaimer',
       title: 'Default Disclaimer',
@@ -42,8 +44,9 @@ export default defineType({
     }),
   ],
   preview: {
-    prepare() {
-      return { title: 'Form Settings' }
+    select: { language: 'language' },
+    prepare({ language }) {
+      return { title: language === 'es' ? 'Form Settings (Español)' : 'Form Settings' }
     },
   },
 })

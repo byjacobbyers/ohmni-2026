@@ -13,6 +13,8 @@ import TextureSectionBackdrop from '@/components/texture-section-backdrop'
 import { isSubNav, type NavItemType } from '@/types/components/nav-type'
 import type { MobileNavProps } from '@/types/components/mobile-nav-type'
 import type { BaseRouteType } from '@/types/objects/route-type'
+import { t } from '@/lib/i18n'
+import LanguageToggle from '@/components/language-toggle'
 
 /** Rise in sequence from the bottom, matching the reading order thumbs use. */
 const container: Variants = {
@@ -29,7 +31,7 @@ const child: Variants = {
  * thumbs actually reach. Every destination is a card, and the primary action
  * sits lowest.
  */
-export default function MobileNav({ data, closeMenu }: MobileNavProps) {
+export default function MobileNav({ data, closeMenu, lang }: MobileNavProps) {
   const reduceMotion = useReducedMotion()
   const items = (data.items ?? []) as NavItemType[]
   if (!items.length) return null
@@ -88,6 +90,12 @@ export default function MobileNav({ data, closeMenu }: MobileNavProps) {
         )
       })}
 
+      {/* The bar has no room for it on small screens, so the language switch
+          lives in the menu, just above the primary action. */}
+      <Item {...itemProps} className="flex justify-end px-1 pt-2">
+        <LanguageToggle lang={lang} className="text-sm tracking-[0.12em]" />
+      </Item>
+
       {primary ? (
         <Item {...itemProps} className="pt-2">
           {/* Same shared Button as every other CTA, so the mark, the aurora and
@@ -95,7 +103,7 @@ export default function MobileNav({ data, closeMenu }: MobileNavProps) {
           <CtaRouteButton
             route={primary}
             className="h-auto w-full py-2.5 text-lg font-bold"
-            fallbackLabel="Get started"
+            fallbackLabel={t(lang, 'getStarted')}
           />
         </Item>
       ) : null}

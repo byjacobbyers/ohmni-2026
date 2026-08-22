@@ -1,6 +1,7 @@
 import { defineField, defineType } from 'sanity'
 import {DocumentIcon} from '@sanity/icons/Document'
 import HomeSeoNoticeField from '../inputs/home-seo-notice'
+import { isUniqueWithinLanguage, languageField } from '../lib/language'
 
 export default defineType({
   name: 'page',
@@ -25,9 +26,10 @@ export default defineType({
       name: 'slug',
       type: 'slug',
       group: 'page',
-      options: { source: 'title', maxLength: 96 },
+      options: { source: 'title', maxLength: 96, isUnique: isUniqueWithinLanguage },
       validation: (Rule) => Rule.required(),
     }),
+    { ...languageField, group: 'page' },
     defineField({
       title: 'Background Color',
       name: 'backgroundColor',
@@ -78,18 +80,19 @@ export default defineType({
     }),
   ],
   preview: {
-    select: { title: 'title', slug: 'slug.current' },
-    prepare({ title, slug }) {
+    select: { title: 'title', slug: 'slug.current', language: 'language' },
+    prepare({ title, slug, language }) {
+      const prefix = language && language !== 'en' ? `/${language}` : ''
       return {
         title,
         subtitle:
           slug === 'home'
-            ? 'Home Page'
+            ? `Home Page${prefix ? ` (${prefix})` : ''}`
             : slug === 'posts'
               ? 'Posts index (/posts)'
               : slug === 'events'
                 ? 'Events index (/events)'
-                : `/${slug}`,
+                : `${prefix}/${slug}`,
       }
     },
   },

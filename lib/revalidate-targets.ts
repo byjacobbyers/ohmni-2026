@@ -18,16 +18,23 @@ export type WebhookPayload = {
 /** Publishing content changes the sitemap, which is its own static route. */
 const SITEMAP: RevalidateTarget = { path: '/sitemap.xml' }
 
+/**
+ * English and Spanish share a slug, and the webhook projection may not carry
+ * `language`, so both URLs are busted. The spare call is cheaper than a stale
+ * page in the other language.
+ */
+const both = (path: string): RevalidateTarget[] => [{ path }, { path: path === '/' ? '/es' : `/es${path}` }]
+
 export function getTargetsForDocument(body: WebhookPayload): RevalidateTarget[] {
   const { _type, slug } = body
 
   switch (_type) {
     case 'page': {
       const pageSlug = slug?.current
-      if (pageSlug === 'home') return [{ path: '/' }, SITEMAP]
-      if (pageSlug === 'posts') return [{ path: '/posts' }, SITEMAP]
+      if (pageSlug === 'home') return [...both('/'), SITEMAP]
+      if (pageSlug === 'posts') return [...both('/posts'), SITEMAP]
       if (pageSlug === 'events') return [{ path: '/events' }, SITEMAP]
-      if (pageSlug) return [{ path: `/${pageSlug}` }, SITEMAP]
+      if (pageSlug) return [...both(`/${pageSlug}`), SITEMAP]
       return [{ path: '/', type: 'layout' }]
     }
     case 'event': {
@@ -42,9 +49,9 @@ export function getTargetsForDocument(body: WebhookPayload): RevalidateTarget[] 
       return targets
     }
     case 'post': {
-      const targets: RevalidateTarget[] = [{ path: '/posts' }, { path: '/' }]
+      const targets: RevalidateTarget[] = [...both('/posts'), ...both('/')]
       const postSlug = slug?.current
-      if (postSlug) targets.unshift({ path: `/posts/${postSlug}` })
+      if (postSlug) targets.unshift(...both(`/posts/${postSlug}`))
       targets.push(SITEMAP)
       return targets
     }

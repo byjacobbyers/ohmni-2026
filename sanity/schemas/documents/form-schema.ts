@@ -1,5 +1,6 @@
 import { defineField, defineType } from 'sanity'
-import {ClipboardIcon} from '@sanity/icons/Clipboard' 
+import {ClipboardIcon} from '@sanity/icons/Clipboard'
+import { languageField } from '../lib/language'
 
 export default defineType({
   name: 'form',
@@ -32,12 +33,13 @@ export default defineType({
           const client = getClient({ apiVersion: '2025-02-19' })
           const id = document?._id?.replace(/^drafts\./, '')
           const existing = await client.fetch<number>(
-            `count(*[_type == "form" && slug.current == $slug && !(_id in [$id, "drafts." + $id])])`,
-            { slug: current, id: id || '' }
+            `count(*[_type == "form" && slug.current == $slug && coalesce(language, "en") == $language && !(_id in [$id, "drafts." + $id])])`,
+            { slug: current, id: id || '', language: (document as { language?: string } | undefined)?.language ?? 'en' }
           )
           return existing === 0 ? true : 'Form ID must be unique'
         }),
     }),
+    languageField,
     defineField({
       name: 'active',
       title: 'Active',
@@ -95,11 +97,11 @@ export default defineType({
     }),
   ],
   preview: {
-    select: { title: 'title', slug: 'slug.current', active: 'active' },
-    prepare({ title, slug, active }) {
+    select: { title: 'title', slug: 'slug.current', active: 'active', language: 'language' },
+    prepare({ title, slug, active, language }) {
       return {
         title: title || 'Untitled form',
-        subtitle: `${slug || 'no-id'}${active === false ? ' · Inactive' : ''}`,
+        subtitle: `${slug || 'no-id'}${language === 'es' ? ' · ES' : ''}${active === false ? ' · Inactive' : ''}`,
       }
     },
   },

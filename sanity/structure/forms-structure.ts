@@ -19,6 +19,15 @@ export default function Forms(S: StructureBuilder) {
                 .schemaType('formSettings')
                 .documentId('formSettings')
             ),
+          S.listItem()
+            .title('Form Settings (Español)')
+            .icon(CogIcon)
+            .child(
+              S.editor()
+                .id('formSettings--es')
+                .schemaType('formSettings')
+                .documentId('formSettings--es')
+            ),
           S.divider(),
           S.listItem()
             .title('All Forms')

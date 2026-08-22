@@ -17,6 +17,7 @@ import {
   type PostSingleProps,
 } from "@/types/components/post-single-type"
 import type { SanityImageSource } from "@/types/components/sanity-image-type"
+import { t } from "@/lib/i18n"
 
 /** Shared section shell, same rhythm and container as the page-builder blocks. */
 const SECTION = "w-full flex justify-center px-5 py-16 md:py-24"
@@ -26,12 +27,12 @@ const SECTION = "w-full flex justify-center px-5 py-16 md:py-24"
  * follow the same structure as page sections. Typography comes from `.content`;
  * the only article-specific rule is the reading measure on the body column.
  */
-export default function PostSingle({ post, defaultCta }: PostSingleProps) {
+export default function PostSingle({ post, defaultCta, lang = 'en' }: PostSingleProps) {
   if (!post) {
     return (
       <article className={SECTION}>
         <div className="container text-center">
-          <p className="text-lg text-muted-foreground">Post not found</p>
+          <p className="text-lg text-muted-foreground">{t(lang, 'postNotFound')}</p>
         </div>
       </article>
     )
@@ -40,7 +41,7 @@ export default function PostSingle({ post, defaultCta }: PostSingleProps) {
   const { title, publishedAt, author, category, excerpt, image, body, cta, shareUrl } = post
   const authorName = authorDisplayName(author)
   const person = authorObject(author)
-  const dateLine = publishedAt ? formatFullDate(parseSanityDate(publishedAt)) : null
+  const dateLine = publishedAt ? formatFullDate(parseSanityDate(publishedAt), lang) : null
   const credit = [person?.primaryJobTitle, dateLine].filter(Boolean).join(" · ")
 
   // A closing section counts if it is active and actually has a button.
@@ -91,7 +92,7 @@ export default function PostSingle({ post, defaultCta }: PostSingleProps) {
           ) : null}
 
           {shareUrl ? (
-            <ShareLinks url={shareUrl} title={title || "Article"} className="mt-8" />
+            <ShareLinks url={shareUrl} title={title || "Article"} className="mt-8" lang={lang} />
           ) : null}
         </div>
       </section>

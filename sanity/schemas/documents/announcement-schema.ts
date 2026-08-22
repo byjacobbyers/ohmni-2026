@@ -1,4 +1,5 @@
 import { defineType, defineField } from 'sanity'
+import { languageField } from '../lib/language'
 
 export default defineType({
   name: 'announcement',
@@ -6,6 +7,7 @@ export default defineType({
   type: 'document',
   fields: [
     defineField({ type: 'string', name: 'title', hidden: true }),
+    languageField,
     defineField({
       name: 'active',
       title: 'Active',

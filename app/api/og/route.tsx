@@ -4,6 +4,7 @@ import { getShareGraphicRedirectUrl } from '@/lib/og-share-graphic'
 import { hasPortableHeading } from '@/lib/og-simple-text'
 import { getOgSanityClient } from '@/sanity/lib/og-sanity-client'
 import { ogRouteDataQuery } from '@/sanity/queries/documents/og-route-query'
+import { toLocale } from '@/lib/i18n'
 
 export const runtime = 'edge'
 
@@ -21,10 +22,11 @@ export async function GET(request: NextRequest) {
   }
 
   const docType = typeRaw as DocType
+  const lang = toLocale(request.nextUrl.searchParams.get('lang'))
 
   let data: { doc: OgRouteDoc | null; site: OgRouteSite | null }
   try {
-    data = await getOgSanityClient().fetch(ogRouteDataQuery, { slug, docType })
+    data = await getOgSanityClient().fetch(ogRouteDataQuery, { slug, docType, lang })
   } catch {
     return new Response('Upstream error', { status: 502 })
   }

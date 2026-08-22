@@ -20,6 +20,7 @@ export default async function FormBlock({
   backgroundColor = 'primary',
   content,
   form,
+  lang = 'en',
 }: FormBlockProps) {
   if (active === false) return null
 
@@ -29,8 +30,12 @@ export default async function FormBlock({
 
   const { data: settings } = (await sanityFetch({
     query: formSettingsQuery,
+    params: { lang },
     stega: false,
-  })) as { data: FormSettingsData | null }
+  }).then((res) =>
+    // No Spanish Form Settings yet: English defaults beat no defaults.
+    res.data || lang === 'en' ? res : sanityFetch({ query: formSettingsQuery, params: { lang: 'en' }, stega: false })
+  )) as { data: FormSettingsData | null }
 
   const config = resolveFormConfig(form as SanityFormDocument | null, settings)
 
@@ -54,7 +59,7 @@ export default async function FormBlock({
           <div className="w-full md:w-1/2 md:sticky md:top-24 md:self-start">
             {config ? (
               <div className="bg-background text-foreground shadow-lg">
-                <LeadForm config={config} />
+                <LeadForm config={config} lang={lang} />
               </div>
             ) : null}
           </div>
@@ -86,7 +91,7 @@ export default async function FormBlock({
 
         {config ? (
           <div className="mt-8 bg-background text-foreground shadow-lg">
-            <LeadForm config={config} />
+            <LeadForm config={config} lang={lang} />
           </div>
         ) : null}
       </AppearAnimation>

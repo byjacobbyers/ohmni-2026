@@ -8,6 +8,13 @@ import {
   pickVariant,
   type Experiment,
 } from '@/lib/experiments'
+import {
+  LANG_COOKIE,
+  LANG_COOKIE_MAX_AGE,
+  localizePath,
+  preferredLocale,
+  stripLocale,
+} from '@/lib/i18n'
 
 type Redirect = { source: string; destination: string; permanent?: boolean }
 
@@ -127,10 +134,36 @@ async function getRedirects(): Promise<Map<string, Redirect>> {
   return map
 }
 
+/**
+ * Language is suggested once, never forced. A first visit to `/` from a
+ * browser whose top language is Spanish lands on `/es`; every other URL
+ * serves exactly what it says. The cookie then mirrors whichever language
+ * was last viewed, so the toggle is the only thing that changes it.
+ */
+function suggestLanguage(request: NextRequest): NextResponse | null {
+  const { pathname } = request.nextUrl
+  if (pathname !== '/') return null
+  if (request.cookies.has(LANG_COOKIE) || request.cookies.has('__prerender_bypass')) return null
+  if (isBot(request.headers.get('user-agent'))) return null
+  if (preferredLocale(request.headers.get('accept-language')) !== 'es') return null
+  const url = request.nextUrl.clone()
+  url.pathname = localizePath('/', 'es')
+  return NextResponse.redirect(url, 307)
+}
+
 export async function proxy(request: NextRequest) {
   const redirects = await getRedirects()
   const hit = redirects.get(stripTrailingSlash(request.nextUrl.pathname))
-  if (!hit) return (await applyExperiment(request)) ?? NextResponse.next()
+  if (!hit) {
+    const suggested = suggestLanguage(request)
+    const response = suggested ?? (await applyExperiment(request)) ?? NextResponse.next()
+    // Remember the language of the page being served (or redirected to).
+    const lang = suggested ? 'es' : stripLocale(request.nextUrl.pathname).lang
+    if (request.cookies.get(LANG_COOKIE)?.value !== lang) {
+      response.cookies.set(LANG_COOKIE, lang, { path: '/', maxAge: LANG_COOKIE_MAX_AGE, sameSite: 'lax' })
+    }
+    return response
+  }
 
   const destination = hit.destination.startsWith('http')
     ? hit.destination

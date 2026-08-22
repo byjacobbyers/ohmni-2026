@@ -1,8 +1,10 @@
 import Route from '@/components/route'
 import { CookieSettingsTrigger } from '@/components/cookie-consent-banner/cookie-settings-trigger'
+import LanguageToggle from '@/components/language-toggle'
+import { t } from '@/lib/i18n'
 import type { FooterProps } from '@/types/components/footer-type'
 
-export default function Footer({ navigation, brandName }: FooterProps) {
+export default function Footer({ navigation, brandName, lang }: FooterProps) {
   const year = new Date().getFullYear()
 
   return (
@@ -10,7 +12,7 @@ export default function Footer({ navigation, brandName }: FooterProps) {
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
           <small className="text-sm">
-            © {year} {brandName}. All rights reserved.
+            © {year} {brandName}. {t(lang, 'rights')}
           </small>
           
         </div>
@@ -21,7 +23,10 @@ export default function Footer({ navigation, brandName }: FooterProps) {
             </Route>
           ))}
         </nav>
-        <CookieSettingsTrigger />
+        <div className="flex items-center gap-6">
+          <CookieSettingsTrigger lang={lang} />
+          <LanguageToggle lang={lang} className="text-sm" />
+        </div>
       </div>
     </footer>
   )

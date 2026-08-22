@@ -23,11 +23,35 @@ export default function Post(S: StructureBuilder) {
             ),
           S.divider(),
           S.listItem()
+            .title('Post CTA Settings (Español)')
+            .icon(EnvelopeIcon)
+            .child(
+              S.editor()
+                .id('postCtaSettings--es')
+                .schemaType('postCtaSettings')
+                .documentId('postCtaSettings--es')
+                .title('Post CTA Settings (Español)')
+            ),
+          S.divider(),
+          S.listItem()
             .title('All posts')
             .icon(DocumentTextIcon)
             .child(
               S.documentTypeList('post')
                 .title('Posts')
+                .filter('_type == "post" && coalesce(language, "en") == "en"')
+                .defaultOrdering([{ field: 'publishedAt', direction: 'desc' }])
+                .child((documentId) =>
+                  S.document().documentId(documentId).schemaType('post')
+                )
+            ),
+          S.listItem()
+            .title('Posts (Español)')
+            .icon(DocumentTextIcon)
+            .child(
+              S.documentTypeList('post')
+                .title('Posts (Español)')
+                .filter('_type == "post" && language == "es"')
                 .defaultOrdering([{ field: 'publishedAt', direction: 'desc' }])
                 .child((documentId) =>
                   S.document().documentId(documentId).schemaType('post')

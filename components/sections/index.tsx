@@ -20,6 +20,7 @@ import LogoBarBlock from '@/components/logo-bar-block'
 import QuoteBlock from '@/components/quote-block'
 import StatsBlock from '@/components/stats-block'
 import { CtaLocationProvider } from '@/context'
+import type { Locale } from '@/lib/i18n'
 
 // Server Component so blocks like PostsBlockServer can fetch for SEO.
 const blockMap: Record<string, React.ComponentType<Record<string, unknown>>> = {
@@ -48,8 +49,11 @@ const blockMap: Record<string, React.ComponentType<Record<string, unknown>>> = {
 
 export default function Sections({
   body,
+  lang = 'en',
 }: {
   body?: Array<{ _type?: string; _key?: string } & Record<string, unknown>>
+  /** Page language, for the few blocks with UI strings or their own fetches. */
+  lang?: Locale
 }) {
   if (!body?.length) return null
 
@@ -62,7 +66,7 @@ export default function Sections({
         const location = block._type || 'section'
         return (
           <CtaLocationProvider key={key} value={location}>
-            <Component componentIndex={i} {...block} />
+            <Component componentIndex={i} lang={lang} {...block} />
           </CtaLocationProvider>
         )
       })}

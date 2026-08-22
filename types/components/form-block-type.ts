@@ -1,4 +1,5 @@
 import type { SanityFormDocument } from '@/types/components/form-config-type'
+import type { Locale } from '@/lib/i18n'
 
 export type FormBlockProps = {
   active?: boolean
@@ -9,4 +10,6 @@ export type FormBlockProps = {
   backgroundColor?: string
   content?: unknown
   form?: SanityFormDocument | null
+  /** Page language: picks the matching Form Settings and the UI strings */
+  lang?: Locale
 }

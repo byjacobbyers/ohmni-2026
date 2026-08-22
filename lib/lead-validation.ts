@@ -23,6 +23,7 @@ export const leadSubmitSchema = z.object({
   _hp: z.string().max(500).optional().default(''),
   experiments: z.record(z.string().max(40), z.string().max(20)).optional(),
   path: z.string().max(200).optional(),
+  lang: z.enum(['en', 'es']).optional(),
   formName: z
     .string()
     .trim()

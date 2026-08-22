@@ -1,5 +1,6 @@
 import { defineField, defineType } from 'sanity'
 import { EnvelopeIcon } from '@sanity/icons/Envelope'
+import { languageField } from '../lib/language'
 
 /**
  * Singleton for the default closing CTA on posts.
@@ -11,6 +12,7 @@ export default defineType({
   type: 'document',
   icon: EnvelopeIcon,
   fields: [
+    languageField,
     defineField({
       name: 'cta',
       title: 'Default Article CTA',
@@ -20,8 +22,9 @@ export default defineType({
     }),
   ],
   preview: {
-    prepare() {
-      return { title: 'Post CTA Settings' }
+    select: { language: 'language' },
+    prepare({ language }) {
+      return { title: language === 'es' ? 'Post CTA Settings (Español)' : 'Post CTA Settings' }
     },
   },
 })

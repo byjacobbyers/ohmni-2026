@@ -27,6 +27,25 @@ export default function Navigation(S: StructureBuilder) {
                 .schemaType('navigation')
                 .documentId('footer')
             ),
+          S.divider(),
+          S.listItem()
+            .title('Header (Español)')
+            .icon(LinkIcon)
+            .child(
+              S.editor()
+                .id('header--es')
+                .schemaType('navigation')
+                .documentId('header--es')
+            ),
+          S.listItem()
+            .title('Footer (Español)')
+            .icon(LinkIcon)
+            .child(
+              S.editor()
+                .id('footer--es')
+                .schemaType('navigation')
+                .documentId('footer--es')
+            ),
         ])
     )
 }

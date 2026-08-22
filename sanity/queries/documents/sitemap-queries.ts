@@ -17,6 +17,7 @@ export const EXCLUDED_PAGE_SLUGS = [
 /** Lightweight slug + updatedAt only (sitemap / SEO). */
 export const pagesSitemapQuery = groq`*[_type == "page" && defined(slug.current) && seo.noIndex != true] {
   "slug": slug.current,
+  "language": coalesce(language, "en"),
   _updatedAt
 }`
 
@@ -27,5 +28,6 @@ export const eventsSitemapQuery = groq`*[_type == "event" && defined(slug.curren
 
 export const postsSitemapQuery = groq`*[_type == "post" && defined(slug.current)] {
   "slug": slug.current,
+  "language": coalesce(language, "en"),
   _updatedAt
 }`

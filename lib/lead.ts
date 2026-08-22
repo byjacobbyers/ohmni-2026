@@ -7,6 +7,8 @@ export type Lead = {
   name: string
   email: string
   path?: string
+  /** Language of the page the form was on */
+  lang?: 'en' | 'es'
   /** Machine form id (slug) for Customer.io / data-form-name */
   formName?: string
   /** Human title for emails / Slack */
@@ -176,6 +178,7 @@ export async function trackLeadInCustomerio(lead: Lead, personId?: string) {
       // person has no "created" date. Unix seconds, from the submission time.
       // A repeat submit moves it to the latest submission; acceptable for now.
       created_at: Math.floor(Date.parse(lead.submittedAt) / 1000),
+      ...(lead.lang && { language: lead.lang }),
       ...(typeof lead.marketingOptIn === 'boolean' && {
         marketing_opt_in: lead.marketingOptIn,
       }),

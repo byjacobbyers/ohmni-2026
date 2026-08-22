@@ -1,6 +1,7 @@
 import { MetadataRoute } from 'next'
 import { sanityFetch } from '@/sanity/lib/live'
 import { brand } from '@/lib/brand'
+import { localizePath, toLocale, type Locale } from '@/lib/i18n'
 import {
   EXCLUDED_PAGE_SLUGS,
   eventsSitemapQuery,
@@ -40,7 +41,7 @@ function normalizeSlug(slug: unknown): string | null {
   return SLUG_RE.test(trimmed) ? trimmed : null
 }
 
-type SitemapRow = { slug?: string | null; _updatedAt?: string | null }
+type SitemapRow = { slug?: string | null; _updatedAt?: string | null; language?: string | null }
 
 async function fetchRows(query: string): Promise<SitemapRow[]> {
   try {
@@ -63,24 +64,54 @@ async function generateSitemap(): Promise<MetadataRoute.Sitemap> {
     fetchRows(postsSitemapQuery),
   ])
 
-  const sitemap: MetadataRoute.Sitemap = [
-    {
-      url: `${baseUrl}/`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 1,
-    },
-  ]
+  const sitemap: MetadataRoute.Sitemap = []
 
-  for (const page of pageRows) {
-    const slug = normalizeSlug(page.slug)
-    if (!slug || EXCLUDED_PAGE_SLUGS.includes(slug)) continue
-    sitemap.push({
-      url: `${baseUrl}/${slug}`,
-      lastModified: safeDate(page._updatedAt ?? undefined),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    })
+  /**
+   * One entry per language a path exists in. When both exist, each entry
+   * carries the hreflang pair, which is how Google wants alternates declared
+   * in a sitemap.
+   */
+  const pushLocalized = (
+    path: string,
+    rows: SitemapRow[],
+    base: Omit<MetadataRoute.Sitemap[number], 'url' | 'alternates' | 'lastModified'>
+  ) => {
+    const langs = new Map<Locale, SitemapRow>()
+    for (const row of rows) langs.set(toLocale(row.language), row)
+    if (!langs.has('en')) return
+    const both = langs.has('es')
+    const alternates = both
+      ? { languages: { en: `${baseUrl}${localizePath(path, 'en')}`, es: `${baseUrl}${localizePath(path, 'es')}` } }
+      : undefined
+    for (const [lang, row] of langs) {
+      sitemap.push({
+        url: `${baseUrl}${localizePath(path, lang)}`,
+        lastModified: safeDate(row._updatedAt ?? undefined),
+        ...base,
+        ...(alternates && { alternates }),
+      })
+    }
+  }
+
+  const bySlug = (rows: SitemapRow[]) => {
+    const groups = new Map<string, SitemapRow[]>()
+    for (const row of rows) {
+      const slug = normalizeSlug(row.slug)
+      if (!slug) continue
+      groups.set(slug, [...(groups.get(slug) ?? []), row])
+    }
+    return groups
+  }
+
+  const pages = bySlug(pageRows)
+  pushLocalized('/', pages.get('home') ?? [{ slug: 'home', language: 'en' }], {
+    changeFrequency: 'weekly',
+    priority: 1,
+  })
+
+  for (const [slug, rows] of pages) {
+    if (EXCLUDED_PAGE_SLUGS.includes(slug)) continue
+    pushLocalized(`/${slug}`, rows, { changeFrequency: 'monthly', priority: 0.8 })
   }
 
   if (eventRows.length > 0) {
@@ -110,23 +141,14 @@ async function generateSitemap(): Promise<MetadataRoute.Sitemap> {
   }
 
   if (postRows.length > 0) {
-    sitemap.push({
-      url: `${baseUrl}/posts`,
-      lastModified: new Date(),
+    pushLocalized('/posts', pages.get('posts') ?? [{ slug: 'posts', language: 'en' }], {
       changeFrequency: 'weekly',
       priority: 0.7,
     })
   }
 
-  for (const post of postRows) {
-    const slug = normalizeSlug(post.slug)
-    if (!slug) continue
-    sitemap.push({
-      url: `${baseUrl}/posts/${slug}`,
-      lastModified: safeDate(post._updatedAt ?? undefined),
-      changeFrequency: 'weekly',
-      priority: 0.7,
-    })
+  for (const [slug, rows] of bySlug(postRows)) {
+    pushLocalized(`/posts/${slug}`, rows, { changeFrequency: 'weekly', priority: 0.7 })
   }
 
   return sitemap
