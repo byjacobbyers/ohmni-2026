@@ -3,7 +3,7 @@ import { z } from 'zod'
 const RESERVED_FIELD_KEYS = new Set([
   'name',
   'email',
-  'website',
+  '_hp',
   'path',
   'formName',
   'formTitle',
@@ -20,7 +20,7 @@ export const leadSubmitSchema = z.object({
     .min(1, 'Email is required')
     .max(320)
     .pipe(z.email('Please enter a valid email address')),
-  website: z.string().max(500).optional().default(''),
+  _hp: z.string().max(500).optional().default(''),
   path: z.string().max(200).optional(),
   formName: z
     .string()
@@ -72,7 +72,7 @@ export function parseLeadSubmit(body: unknown): LeadParseResult {
     const first = parsed.error.issues[0]
     return { ok: false, error: first?.message || 'Invalid form data' }
   }
-  if (parsed.data.website.trim().length > 0) {
+  if (parsed.data._hp.trim().length > 0) {
     return { ok: true, honeypot: true }
   }
   return { ok: true, honeypot: false, data: parsed.data }
