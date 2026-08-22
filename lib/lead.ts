@@ -163,6 +163,10 @@ export async function trackLeadInCustomerio(lead: Lead) {
     body: JSON.stringify({
       email: lead.email,
       name: lead.name,
+      // Reserved attribute: Customer.io does not infer it, so without this the
+      // person has no "created" date. Unix seconds, from the submission time.
+      // A repeat submit moves it to the latest submission; acceptable for now.
+      created_at: Math.floor(Date.parse(lead.submittedAt) / 1000),
       ...(typeof lead.marketingOptIn === 'boolean' && {
         marketing_opt_in: lead.marketingOptIn,
       }),
