@@ -10,4 +10,6 @@ When you **do** add or rename a page-builder block `_type`, finish the catalog p
 6. **Snapshot map** — `[anchorId, schemaType]` in `scripts/capture-section-previews.mjs`.
 7. **Capture** — Dev server up → `pnpm sections:previews` → commit `public/section-previews/{_type}.png`.
 
+**Enforced:** `lib/section-registry.test.ts` fails until 1 through 7 are done, see `design-gallery-registry.md`.
+
 Studio insert thumbnails resolve to `/section-previews/{_type}.png`. Missing files fall back to the schema icon—do not ship a new block without a snapshot once the playground exists.

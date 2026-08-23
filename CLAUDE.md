@@ -10,6 +10,7 @@ Project instructions are split under [`.claude/rules/`](.claude/rules/). Claude 
 | `tweakcn-theme.md` | Theme from tweakcn — edit `tokens/`, re-import workflow |
 | `section-composition.md` | Section/container shell, motion, backgrounds |
 | `new-section-checklist.md` | Full pipeline when adding a new block `_type` |
+| `design-gallery-registry.md` | The test that fails until a block is in the gallery, nav, snapshot map and thumbnails |
 | `new-document-checklist.md` | Pipeline for a new document `_type`, and new route groups |
 | `presentations.md` | Decks at `/present/{slug}`: screens, branching, what not to build |
 | `experiments.md` | A/B on pages: experiment docs, edge cookie, variant hygiene |
