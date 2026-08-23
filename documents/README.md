@@ -35,6 +35,18 @@ Keep it to one page: check with `python3 -c "import re;print(re.search(rb'/Count
 |------|---------|
 | `audit/audit-walkthrough-template.md` | Spec for the free site audit deliverable and the 15 minute walkthrough. Sections map to the four product pages. INSERT slots are the tests Jacob runs. |
 
+## Deepgram one-pager
+
+| File | Purpose |
+|------|---------|
+| `deepgram/one-pager.html` | Source. Signed Jacob Byers, not the Ohmni lockup, same as the deck. Content mirrors `/present/deepgram`; update both when a figure changes. |
+| `deepgram/jacob-byers-deepgram-one-pager.pdf` | Hand to the rep. |
+
+```bash
+CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+"$CHROME" --headless=new --no-pdf-header-footer --print-to-pdf="documents/deepgram/jacob-byers-deepgram-one-pager.pdf" "file://$PWD/documents/deepgram/one-pager.html"
+```
+
 ## Deck diagrams
 
 `design-system-images/diagrams/source.html` holds every diagram as a `.diagram`

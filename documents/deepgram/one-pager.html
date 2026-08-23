@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Jacob Byers for Deepgram — One Pager</title>
+<style>
+  /* Colors from lib/brand-palette.ts. Render: Chrome headless --print-to-pdf (see documents/README). */
+  @page { size: letter; margin: 0; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 8.5in; height: 11in; }
+  body {
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    color: #0a0a0a; background: #ffffff;
+    padding: 0.5in 0.6in 0.4in;
+    display: flex; flex-direction: column;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  a { color: inherit; text-decoration: none; }
+  .header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 18px; border-bottom: 2.5px solid #3265fd; padding-bottom: 12px; }
+  .name { font-size: 22px; font-weight: 700; letter-spacing: -0.01em; }
+  .role { font-size: 11px; color: #737373; margin-top: 2px; }
+  .contact { text-align: right; font-size: 10px; line-height: 1.5; color: #404040; }
+  .contact strong { color: #3265fd; font-weight: 600; }
+
+  h1 { font-size: 22px; font-weight: 700; letter-spacing: -0.015em; line-height: 1.18; margin-bottom: 8px; }
+  h1 .accent { color: #3265fd; }
+  .intro { font-size: 11px; line-height: 1.5; max-width: 7in; margin-bottom: 16px; color: #262626; }
+
+  .eyebrow { font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: #3265fd; margin-bottom: 7px; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 0 26px; margin-bottom: 14px; }
+
+  .list { display: grid; gap: 6px; }
+  .item { border-left: 2.5px solid #3265fd; padding-left: 10px; }
+  .item h3 { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1px; }
+  .item p { font-size: 10px; line-height: 1.4; color: #404040; }
+  .item p b { font-weight: 600; color: #0a0a0a; }
+
+  .areas { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px 14px; margin-bottom: 14px; }
+  .area h3 { font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1px; }
+  .area p { font-size: 9.5px; line-height: 1.4; color: #404040; }
+
+  .phases { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 8px; }
+  .phase .when { font-size: 9px; font-weight: 700; color: #3265fd; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 2px; }
+  .phase h3 { font-size: 10px; font-weight: 700; margin-bottom: 2px; }
+  .phase p { font-size: 9.5px; line-height: 1.4; color: #404040; }
+  .aside { font-size: 9.5px; color: #404040; line-height: 1.45; margin-bottom: 14px; }
+  .aside b { font-weight: 600; color: #0a0a0a; }
+
+  .questions { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+  .q h3 { font-size: 10px; font-weight: 700; margin-bottom: 1px; }
+  .q p { font-size: 9.5px; line-height: 1.4; color: #404040; }
+
+  .cta { margin-top: auto; background: #3265fd; color: #fafbfa; padding: 13px 18px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+  .cta h2 { font-size: 14px; font-weight: 700; margin-bottom: 2px; }
+  .cta p { font-size: 10px; line-height: 1.4; opacity: 0.92; }
+  .cta .url { font-size: 12px; font-weight: 700; white-space: nowrap; text-align: right; line-height: 1.5; }
+  .footer { display: flex; justify-content: space-between; font-size: 8.5px; color: #737373; margin-top: 8px; }
+</style>
+</head>
+<body>
+  <div class="header">
+    <div>
+      <div class="name">Jacob Byers</div>
+      <div class="role">For the Full Stack Web Developer, Marketing role at Deepgram · Denver, remote</div>
+    </div>
+    <div class="contact">
+      <a href="mailto:jbyers@ohmni.tech"><strong>jbyers@ohmni.tech</strong></a><br />
+      <a href="https://www.linkedin.com/in/byjacobbyers/">linkedin.com/in/byjacobbyers</a><br />
+      <a href="https://github.com/byjacobbyers">github.com/byjacobbyers</a>
+    </div>
+  </div>
+
+  <h1>One person, the whole web platform for marketing.<br /><span class="accent">I have been running that job for other people's teams for six years.</span></h1>
+  <p class="intro">
+    The posting describes a one-person web platform team: the repo, the CMS, the publishing workflow, discoverability,
+    the lead plumbing. That is the work I do as a fractional partner next to a dozen marketing teams through Ohmni.
+    I want to do it inside one company, at a scale no single client can offer, for a product I could not build alone.
+    Ohmni does not become a side business: every client already owns their code and accounts, so the handover is a runbook.
+  </p>
+
+  <div class="eyebrow">What the posting describes, read in order</div>
+  <div class="areas">
+    <div class="area"><h3>Platform</h3><p>Own the repo end to end: Next.js, CI/CD, code review, a QA program with real staging.</p></div>
+    <div class="area"><h3>Content system</h3><p>Sanity schemas, publishing workflows, the blocks marketers compose pages from.</p></div>
+    <div class="area"><h3>Discoverability</h3><p>Core Web Vitals, structured data, pages an AI assistant can quote.</p></div>
+    <div class="area"><h3>Plumbing</h3><p>Forms, gating, GTM, GA4, HubSpot. The lead path, plus routine security audits.</p></div>
+    <div class="area"><h3>Growth</h3><p>Internationalization with hreflang and locale routing; A/B infrastructure; campaign pages fast.</p></div>
+    <div class="area"><h3>People</h3><p>Direct agency developers: manage a vendor, or gradually replace one.</p></div>
+  </div>
+
+  <div class="row">
+    <div>
+      <div class="eyebrow">What I found on deepgram.com</div>
+      <div class="list">
+        <div class="item"><h3>Hosting</h3><p>deepgram.com resolves to Netlify; the docs run on Vercel. The posting says <b>Vercel in production</b>. A platform move and internationalization are the same project, so decide the host first.</p></div>
+        <div class="item"><h3>Locale</h3><p><b>No hreflang and no locale segment</b> anywhere in the sitemap. Locale routing is greenfield, the one thing you never want to build twice.</p></div>
+        <div class="item"><h3>AI readability</h3><p>Docs: a 401 line llms.txt, .md from any page, a hosted MCP server. Marketing: 59 lines, .md returns 404, <b>no JSON-LD on the homepage</b>, no AI crawler decision in robots.txt.</p></div>
+        <div class="item"><h3>The lead path</h3><p>54 third-party hosts on the homepage, four session recorders at once, four tools watching the same forms. Everything runs in the visitor's browser; <b>nothing queues, retries or keeps a logbook</b>.</p></div>
+      </div>
+    </div>
+    <div>
+      <div class="eyebrow">Proof, live on ohmni.tech today</div>
+      <div class="list">
+        <div class="item"><h3>Internationalization</h3><p><b>ohmni.tech/es</b>: locale routing, reciprocal hreflang with x-default, per-URL sitemap alternates, Accept-Language suggested once and never forced, English fallback with a canonical. A translate button in Sanity; 18 documents in one evening.</p></div>
+        <div class="item"><h3>A manager in the mailroom</h3><p>Every form submit goes through a queue (Inngest) with retries and a logbook before five workers run: CRM, email, server-side analytics, notification, alert. A skipped job never looks like a done job.</p></div>
+        <div class="item"><h3>Design system as the build</h3><p>Tokens as data, a component library that cannot drift, templates marketers compose in the CMS. The full deck for this role is assembled from that library with no developer.</p></div>
+        <div class="item"><h3>Experiments and AI search</h3><p>Sanity-configured A/B tests assigned at the edge and read out in PostHog. JSON-LD generated from content, llms.txt and .md built from the CMS.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="eyebrow">A first ninety days, sequenced so nothing gets built twice</div>
+  <div class="phases">
+    <div class="phase"><div class="when">Weeks 1 to 2</div><h3>Decide the ground</h3><p>Hosting decided once. Audit the repo, the Sanity schema, the tag stack. Marketing sees a preview link for every change.</p></div>
+    <div class="phase"><div class="when">Weeks 3 to 6</div><h3>Make the site readable</h3><p>JSON-LD from Sanity, llms.txt and .md from the CMS, an explicit robots.txt decision. Marketing sees pages assistants can quote.</p></div>
+    <div class="phase"><div class="when">Weeks 7 to 10</div><h3>A manager in the mailroom</h3><p>Server-side events, a queue with retries and a logbook, alerts for silent failure. A lead is never silently lost again.</p></div>
+    <div class="phase"><div class="when">Weeks 11 to 13</div><h3>Lay the i18n foundation</h3><p>Locale routing, locale-scoped Sanity, hreflang with x-default, a translation workflow the content team can live in.</p></div>
+  </div>
+  <p class="aside"><b>The QA program is not a phase.</b> Content validation rules so bad content cannot publish, and a smoke suite on the conversion paths, from week one. It is what lets the other phases ship. One honest gap: a one-person repo is not a repo with agency contributors, stakeholders and a QA program. That is the thing I want next.</p>
+
+  <div class="eyebrow">Three questions I would ask, in order</div>
+  <div class="questions">
+    <div class="q"><h3>Is a Netlify to Vercel move part of this role?</h3><p>Or was Vercel written against the docs stack? The answer changes what the first two weeks are for.</p></div>
+    <div class="q"><h3>Who maintains the site today?</h3><p>Does directing agency developers mean managing a vendor, or gradually replacing one?</p></div>
+    <div class="q"><h3>What are the top two for the first six months?</h3><p>The posting lists a year of work. Knowing which two come first tells me what to prepare next.</p></div>
+  </div>
+
+  <a class="cta" href="https://www.ohmni.tech/present/deepgram">
+    <div>
+      <h2>The full case, one screen at a time</h2>
+      <p>Seventeen screens: the company as I understand it, the mailroom behind ohmni.tech and Deepgram's drawn in the same terms, the ninety days, how I work with AI.</p>
+    </div>
+    <div class="url">ohmni.tech/present/deepgram<br />ohmni.tech/es</div>
+  </a>
+  <div class="footer">
+    <span>Every figure checked by hand against the live site, 21 to 22 August 2026.</span>
+    <span>Jacob Byers · jbyers@ohmni.tech</span>
+  </div>
+</body>
+</html>

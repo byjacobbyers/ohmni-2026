@@ -57,6 +57,8 @@ export default defineConfig({
           { route: '/posts/:slug', filter: `_type == "post" && slug.current == $slug && coalesce(language, "en") == "en"` },
           { route: '/events', filter: `_type == "page" && slug.current == "events"` },
           { route: '/events/:slug', filter: `_type == "event" && slug.current == $slug` },
+          { route: '/present/:slug', filter: `_type == "presentation" && slug.current == $slug` },
+          { route: '/present/:slug/:screen', filter: `_type == "presentation" && slug.current == $slug` },
           { route: '/es', filter: `_type == "page" && slug.current == "home" && language == "es"` },
           { route: '/es/posts', filter: `_type == "page" && slug.current == "posts" && language == "es"` },
           { route: '/es/posts/:slug', filter: `_type == "post" && slug.current == $slug && language == "es"` },

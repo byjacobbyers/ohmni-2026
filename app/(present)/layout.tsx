@@ -1,4 +1,6 @@
 import type { Metadata } from 'next'
+import { draftMode } from 'next/headers'
+import { VisualEditing } from 'next-sanity/visual-editing'
 import { SanityLive } from '@/sanity/lib/live'
 import { sans, mono, serif } from '../(site)/fonts'
 import { cn } from '@/lib/utils'
@@ -15,9 +17,10 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 }
 
-export default function PresentLayout({
+export default async function PresentLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const { isEnabled } = await draftMode()
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
     <body className="antialiased" suppressHydrationWarning>
@@ -47,6 +50,8 @@ export default function PresentLayout({
       {/* Without this, sanityFetch tags responses and nothing ever revalidates
           them, so a published deck edit never reaches the screen. */}
       <SanityLive />
+      {/* Lets Studio's Presentation tool show drafts and click-to-edit on a deck. */}
+      {isEnabled && <VisualEditing zIndex={999999} />}
     </div>
     </body>
     </html>

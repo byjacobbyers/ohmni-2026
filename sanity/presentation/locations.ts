@@ -30,6 +30,26 @@ function listenSlugDoc(
   ) as Observable<SlugDoc>
 }
 
+type DeckDoc = {
+  title?: string | null
+  slug?: string | null
+  sections?: Array<{ _key?: string | null; anchor?: string | null }> | null
+} | null
+
+/** Decks list every screen, so an editor can open the one they are working on. */
+function listenDeck(params: LocationParams, context: LocationContext): Observable<DeckDoc> {
+  const publishedId = params.id.replace(/^drafts\./, '')
+  const draftId = `drafts.${publishedId}`
+  return context.documentStore.listenQuery(
+    {
+      fetch: `*[_id == $publishedId || _id == $draftId] | order(_updatedAt desc)[0]{ title, "slug": slug.current, sections[]{ _key, anchor } }`,
+      listen: `*[_id in [$publishedId, $draftId]]`,
+    },
+    { publishedId, draftId },
+    { perspective: 'previewDrafts' }
+  ) as Observable<DeckDoc>
+}
+
 /**
  * Single Presentation locations resolver (typed as DocumentLocationResolver).
  * Posts use listenQuery because observeForPreview hung forever for that type.
@@ -55,6 +75,22 @@ export const resolveLocations: DocumentLocationResolver = (params, context) => {
             { title: 'Posts', href: `${p}/posts` },
           ],
         }
+      })
+    )
+  }
+
+  if (params.type === 'presentation') {
+    return listenDeck(params, context).pipe(
+      map((doc) => {
+        if (!doc?.slug) {
+          return { message: 'Add a slug to preview this deck', tone: 'caution' as const }
+        }
+        const base = `/present/${doc.slug}`
+        const screens = (doc.sections ?? []).map((s, i) => ({
+          title: `Screen ${i + 1}: ${s.anchor || s._key || ''}`,
+          href: `${base}/${s.anchor || s._key || ''}`,
+        }))
+        return { locations: [{ title: doc.title || 'Deck', href: base }, ...screens] }
       })
     )
   }
