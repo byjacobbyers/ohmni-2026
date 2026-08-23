@@ -5,6 +5,7 @@ import { pageQuery } from '@/sanity/queries/documents/page-query'
 import { SiteQuery } from '@/sanity/queries/documents/site-query'
 import { resolveBrand, type BrandSiteInput } from '@/lib/brand'
 import { DEFAULT_LOCALE, localizePath, toLocale, type Locale } from '@/lib/i18n'
+import { markdownPath } from '@/lib/llms'
 import {
   generateFAQJsonLd,
   generateWebPageJsonLd,
@@ -174,6 +175,7 @@ export async function pageSeoMetadata(options: {
         titleSuffix: resolveBrand(global as BrandSiteInput | null).titleSuffix,
         languages: fallback ? undefined : hreflangFor(path, alternates),
         locale: ogLocale(lang),
+        markdown: markdownPath(path, lang),
         // Home: Site Settings shareGraphic first; otherwise generated OG (site auto-share).
         ...(useGlobalSeoOnly
           ? {

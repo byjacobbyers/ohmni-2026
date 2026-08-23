@@ -23,6 +23,9 @@ const snapshotIds = all(/\['([a-z-]+)', '\w+Block'\]/g, snapshotSrc)
 const snapshotTypes = all(/\['[a-z-]+', '(\w+Block)'\]/g, snapshotSrc)
 const previews = readdirSync('public/section-previews').map((f) => f.replace(/\.png$/, ''))
 const registeredSchemas = read('sanity/schemas/index.ts')
+const llmsSrc = read('lib/llms.ts')
+const markdownHandled = all(/case '(\w+Block)':/g, llmsSrc)
+const markdownSkipped = all(/'(\w+Block)'/g, llmsSrc.slice(llmsSrc.indexOf('MARKDOWN_SKIPPED_BLOCKS'), llmsSrc.indexOf('] as const')))
 
 describe('section registry', () => {
   it('has at least the blocks this test was written against', () => {
@@ -35,6 +38,10 @@ describe('section registry', () => {
     expect(playgroundTypes, 'has a playground in /design/sections').toContain(type)
     expect(snapshotTypes, 'in scripts/capture-section-previews.mjs').toContain(type)
     expect(previews, 'has public/section-previews/<type>.png (pnpm sections:previews)').toContain(type)
+    expect(
+      [...markdownHandled, ...markdownSkipped],
+      'serialized in lib/llms.ts sectionToMarkdown, or listed in MARKDOWN_SKIPPED_BLOCKS'
+    ).toContain(type)
   })
 
   it.each(playgroundIds)('playground #%s is in the gallery nav and the snapshot map', (id) => {

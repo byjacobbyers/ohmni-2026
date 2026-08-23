@@ -109,6 +109,8 @@ export function generateMetadata(
     languages?: Record<string, string>
     /** og:locale, e.g. es_ES */
     locale?: string
+    /** Markdown twin of this page, advertised as an alternate */
+    markdown?: string
   }
 ): Metadata {
   const title = pageSeo?.metaTitle || globalSeo?.metaTitle || fallbackTitle || defaultTitle
@@ -133,6 +135,7 @@ export function generateMetadata(
           Object.entries(options.languages).map(([k, v]) => [k, buildUrl(v)])
         ),
       }),
+      ...(options?.markdown && { types: { 'text/markdown': buildUrl(options.markdown) } }),
     },
     robots: { index: !noIndex, follow: true },
     openGraph: {
