@@ -12,6 +12,14 @@ const nextConfig: NextConfig = {
   // First-party reverse proxy for PostHog so capture survives ad blockers.
   async rewrites() {
     return [
+      // Markdown twins of every page: append .md to a URL. Home is /index.md.
+      // The proxy skips dotted paths, so these never enter experiments.
+      { source: "/index.md", destination: "/md/en/page/home" },
+      { source: "/es/index.md", destination: "/md/es/page/home" },
+      { source: "/posts/:slug.md", destination: "/md/en/post/:slug" },
+      { source: "/es/posts/:slug.md", destination: "/md/es/post/:slug" },
+      { source: "/es/:slug.md", destination: "/md/es/page/:slug" },
+      { source: "/:slug.md", destination: "/md/en/page/:slug" },
       {
         source: "/relay-oh/static/:path*",
         destination: "https://us-assets.i.posthog.com/static/:path*",

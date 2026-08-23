@@ -15,6 +15,7 @@ Project instructions are split under [`.claude/rules/`](.claude/rules/). Claude 
 | `presentations.md` | Decks at `/present/{slug}`: screens, branching, what not to build |
 | `experiments.md` | A/B on pages: experiment docs, edge cookie, variant hygiene |
 | `branded-documents.md` | Emails, PDFs, invoices — brand palette, not site Tailwind |
+| `ai-readability.md` | llms.txt, `.md` twins, the dynamic-for-measurement rule, the serializer gate |
 | `internationalization.md` | Spanish at `/es`, same slug, `<id>--es` twins, fallback and hreflang rules |
 
 **Adding a rule:** create `.claude/rules/<topic>.md`. Optional YAML frontmatter `paths:` scopes it to globs (only loads when matching files are in play).

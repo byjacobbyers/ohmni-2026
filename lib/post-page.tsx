@@ -15,6 +15,7 @@ import {
   type SeoType,
 } from '@/lib/seo'
 import { hreflangFor, JsonLdScript, ogLocale } from '@/lib/content-page'
+import { markdownPath } from '@/lib/llms'
 import {
   authorDisplayName,
   type PostCtaSection,
@@ -63,6 +64,7 @@ export async function postMetadata(slug: string, lang: Locale = DEFAULT_LOCALE):
           ? undefined
           : hreflangFor(path, (post as { alternates?: Array<string | null> }).alternates),
         locale: ogLocale(lang),
+        markdown: markdownPath(path, lang),
         article: {
           publishedTime: post.publishedAt ?? undefined,
           modifiedTime: post._updatedAt,
