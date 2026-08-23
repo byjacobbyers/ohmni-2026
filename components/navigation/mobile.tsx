@@ -14,7 +14,6 @@ import { isSubNav, type NavItemType } from '@/types/components/nav-type'
 import type { MobileNavProps } from '@/types/components/mobile-nav-type'
 import type { BaseRouteType } from '@/types/objects/route-type'
 import { t } from '@/lib/i18n'
-import LanguageToggle from '@/components/language-toggle'
 
 /** Rise in sequence from the bottom, matching the reading order thumbs use. */
 const container: Variants = {
@@ -89,12 +88,6 @@ export default function MobileNav({ data, closeMenu, lang }: MobileNavProps) {
           </Item>
         )
       })}
-
-      {/* The bar has no room for it on small screens, so the language switch
-          lives in the menu, just above the primary action. */}
-      <Item {...itemProps} className="flex justify-end px-1 pt-2">
-        <LanguageToggle lang={lang} className="text-sm tracking-[0.12em]" />
-      </Item>
 
       {primary ? (
         <Item {...itemProps} className="pt-2">

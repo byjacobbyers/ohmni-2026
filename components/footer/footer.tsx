@@ -1,6 +1,5 @@
 import Route from '@/components/route'
 import { CookieSettingsTrigger } from '@/components/cookie-consent-banner/cookie-settings-trigger'
-import LanguageToggle from '@/components/language-toggle'
 import { t } from '@/lib/i18n'
 import type { FooterProps } from '@/types/components/footer-type'
 
@@ -23,10 +22,7 @@ export default function Footer({ navigation, brandName, lang }: FooterProps) {
             </Route>
           ))}
         </nav>
-        <div className="flex items-center gap-6">
-          <CookieSettingsTrigger lang={lang} />
-          <LanguageToggle lang={lang} className="text-sm" />
-        </div>
+        <CookieSettingsTrigger lang={lang} />
       </div>
     </footer>
   )
