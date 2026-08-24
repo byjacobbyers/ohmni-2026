@@ -32,6 +32,11 @@ export const leadSubmitted = inngest.createFunction(
 
     const attio = await step.run('attio-upsert-person', () => upsertAttioPerson(lead))
 
+    // One join key across systems: PostHog persons are keyed by lowercased
+    // email (the client identify lowercases), so the server event must too,
+    // or Mixed@Case.com becomes a second person.
+    const distinctId = lead.email.trim().toLowerCase()
+
     if (attio.recordId) {
       await step.run('attio-timeline-note', () =>
         createAttioLeadNote(attio.recordId!, lead)
@@ -39,7 +44,7 @@ export const leadSubmitted = inngest.createFunction(
     }
 
     await step.run('posthog-server-event', () =>
-      captureServerEvent('lead_submitted', lead.email, {
+      captureServerEvent('lead_submitted', distinctId, {
         path: lead.path,
         form_name: lead.formName,
         form_title: lead.formTitle,
@@ -52,8 +57,15 @@ export const leadSubmitted = inngest.createFunction(
         // The variant rides with the conversion, recorded server side
         ...featureProperties(lead.experiments ?? {}),
         // Person properties, so the profile is filled in even when browser
-        // consent was denied and the client never identified.
-        $set: { email: lead.email, name: lead.name },
+        // consent was denied and the client never identified. The Attio
+        // record id is the bridge: PostHog stays keyed by email, but every
+        // person carries the CRM id that Customer.io also uses, so one human
+        // is one hop away in any system.
+        $set: {
+          email: distinctId,
+          name: lead.name,
+          ...(attio.recordId && { attio_record_id: attio.recordId }),
+        },
       })
     )
 
