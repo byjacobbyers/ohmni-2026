@@ -1,5 +1,6 @@
 import posthog from 'posthog-js'
 import { featureProperties, parseAssignments } from '@/lib/experiments'
+import { identifyStoredVisitor } from '@/lib/gtm'
 
 // Client-side PostHog init (Next.js instrumentation-client convention).
 // No key -> analytics silently off; the template works without an account.
@@ -24,4 +25,11 @@ if (key) {
   // A property, not a capture: consent still gates whether anything is sent.
   const assignments = parseAssignments(document.cookie)
   if (Object.keys(assignments).length > 0) posthog.register(featureProperties(assignments))
+
+  // A browser that already told us who it is (form submit persisted the email)
+  // identifies before the first pageview flushes, so events ingest with the
+  // person state and the Activity feed shows the email rather than the UUID.
+  // A returning consented visitor is already opted in from persistence at this
+  // point; anyone opted out makes this a no-op, so consent still holds.
+  identifyStoredVisitor()
 }
