@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
 import SimpleText from '@/components/simple-text'
-import { identifyVisitor, trackEvent } from '@/lib/gtm'
+import { identifyVisitor, rememberVisitor, trackEvent } from '@/lib/gtm'
 import { parseAssignments } from '@/lib/experiments'
 import { t, type Locale } from '@/lib/i18n'
 import type { FormFieldConfig, ResolvedFormConfig } from '@/types/components/form-config-type'
@@ -112,6 +112,8 @@ export default function LeadForm({ config, lang = 'en' }: LeadFormProps) {
 
       if (response.ok) {
         setSubmitStatus('success')
+        // Next session identifies at init from this, before the first pageview.
+        rememberVisitor(email, name)
         trackEvent('form_submit', { form_name: formName, form_type: 'contact' })
         resetForm()
       } else {

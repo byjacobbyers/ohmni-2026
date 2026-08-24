@@ -73,9 +73,48 @@ export const updateConsentMode = (consent: ConsentUpdate, mode: 'default' | 'upd
   if (posthog.__loaded) {
     if (consent.analytics_storage === 'granted') {
       if (posthog.has_opted_out_capturing()) posthog.opt_in_capturing()
+      // Consent can arrive after init in a browser that already knows the
+      // visitor; identify now so this session's events carry the person state.
+      identifyStoredVisitor()
     } else if (!posthog.has_opted_out_capturing()) {
       posthog.opt_out_capturing()
     }
+  }
+}
+
+/**
+ * Who this browser belongs to, learned at form submit and kept so later
+ * sessions can identify before the first pageview. Same pattern as
+ * `cookieConsent`: plain localStorage, best effort, the visitor's own browser.
+ */
+const KNOWN_LEAD_KEY = 'knownLead'
+
+export const rememberVisitor = (email: string, name?: string) => {
+  if (typeof window === 'undefined') return
+  const id = email.trim().toLowerCase()
+  if (!id) return
+  try {
+    localStorage.setItem(KNOWN_LEAD_KEY, JSON.stringify({ email: id, ...(name?.trim() && { name: name.trim() }) }))
+  } catch {
+    // Storage full or blocked: the form-submit identify still ran.
+  }
+}
+
+/**
+ * Identify from the persisted lead, if there is one. Called right after
+ * posthog.init (so the session's first pageview carries the person state)
+ * and again when consent is granted mid-session. No-op while opted out or
+ * when nothing is stored.
+ */
+export const identifyStoredVisitor = () => {
+  if (typeof window === 'undefined') return
+  try {
+    const raw = localStorage.getItem(KNOWN_LEAD_KEY)
+    if (!raw) return
+    const { email, name } = JSON.parse(raw) as { email?: string; name?: string }
+    if (email) identifyVisitor(email, name ? { name } : {})
+  } catch {
+    // Unreadable value: ignore; the next form submit rewrites it.
   }
 }
 
