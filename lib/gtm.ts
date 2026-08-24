@@ -76,8 +76,16 @@ export const updateConsentMode = (consent: ConsentUpdate, mode: 'default' | 'upd
       // Consent can arrive after init in a browser that already knows the
       // visitor; identify now so this session's events carry the person state.
       identifyStoredVisitor()
-    } else if (!posthog.has_opted_out_capturing()) {
-      posthog.opt_out_capturing()
+    } else {
+      if (!posthog.has_opted_out_capturing()) posthog.opt_out_capturing()
+      // Revoking analytics consent also forgets who this browser is: keeping
+      // an identifier around for a visitor who said no is the wrong kind of
+      // memory. A later form submit writes it again with fresh consent.
+      try {
+        localStorage.removeItem(KNOWN_LEAD_KEY)
+      } catch {
+        // Storage blocked: nothing to forget.
+      }
     }
   }
 }
