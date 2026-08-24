@@ -19,6 +19,9 @@ header navigation.
   `_type` in `MARKDOWN_SKIPPED_BLOCKS` when it has none (media, spacing,
   lists of other documents). `lib/section-registry.test.ts` fails until one
   of those is true.
+- Decks read as text too: `/present/<slug>.md`. They stay out of llms.txt and
+  llms-full.txt on purpose (sales material, robots-disallowed); the `.md` is
+  for handing a deck to a person or a model directly.
 - Pages with `seo.noIndex` are excluded from the index and the full file, so
   A/B variants and anything unlisted stay out. Decks are not pages and never
   appear.

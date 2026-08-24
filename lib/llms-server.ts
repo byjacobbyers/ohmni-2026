@@ -1,19 +1,20 @@
 import { after } from 'next/server'
 import { client } from '@/sanity/lib/client'
 import { pageQuery } from '@/sanity/queries/documents/page-query'
+import { presentationQuery } from '@/sanity/queries/documents/presentation-query'
 import { postQuery } from '@/sanity/queries/documents/post-query'
 import { llmsDocumentsQuery, llmsIndexQuery } from '@/sanity/queries/documents/llms-query'
 import { resolveBrand } from '@/lib/brand'
 import { captureServerEvent } from '@/lib/posthog-server'
-import { buildLlmsIndex, documentToMarkdown, type IndexInput, type MarkdownDoc } from '@/lib/llms'
+import { buildLlmsIndex, documentToMarkdown, type IndexInput, type MarkdownDoc, type MarkdownDocType } from '@/lib/llms'
 import { DEFAULT_LOCALE, type Locale } from '@/lib/i18n'
 
 /**
  * Fetching for the Markdown surfaces. Plain client, CDN on, no Live tags:
  * these handlers are dynamic on purpose so every crawler read is counted.
  */
-export async function fetchMarkdownDocument(type: 'page' | 'post', slug: string, lang: Locale): Promise<string | null> {
-  const query = type === 'post' ? postQuery : pageQuery
+export async function fetchMarkdownDocument(type: MarkdownDocType, slug: string, lang: Locale): Promise<string | null> {
+  const query = type === 'post' ? postQuery : type === 'presentation' ? presentationQuery : pageQuery
   let doc = (await client.fetch(query, { slug, lang })) as MarkdownDoc | null
   // Same fallback as the HTML routes: English when no translation exists.
   if (!doc && lang !== DEFAULT_LOCALE) doc = (await client.fetch(query, { slug, lang: DEFAULT_LOCALE })) as MarkdownDoc | null

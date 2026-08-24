@@ -15,6 +15,8 @@ const nextConfig: NextConfig = {
       // Markdown twins of every page: append .md to a URL. Home is /index.md.
       // The proxy skips dotted paths, so these never enter experiments.
       { source: "/index.md", destination: "/md/en/page/home" },
+      // Decks read as text; deliberately absent from llms.txt, and /present is robots-disallowed.
+      { source: "/present/:slug.md", destination: "/md/en/presentation/:slug" },
       { source: "/es/index.md", destination: "/md/es/page/home" },
       { source: "/posts/:slug.md", destination: "/md/en/post/:slug" },
       { source: "/es/posts/:slug.md", destination: "/md/es/post/:slug" },
