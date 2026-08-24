@@ -14,9 +14,11 @@ const str = (v: unknown) => (typeof v === 'string' && v.trim() ? v.trim() : '')
 const arr = (v: unknown): Json[] => (Array.isArray(v) ? (v as Json[]) : [])
 const pt = (v: unknown) => (Array.isArray(v) ? (v as PtNode[]) : null)
 
+export type MarkdownDocType = 'page' | 'post' | 'presentation'
+
 /** Public path of a document, before the locale prefix. */
-export const docPath = (type: 'page' | 'post', slug: string) =>
-  type === 'post' ? `/posts/${slug}` : slug === 'home' ? '/' : `/${slug}`
+export const docPath = (type: MarkdownDocType, slug: string) =>
+  type === 'post' ? `/posts/${slug}` : type === 'presentation' ? `/present/${slug}` : slug === 'home' ? '/' : `/${slug}`
 
 /** `/pricing` → `/pricing.md`; `/` → `/index.md`; `/es` → `/es/index.md`. */
 export const markdownPath = (path: string, lang: Locale = 'en') => {
@@ -156,8 +158,8 @@ export type MarkdownDoc = {
   _updatedAt?: string | null
 }
 
-/** A whole page or post as one Markdown document with a small front matter. */
-export function documentToMarkdown(doc: MarkdownDoc, type: 'page' | 'post', lang: Locale): string {
+/** A whole page, post or deck as one Markdown document with a small front matter. */
+export function documentToMarkdown(doc: MarkdownDoc, type: MarkdownDocType, lang: Locale): string {
   const slug = str(doc.slug) || 'home'
   const path = docPath(type, slug)
   const url = buildUrl(localizePath(path, lang))
@@ -178,11 +180,20 @@ export function documentToMarkdown(doc: MarkdownDoc, type: 'page' | 'post', lang
           doc.author?.title ? `By ${doc.author.title}` : '',
           portableTextToMarkdown(pt(doc.body), { resolveHref: (d) => resolveLinkHref(d, lang), headingOffset: 1 }),
         ]
-      : [
-          `# ${str(doc.title) || slug}`,
-          str(doc.seo?.metaDesc) ? `> ${str(doc.seo?.metaDesc)}` : '',
-          ...arr(doc.sections).map((s) => sectionToMarkdown(s, lang)),
-        ]
+      : type === 'presentation'
+        ? [
+            `# ${str(doc.title) || slug}`,
+            // Screens are the unit of a deck; a rule per screen keeps that legible in text.
+            arr(doc.sections)
+              .map((s) => sectionToMarkdown(s, lang))
+              .filter(Boolean)
+              .join('\n\n---\n\n'),
+          ]
+        : [
+            `# ${str(doc.title) || slug}`,
+            str(doc.seo?.metaDesc) ? `> ${str(doc.seo?.metaDesc)}` : '',
+            ...arr(doc.sections).map((s) => sectionToMarkdown(s, lang)),
+          ]
   return tidy([...front, '', ...body.filter(Boolean)].join('\n\n').replace(/^---\n\n/, '---\n').replace(/\n\n(?=(title|url|language|published|updated):)/g, '\n').replace(/\n\n---/, '\n---'))
 }
 

@@ -69,6 +69,26 @@ describe('documentToMarkdown', () => {
   })
 })
 
+describe('documentToMarkdown for a deck', () => {
+  it('separates screens with rules and uses the /present path', () => {
+    const md = documentToMarkdown(
+      {
+        title: 'Deepgram',
+        slug: 'deepgram',
+        sections: [
+          { _type: 'textBlock', content: [block('Screen one')] },
+          { _type: 'galleryBlock' },
+          { _type: 'textBlock', content: [block('Screen two')] },
+        ],
+      },
+      'presentation',
+      'en'
+    )
+    expect(md).toContain(`url: ${B}/present/deepgram`)
+    expect(md).toContain('# Deepgram\n\nScreen one\n\n---\n\nScreen two')
+  })
+})
+
 describe('buildLlmsIndex', () => {
   it('groups by navigation, falls back to SEO descriptions, and lists Spanish', () => {
     const md = buildLlmsIndex({
