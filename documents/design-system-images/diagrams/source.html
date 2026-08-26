@@ -585,4 +585,47 @@
     g.appendChild(d);
   }
 </script>
+
+<div class="diagram" id="onesystem" style="width:1040px">
+  <div class="kicker">The Ohmni System</div>
+  <style>
+    .unify{display:grid;grid-template-columns:1fr 64px 1.15fr;grid-auto-rows:1fr;gap:14px 0;align-items:stretch}
+    .unify .part{background:var(--card);border:1px solid var(--line);padding:20px 24px;display:flex;flex-direction:column;justify-content:center}
+    .unify .part .n{font-size:24px;font-weight:700}
+    .unify .part .d{color:var(--muted);font-size:17px;line-height:1.35;margin-top:4px}
+    .unify .lnk{position:relative}
+    .unify .lnk::before{content:"";position:absolute;left:0;right:0;top:50%;height:2px;background:#3a4557}
+    .unify .lnk::after{content:"";position:absolute;right:-1px;top:50%;width:10px;height:10px;transform:translateY(-50%);background:var(--blue);border-radius:50%}
+    .unify .whole{grid-row:1/6;grid-column:3;background:var(--card);border:2px solid var(--blue);padding:34px 36px;display:flex;flex-direction:column;justify-content:center}
+    .unify .whole .chipb{display:inline-block;align-self:flex-start;font-size:15px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:6px 13px;background:var(--blue);color:#fff;margin-bottom:16px}
+    .unify .whole .t{font-size:32px;font-weight:700;line-height:1.2;margin-bottom:10px}
+    .unify .whole .s{color:var(--muted);font-size:20px;line-height:1.45;margin-bottom:22px}
+    .unify .whole ul{list-style:none;margin:0;padding:0}
+    .unify .whole li{font-size:19px;color:var(--ink);padding:10px 0;border-top:1px solid #1b2431;line-height:1.35}
+    .unify .whole li b{color:#8fb0ff;font-weight:700}
+  </style>
+  <div class="unify">
+    <div class="part" style="grid-row:1;grid-column:1"><div class="n">Website</div><div class="d">Pages published in minutes, on brand</div></div>
+    <div class="lnk" style="grid-row:1;grid-column:2"></div>
+    <div class="part" style="grid-row:2;grid-column:1"><div class="n">Email</div><div class="d">Follow-up sent inside a minute</div></div>
+    <div class="lnk" style="grid-row:2;grid-column:2"></div>
+    <div class="part" style="grid-row:3;grid-column:1"><div class="n">CRM</div><div class="d">Every lead lands, logged and retried</div></div>
+    <div class="lnk" style="grid-row:3;grid-column:2"></div>
+    <div class="part" style="grid-row:4;grid-column:1"><div class="n">Analytics</div><div class="d">Numbers that survive ad blockers</div></div>
+    <div class="lnk" style="grid-row:4;grid-column:2"></div>
+    <div class="part" style="grid-row:5;grid-column:1"><div class="n">SEO + AI search</div><div class="d">Readable by Google and by models</div></div>
+    <div class="lnk" style="grid-row:5;grid-column:2"></div>
+    <div class="whole">
+      <span class="chipb">One system</span>
+      <div class="t">Five tools, one operator, one set of wiring</div>
+      <div class="s">Each part feeds the others, so a change in one shows up everywhere it should.</div>
+      <ul>
+        <li><b>One publish flow.</b> A page ships without a ticket.</li>
+        <li><b>One lead path.</b> Form to CRM to follow-up, nothing dropped.</li>
+        <li><b>One set of numbers.</b> The report and the CRM agree.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
 </body></html>
