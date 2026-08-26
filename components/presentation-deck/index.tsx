@@ -49,7 +49,9 @@ export default function PresentationDeck({
       // stacked page can afford and a single screen cannot. Tightened here so
       // the section components stay untouched.
       className={cn(
-        'relative flex w-full flex-col overflow-y-auto',
+        // deck-screens scopes the slide-flavored .content overrides in globals.css
+        // (bullet spacing and markers); page surfaces keep article bullets.
+        'deck-screens relative flex w-full flex-col overflow-y-auto',
         // Fill the screen so the section background reaches the edges, and cut
         // the page rhythm (py-16 md:py-24) that costs 269px a slide cannot spare.
         '[&>section]:min-h-screen [&>section]:items-center [&>section]:py-10 [&>section]:pb-20',

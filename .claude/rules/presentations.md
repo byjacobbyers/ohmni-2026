@@ -28,6 +28,12 @@ already uses.
 `components/presentation-deck` handles arrow keys, the screen counter and the
 prev/next chrome. Everything visual comes from the section components.
 
+Bullet lists on screens get slide styling (spacing + square primary
+markers) from the `.deck-screens .content ul` rules in `globals.css`,
+scoped by the wrapper's `deck-screens` class. Article bullets elsewhere
+are untouched; extend those rules, never `.content ul` itself, for
+deck-only looks.
+
 Screen padding is tightened to `py-10` in the deck wrapper, because page rhythm
 (`py-16 md:py-24`) costs 269px that a stacked page can afford and a single
 screen cannot. **Override it there, never in a section component.**

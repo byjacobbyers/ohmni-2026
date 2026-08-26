@@ -261,6 +261,21 @@
     @apply text-body list-decimal pl-6;
   }
 
+  /* Presentation decks: slide bullets, not article bullets. An article list
+     is read; a slide list is glanced at while someone talks, so each item
+     gets air and a square primary marker (radius 0 is the brand). Scoped by
+     the deck wrapper's `deck-screens` class; see presentations.md. */
+  .deck-screens .content ul {
+    @apply mt-6 list-none space-y-3 pl-0 md:space-y-4;
+  }
+  .deck-screens .content ul > li {
+    @apply relative pl-7 leading-snug;
+  }
+  .deck-screens .content ul > li::before {
+    content: '';
+    @apply absolute top-[0.5em] left-0 size-2 bg-primary;
+  }
+
   .content li {
     @apply text-body;
   }
