@@ -7,7 +7,7 @@ speak for themselves.
 
 ## Why Ohmni exists
 
-Marketing teams get sold tools. Nobody sells them the wiring between the tools. The website is a project, the CRM is a different vendor, analytics is whoever set it up three years ago, and email is a platform someone signed for. Each piece works on its own. The seams between them are where campaigns die, and nobody owns the seams.
+Marketing teams get sold tools. Nobody sells them the wiring between the tools. The website is a project, the CRM is a different vendor, analytics is whoever set it up three years ago, and email is a platform someone signed for. Each piece works on its own. The seams between them are where campaigns die. And each vendor is responsible only for their slice, so when a campaign dies between two of them, it is genuinely no one's fault. That is the problem.
 
 **Say:** "We run the whole system rather than one slice of it, because every problem worth fixing sits between two vendors."
 
