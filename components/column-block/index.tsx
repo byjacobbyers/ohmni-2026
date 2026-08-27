@@ -21,7 +21,10 @@ function CardIcon({ icon }: { icon?: string }) {
   if (!icon || !(icon in ICONS)) return null
   return (
     <div
-      className="mb-2 flex h-12 w-12 items-center justify-center rounded-full border border-destructive text-destructive"
+      // Primary, not destructive: red is the broken-path color in the deck
+      // diagrams, and these cards usually present solutions. mb-4 lets the
+      // icon sit as a mark above the card instead of crowding the title.
+      className="mb-4 flex h-12 w-12 items-center justify-center rounded-full border border-primary text-primary"
       aria-hidden
     >
       <LucideIcon name={icon} className="h-6 w-6" />
