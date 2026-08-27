@@ -11,9 +11,9 @@ Marketing teams get sold tools. Nobody sells them the wiring between the tools. 
 
 **Say:** "We run the whole system rather than one slice of it, because every problem worth fixing sits between two vendors."
 
-## Six versions of the same button
+## Design creep, one small adjustment at a time
 
-Three designers over four years, each adding one small adjustment. None of them wrong on their own.
+Three designers over four years, each adding one small adjustment. None of them wrong on their own. The article names this design creep: not a taste problem, an incentive problem, because hourly design work never finishes.
 
 **Say:** "At one client we found four competing design systems running at once. Consolidating them into one was the highest-leverage thing we did that year. After the decided version, nobody has to have an opinion about the button ever again."
 
