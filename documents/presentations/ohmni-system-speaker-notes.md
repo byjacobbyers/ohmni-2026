@@ -15,7 +15,7 @@ Marketing teams get sold tools. Nobody sells them the wiring between the tools. 
 
 Three designers over four years, each adding one small adjustment. None of them wrong on their own.
 
-**Say:** "At Craft.co it was four competing design systems running at once. Consolidating them into one was the highest-leverage thing we did that year."
+**Say:** "At one client we found four competing design systems running at once. Consolidating them into one was the highest-leverage thing we did that year. After the decided version, nobody has to have an opinion about the button ever again."
 
 ## Every design decision made once
 
