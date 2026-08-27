@@ -95,4 +95,4 @@ Every column carries the same $17k software line so the comparison isolates the 
 
 ## Where we go from here
 
-**Say:** "The audit is this week and it is free. Everything after it is a decision you make with findings in front of you rather than on a promise. Say yes today and we scope the first two deliverables on the next call."
+**Say:** "The audit already showed you the gaps, so the decision in front of you is not whether to trust a promise. It is which tier fits your pace: Foundation, Growth Engine or Pipeline Partner. Pick one today, we scope the first two deliverables on the next call, and migration starts the week after, included. And if we are wrong about each other, the exit costs you one month."
