@@ -57,7 +57,7 @@ Roughly a third of US internet users run an ad blocker, and the standard filter 
 
 The gap is rarely configuration. The request goes to a tracking domain the browser refuses to load, so a share of visitors never reach the counter at all.
 
-**Say:** "Expect traffic to rise and conversion rate to fall the month this lands. Nothing changed except that you started counting everyone."
+**Say:** "Numbers survive a CFO when they reconcile to a system finance already trusts. Every conversion in this report is a record in your CRM, one to one. Pick any number and I will show you the lead behind it. And expect traffic to rise and conversion rate to fall the month this lands: nothing changed except that you started counting everyone."
 
 ## Four problems, one cause
 
