@@ -169,3 +169,49 @@ are different claims.
 
 Saying the gaps out loud is the point: a candidate who claims a stack has
 no security debt is describing a stack they do not understand.
+
+---
+
+## Repeatability: the question behind the questions
+
+The recruiter flagged "solving problems and making the solution repeatable."
+That means: when you solved it, did the solution become infrastructure, or
+did it stay a one-off? The lib/ folder is the answer, told in four beats.
+
+**The template for any "how did you solve X":**
+
+1. Solve it at the root, not the symptom. One guard in the shared function,
+   not a patch in every caller.
+2. Extract the decision as a pure function. No framework, no I/O.
+3. Test the pure part. The framework wiring stays thin enough that it does
+   not need testing.
+4. Make the wrong way hard: a failing test, a schema rule, or a documented
+   rule exactly where the next person would trip.
+
+**Lead exhibit: the translation walker.** "Turn an English document into
+its Spanish twin" was solved once as pure, tested functions: extract the
+strings, inject the translations, re-identify the document and repoint its
+references. Then three surfaces consumed the same core: the button an
+editor clicks in the Studio, the API route behind it, and the bulk script
+that migrated 18 documents in one evening. The third consumer cost nothing.
+That is repeatable in one sentence.
+
+**Backup, edge flavor: A/B assignment.** Weighted pick, cookie parsing,
+overrides and bot detection are a pure tested module; the middleware is a
+thin caller. When language detection needed the same shape, read config,
+decide, act on the request, it slotted into the identical pattern.
+Repeatability as a shape, not just a function.
+
+**Backup, process flavor: the registry test.** Adding a page-builder block
+had a seven-step checklist people could forget, so the checklist became a
+test that fails until the block is registered, rendered, previewed and
+thumbnailed. The escalation ladder, said out loud: solve, extract, test,
+then turn the checklist itself into CI. A documented process is a
+suggestion; a failing test is a law.
+
+**The closing thought if it fits the room:** the tell of someone fluent in
+a framework is that their framework code is boring. Middleware that only
+calls a function, routes that only fetch and delegate, schemas that carry
+the validation. Everything interesting lives where any React developer
+could pick it up, which is also the fire-me-tomorrow architecture: the
+technical answer and the trust answer are the same answer.
