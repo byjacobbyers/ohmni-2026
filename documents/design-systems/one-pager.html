@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Ohmni Design Systems :: One Pager</title>
+<style>
+  /* Rendered from the same token values as ohmni.tech (tokens/*.json via
+     lib/brand-palette.ts). Render: Chrome headless --print-to-pdf. */
+  @page { size: letter; margin: 0; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 8.5in; height: 11in; }
+  body {
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    color: #0a0a0a; background: #ffffff;
+    padding: 0.5in 0.6in 0.4in;
+    display: flex; flex-direction: column;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  a { color: inherit; text-decoration: none; }
+  .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; border-bottom: 2.5px solid #3265fd; padding-bottom: 10px; }
+  .brand { font-size: 19px; font-weight: 700; }
+  .brand span { color: #737373; font-weight: 400; font-size: 12px; margin-left: 8px; }
+  .header-url { font-size: 11px; font-weight: 600; color: #3265fd; }
+
+  h1 { font-size: 24px; font-weight: 700; letter-spacing: -0.015em; line-height: 1.15; margin-bottom: 8px; }
+  h1 .accent { color: #3265fd; }
+  .intro { font-size: 11px; line-height: 1.5; color: #262626; max-width: 7in; margin-bottom: 14px; }
+
+  .eyebrow { font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: #3265fd; margin-bottom: 7px; }
+
+  .demo { display: grid; grid-template-columns: 1.2fr 1fr; gap: 16px; margin-bottom: 14px; }
+  .pane { border: 1px solid #dadee4; padding: 12px 14px; }
+  .pane.bad { }
+  .pane.good { border: 2px solid #3265fd; }
+  .pane .lab { font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
+  .pane.bad .lab { color: #b3423c; }
+  .pane.good .lab { color: #3265fd; }
+  .btns { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .b { font-size: 10.5px; font-weight: 700; padding: 7px 12px; color: #fff; background: #3265fd; }
+  .b.r6 { border-radius: 6px; } .b.r99 { border-radius: 99px; } .b.caps { text-transform: uppercase; letter-spacing: 0.05em; }
+  .b.dim { background: #2f4ec7; } .b.pale { background: #6f8dff; color: #fff; }
+  .b.ghost { background: #fff; border: 1.5px solid #3265fd; color: #3265fd; border-radius: 7px; }
+  .b.outline { background: #fff; border: 1.5px solid #3265fd; color: #3265fd; }
+  .pane .cap { font-size: 9.5px; color: #737373; line-height: 1.4; margin-top: 8px; }
+  .pane .cap b { color: #0a0a0a; }
+
+  .layers { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 5px; }
+  .layer { border: 1px solid #dadee4; border-top: 3px solid #dadee4; padding: 8px 10px 9px; }
+  .layer.on { border-top-color: #3265fd; }
+  .layer .n { font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #737373; }
+  .layer h3 { font-size: 11.5px; font-weight: 700; margin: 2px 0 3px; }
+  .layer p { font-size: 9.5px; line-height: 1.4; color: #404040; }
+  .layers-cap { font-size: 9.5px; color: #737373; margin-bottom: 14px; }
+  .layers-cap b { color: #0a0a0a; }
+
+  .tokens { border: 1px solid #dadee4; background: #f4f6f8; padding: 12px 14px; margin-bottom: 14px; }
+  .tokens .row { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; }
+  .tok { display: flex; align-items: center; gap: 7px; font-size: 10px; }
+  .tok .sw { width: 16px; height: 16px; border: 1px solid #dadee4; }
+  .tok code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 9.5px; color: #404040; }
+  .tokens .cap { font-size: 9.5px; color: #737373; margin-top: 8px; }
+  .tokens .cap b { color: #0a0a0a; }
+
+  .get { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px 14px; margin-bottom: 12px; }
+  .g { border-left: 2.5px solid #3265fd; padding-left: 9px; }
+  .g h3 { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 2px; }
+  .g p { font-size: 9.5px; line-height: 1.4; color: #404040; }
+
+  .ai { border-left: 3px solid #3265fd; padding: 2px 0 2px 12px; margin-bottom: 14px; }
+  .ai p { font-size: 10.5px; line-height: 1.5; color: #262626; }
+  .ai b { font-weight: 700; }
+
+  .cta { margin-top: auto; background: #3265fd; color: #fafbfa; padding: 13px 18px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+  .cta h2 { font-size: 14px; font-weight: 700; margin-bottom: 2px; }
+  .cta p { font-size: 10px; line-height: 1.4; opacity: 0.92; }
+  .cta .url { font-size: 12px; font-weight: 700; white-space: nowrap; text-align: right; line-height: 1.5; }
+  .footer { display: flex; justify-content: space-between; font-size: 8.5px; color: #737373; margin-top: 8px; }
+</style>
+</head>
+<body>
+  <div class="header">
+    <div class="brand">Ohmni<span>Design Systems</span></div>
+    <a class="header-url" href="https://www.ohmni.tech/design-systems">ohmni.tech/design-systems</a>
+  </div>
+
+  <h1>Your website was not designed.<br /><span class="accent">It was accumulated.</span></h1>
+  <p class="intro">
+    Every campaign leaves something behind: a tweaked hero, a new blue, one more button style.
+    None of it wrong on its own, until every new page needs a designer and marketing ships at the
+    speed of the review queue. A design dictionary closes every decision once, as working code you
+    own, so your team publishes without asking anyone.
+  </p>
+
+  <div class="demo">
+    <div class="pane bad">
+      <div class="lab">Accumulated</div>
+      <div class="btns">
+        <span class="b">Get started</span>
+        <span class="b r6 dim">Get Started</span>
+        <span class="b r99 pale">GET STARTED</span>
+        <span class="b ghost">Get started</span>
+        <span class="b caps">Get started</span>
+      </div>
+      <p class="cap">Five versions of the same button, one real website. Every one needs a decision, a review, and someone to maintain it.</p>
+    </div>
+    <div class="pane good">
+      <div class="lab">Decided once</div>
+      <div class="btns">
+        <span class="b">Get started</span>
+        <span class="b outline">Learn more</span>
+      </div>
+      <p class="cap"><b>Nobody has to have an opinion about the button ever again.</b> One radius, one weight, one named color, both variants in the system.</p>
+    </div>
+  </div>
+
+  <div class="eyebrow">Four layers, each decided once</div>
+  <div class="layers">
+    <div class="layer on"><div class="n">Foundation</div><h3>Tokens</h3><p>Color, type, spacing, radius as structured data. A rebrand is one file.</p></div>
+    <div class="layer"><div class="n">Layer 2</div><h3>Components</h3><p>Buttons, cards, forms assembled from tokens, so they cannot drift.</p></div>
+    <div class="layer"><div class="n">Layer 3</div><h3>Templates</h3><p>Page sections. Build a layout once, use it fifty times.</p></div>
+    <div class="layer"><div class="n">Layer 4</div><h3>Pages</h3><p>Composed by your team in the CMS. No developer, no deploy.</p></div>
+  </div>
+  <p class="layers-cap"><b>Change a token and every layer above updates.</b> That is a design system versus a style guide: one is enforced by code, the other is a document people are asked to remember.</p>
+
+  <div class="tokens">
+    <div class="eyebrow" style="margin-bottom:9px">The proof: these are the live tokens</div>
+    <div class="row">
+      <div class="tok"><span class="sw" style="background:#3265fd"></span><code>primary #3265fd</code></div>
+      <div class="tok"><span class="sw" style="background:#0a0a0a"></span><code>foreground #0a0a0a</code></div>
+      <div class="tok"><span class="sw" style="background:#e5e7eb"></span><code>muted #e5e7eb</code></div>
+      <div class="tok"><span class="sw" style="background:#dadee4"></span><code>border #dadee4</code></div>
+      <div class="tok"><code>radius 0</code></div>
+      <div class="tok"><code>type Inter</code></div>
+    </div>
+    <p class="cap"><b>This PDF is rendered from the same values that render ohmni.tech.</b> Same blue, same sharp corners, same typeface, pulled from the token files in the repository. That is the system working: one set of decisions, every surface obeys.</p>
+  </div>
+
+  <div class="eyebrow">What you get, in your repository from day one</div>
+  <div class="get">
+    <div class="g"><h3>Tokens</h3><p>Every decision as data. A rebrand becomes a change in one file.</p></div>
+    <div class="g"><h3>Components</h3><p>Interface pieces that are coherent by default.</p></div>
+    <div class="g"><h3>Templates</h3><p>Sections your team composes without a developer.</p></div>
+    <div class="g"><h3>Guardrails</h3><p>Accessibility, performance and search structure built in.</p></div>
+  </div>
+
+  <div class="ai">
+    <p><b>This is also what makes AI safe to point at your website.</b> A blank canvas gives you design creep at machine speed. A design dictionary gives AI nowhere to drift: the colors it can reach are the only colors that exist.</p>
+  </div>
+
+  <a class="cta" href="https://www.ohmni.tech/design">
+    <div>
+      <h2>See the system live</h2>
+      <p>Every token and every section on this page is rendered from the real system at ohmni.tech/design. Onboarding a new hire or an agency takes an afternoon.</p>
+    </div>
+    <div class="url">ohmni.tech/design<br />ohmni.tech/free-site-audit</div>
+  </a>
+  <div class="footer">
+    <span>Ohmni · The Technical Partner for Marketing Teams</span>
+    <span>www.ohmni.tech</span>
+  </div>
+</body>
+</html>
