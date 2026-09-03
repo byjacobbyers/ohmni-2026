@@ -17,6 +17,9 @@
 /.next/
 /out/
 
+# plans
+/plans/
+
 
 # Agent operating manual (CLAUDE.md, .claude/rules, .cursor/rules) is COMMITTED
 # on purpose: whoever owns this repo should inherit how to extend it.
