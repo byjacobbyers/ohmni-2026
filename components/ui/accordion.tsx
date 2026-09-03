@@ -57,8 +57,11 @@ function AccordionContent({
   ...props
 }: React.ComponentProps<typeof AccordionPrimitive.Content>) {
   return (
+    // forceMount + closed:hidden: collapsed answers must ship in the server HTML
+    // for SEO; Radix otherwise unmounts them until first open.
     <AccordionPrimitive.Content
-      className="overflow-hidden data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down motion-reduce:animate-none"
+      forceMount
+      className="overflow-hidden data-[state=closed]:hidden data-[state=open]:animate-accordion-down motion-reduce:animate-none"
       {...props}
     >
       <div
