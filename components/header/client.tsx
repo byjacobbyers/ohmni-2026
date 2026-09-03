@@ -233,6 +233,10 @@ export default function Header({ navigation, brandName, brandTagline, lang }: He
           paddingTop: dimensions.height,
         }}
         className='fixed left-0 top-0 z-40 flex h-[100dvh] w-screen flex-col overflow-y-auto bg-background lg:hidden'
+        aria-hidden={!isOpen}
+        // inert pairs with aria-hidden: without it the closed drawer's links
+        // stay keyboard-focusable (Lighthouse aria-hidden-focus)
+        inert={!isOpen}
       >
         {navigation && (
           <MobileNav
