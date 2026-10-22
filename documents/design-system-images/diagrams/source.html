@@ -629,40 +629,41 @@
 </div>
 
 
-<div class="diagram" id="inngestmail" style="width:1240px">
-  <div class="kicker">The mailroom, with Inngest as the manager</div>
-  <div class="sub" style="margin-bottom:34px">What happens in the first sixty seconds after a form submits. The visitor never waits on any of it.</div>
+<div class="diagram" id="inngestmail" style="width:1240px;height:930px;display:flex;flex-direction:column;justify-content:center">
+  <div class="kicker">The mailroom behind the website</div>
+  <div class="sub" style="margin-bottom:30px">What happens in the first sixty seconds after someone fills out a form. The visitor never waits on any of it.</div>
   <style>
-    .im-desk{background:var(--card);border:1px solid var(--line);padding:22px 26px;display:flex;align-items:baseline;gap:18px;flex-wrap:wrap}
+    .im-desk{background:var(--card);border:1px solid var(--line);padding:20px 26px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
     .im-desk .lab{font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);flex:none}
     .im-desk .nm{font-size:25px;font-weight:700;flex:none}
-    .im-desk .d{color:var(--muted);font-size:19px;line-height:1.4}
+    .im-desk .tool{display:inline-block;background:#243044;color:#d7deea;font-size:14px;font-weight:700;padding:4px 10px}
+    .im-desk .d{color:var(--muted);font-size:19px;line-height:1.4;width:100%}
     .im-chev{display:flex;justify-content:center;margin:12px 0}
     .im-chev i{width:0;height:0;border-left:16px solid transparent;border-right:16px solid transparent;border-top:20px solid var(--blue)}
-    .im-mgr{background:var(--card);border:2px solid var(--blue);padding:24px 26px}
-    .im-mgr .top{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+    .im-mgr{background:var(--card);border:2px solid var(--blue);padding:22px 26px}
+    .im-mgr .top{display:flex;align-items:center;gap:14px;margin-bottom:14px}
     .im-mgr .lab{font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:#8fb0ff}
     .im-mgr .nm{font-size:28px;font-weight:700}
     .im-mgr .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
     .im-mgr .beh{background:#101624;border:1px solid #26304a;padding:13px 15px}
     .im-mgr .beh b{display:block;font-size:17px;margin-bottom:3px}
     .im-mgr .beh span{color:var(--muted);font-size:14.5px;line-height:1.35;display:block}
-    .im-fan{height:26px;margin:12px 10px 0;border-left:2px solid #3a4557;border-right:2px solid #3a4557;border-top:0;border-bottom:0;position:relative}
+    .im-fan{height:24px;margin:12px 10px 0;border-left:2px solid #3a4557;border-right:2px solid #3a4557;position:relative}
     .im-fan::before{content:"";position:absolute;left:-2px;right:-2px;top:0;height:2px;background:#3a4557}
     .im-fan::after{content:"";position:absolute;left:50%;top:-14px;width:2px;height:14px;background:#3a4557;transform:translateX(-50%)}
-    .im-workers{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:0}
-    .im-w{background:var(--card);border:1px solid var(--line);border-top:2px solid #3a4557;padding:14px 15px 15px;position:relative}
-    .im-w .tool{display:inline-block;background:#243044;color:#d7deea;font-size:14px;font-weight:700;padding:4px 10px;margin-bottom:8px}
-    .im-w .job{font-size:16px;font-weight:600;line-height:1.3;margin-bottom:4px}
-    .im-w .s{color:var(--muted);font-size:14px;line-height:1.35}
-    .im-w.skip{border:1px dashed #6b4a4d;border-top:2px dashed #6b4a4d}
-    .im-w.skip .chipr{display:inline-block;background:var(--redbg);color:var(--red);font-size:12.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;margin-left:6px}
+    .im-workers{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+    .im-w{background:var(--card);border:1px solid var(--line);border-top:2px solid #3a4557;padding:15px 16px 16px}
+    .im-w .cat{font-size:19px;font-weight:700;margin-bottom:2px}
+    .im-w .tool{display:inline-block;background:#243044;color:#d7deea;font-size:13px;font-weight:700;padding:3px 9px;margin-bottom:9px}
+    .im-w .s{color:var(--muted);font-size:15.5px;line-height:1.4}
   </style>
 
   <div class="im-desk">
-    <span class="lab">Front desk</span>
-    <span class="nm">Next.js on Vercel</span>
-    <span class="d">Validates, writes the submission down, replies "got it". Does none of the work itself.</span>
+    <span class="lab">The website</span>
+    <span class="nm">Where the form lives</span>
+    <span class="tool">Next.js</span>
+    <span class="tool">Sanity</span>
+    <span class="d">Takes the submission, writes it down, says "got it" to the visitor. Does none of the work itself.</span>
   </div>
 
   <div class="im-chev"><i></i></div>
@@ -670,24 +671,24 @@
   <div class="im-mgr">
     <div class="top"><span class="lab">The manager</span><span class="nm">Inngest</span></div>
     <div class="grid4">
-      <div class="beh"><b>Queues every job</b><span>Each envelope lands in the tray before any worker runs.</span></div>
-      <div class="beh"><b>Retries with backoff</b><span>A fumbled handoff is retried, not lost. Outages delay, never drop.</span></div>
-      <div class="beh"><b>Keeps a logbook</b><span>Every envelope, every attempt, every outcome, written down.</span></div>
-      <div class="beh"><b>Pages a human</b><span>Permanent failure stops and alerts. Nothing fails silently.</span></div>
+      <div class="beh"><b>Takes every job</b><span>Nothing starts until it is written down in the tray.</span></div>
+      <div class="beh"><b>Tries again</b><span>A failed handoff is retried, not lost. Outages delay, never drop.</span></div>
+      <div class="beh"><b>Keeps a logbook</b><span>Every job, every attempt, every outcome, on record.</span></div>
+      <div class="beh"><b>Tells a human</b><span>If something truly fails, a person finds out. Nothing fails silently.</span></div>
     </div>
   </div>
 
   <div class="im-fan"></div>
 
   <div class="im-workers">
-    <div class="im-w"><span class="tool">Attio</span><div class="job">CRM record</div><div class="s">The lead exists where sales looks.</div></div>
-    <div class="im-w"><span class="tool">Customer.io</span><div class="job">Welcome sequence</div><div class="s">Follow-up inside a minute.</div></div>
-    <div class="im-w"><span class="tool">PostHog</span><div class="job">Server-side event</div><div class="s">The conversion counts, ad blocker or not.</div></div>
-    <div class="im-w"><span class="tool">Slack</span><div class="job">Team ping</div><div class="s">A human knows while the lead is warm.</div></div>
-    <div class="im-w skip"><span class="tool">Resend</span><span class="chipr">Skipped</span><div class="job">Notification email</div><div class="s">No API key that night. The logbook said "skipped: no stamps".</div></div>
+    <div class="im-w"><div class="cat">CRM</div><span class="tool">Attio</span><div class="s">The lead is filed where sales looks.</div></div>
+    <div class="im-w"><div class="cat">Email</div><span class="tool">Customer.io</span><div class="s">Follow-up goes out inside a minute.</div></div>
+    <div class="im-w"><div class="cat">Analytics</div><span class="tool">PostHog</span><div class="s">The conversion gets counted, ad blocker or not.</div></div>
+    <div class="im-w"><div class="cat">Team chat</div><span class="tool">Slack</span><div class="s">Your team knows while the lead is still warm.</div></div>
   </div>
 
-  <div class="note">A skipped job and a done job look identical from the outside. The manager is the part most stacks are missing: the tools already exist, nothing keeps the book.</div>
+  <div class="note">A dropped lead looks exactly like a delivered one unless something keeps the book. The manager is the part most stacks are missing.</div>
+</div>
 </div>
 
 </body></html>
