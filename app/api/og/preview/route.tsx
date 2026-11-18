@@ -2,6 +2,7 @@ import { createOgImageResponse } from '@/lib/og-image-response'
 import { getOgSanityClient } from '@/sanity/lib/og-sanity-client'
 import { ogRouteDataQuery } from '@/sanity/queries/documents/og-route-query'
 import type { OgRouteDoc, OgRouteSite } from '@/lib/og-image-response'
+import { toLocale } from '@/lib/i18n'
 
 export const runtime = 'edge'
 
@@ -16,6 +17,7 @@ type PreviewBody = {
   title?: string
   heading?: unknown
   background?: string | null
+  lang?: string
 }
 
 /**
@@ -41,10 +43,11 @@ export async function POST(request: Request) {
   }
 
   const docType = typeRaw as DocType
+  const lang = toLocale(body.lang)
 
   let data: { doc: OgRouteDoc | null; site: OgRouteSite | null }
   try {
-    data = await getOgSanityClient().fetch(ogRouteDataQuery, { slug, docType })
+    data = await getOgSanityClient().fetch(ogRouteDataQuery, { slug, docType, lang })
   } catch {
     return new Response('Upstream error', { status: 502 })
   }

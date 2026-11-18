@@ -62,6 +62,8 @@ export default function AutoShareImageInput(props: ObjectInputProps) {
 
   const docTitle =
     typeof document?.title === 'string' ? document.title : ''
+  const docLang =
+    typeof document?.language === 'string' ? document.language : undefined
 
   useEffect(() => {
     if (!canPreview || !origin) {
@@ -83,6 +85,7 @@ export default function AutoShareImageInput(props: ObjectInputProps) {
       const body = {
         slug,
         type: docType,
+        lang: docLang,
         title: docTitle,
         heading: (value as { heading?: unknown } | undefined)?.heading,
         background: (value as { background?: string } | undefined)?.background,
@@ -131,7 +134,7 @@ export default function AutoShareImageInput(props: ObjectInputProps) {
       window.clearTimeout(timer)
       abort?.abort()
     }
-  }, [canPreview, origin, slug, docType, docTitle, value])
+  }, [canPreview, origin, slug, docType, docTitle, docLang, value])
 
   const staticOgUrl =
     canPreview && origin
